@@ -1,0 +1,39 @@
+{
+  "name": "test-results-reporter",
+  "version": "0.0.1",
+  "description": "Publishes test results to Microsoft Teams and Slack",
+  "main": "src/index.js",
+  "bin": {
+    "test-results-reporter": "src/cli.js"
+  },
+  "files": [
+    "/src"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ASaiAnudeep/test-results-reporter.git"
+  },
+  "keywords": [
+    "test",
+    "results",
+    "publish",
+    "report",
+    "microsoft teams",
+    "teams",
+    "slack",
+    "junit"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ASaiAnudeep/test-results-reporter/issues"
+  },
+  "homepage": "https://github.com/ASaiAnudeep/test-results-reporter#readme",
+  "dependencies": {
+    "sade": "^1.7.4",
+    "simple-xml-to-json": "^1.0.7"
+  }
+}

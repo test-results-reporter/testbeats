@@ -1,0 +1,18 @@
+{
+  "reports": [
+    {
+      "target": {
+        "name": "teams",
+        "incoming-webhook-url": ""
+      },
+      "result": {
+        "type": "junit",
+        "files": [ "test/data/junit/default.xml" ]
+      },
+      "options": {
+        "publish": "test-summary",
+        "title": "Test Results"
+      }
+    }
+  ]
+}
