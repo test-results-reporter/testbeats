@@ -1,41 +1,55 @@
+const { toColonNotation } = require('colon-notation');
+const { getText, getPercentage } = require('../helpers/helper');
+
 function getTestSummaryMessage(testResults, opts) {
-  let total = 0;
-  let passed = 0;
-  for (const testResult of testResults) {
-    total += testResult.total;
-    passed += testResult.passed;
+  const testResult = testResults[0];
+  const adaptive = {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [],
+    "actions": []
+  }
+  const title = opts.title ? opts.title : testResult.name;
+  adaptive.body.push({
+    "type": "TextBlock",
+    "text": title,
+    "size": "medium",
+    "weight": "bolder"
+  });
+  const facts = [];
+  const percentage = getPercentage(testResult.passed, testResult.total);
+  facts.push({
+    "title": "Results:",
+    "value": `${testResult.passed} / ${testResult.total} Passed (${percentage}%)`
+  });
+  facts.push({
+    "title": "Duration:",
+    "value": `${toColonNotation(parseInt(testResult.duration))}`
+  });
+  adaptive.body.push({
+    "type": "FactSet",
+    "facts": facts
+  });
+  if (opts.links) {
+    const links = [];
+    for (const link of opts.links) {
+      links.push(`[${link.text}](${getText(link.url)})`);
+    }
+    adaptive.body.push({
+      "type": "TextBlock",
+      "text": links.join(' | '),
+    });
   }
   const payload = {
     "type": "message",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": {
-          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-          "type": "AdaptiveCard",
-          "version": "1.0",
-          "body": [],
-          "actions": []
-        }
+        "content": adaptive
       }
     ]
   };
-  if (opts.title) {
-    payload.attachments[0].content.body.push({
-      "type": "TextBlock",
-      "text": opts.title,
-      "size": "large"
-    });
-  }
-  payload.attachments[0].content.body.push({
-    "type": "FactSet",
-    "facts": [
-      {
-        "title": "Results",
-        "value": `${passed}/${total} Passed`
-      }
-    ]
-  });
   return payload;
 }
 

@@ -17,7 +17,12 @@
       ],
       "options": {
         "publish": "test-summary",
-        "title": "Test Results"
+        "links": [
+          {
+            "text": "Pipeline",
+            "url": "{some-url}"
+          }
+        ]
       }
     }
   ]

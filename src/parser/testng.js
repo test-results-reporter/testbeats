@@ -1,18 +1,17 @@
-const fs = require('fs');
-const path = require('path');
-const { convertXML } = require('simple-xml-to-json');
+const { getJsonFromXMLFile } = require('../helpers/helper');
 
 const TestResult = require('../models/TestResult');
 
 function getTestResult(filePath) {
-  const cwd = process.cwd();
-  const xml = fs.readFileSync(path.join(cwd, filePath)).toString();
-  const json = convertXML(xml);
+  const json = getJsonFromXMLFile(filePath);
   const result = new TestResult();
   const results = json['testng-results'];
   result.failed = parseInt(results.failed);
   result.passed = parseInt(results.passed);
   result.total = parseInt(results.total);
+  const suite = json['testng-results'].children[1].suite;
+  result.name = suite.name;
+  result.duration = suite['duration-ms'];
   return result;
 }
 
