@@ -1,21 +1,17 @@
 function getTestSummaryMessage(testResults, opts) {
   let total = 0;
   let passed = 0;
-  let failed = 0;
-  let errors = 0;
-  for (const testResult in testResults) {
+  for (const testResult of testResults) {
     total += testResult.total;
     passed += testResult.passed;
-    failed += testResult.failed;
-    errors += testResult.errors;
   }
   const payload = {
     "type": "message",
-    "text": "Test Summary",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
         "content": {
+          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
           "type": "AdaptiveCard",
           "version": "1.0",
           "body": [],

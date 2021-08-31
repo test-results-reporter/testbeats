@@ -1,7 +1,7 @@
-const junit = require('./junit');
+const testng = require('./testng');
 
 function parse(opts) {
-  return junit.getTestResult(opts.files[0]);
+  return testng.getTestResult(opts.files[0]);
 }
 
 module.exports = {

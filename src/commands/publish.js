@@ -11,7 +11,6 @@ async function run(opts) {
     for (const result of report.results) {
       testResults.push(parse(result));
     }
-    console.log(testResults);
     for (const target of report.targets) {
       const message = getPayload(testResults, report.options);
       await teams.send(message, target);

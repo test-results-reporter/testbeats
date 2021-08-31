@@ -9,9 +9,9 @@
       ],
       "results": [
         {
-          "type": "junit",
+          "type": "testng",
           "files": [
-            "test/data/junit/default.xml"
+            "test/data/testng/default.xml"
           ]
         }
       ],
