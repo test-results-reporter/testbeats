@@ -33,6 +33,7 @@
   },
   "homepage": "https://github.com/ASaiAnudeep/test-results-reporter#readme",
   "dependencies": {
+    "phin-retry": "^1.0.3",
     "sade": "^1.7.4",
     "simple-xml-to-json": "^1.0.7"
   }

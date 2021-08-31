@@ -1,18 +1,19 @@
 const fs = require('fs');
+const path = require('path');
 const { convertXML } = require('simple-xml-to-json');
 
 const TestResult = require('../models/TestResult');
 
-function getTestResult(path) {
+function getTestResult(filePath) {
   const cwd = process.cwd();
-  const xml = fs.readFileSync(path.join(cwd, path)).toString();
+  const xml = fs.readFileSync(path.join(cwd, filePath)).toString();
   const json = convertXML(xml);
   const result = new TestResult();
   const suites = json.testsuites;
   result.name = suites.name;
   result.failed = parseInt(suites.failures);
   result.passed = parseInt(suites.tests);
-  result.errors = parseInt(suites.errors);
+  result.errors = suites.errors ? parseInt(suites.errors) : result.errors;
   result.total = result.passed + result.failed + result.errors;
   result.duration = suites.time;
   return result;
