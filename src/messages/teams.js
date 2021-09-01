@@ -39,6 +39,7 @@ function getTestSummaryMessage(testResults, opts) {
     adaptive.body.push({
       "type": "TextBlock",
       "text": links.join(' | '),
+      "separator": true
     });
   }
   const payload = {
