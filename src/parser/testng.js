@@ -5,16 +5,17 @@ const TestResult = require('../models/TestResult');
 function getTestResult(filePath) {
   const json = getJsonFromXMLFile(filePath);
   const result = new TestResult();
-  const results = json['testng-results'];
-  result.failed = parseInt(results.failed);
-  result.passed = parseInt(results.passed);
-  result.total = parseInt(results.total);
-  if (results.ignored) {
-    result.total = result.total - parseInt(results.ignored);
+  const results = json['testng-results'][0];
+  result.failed = results['@_failed'];
+  result.passed = results['@_passed'];
+  result.total = results['@_total'];
+  const ignored = results['@_ignored'];
+  if (ignored) {
+    result.total = result.total - ignored;
   }
-  const suite = json['testng-results'].children[1].suite;
-  result.name = suite.name;
-  result.duration = suite['duration-ms'];
+  const suite = results.suite[0];
+  result.name = suite['@_name'];
+  result.duration = suite['@_duration-ms'];
   return result;
 }
 

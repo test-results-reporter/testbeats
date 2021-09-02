@@ -1,7 +1,7 @@
 {
   "name": "test-results-reporter",
-  "version": "0.0.2",
-  "description": "Publishes test results to Microsoft Teams and Slack",
+  "version": "0.0.3",
+  "description": "Publish test results to Microsoft Teams and Slack",
   "main": "src/index.js",
   "bin": {
     "test-results-reporter": "src/cli.js"
@@ -36,8 +36,7 @@
     "colon-notation": "^1.2.1",
     "fast-xml-parser": "^3.19.0",
     "phin-retry": "^1.0.3",
-    "sade": "^1.7.4",
-    "simple-xml-to-json": "^1.0.7"
+    "sade": "^1.7.4"
   },
   "devDependencies": {
     "mocha": "^9.1.1",

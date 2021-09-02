@@ -1,6 +1,6 @@
 # test-results-reporter
 
-Publishes test results to Microsoft Teams and Slack
+Publish test results to Microsoft Teams and Slack
 
 ## Getting Started
 

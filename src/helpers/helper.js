@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { convertXML } = require('simple-xml-to-json');
+const parser = require('fast-xml-parser');
 
 function getText(text) {
   if (text.startsWith('{') && text.endsWith('}')) {
@@ -13,7 +13,7 @@ function getText(text) {
 function getJsonFromXMLFile(filePath) {
   const cwd = process.cwd();
   const xml = fs.readFileSync(path.join(cwd, filePath)).toString();
-  return convertXML(xml);
+  return parser.parse(xml, { arrayMode: true, ignoreAttributes: false, parseAttributeValue: true });
 }
 
 function getPercentage(x, y) {
