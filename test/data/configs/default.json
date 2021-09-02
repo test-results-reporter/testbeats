@@ -4,7 +4,7 @@
       "targets": [
         {
           "name": "teams",
-          "incoming-webhook-url": ""
+          "incoming-webhook-url": "http://localhost:9393/message"
         }
       ],
       "results": [

@@ -10,7 +10,7 @@
     "/src"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -34,8 +34,13 @@
   "homepage": "https://github.com/ASaiAnudeep/test-results-reporter#readme",
   "dependencies": {
     "colon-notation": "^1.2.1",
+    "fast-xml-parser": "^3.19.0",
     "phin-retry": "^1.0.3",
     "sade": "^1.7.4",
     "simple-xml-to-json": "^1.0.7"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.1",
+    "pactum": "^3.0.18"
   }
 }
