@@ -11,7 +11,7 @@
         {
           "type": "testng",
           "files": [
-            "test/data/testng/default.xml"
+            "test/data/testng/single-suite.xml"
           ]
         }
       ],

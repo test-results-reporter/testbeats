@@ -1,6 +1,71 @@
 const { toColonNotation } = require('colon-notation');
 const { getText, getPercentage } = require('../helpers/helper');
 
+function getTitleTextBlock(testResult, opts) {
+  const title = opts.title ? opts.title : testResult.name;
+  const emoji = testResult.status === 'PASS' ? '✅' : '❌';
+  return {
+    "type": "TextBlock",
+    "text": `${emoji} ${title}`,
+    "size": "medium",
+    "weight": "bolder"
+  }
+}
+
+function getMainSummary(result) {
+  const facts = [];
+  const percentage = getPercentage(result.passed, result.total);
+  facts.push({
+    "title": "Results:",
+    "value": `${result.passed} / ${result.total} Passed (${percentage}%)`
+  });
+  facts.push({
+    "title": "Duration:",
+    "value": `${toColonNotation(parseInt(result.duration))}`
+  });
+  return {
+    "type": "FactSet",
+    "facts": facts
+  }
+}
+
+function getSuiteSummary(suite) {
+  const percentage = getPercentage(suite.passed, suite.total);
+  return [
+    {
+      "type": "TextBlock",
+      "text": suite.name,
+      "isSubtle": true,
+      "weight": "bolder"
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "title": "Results:",
+          "value": `${suite.passed} / ${suite.total} Passed (${percentage}%)`
+        },
+        {
+          "title": "Duration:",
+          "value": `${toColonNotation(parseInt(suite.duration))}`
+        }
+      ]
+    }
+  ]
+}
+
+function getLinks(opts) {
+  const links = [];
+  for (const link of opts.links) {
+    links.push(`[${link.text}](${getText(link.url)})`);
+  }
+  return {
+    "type": "TextBlock",
+    "text": links.join(' | '),
+    "separator": true
+  }
+}
+
 function getTestSummaryMessage(testResults, opts) {
   const testResult = testResults[0];
   const adaptive = {
@@ -10,37 +75,16 @@ function getTestSummaryMessage(testResults, opts) {
     "body": [],
     "actions": []
   }
-  const title = opts.title ? opts.title : testResult.name;
-  adaptive.body.push({
-    "type": "TextBlock",
-    "text": title,
-    "size": "medium",
-    "weight": "bolder"
-  });
-  const facts = [];
-  const percentage = getPercentage(testResult.passed, testResult.total);
-  facts.push({
-    "title": "Results:",
-    "value": `${testResult.passed} / ${testResult.total} Passed (${percentage}%)`
-  });
-  facts.push({
-    "title": "Duration:",
-    "value": `${toColonNotation(parseInt(testResult.duration))}`
-  });
-  adaptive.body.push({
-    "type": "FactSet",
-    "facts": facts
-  });
-  if (opts.links) {
-    const links = [];
-    for (const link of opts.links) {
-      links.push(`[${link.text}](${getText(link.url)})`);
+  adaptive.body.push(getTitleTextBlock(testResult, opts));
+  adaptive.body.push(getMainSummary(testResult));
+  if (testResult.suites.length > 1) {
+    for (let i = 0; i < testResult.suites.length; i++) {
+      const suite = testResult.suites[i];
+      adaptive.body.push(...getSuiteSummary(suite));
     }
-    adaptive.body.push({
-      "type": "TextBlock",
-      "text": links.join(' | '),
-      "separator": true
-    });
+  }
+  if (opts.links) {
+    adaptive.body.push(getLinks(opts));
   }
   const payload = {
     "type": "message",

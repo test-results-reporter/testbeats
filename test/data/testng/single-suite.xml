@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="1" skipped="0" failed="1" total="5" passed="3">
+<testng-results skipped="0" failed="0" total="4" passed="4">
   <reporter-output>
   </reporter-output>
   <suite name="Default suite" duration-ms="2000" started-at="2015-03-10T06:11:58Z" finished-at="2015-03-10T06:11:58Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="20" started-at="2015-03-10T06:11:58Z" finished-at="2015-03-10T06:11:58Z">
+    <test name="Default test" duration-ms="2000" started-at="2015-03-10T06:11:58Z" finished-at="2015-03-10T06:11:58Z">
       <class name="com.javacodegeeks.testng.reports.TestClass2">
         <test-method status="PASS" signature="c2()[pri:0, ic2@1c2c22f3]" name="c2" duration-ms="0" started-at="2015-03-10T11:41:58Z" finished-at="2015-03-10T11:41:58Z">
           <reporter-output>
@@ -19,7 +19,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- c1 -->
-        <test-method status="FAIL" signature="c4()[pri:0, ic2@1c2c22f3]" name="c4" duration-ms="0" started-at="2015-03-10T11:41:58Z" finished-at="2015-03-10T11:41:58Z">
+        <test-method status="PASS" signature="c4()[pri:0, ic2@1c2c22f3]" name="c4" duration-ms="0" started-at="2015-03-10T11:41:58Z" finished-at="2015-03-10T11:41:58Z">
           <exception class="java.lang.AssertionError">
             <message>
               <![CDATA[expected [true] but found [false]]]>
