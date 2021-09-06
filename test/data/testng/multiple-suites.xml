@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="20" total="40" passed="8" failed="11" skipped="1">
+	<reporter-output></reporter-output>
+	<suite started-at="2021-09-02T10:25:27 IST" name="Regression" finished-at="2021-09-02T10:48:51 IST" duration-ms="1403931">
+		<groups></groups>
+		<test started-at="2021-09-02T10:25:27 IST" name="desktop-chrome" finished-at="2021-09-02T10:28:49 IST" duration-ms="202082">
+			<class name="C.T.ST">
+				<test-method is-config="true" signature="beforeTest(org.testng.ITestContext)[pri:0, instance:C.T.ST@17776a8]" started-at="2021-09-02T10:25:27 IST" name="beforeTest" finished-at="2021-09-02T10:26:08 IST" duration-ms="41481" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[org.testng.TestRunner@20616795]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeTest -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.ST@17776a8]" started-at="2021-09-02T10:26:08 IST" name="beforeMethod" finished-at="2021-09-02T10:26:13 IST" duration-ms="4762" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.ST.GU(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="GU(C.M.TD)[pri:0, instance:C.T.ST@17776a8]" started-at="2021-09-02T10:26:13 IST" name="GU" data-provider="json" finished-at="2021-09-02T10:26:40 IST" duration-ms="27168" status="FAIL">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@6f667ad1]]>
+							</value>
+						</param>
+					</params>
+					<exception class="java.lang.AssertionError">
+						<message>
+							<![CDATA[expected [A] but found [948474]]]>
+						</message>
+						<full-stacktrace>
+							<![CDATA[java.lang.AssertionError: n(RemoteTestNGStarter.java:109)]]>
+						</full-stacktrace>
+					</exception>
+					<!-- java.lang.AssertionError -->
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- GU -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.ST@17776a8]" started-at="2021-09-02T10:26:40 IST" name="afterMethod" finished-at="2021-09-02T10:26:40 IST" duration-ms="0" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="afterTest()[pri:0, instance:C.T.ST@17776a8]" started-at="2021-09-02T10:28:48 IST" name="afterTest" finished-at="2021-09-02T10:28:49 IST" duration-ms="1252" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterTest -->
+			</class>
+			<!-- C.T.ST -->
+			<class name="C.T.PT">
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:26:40 IST" name="beforeMethod" finished-at="2021-09-02T10:26:44 IST" duration-ms="3747" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.PT.SBP(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="SBP(C.M.TD)[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:26:44 IST" name="SBP" data-provider="json" finished-at="2021-09-02T10:27:12 IST" duration-ms="28313" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@25cd49a4]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- SBP -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:27:12 IST" name="afterMethod" finished-at="2021-09-02T10:27:12 IST" duration-ms="1" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:27:12 IST" name="beforeMethod" finished-at="2021-09-02T10:27:16 IST" duration-ms="3327" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.PT.SBP(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="SBP(C.M.TD)[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:27:16 IST" name="SBP" data-provider="json" finished-at="2021-09-02T10:27:31 IST" duration-ms="15381" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@1697f2b3]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- SBP -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:27:31 IST" name="afterMethod" finished-at="2021-09-02T10:27:31 IST" duration-ms="1" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:27:31 IST" name="beforeMethod" finished-at="2021-09-02T10:27:34 IST" duration-ms="2433" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.PT.SBP_WA(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="SBP_WA(C.M.TD)[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:27:34 IST" name="SBP_WA" data-provider="json" finished-at="2021-09-02T10:28:31 IST" duration-ms="57111" status="FAIL">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@3fbe503c]]>
+							</value>
+						</param>
+					</params>
+					<exception class="org.openqa.selenium.TimeoutException">
+						<message>
+							<![CDATA[Expected condition failed: : 95ddbda01ea4b3dbcb049e681a6...}]]>
+						</message>
+						<full-stacktrace>
+							<![CDATA[org.openqa.seleniumn(RemoteTestNGStarter.java:109)]]>
+						</full-stacktrace>
+					</exception>
+					<!-- org.openqa.selenium.TimeoutException -->
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- SBP_WA -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:28:31 IST" name="afterMethod" finished-at="2021-09-02T10:28:31 IST" duration-ms="1" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:28:31 IST" name="beforeMethod" finished-at="2021-09-02T10:28:34 IST" duration-ms="3810" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.PT.CB(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="CB(C.M.TD)[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:28:34 IST" name="CB" data-provider="json" finished-at="2021-09-02T10:28:48 IST" duration-ms="13221" status="FAIL">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@300bb303]]>
+							</value>
+						</param>
+					</params>
+					<exception class="org.openqa.selenium.ElementClickInterceptedException">
+						<message>
+							<![CDATA[element click intercepted:]]>
+						</message>
+						<full-stacktrace>
+							<![CDATA[org.openqa.selenium.n(RemoteTestNGStarter.java:109)]]>
+						</full-stacktrace>
+					</exception>
+					<!-- org.openqa.selenium.ElementClickInterceptedException -->
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- CB -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.PT@365c30cc]" started-at="2021-09-02T10:28:48 IST" name="afterMethod" finished-at="2021-09-02T10:28:48 IST" duration-ms="1" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+			</class>
+			<!-- C.T.PT -->
+		</test>
+		<!-- desktop-chrome -->
+		<test started-at="2021-09-02T10:39:45 IST" name="mobile-ios" finished-at="2021-09-02T10:48:51 IST" duration-ms="545598">
+			<class name="C.T.ST">
+				<test-method is-config="true" signature="beforeSuite()[pri:0, instance:C.T.ST@58fdd99]" started-at="2021-09-02T10:25:21 IST" name="beforeSuite" finished-at="2021-09-02T10:25:27 IST" duration-ms="5365" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeSuite -->
+				<test-method is-config="true" signature="beforeTest(org.testng.ITestContext)[pri:0, instance:C.T.ST@58fdd99]" started-at="2021-09-02T10:39:45 IST" name="beforeTest" finished-at="2021-09-02T10:40:07 IST" duration-ms="21426" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[org.testng.TestRunner@4d00b076]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeTest -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.ST@58fdd99]" started-at="2021-09-02T10:40:07 IST" name="beforeMethod" finished-at="2021-09-02T10:40:11 IST" duration-ms="3988" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.ST.GU(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="GU(C.M.TD)[pri:0, instance:C.T.ST@58fdd99]" started-at="2021-09-02T10:40:11 IST" name="GU" data-provider="json" finished-at="2021-09-02T10:41:20 IST" duration-ms="69776" status="FAIL">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@59b8a801]]>
+							</value>
+						</param>
+					</params>
+					<exception class="java.lang.AssertionError">
+						<message>
+							<![CDATA[expected [A] but found [948474]]]>
+						</message>
+						<full-stacktrace>
+							<![CDATA[java.lang.AssertionError: ]]>
+						</full-stacktrace>
+					</exception>
+					<!-- java.lang.AssertionError -->
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- GU -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.ST@58fdd99]" started-at="2021-09-02T10:41:20 IST" name="afterMethod" finished-at="2021-09-02T10:41:20 IST" duration-ms="0" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="afterTest()[pri:0, instance:C.T.ST@58fdd99]" started-at="2021-09-02T10:48:49 IST" name="afterTest" finished-at="2021-09-02T10:48:51 IST" duration-ms="1352" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterTest -->
+			</class>
+			<!-- C.T.ST -->
+			<class name="C.T.PT">
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:41:20 IST" name="beforeMethod" finished-at="2021-09-02T10:41:23 IST" duration-ms="2200" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.PT.SBP(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="SBP(C.M.TD)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:41:23 IST" name="SBP" data-provider="json" finished-at="2021-09-02T10:43:06 IST" duration-ms="103463" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@f1e5f85]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- SBP -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:43:06 IST" name="afterMethod" finished-at="2021-09-02T10:43:06 IST" duration-ms="1" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:43:06 IST" name="beforeMethod" finished-at="2021-09-02T10:43:08 IST" duration-ms="2238" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.PT.SBP(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="SBP(C.M.TD)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:43:08 IST" name="SBP" data-provider="json" finished-at="2021-09-02T10:44:15 IST" duration-ms="66833" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@161974d1]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- SBP -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:44:15 IST" name="afterMethod" finished-at="2021-09-02T10:44:15 IST" duration-ms="0" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:44:15 IST" name="beforeMethod" finished-at="2021-09-02T10:44:17 IST" duration-ms="2273" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.PT.SBP_WA(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="SBP_WA(C.M.TD)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:44:17 IST" name="SBP_WA" data-provider="json" finished-at="2021-09-02T10:48:28 IST" duration-ms="250674" status="FAIL">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@6c1f1c03]]>
+							</value>
+						</param>
+					</params>
+					<exception class="org.openqa.selenium.WebDriverException">
+						<message>
+							<![CDATA[Appium error: An unknown sr='Search...']}]]>
+						</message>
+						<full-stacktrace>
+							<![CDATA[org.openqa.seleniumn(RemoteTestNGStarter.java:109)]]>
+						</full-stacktrace>
+					</exception>
+					<!-- org.openqa.selenium.WebDriverException -->
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- SBP_WA -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:48:28 IST" name="afterMethod" finished-at="2021-09-02T10:48:28 IST" duration-ms="0" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:48:28 IST" name="beforeMethod" finished-at="2021-09-02T10:48:49 IST" duration-ms="21354" status="FAIL">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.PT.CB(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<exception class="org.openqa.selenium.ScriptTimeoutException">
+						<message>
+							<![CDATA[A script did not complete ]]>
+						</message>
+						<full-stacktrace>
+							<![CDATA[org.openqa.seleniumn(RemoteTestNGStarter.java:109)]]>
+						</full-stacktrace>
+					</exception>
+					<!-- org.openqa.selenium.ScriptTimeoutException -->
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="CB(C.M.TD)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:48:49 IST" name="CB" data-provider="json" finished-at="2021-09-02T10:48:49 IST" duration-ms="0" status="SKIP">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@60ab906e]]>
+							</value>
+						</param>
+					</params>
+					<exception class="org.openqa.selenium.ScriptTimeoutException">
+						<message>
+							<![CDATA[A script did not complete ]]>
+						</message>
+						<full-stacktrace>
+							<![CDATA[org.openqa.seleniumn(RemoteTestNGStarter.java:109)]]>
+						</full-stacktrace>
+					</exception>
+					<!-- org.openqa.selenium.ScriptTimeoutException -->
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- CB -->
+				<test-method is-config="true" signature="afterMethod()[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:48:49 IST" name="afterMethod" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1630559929914" status="SKIP">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+			</class>
+			<!-- C.T.PT -->
+		</test>
+		<!-- mobile-ios -->
+	</suite>
+	<!-- Regression -->
+</testng-results>
