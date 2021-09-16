@@ -1,5 +1,5 @@
 const path = require('path');
-const { parse } = require('../parser');
+const { parse } = require('test-results-parser');
 const { getPayload } = require('../messages');
 const teams = require('../clients/teams');
 
