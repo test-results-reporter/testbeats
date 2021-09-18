@@ -1,3 +1,4 @@
+const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
 const { getText, getPercentage } = require('../helpers/helper');
 
@@ -98,6 +99,46 @@ function getTestSummaryMessage(testResults, opts) {
   return payload;
 }
 
+function publish(message, opts) {
+  return request.post({
+    url: opts['incoming-webhook-url'],
+    body: message
+  });
+}
+
+function getReportType(options, globalOptions) {
+  if (options) {
+    if (options.publish) return options.publish;
+  }
+  if (globalOptions) {
+    if (globalOptions.publish) return globalOptions.publish;
+  }
+  return 'test-summary';
+}
+
+function getMessage(options, results, globalOptions) {
+  const report = getReportType(options, globalOptions);
+  switch (report) {
+    case 'test-summary':
+      return getTestSummaryMessage(results, globalOptions);
+    default:
+      console.log('UnSupported Report Type');
+      break;
+  }
+}
+
+function getUrl(options) {
+  return options.url || options.webhook || options['incoming-webhook-url'];
+}
+
+function send(options, results, globalOptions) {
+  const message = getMessage(options, results, globalOptions);
+  return request.post({
+    url: getUrl(options),
+    body: message
+  });
+}
+
 module.exports = {
-  getTestSummaryMessage
+  send
 }

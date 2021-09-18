@@ -1,7 +1,6 @@
 const path = require('path');
 const { parse } = require('test-results-parser');
-const { getPayload } = require('../messages');
-const teams = require('../clients/teams');
+const targets = require('../targets');
 
 async function run(opts) {
   const cwd = process.cwd();
@@ -12,8 +11,7 @@ async function run(opts) {
       testResults.push(parse(result));
     }
     for (const target of report.targets) {
-      const message = getPayload(testResults, report.options);
-      await teams.send(message, target);
+      await targets.send(target, testResults, report.options);
     }
   }
 }
