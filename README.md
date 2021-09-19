@@ -10,6 +10,10 @@ npx test-results-reporter publish -c path/to/config.json
 
 ## Config
 
+Configuration file holds the different configurations files for our reporting needs. We can specify the type of test results to be consumed and type of reports to be published.
+
+### Sample Config File
+
 ```json
 {
   "reports": [
@@ -17,27 +21,30 @@ npx test-results-reporter publish -c path/to/config.json
       "targets": [
         {
           "name": "teams",
-          "incoming-webhook-url": "<url>"
+          "url": "<teams-incoming-webhook-url>",
+          "publish": "test-summary",
+          "links": [{
+            "text": "Build Logs",
+            "url": "<url>"
+          }]
         }
       ],
       "results": [
         {
           "type": "testng",
           "files": [
-            "test/data/testng/default.xml"
+            "path/to/testng-results.xml"
           ]
         }
       ],
       "options": {
-        "publish": "test-summary",
-        "links": [
-          {
-            "text": "Pipeline",
-            "url": "<url>"
-          }
-        ]
+        
       }
     }
   ]
 }
 ```
+
+### Sample Report
+
+![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/teams/test-summary-single-suite.png)
