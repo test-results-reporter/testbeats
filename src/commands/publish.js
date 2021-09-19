@@ -1,10 +1,11 @@
 const path = require('path');
 const { parse } = require('test-results-parser');
+const { processData } = require('../helpers/helper');
 const targets = require('../targets');
 
 async function run(opts) {
   const cwd = process.cwd();
-  const config = require(path.join(cwd, opts.config));
+  const config = processData(require(path.join(cwd, opts.config)));
   const testResults = [];
   for (const report of config.reports) {
     for (const result of report.results) {

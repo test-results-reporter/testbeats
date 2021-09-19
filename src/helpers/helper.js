@@ -2,13 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const parser = require('fast-xml-parser');
 
-function getText(text) {
-  if (text.startsWith('{') && text.endsWith('}')) {
-    const content = text.substring(1, text.length - 1);
-    return process.env[content];
-  }
-  return text;
-}
+const DATA_REF_PATTERN = /(\{[^\}]+\})/g;
 
 function getJsonFromXMLFile(filePath) {
   const cwd = process.cwd();
@@ -23,8 +17,40 @@ function getPercentage(x, y) {
   return 0;
 }
 
+function processText(raw) {
+  const dataRefMatches = raw.match(DATA_REF_PATTERN);
+  if (dataRefMatches) {
+    const values = [];
+    for (let i = 0; i < dataRefMatches.length; i++) {
+      const dataRefMatch = dataRefMatches[i];
+      const content = dataRefMatch.slice(1, -1);
+      if (process.env[content]) {
+        values.push(process.env[content]);
+      } else {
+        values.push(content);
+      }
+    }
+    for (let i = 0; i < dataRefMatches.length; i++) {
+      raw = raw.replace(dataRefMatches[i], values[i]);
+    }
+  }
+  return raw;
+}
+
+function processData(data) {
+  if (typeof data === 'string') {
+    return processText(data);
+  }
+  if (typeof data === 'object') {
+    for (const prop in data) {
+      data[prop] = processData(data[prop]);
+    }
+  }
+  return data;
+}
+
 module.exports = {
-  getText,
   getJsonFromXMLFile,
-  getPercentage
+  getPercentage,
+  processData
 }

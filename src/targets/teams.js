@@ -1,6 +1,6 @@
 const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
-const { getText, getPercentage } = require('../helpers/helper');
+const { getPercentage } = require('../helpers/helper');
 
 function getTitleTextBlock(testResult, opts) {
   const title = opts.title ? opts.title : testResult.name;
@@ -58,7 +58,7 @@ function getSuiteSummary(suite) {
 function getLinks(opts) {
   const links = [];
   for (const link of opts.links) {
-    links.push(`[${link.text}](${getText(link.url)})`);
+    links.push(`[${link.text}](${link.url})`);
   }
   return {
     "type": "TextBlock",

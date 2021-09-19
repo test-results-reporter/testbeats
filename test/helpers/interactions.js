@@ -36,7 +36,7 @@ addInteractionHandler('post test-summary to teams with single suite', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "[Pipeline](undefined)",
+                  "text": "[Pipeline](some-url)",
                   "separator": true
                 }
               ],
