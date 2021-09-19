@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<testsuites id="id" name="Default suite" tests="4" failures="0" errors="" time="2">
+    <testsuite id="codereview.cobol.analysisProvider" name="COBOL Code Review" tests="4" failures="0" time="2">
+        <testcase id="codereview.cobol.rules.ProgramIdRule" name="Use a program name that matches the source file name" time="2">
+            <failure message="PROGRAM.cbl:2 Use a program name that matches the source file name" type="WARNING">
+                Some Text
+            </failure>
+        </testcase>
+    </testsuite>
+</testsuites>

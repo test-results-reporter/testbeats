@@ -23,23 +23,15 @@ Configuration file holds the different configurations files for our reporting ne
           "name": "teams",
           "url": "<teams-incoming-webhook-url>",
           "publish": "test-summary",
-          "links": [{
-            "text": "Build Logs",
-            "url": "<url>"
-          }]
+          "links": [{ "text": "Build Logs", "url": "<url>" }]
         }
       ],
       "results": [
         {
           "type": "testng",
-          "files": [
-            "path/to/testng-results.xml"
-          ]
+          "files": ["path/to/testng-results.xml"]
         }
-      ],
-      "options": {
-        
-      }
+      ]
     }
   ]
 }
@@ -48,3 +40,27 @@ Configuration file holds the different configurations files for our reporting ne
 ### Sample Report
 
 ![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/teams/test-summary-single-suite.png)
+
+## Supports
+
+### Targets
+
+| Targets         | Support |
+|-----------------|---------|
+| Microsoft Teams | ✅       |
+
+#### Microsoft Teams
+
+Supported Report Types
+
+- test-summary
+- test-summary-slim
+
+### Results
+
+| Result Type | Support |
+|-------------|---------|
+| TestNG      | ✅       |
+| JUnit       | ✅       |
+
+> Under Active Development

@@ -11,8 +11,11 @@ async function run(opts) {
     for (const result of report.results) {
       testResults.push(parse(result));
     }
+    const globalOpts = report.options || {};
     for (const target of report.targets) {
-      await targets.send(target, testResults, report.options);
+      const clonedGlobalOpts = Object.assign({}, globalOpts);
+      const options = Object.assign(target, clonedGlobalOpts);
+      await targets.send(options, testResults);
     }
   }
 }

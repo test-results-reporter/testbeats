@@ -15,11 +15,11 @@ function identifyTarget(target) {
   return '';
 }
 
-async function send(target, results, options) {
-  const name = identifyTarget(target);
+async function send(options, results) {
+  const name = identifyTarget(options);
   switch (name) {
     case 'teams':
-      await teams.send(target, results, options)
+      await teams.send(options, results)
       break;
     default:
       console.log(`UnSupported Target Type - ${name}`);

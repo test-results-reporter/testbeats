@@ -37,7 +37,7 @@
     "fast-xml-parser": "^3.19.0",
     "phin-retry": "^1.0.3",
     "sade": "^1.7.4",
-    "test-results-parser": "0.0.1"
+    "test-results-parser": "^0.0.2"
   },
   "devDependencies": {
     "mocha": "^9.1.1",

@@ -136,3 +136,50 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary-slim to teams with multiple suites', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Regression Tests",
+                  "size": "medium",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "8 / 20 Passed (40%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "23:23"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

@@ -1,0 +1,27 @@
+{
+  "reports": [
+    {
+      "targets": [
+        {
+          "name": "teams",
+          "incoming-webhook-url": "http://localhost:9393/message",
+          "publish": "test-summary-slim",
+          "links": [
+            {
+              "text": "Pipeline",
+              "url": "{some-url}"
+            }
+          ]
+        }
+      ],
+      "results": [
+        {
+          "type": "testng",
+          "files": [
+            "test/data/testng/single-suite.xml"
+          ]
+        }
+      ]
+    }
+  ]
+}

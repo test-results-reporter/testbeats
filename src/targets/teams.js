@@ -67,15 +67,19 @@ function getLinks(opts) {
   }
 }
 
-function getTestSummaryMessage(testResults, opts) {
-  const testResult = testResults[0];
-  const adaptive = {
+function getPayloadRoot() {
+  return {
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "type": "AdaptiveCard",
     "version": "1.0",
     "body": [],
     "actions": []
-  }
+  };
+}
+
+function getTestSummaryMessage(testResults, opts) {
+  const testResult = testResults[0];
+  const adaptive = getPayloadRoot();
   adaptive.body.push(getTitleTextBlock(testResult, opts));
   adaptive.body.push(getMainSummary(testResult));
   if (testResult.suites.length > 1) {
@@ -99,28 +103,40 @@ function getTestSummaryMessage(testResults, opts) {
   return payload;
 }
 
-function publish(message, opts) {
-  return request.post({
-    url: opts['incoming-webhook-url'],
-    body: message
-  });
+function getTestSummarySlimMessage(testResults, opts) {
+  const testResult = testResults[0];
+  const adaptive = getPayloadRoot();
+  adaptive.body.push(getTitleTextBlock(testResult, opts));
+  adaptive.body.push(getMainSummary(testResult));
+  if (opts.links) {
+    adaptive.body.push(getLinks(opts));
+  }
+  const payload = {
+    "type": "message",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": adaptive
+      }
+    ]
+  };
+  return payload;
 }
 
-function getReportType(options, globalOptions) {
+function getReportType(options) {
   if (options) {
     if (options.publish) return options.publish;
-  }
-  if (globalOptions) {
-    if (globalOptions.publish) return globalOptions.publish;
   }
   return 'test-summary';
 }
 
-function getMessage(options, results, globalOptions) {
-  const report = getReportType(options, globalOptions);
+function getMessage(options, results) {
+  const report = getReportType(options);
   switch (report) {
     case 'test-summary':
-      return getTestSummaryMessage(results, globalOptions);
+      return getTestSummaryMessage(results, options);
+    case 'test-summary-slim':
+      return getTestSummarySlimMessage(results, options);
     default:
       console.log('UnSupported Report Type');
       break;
@@ -131,8 +147,8 @@ function getUrl(options) {
   return options.url || options.webhook || options['incoming-webhook-url'];
 }
 
-function send(options, results, globalOptions) {
-  const message = getMessage(options, results, globalOptions);
+function send(options, results) {
+  const message = getMessage(options, results);
   return request.post({
     url: getUrl(options),
     body: message
