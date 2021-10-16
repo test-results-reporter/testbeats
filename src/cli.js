@@ -6,7 +6,7 @@ const prog = sade('test-results-reporter');
 const publish = require('./commands/publish');
  
 prog
-  .version('0.0.1')
+  .version('0.0.7')
   .option('-c, --config', 'Provide path to custom config', 'config.json');
 
 prog.command('publish')

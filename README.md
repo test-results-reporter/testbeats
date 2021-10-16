@@ -37,7 +37,7 @@ Configuration file holds the different configurations files for our reporting ne
 }
 ```
 
-### Sample Report
+### Sample Reports
 
 ![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/teams/test-summary-single-suite.png)
 
