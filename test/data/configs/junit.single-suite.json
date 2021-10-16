@@ -12,6 +12,17 @@
               "url": "{some-url}"
             }
           ]
+        },
+        {
+          "name": "slack",
+          "incoming-webhook-url": "http://localhost:9393/message",
+          "publish": "test-summary",
+          "links": [
+            {
+              "text": "Pipeline",
+              "url": "{some-url}"
+            }
+          ]
         }
       ],
       "results": [

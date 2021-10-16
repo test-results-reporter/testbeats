@@ -6,6 +6,11 @@
           "name": "teams",
           "incoming-webhook-url": "http://localhost:9393/message",
           "publish": "test-summary-slim"
+        },
+        {
+          "name": "slack",
+          "incoming-webhook-url": "http://localhost:9393/message",
+          "publish": "test-summary-slim"
         }
       ],
       "results": [

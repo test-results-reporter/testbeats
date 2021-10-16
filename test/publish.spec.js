@@ -10,10 +10,12 @@ describe('publish - testng', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
-  it('test-summary for multiple suites - teams', async () => {
-    const id = mock.addInteraction('post test-summary to teams with multiple suites');
+  it('test-summary for multiple suites - teams and slack', async () => {
+    const id1 = mock.addInteraction('post test-summary to teams with multiple suites');
+    const id2 = mock.addInteraction('post test-summary to slack with multiple suites');
     await run({ config: 'test/data/configs/testng.multiple-suites.json' });
-    assert.equal(mock.getInteraction(id).exercised, true);
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
   });
 
   it('test-summary for single suite - teams with slim report', async () => {
@@ -22,10 +24,12 @@ describe('publish - testng', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
-  it('test-summary for multiple suites - teams with slim report', async () => {
-    const id = mock.addInteraction('post test-summary-slim to teams with multiple suites');
+  it('test-summary for multiple suites - teams and slack with slim report', async () => {
+    const id1 = mock.addInteraction('post test-summary-slim to teams with multiple suites');
+    const id2 = mock.addInteraction('post test-summary-slim to slack with multiple suites');
     await run({ config: 'test/data/configs/testng.multiple-suites.slim.json' });
-    assert.equal(mock.getInteraction(id).exercised, true);
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
   });
 
   afterEach(() => {
@@ -36,10 +40,12 @@ describe('publish - testng', () => {
 
 describe('publish - junit', () => {
 
-  it('test-summary for multiple suites - teams with slim report', async () => {
-    const id = mock.addInteraction('post test-summary to teams with single suite');
+  it('test-summary for single suite - teams & slack', async () => {
+    const id1 = mock.addInteraction('post test-summary to teams with single suite');
+    const id2 = mock.addInteraction('post test-summary to slack with single suite');
     await run({ config: 'test/data/configs/junit.single-suite.json' });
-    assert.equal(mock.getInteraction(id).exercised, true);
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
   });
 
   afterEach(() => {

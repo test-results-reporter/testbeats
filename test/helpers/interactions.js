@@ -183,3 +183,135 @@ addInteractionHandler('post test-summary-slim to teams with multiple suites', ()
     }
   }
 });
+
+addInteractionHandler('post test-summary to slack with single suite', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "good",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "4 / 4 Passed (100%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "00:02",
+                "short": true
+              }
+            ]
+          },
+          {
+            "fallback": "links",
+            "footer": "<some-url|Pipeline>"
+          }
+        ],
+        "text": "*Default suite*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary-slim to slack with multiple suites', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "8 / 20 Passed (40%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "23:23",
+                "short": true
+              }
+            ]
+          }
+        ],
+        "text": "*Regression Tests*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to slack with multiple suites', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "8 / 20 Passed (40%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "23:23",
+                "short": true
+              }
+            ]
+          },
+          {
+            "text": "desktop-chrome",
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "2 / 5 Passed (40%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "03:22",
+                "short": true
+              }
+            ]
+          },
+          {
+            "text": "mobile-ios",
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "2 / 5 Passed (40%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "09:05",
+                "short": true
+              }
+            ]
+          }
+        ],
+        "text": "*Regression Tests*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

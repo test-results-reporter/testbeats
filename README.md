@@ -41,6 +41,8 @@ Configuration file holds the different configurations files for our reporting ne
 
 ![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/teams/test-summary-single-suite.png)
 
+![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/slack/test-summary-single-suite.png)
+
 ## Supports
 
 ### Targets
@@ -48,8 +50,7 @@ Configuration file holds the different configurations files for our reporting ne
 | Targets         | Support |
 |-----------------|---------|
 | Microsoft Teams | ✅       |
-
-#### Microsoft Teams
+| Slack           | ✅       |
 
 Supported Report Types
 

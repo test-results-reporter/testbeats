@@ -1,3 +1,4 @@
+const request = require('phin-retry');
 const { getUrl, getReportType, getPercentage } = require('../helpers/helper');
 const { toColonNotation } = require('colon-notation');
 
@@ -19,12 +20,12 @@ function getMainSummary(result) {
     "color": color,
     "fields": [
       {
-        "title": "Results:",
+        "title": "Results",
         "value": `${result.passed} / ${result.total} Passed (${percentage}%)`,
         "short": true
       },
       {
-        "title": "Duration:",
+        "title": "Duration",
         "value": `${toColonNotation(parseInt(result.duration))}`,
         "short": true
       }
