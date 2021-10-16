@@ -49,8 +49,21 @@ function processData(data) {
   return data;
 }
 
+function getReportType(options) {
+  if (options) {
+    if (options.publish) return options.publish;
+  }
+  return 'test-summary';
+}
+
+function getUrl(options) {
+  return options.url || options.webhook || options['incoming-webhook-url'];
+}
+
 module.exports = {
   getJsonFromXMLFile,
   getPercentage,
-  processData
+  processData,
+  getReportType,
+  getUrl
 }

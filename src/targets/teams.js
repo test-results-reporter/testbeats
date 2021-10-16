@@ -1,6 +1,6 @@
 const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
-const { getPercentage } = require('../helpers/helper');
+const { getPercentage, getReportType, getUrl } = require('../helpers/helper');
 
 function getTitleTextBlock(testResult, opts) {
   const title = opts.title ? opts.title : testResult.name;
@@ -123,13 +123,6 @@ function getTestSummarySlimMessage(testResults, opts) {
   return payload;
 }
 
-function getReportType(options) {
-  if (options) {
-    if (options.publish) return options.publish;
-  }
-  return 'test-summary';
-}
-
 function getMessage(options, results) {
   const report = getReportType(options);
   switch (report) {
@@ -141,10 +134,6 @@ function getMessage(options, results) {
       console.log('UnSupported Report Type');
       break;
   }
-}
-
-function getUrl(options) {
-  return options.url || options.webhook || options['incoming-webhook-url'];
 }
 
 function send(options, results) {
