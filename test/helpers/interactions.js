@@ -193,6 +193,7 @@ addInteractionHandler('post test-summary to slack with single suite', () => {
         "attachments": [
           {
             "color": "good",
+            "mrkdwn_in": ["text", "fields"],
             "fields": [
               {
                 "title": "Results",
@@ -229,6 +230,7 @@ addInteractionHandler('post test-summary-slim to slack with multiple suites', ()
         "attachments": [
           {
             "color": "danger",
+            "mrkdwn_in": ["text", "fields"],
             "fields": [
               {
                 "title": "Results",
@@ -261,6 +263,7 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
         "attachments": [
           {
             "color": "danger",
+            "mrkdwn_in": ["text", "fields"],
             "fields": [
               {
                 "title": "Results",
@@ -275,8 +278,9 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
             ]
           },
           {
-            "text": "desktop-chrome",
+            "text": "*desktop-chrome*",
             "color": "danger",
+            "mrkdwn_in": ["text", "fields"],
             "fields": [
               {
                 "title": "Results",
@@ -291,8 +295,9 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
             ]
           },
           {
-            "text": "mobile-ios",
+            "text": "*mobile-ios*",
             "color": "danger",
+            "mrkdwn_in": ["text", "fields"],
             "fields": [
               {
                 "title": "Results",
@@ -308,6 +313,136 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
           }
         ],
         "text": "*Regression Tests*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post failure-details to slack with multiple suites', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "8 / 20 Passed (40%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "23:23",
+                "short": true
+              }
+            ]
+          },
+          {
+            "text": "*desktop-chrome*",
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "2 / 5 Passed (40%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "03:22",
+                "short": true
+              },
+              {
+                "value": "*Test*: GU\n*Error*: expected [A] but found [948474]"
+              },
+              {
+                "value": "*Test*: SBP_WA\n*Error*: Expected condition failed: : 95ddbda01ea4b3dbcb049e681a6...}"
+              },
+              {
+                "value": "*Test*: CB\n*Error*: element click intercepted:"
+              }
+            ]
+          },
+          {
+            "text": "*mobile-ios*",
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "2 / 5 Passed (40%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "09:05",
+                "short": true
+              },
+              {
+                "value": "*Test*: GU\n*Error*: expected [A] but found [948474]"
+              },
+              {
+                "value": "*Test*: SBP_WA\n*Error*: Appium error: An unknown sr='Search...']}"
+              }
+            ]
+          }
+        ],
+        "text": "*Regression Tests*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post failure-details to slack with single suite', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "3 / 4 Passed (75%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "00:02",
+                "short": true
+              },
+              {
+                "value": "*Test*: c4\n*Error*: expected [true] but found [false]"
+              }
+            ]
+          }
+        ],
+        "text": "*Default suite*"
       }
     },
     response: {

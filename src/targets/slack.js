@@ -17,6 +17,7 @@ function getMainSummary(result) {
   const color = result.status === 'PASS' ? 'good' : 'danger';
   const percentage = getPercentage(result.passed, result.total);
   return {
+    "mrkdwn_in": ["text", "fields"],
     "color": color,
     "fields": [
       {
@@ -37,7 +38,8 @@ function getSuiteSummary(suite) {
   const color = suite.status === 'PASS' ? 'good' : 'danger';
   const percentage = getPercentage(suite.passed, suite.total);
   return {
-    "text": suite.name,
+    "text": `*${suite.name}*`,
+    "mrkdwn_in": ["text", "fields"],
     "color": color,
     "fields": [
       {
@@ -63,6 +65,19 @@ function getLinks(options) {
     "fallback": "links",
     "footer": links.join(' | ')
   }
+}
+
+function getFailureDetailsFields(suite) {
+  const fields = [];
+  const cases = suite.cases;
+  for (let i = 0; i < cases.length; i++) {
+    const test_case = cases[i];
+    if (test_case.status === 'FAIL') {
+      const message = `*Test*: ${test_case.name}\n*Error*: ${test_case.failure}`;
+      fields.push({ value: message });
+    }
+  }
+  return fields;
 }
 
 function getTestSummaryMessage(results, options) {
@@ -93,6 +108,34 @@ function getTestSummarySlimMessage(results, options) {
   return payload;
 }
 
+function getFailureDetailsMessage(results, options) {
+  const result = results[0];
+  if (result.status === 'PASS') {
+    return null;
+  }
+  const payload = getRootPayload();
+  payload.text = getTitleText(result, options);
+  const mainSummary = getMainSummary(result);
+  payload.attachments.push(mainSummary);
+  if (result.suites.length > 1) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
+      const suiteSummary = getSuiteSummary(suite);
+      if (suite.status === 'FAIL') {
+        suiteSummary.fields = suiteSummary.fields.concat(getFailureDetailsFields(suite));
+      }
+      payload.attachments.push(suiteSummary);
+    }
+  } else {
+    const suite = result.suites[0];
+    mainSummary.fields = mainSummary.fields.concat(getFailureDetailsFields(suite));
+  }
+  if (options.links) {
+    payload.attachments.push(getLinks(options));
+  }
+  return payload;
+}
+
 function getMessage(options, results) {
   const report = getReportType(options);
   switch (report) {
@@ -100,6 +143,8 @@ function getMessage(options, results) {
       return getTestSummaryMessage(results, options);
     case 'test-summary-slim':
       return getTestSummarySlimMessage(results, options);
+    case 'failure-details':
+      return getFailureDetailsMessage(results, options);
     default:
       console.log('UnSupported Report Type');
       break;
@@ -108,10 +153,12 @@ function getMessage(options, results) {
 
 function send(options, results) {
   const message = getMessage(options, results);
-  return request.post({
-    url: getUrl(options),
-    body: message
-  });
+  if (message) {
+    return request.post({
+      url: getUrl(options),
+      body: message
+    });
+  }
 }
 
 module.exports = {

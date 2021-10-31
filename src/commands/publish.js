@@ -14,7 +14,7 @@ async function run(opts) {
     const globalOpts = report.options || {};
     for (const target of report.targets) {
       const clonedGlobalOpts = Object.assign({}, globalOpts);
-      const options = Object.assign(target, clonedGlobalOpts);
+      const options = Object.assign(clonedGlobalOpts, target);
       await targets.send(options, testResults);
     }
   }
