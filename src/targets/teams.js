@@ -92,7 +92,7 @@ function getFailureDetailsFactSets(suite) {
           },
           {
             "title": "Error:",
-            "value": truncate(test_case.failure)
+            "value": truncate(test_case.failure, 150)
           }
         ]
       });
