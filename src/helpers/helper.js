@@ -1,14 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-const parser = require('fast-xml-parser');
-
 const DATA_REF_PATTERN = /(\{[^\}]+\})/g;
-
-function getJsonFromXMLFile(filePath) {
-  const cwd = process.cwd();
-  const xml = fs.readFileSync(path.join(cwd, filePath)).toString();
-  return parser.parse(xml, { arrayMode: true, ignoreAttributes: false, parseAttributeValue: true });
-}
 
 function getPercentage(x, y) {
   if (y > 0) {
@@ -60,10 +50,18 @@ function getUrl(options) {
   return options.url || options.webhook || options['incoming-webhook-url'];
 }
 
+function truncate(text, length) {
+  if (text && text.length > length) {
+    return text.slice(0, length) + "...";
+  } else {
+    return text;
+  }
+}
+
 module.exports = {
-  getJsonFromXMLFile,
   getPercentage,
   processData,
   getReportType,
-  getUrl
+  getUrl,
+  truncate
 }

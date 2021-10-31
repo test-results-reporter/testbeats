@@ -1,6 +1,6 @@
 const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
-const { getPercentage, getReportType, getUrl } = require('../helpers/helper');
+const { getPercentage, getReportType, getUrl, truncate } = require('../helpers/helper');
 
 function getTitleTextBlock(testResult, opts) {
   const title = opts.title ? opts.title : testResult.name;
@@ -77,6 +77,30 @@ function getPayloadRoot() {
   };
 }
 
+function getFailureDetailsFactSets(suite) {
+  const fact_sets = [];
+  const cases = suite.cases;
+  for (let i = 0; i < cases.length; i++) {
+    const test_case = cases[i];
+    if (test_case.status === 'FAIL') {
+      fact_sets.push({
+        "type": "FactSet",
+        "facts": [
+          {
+            "title": "Test:",
+            "value": test_case.name
+          },
+          {
+            "title": "Error:",
+            "value": truncate(test_case.failure)
+          }
+        ]
+      });
+    }
+  }
+  return fact_sets;
+}
+
 function getTestSummaryMessage(testResults, opts) {
   const testResult = testResults[0];
   const adaptive = getPayloadRoot();
@@ -123,6 +147,41 @@ function getTestSummarySlimMessage(testResults, opts) {
   return payload;
 }
 
+function getFailureDetailsMessage(results, options) {
+  const result = results[0];
+  if (result.status === 'PASS') {
+    return null;
+  }
+  const adaptive = getPayloadRoot();
+  adaptive.body.push(getTitleTextBlock(result, options));
+  adaptive.body.push(getMainSummary(result));
+  if (result.suites.length > 1) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
+      adaptive.body.push(...getSuiteSummary(suite));
+      if (suite.status === 'FAIL') {
+        adaptive.body.push(...getFailureDetailsFactSets(suite));
+      }
+    }
+  } else {
+    const suite = result.suites[0];
+    adaptive.body.push(...getFailureDetailsFactSets(suite));
+  }
+  if (options.links) {
+    adaptive.body.push(getLinks(options));
+  }
+  const payload = {
+    "type": "message",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": adaptive
+      }
+    ]
+  };
+  return payload;
+}
+
 function getMessage(options, results) {
   const report = getReportType(options);
   switch (report) {
@@ -130,6 +189,8 @@ function getMessage(options, results) {
       return getTestSummaryMessage(results, options);
     case 'test-summary-slim':
       return getTestSummarySlimMessage(results, options);
+    case 'failure-details':
+      return getFailureDetailsMessage(results, options);
     default:
       console.log('UnSupported Report Type');
       break;
@@ -138,10 +199,12 @@ function getMessage(options, results) {
 
 function send(options, results) {
   const message = getMessage(options, results);
-  return request.post({
-    url: getUrl(options),
-    body: message
-  });
+  if (message) {
+    return request.post({
+      url: getUrl(options),
+      body: message
+    });
+  }
 }
 
 module.exports = {

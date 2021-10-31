@@ -37,6 +37,18 @@ Configuration file holds the different configurations files for our reporting ne
 }
 ```
 
+### Environment Variables
+
+To use environment variables in the config file, wrap the environment variable name inside `{}`.
+
+#### Example
+
+```json
+{
+  "links": [{ "text": "Build Logs", "url": "{BUILD_URL}" }]
+}
+```
+
 ### Sample Reports
 
 ![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/teams/test-summary-single-suite.png)
@@ -56,6 +68,7 @@ Supported Report Types
 
 - test-summary
 - test-summary-slim
+- failure-details
 
 ### Results
 

@@ -11,6 +11,11 @@
           "incoming-webhook-url": "http://localhost:9393/message"
         },
         {
+          "name": "teams",
+          "publish": "failure-details",
+          "incoming-webhook-url": "http://localhost:9393/message"
+        },
+        {
           "name": "slack",
           "publish": "failure-details",
           "incoming-webhook-url": "http://localhost:9393/message"

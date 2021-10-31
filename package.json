@@ -1,6 +1,6 @@
 {
   "name": "test-results-reporter",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Publish test results to Microsoft Teams and Slack",
   "main": "src/index.js",
   "bin": {
@@ -29,12 +29,11 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ASaiAnudeep/test-results-reporter/issues"
+    "url": "https://github.com/test-results-reporter/reporter/issues"
   },
-  "homepage": "https://github.com/ASaiAnudeep/test-results-reporter#readme",
+  "homepage": "https://github.com/test-results-reporter/reporter#readme",
   "dependencies": {
     "colon-notation": "^1.2.1",
-    "fast-xml-parser": "^3.19.0",
     "phin-retry": "^1.0.3",
     "sade": "^1.7.4",
     "test-results-parser": "^0.0.3"

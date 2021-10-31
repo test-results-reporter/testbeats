@@ -3,6 +3,11 @@
     {
       "targets": [
         {
+          "name": "teams",
+          "publish": "failure-details",
+          "url": "http://localhost:9393/message"
+        },
+        {
           "name": "slack",
           "publish": "failure-details",
           "url": "http://localhost:9393/message"
