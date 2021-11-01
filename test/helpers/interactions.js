@@ -320,6 +320,19 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                       "value": "Appium error: An unknown sr='Search...']}"
                     }
                   ]
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Test:",
+                      "value": "CB"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "A script did not complete "
+                    }
+                  ]
                 }
               ],
               "actions": []
@@ -609,6 +622,9 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
               },
               {
                 "value": "*Test*: SBP_WA\n*Error*: Appium error: An unknown sr='Search...']}"
+              },
+              {
+                "value": "*Test*: CB\n*Error*: A script did not complete "
               }
             ]
           }
@@ -653,6 +669,89 @@ addInteractionHandler('post failure-details to slack with single suite', () => {
           }
         ],
         "text": "*Default suite*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to teams with retries', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Staging - UI Smoke Test Run",
+                  "size": "medium",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "4 / 6 Passed (67%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "31:23"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to slack with retries', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "4 / 6 Passed (67%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "31:23",
+                "short": true
+              }
+            ]
+          }
+        ],
+        "text": "*Staging - UI Smoke Test Run*"
       }
     },
     response: {

@@ -1,6 +1,6 @@
 {
   "name": "test-results-reporter",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Publish test results to Microsoft Teams and Slack",
   "main": "src/index.js",
   "bin": {
@@ -36,7 +36,7 @@
     "colon-notation": "^1.2.1",
     "phin-retry": "^1.0.3",
     "sade": "^1.7.4",
-    "test-results-parser": "^0.0.3"
+    "test-results-parser": "^0.0.4"
   },
   "devDependencies": {
     "mocha": "^9.1.1",

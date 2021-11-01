@@ -350,7 +350,7 @@
 					<reporter-output></reporter-output>
 				</test-method>
 				<!-- beforeMethod -->
-				<test-method signature="CB(C.M.TD)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:48:49 IST" name="CB" data-provider="json" finished-at="2021-09-02T10:48:49 IST" duration-ms="0" status="SKIP">
+				<test-method signature="CB(C.M.TD)[pri:0, instance:C.T.PT@6b1274d2]" started-at="2021-09-02T10:48:49 IST" name="CB" data-provider="json" finished-at="2021-09-02T10:48:49 IST" duration-ms="0" status="FAIL">
 					<params>
 						<param index="0">
 							<value>

@@ -48,6 +48,14 @@ describe('publish - testng', () => {
     assert.equal(mock.getInteraction(id2).exercised, true);
   });
 
+  it('test-summary to teams and slack with retries', async () => {
+    const id1 = mock.addInteraction('post test-summary to teams with retries');
+    const id2 = mock.addInteraction('post test-summary to slack with retries');
+    await run({ config: 'test/data/configs/testng.multiple-suites-retries.json' });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });
