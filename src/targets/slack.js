@@ -97,8 +97,44 @@ function getTestSummaryMessage(results, options) {
   return payload;
 }
 
+function getFailureSummaryMessage(results, options) {
+  const result = results[0];
+  if (result.status === 'PASS') {
+    return null;
+  }
+  const payload = getRootPayload();
+  payload.text = getTitleText(result, options);
+  payload.attachments.push(getMainSummary(result));
+  if (result.suites.length > 1) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
+      if (suite.status === 'FAIL') {
+        payload.attachments.push(getSuiteSummary(suite));
+      }
+    }
+  }
+  if (options.links) {
+    payload.attachments.push(getLinks(options));
+  }
+  return payload;
+}
+
 function getTestSummarySlimMessage(results, options) {
   const result = results[0];
+  const payload = getRootPayload();
+  payload.text = getTitleText(result, options);
+  payload.attachments.push(getMainSummary(result));
+  if (options.links) {
+    payload.attachments.push(getLinks(options));
+  }
+  return payload;
+}
+
+function getFailureSummarySlimMessage(results, options) {
+  const result = results[0];
+  if (result.status === 'PASS') {
+    return null;
+  }
   const payload = getRootPayload();
   payload.text = getTitleText(result, options);
   payload.attachments.push(getMainSummary(result));
@@ -136,15 +172,49 @@ function getFailureDetailsMessage(results, options) {
   return payload;
 }
 
+function getFailureDetailsSlimMessage(results, options) {
+  const result = results[0];
+  if (result.status === 'PASS') {
+    return null;
+  }
+  const payload = getRootPayload();
+  payload.text = getTitleText(result, options);
+  const mainSummary = getMainSummary(result);
+  payload.attachments.push(mainSummary);
+  if (result.suites.length > 1) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
+      if (suite.status === 'FAIL') {
+        const suiteSummary = getSuiteSummary(suite);
+        suiteSummary.fields = suiteSummary.fields.concat(getFailureDetailsFields(suite));
+        payload.attachments.push(suiteSummary);
+      }
+    }
+  } else {
+    const suite = result.suites[0];
+    mainSummary.fields = mainSummary.fields.concat(getFailureDetailsFields(suite));
+  }
+  if (options.links) {
+    payload.attachments.push(getLinks(options));
+  }
+  return payload;
+}
+
 function getMessage(options, results) {
   const report = getReportType(options);
   switch (report) {
     case 'test-summary':
       return getTestSummaryMessage(results, options);
+    case 'failure-summary':
+      return getFailureSummaryMessage(results, options);
     case 'test-summary-slim':
       return getTestSummarySlimMessage(results, options);
+    case 'failure-summary-slim':
+      return getFailureSummarySlimMessage(results, options);
     case 'failure-details':
       return getFailureDetailsMessage(results, options);
+    case 'failure-details-slim':
+      return getFailureDetailsSlimMessage(results, options);
     default:
       console.log('UnSupported Report Type');
       break;

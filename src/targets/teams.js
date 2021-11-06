@@ -127,8 +127,62 @@ function getTestSummaryMessage(testResults, opts) {
   return payload;
 }
 
+function getFailureSummaryMessage(testResults, opts) {
+  const testResult = testResults[0];
+  if (testResult.status === 'PASS') {
+    return null;
+  }
+  const adaptive = getPayloadRoot();
+  adaptive.body.push(getTitleTextBlock(testResult, opts));
+  adaptive.body.push(getMainSummary(testResult));
+  if (testResult.suites.length > 1) {
+    for (let i = 0; i < testResult.suites.length; i++) {
+      const suite = testResult.suites[i];
+      if (suite.status === 'FAIL') {
+        adaptive.body.push(...getSuiteSummary(suite));
+      }
+    }
+  }
+  if (opts.links) {
+    adaptive.body.push(getLinks(opts));
+  }
+  const payload = {
+    "type": "message",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": adaptive
+      }
+    ]
+  };
+  return payload;
+}
+
 function getTestSummarySlimMessage(testResults, opts) {
   const testResult = testResults[0];
+  const adaptive = getPayloadRoot();
+  adaptive.body.push(getTitleTextBlock(testResult, opts));
+  adaptive.body.push(getMainSummary(testResult));
+  if (opts.links) {
+    adaptive.body.push(getLinks(opts));
+  }
+  const payload = {
+    "type": "message",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": adaptive
+      }
+    ]
+  };
+  return payload;
+}
+
+function getFailureSummarySlimMessage(testResults, opts) {
+  const testResult = testResults[0];
+  if (testResult.status === 'PASS') {
+    return null;
+  }
   const adaptive = getPayloadRoot();
   adaptive.body.push(getTitleTextBlock(testResult, opts));
   adaptive.body.push(getMainSummary(testResult));
@@ -182,15 +236,56 @@ function getFailureDetailsMessage(results, options) {
   return payload;
 }
 
+function getFailureDetailsSlimMessage(results, options) {
+  const result = results[0];
+  if (result.status === 'PASS') {
+    return null;
+  }
+  const adaptive = getPayloadRoot();
+  adaptive.body.push(getTitleTextBlock(result, options));
+  adaptive.body.push(getMainSummary(result));
+  if (result.suites.length > 1) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
+      if (suite.status === 'FAIL') {
+        adaptive.body.push(...getSuiteSummary(suite));
+        adaptive.body.push(...getFailureDetailsFactSets(suite));
+      }
+    }
+  } else {
+    const suite = result.suites[0];
+    adaptive.body.push(...getFailureDetailsFactSets(suite));
+  }
+  if (options.links) {
+    adaptive.body.push(getLinks(options));
+  }
+  const payload = {
+    "type": "message",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": adaptive
+      }
+    ]
+  };
+  return payload;
+}
+
 function getMessage(options, results) {
   const report = getReportType(options);
   switch (report) {
     case 'test-summary':
       return getTestSummaryMessage(results, options);
+    case 'failure-summary':
+      return getFailureSummaryMessage(results, options);
     case 'test-summary-slim':
       return getTestSummarySlimMessage(results, options);
+    case 'failure-summary-slim':
+      return getFailureSummarySlimMessage(results, options);
     case 'failure-details':
       return getFailureDetailsMessage(results, options);
+    case 'failure-details-slim':
+      return getFailureDetailsSlimMessage(results, options);
     default:
       console.log('UnSupported Report Type');
       break;

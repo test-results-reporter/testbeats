@@ -1,0 +1,56 @@
+{
+    "reports": [
+      {
+        "targets": [
+          {
+            "name": "teams",
+            "incoming-webhook-url": "http://localhost:9393/message",
+            "publish": "failure-summary"
+          },
+          {
+            "name": "slack",
+            "incoming-webhook-url": "http://localhost:9393/message",
+            "publish": "failure-summary"
+          },
+          {
+            "name": "teams",
+            "incoming-webhook-url": "http://localhost:9393/message",
+            "publish": "failure-summary-slim"
+          },
+          {
+            "name": "slack",
+            "incoming-webhook-url": "http://localhost:9393/message",
+            "publish": "failure-summary-slim"
+          },
+          {
+            "name": "teams",
+            "incoming-webhook-url": "http://localhost:9393/message",
+            "publish": "failure-details"
+          },
+          {
+            "name": "slack",
+            "incoming-webhook-url": "http://localhost:9393/message",
+            "publish": "failure-details"
+          },
+          {
+            "name": "teams",
+            "incoming-webhook-url": "http://localhost:9393/message",
+            "publish": "failure-details-slim"
+          },
+          {
+            "name": "slack",
+            "incoming-webhook-url": "http://localhost:9393/message",
+            "publish": "failure-details-slim"
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
+            ]
+          }
+        ]
+      }
+    ]
+  }

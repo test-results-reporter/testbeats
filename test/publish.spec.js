@@ -72,6 +72,26 @@ describe('publish - junit', () => {
     assert.equal(mock.getInteraction(id2).exercised, true);
   });
 
+  it('failure-*-* for single suite no failures', async () => {
+    await run({ config: 'test/data/configs/failure-all-reports-no-failures.json' });
+  });
+
+  it('failure-*-* for single suite failures', async () => {
+    const id1 = mock.addInteraction('post failure-summary to teams');
+    const id2 = mock.addInteraction('post failure-summary to slack');
+    const id3 = mock.addInteraction('post failure-summary-slim to teams');
+    const id4 = mock.addInteraction('post failure-summary-slim to slack');
+    const id5 = mock.addInteraction('post failure-details-slim to teams');
+    const id6 = mock.addInteraction('post failure-details-slim to slack');
+    await run({ config: 'test/data/configs/failure-all-reports-failures.json' });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
+    assert.equal(mock.getInteraction(id4).exercised, true);
+    assert.equal(mock.getInteraction(id5).exercised, true);
+    assert.equal(mock.getInteraction(id6).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

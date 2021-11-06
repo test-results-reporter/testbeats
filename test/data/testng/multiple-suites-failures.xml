@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="2" passed="1" failed="1" skipped="0">
+	<reporter-output></reporter-output>
+	<suite started-at="2021-10-21T14:29:17 IST" name="Staging - UI Smoke Test Run" finished-at="2021-10-21T15:00:41 IST" duration-ms="1883597">
+		<groups></groups>
+		<test started-at="2021-10-21T14:29:17 IST" name="desktop-chrome" finished-at="2021-10-21T14:48:41 IST" duration-ms="1164451">
+			<class name="C.T.ST">
+				<test-method is-config="true" signature="beforeTest(org.testng.ITestContext)[pri:0, instance:C.T.ST@18d87d80]" started-at="2021-10-21T14:29:17 IST" name="beforeTest" finished-at="2021-10-21T14:29:17 IST" duration-ms="5" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[org.testng.TestRunner@71db6703]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeTest -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.ST@18d87d80]" started-at="2021-10-21T14:29:17 IST" name="beforeMethod" finished-at="2021-10-21T14:36:38 IST" duration-ms="440635" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.ST.GU(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="GU(C.M.TD)[pri:0, instance:C.T.ST@18d87d80]" started-at="2021-10-21T14:36:38 IST" name="GU" data-provider="json" finished-at="2021-10-21T14:40:41 IST" duration-ms="243789" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@639aba11]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- GU -->
+				<test-method is-config="true" signature="afterMethod(org.testng.ITestResult,java.lang.reflect.Method)[pri:0, instance:C.T.ST@18d87d80]" started-at="2021-10-21T14:40:41 IST" name="afterMethod" finished-at="2021-10-21T14:40:41 IST" duration-ms="1" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[[TestResult name=GU status=SUCCESS method=ST.GU(C.M.TD)[pri:0, instance:C.T.ST@18d87d80] output={null}]]]>
+							</value>
+						</param>
+						<param index="1">
+							<value>
+								<![CDATA[public void C.T.ST.GU(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="afterTest()[pri:0, instance:C.T.ST@18d87d80]" started-at="2021-10-21T14:48:36 IST" name="afterTest" finished-at="2021-10-21T14:48:41 IST" duration-ms="5813" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterTest -->
+			</class>
+			<!-- C.T.ST -->
+		</test>
+		<!-- desktop-chrome -->
+		<test started-at="2021-10-21T14:48:46 IST" name="mobile-andoid" finished-at="2021-10-21T15:00:41 IST" duration-ms="714100">
+			<class name="C.T.ST">
+				<test-method is-config="true" signature="beforeSuite()[pri:0, instance:C.T.ST@47e2e487]" started-at="2021-10-21T14:29:12 IST" name="beforeSuite" finished-at="2021-10-21T14:29:17 IST" duration-ms="5421" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeSuite -->
+				<test-method is-config="true" signature="beforeTest(org.testng.ITestContext)[pri:0, instance:C.T.ST@47e2e487]" started-at="2021-10-21T14:48:46 IST" name="beforeTest" finished-at="2021-10-21T14:48:46 IST" duration-ms="0" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[org.testng.TestRunner@6e349258]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeTest -->
+				<test-method is-config="true" signature="beforeMethod(java.lang.reflect.Method)[pri:0, instance:C.T.ST@47e2e487]" started-at="2021-10-21T14:48:46 IST" name="beforeMethod" finished-at="2021-10-21T14:49:12 IST" duration-ms="25668" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[public void C.T.ST.GU(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- beforeMethod -->
+				<test-method signature="GU(C.M.TD)[pri:0, instance:C.T.ST@47e2e487]" started-at="2021-10-21T14:49:12 IST" name="GU" data-provider="json" finished-at="2021-10-21T14:51:49 IST" duration-ms="156900" status="FAIL">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[C.M.TD@520c3dcb]]>
+							</value>
+						</param>
+					</params>
+					<exception class="org.openqa.selenium.TimeoutException">
+						<message>
+							<![CDATA[Expected condition failed: waiting for visibility of Proxy element for: DefaultElementLocator 'By.xpath: //p[@class='m-0 m-t-8 f-s-14 ng-star-inserted']/b' (tried for 10 second(s) with 500 milliseconds interval)]]>
+						</message>
+						<full-stacktrace>
+							
+						</full-stacktrace>
+					</exception>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- GU -->
+				<test-method is-config="true" signature="afterMethod(org.testng.ITestResult,java.lang.reflect.Method)[pri:0, instance:C.T.ST@47e2e487]" started-at="2021-10-21T14:51:49 IST" name="afterMethod" finished-at="2021-10-21T14:51:49 IST" duration-ms="1" status="PASS">
+					<params>
+						<param index="0">
+							<value>
+								<![CDATA[[TestResult name=GU status=SUCCESS method=ST.GU(C.M.TD)[pri:0, instance:C.T.ST@47e2e487] output={null}]]]>
+							</value>
+						</param>
+						<param index="1">
+							<value>
+								<![CDATA[public void C.T.ST.GU(C.M.TD)]]>
+							</value>
+						</param>
+					</params>
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterMethod -->
+				<test-method is-config="true" signature="afterTest()[pri:0, instance:C.T.ST@47e2e487]" started-at="2021-10-21T15:00:37 IST" name="afterTest" finished-at="2021-10-21T15:00:41 IST" duration-ms="3407" status="PASS">
+					<reporter-output></reporter-output>
+				</test-method>
+				<!-- afterTest -->
+			</class>
+			<!-- C.T.ST -->
+		</test>
+		<!-- mobile-andoid -->
+	</suite>
+	<!-- Staging - UI Smoke Test Run -->
+</testng-results>

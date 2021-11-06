@@ -759,3 +759,346 @@ addInteractionHandler('post test-summary to slack with retries', () => {
     }
   }
 });
+
+addInteractionHandler('post failure-summary to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Staging - UI Smoke Test Run",
+                  "size": "medium",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "1 / 2 Passed (50%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "31:23"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "mobile-andoid",
+                  "isSubtle": true,
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "0 / 1 Passed (0%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "11:54"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post failure-summary to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "1 / 2 Passed (50%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "31:23",
+                "short": true
+              }
+            ]
+          },
+          {
+            "text": "*mobile-andoid*",
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "0 / 1 Passed (0%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "11:54",
+                "short": true
+              }
+            ]
+          }
+        ],
+        "text": "*Staging - UI Smoke Test Run*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post failure-summary-slim to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Staging - UI Smoke Test Run",
+                  "size": "medium",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "1 / 2 Passed (50%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "31:23"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post failure-summary-slim to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "1 / 2 Passed (50%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "31:23",
+                "short": true
+              }
+            ]
+          }
+        ],
+        "text": "*Staging - UI Smoke Test Run*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post failure-details-slim to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Staging - UI Smoke Test Run",
+                  "size": "medium",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "1 / 2 Passed (50%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "31:23"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "mobile-andoid",
+                  "isSubtle": true,
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "0 / 1 Passed (0%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "11:54"
+                    }
+                  ]
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Test:",
+                      "value": "GU"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "Expected condition failed: waiting for visibility of Proxy element for: DefaultElementLocator 'By.xpath: //p[@class='m-0 m-t-8 f-s-14 ng-star-inserted..."
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post failure-details-slim to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "1 / 2 Passed (50%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "31:23",
+                "short": true
+              }
+            ]
+          },
+          {
+            "text": "*mobile-andoid*",
+            "mrkdwn_in": [
+              "text",
+              "fields"
+            ],
+            "color": "danger",
+            "fields": [
+              {
+                "title": "Results",
+                "value": "0 / 1 Passed (0%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "11:54",
+                "short": true
+              },
+              {
+                "value": "*Test*: GU\n*Error*: Expected condition failed: waiting for visibility of Proxy element for: DefaultElementLocator 'By.xpath: //p[@class='m-0 m-t-8 f-s-14 ng-star-inserted..."
+              }
+            ]
+          }
+        ],
+        "text": "*Staging - UI Smoke Test Run*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
