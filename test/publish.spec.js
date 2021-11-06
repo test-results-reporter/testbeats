@@ -1,6 +1,6 @@
 const { mock } = require('pactum');
 const assert = require('assert');
-const { run } = require('../src/commands/publish');
+const { run } = require('../src').publish;
 
 describe('publish - testng', () => {
   

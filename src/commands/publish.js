@@ -4,8 +4,11 @@ const { processData } = require('../helpers/helper');
 const targets = require('../targets');
 
 async function run(opts) {
-  const cwd = process.cwd();
-  const config = processData(require(path.join(cwd, opts.config)));
+  if (typeof opts.config === 'string') {
+    const cwd = process.cwd();
+    opts.config = require(path.join(cwd, opts.config));
+  }
+  const config = processData(opts.config);
   const testResults = [];
   for (const report of config.reports) {
     for (const result of report.results) {
