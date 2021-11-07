@@ -67,8 +67,11 @@ To use environment variables in the config file, wrap the environment variable n
 Supported Report Types
 
 - test-summary
+- failure-summary
 - test-summary-slim
+- failure-summary-slim
 - failure-details
+- failure-details-slim
 
 ### Results
 
