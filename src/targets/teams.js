@@ -2,8 +2,16 @@ const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
 const { getPercentage, getReportType, getUrl, truncate } = require('../helpers/helper');
 
+function getTitleText(result, options) {
+  const title = options.title ? options.title : result.name;
+  if (options.title_suffix) {
+    return `${title} ${options.title_suffix}`;
+  }
+  return `${title}`;
+}
+
 function getTitleTextBlock(testResult, opts) {
-  const title = opts.title ? opts.title : testResult.name;
+  const title = getTitleText(testResult, opts);
   const emoji = testResult.status === 'PASS' ? '✅' : '❌';
   return {
     "type": "TextBlock",

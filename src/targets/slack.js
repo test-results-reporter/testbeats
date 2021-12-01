@@ -10,6 +10,9 @@ function getRootPayload() {
 
 function getTitleText(result, options) {
   const title = options.title ? options.title : result.name;
+  if (options.title_suffix) {
+    return `*${title} ${options.title_suffix}*`;
+  }
   return `*${title}*`;
 }
 

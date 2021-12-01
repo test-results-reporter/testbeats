@@ -55,6 +55,27 @@ To use environment variables in the config file, wrap the environment variable n
 
 ![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/slack/test-summary-single-suite.png)
 
+### Options
+
+#### reports
+
+| Property | Description                        | Attribute |
+|----------|------------------------------------|-----------|
+| targets  | list of targets to publish reports | Required  |
+| results  | list of results to parse           | Required  |
+| options  | common options for all targets     | Optional  |
+
+##### targets
+
+| Property     | Description                    | Attribute         |
+|--------------|--------------------------------|-------------------|
+| name         | name of the target             | Required/Optional |
+| url          | url of the target              | Required/Optional |
+| publish      | type of report to publish      | Required/Optional |
+| links        | links to be part of the report | Optional          |
+| title        | title of the report            | Optional          |
+| title_suffix | suffix to add to title         | Optional          |
+
 ## Supports
 
 ### Targets
