@@ -78,7 +78,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                   "facts": [
                     {
                       "title": "Results:",
-                      "value": "8 / 19 Passed (42%)"
+                      "value": "8 / 20 Passed (40%)"
                     },
                     {
                       "title": "Duration:",
@@ -163,7 +163,7 @@ addInteractionHandler('post test-summary-slim to teams with multiple suites', ()
                   "facts": [
                     {
                       "title": "Results:",
-                      "value": "8 / 19 Passed (42%)"
+                      "value": "8 / 20 Passed (40%)"
                     },
                     {
                       "title": "Duration:",
@@ -210,7 +210,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                   "facts": [
                     {
                       "title": "Results:",
-                      "value": "8 / 19 Passed (42%)"
+                      "value": "8 / 20 Passed (40%)"
                     },
                     {
                       "title": "Duration:",
@@ -457,7 +457,7 @@ addInteractionHandler('post test-summary-slim to slack with multiple suites', ()
             "fields": [
               {
                 "title": "Results",
-                "value": "8 / 19 Passed (42%)",
+                "value": "8 / 20 Passed (40%)",
                 "short": true
               },
               {
@@ -490,7 +490,7 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
             "fields": [
               {
                 "title": "Results",
-                "value": "8 / 19 Passed (42%)",
+                "value": "8 / 20 Passed (40%)",
                 "short": true
               },
               {
@@ -560,7 +560,7 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
             "fields": [
               {
                 "title": "Results",
-                "value": "8 / 19 Passed (42%)",
+                "value": "8 / 20 Passed (40%)",
                 "short": true
               },
               {
