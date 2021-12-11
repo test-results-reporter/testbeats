@@ -75,6 +75,7 @@ To use environment variables in the config file, wrap the environment variable n
 | links        | links to be part of the report | Optional          |
 | title        | title of the report            | Optional          |
 | title_suffix | suffix to add to title         | Optional          |
+| path         | path to custom js file         | Optional          |
 
 ## Supports
 
@@ -84,6 +85,7 @@ To use environment variables in the config file, wrap the environment variable n
 |-----------------|---------|
 | Microsoft Teams | ✅       |
 | Slack           | ✅       |
+| Custom          | ✅       |
 
 Supported Report Types
 
@@ -102,3 +104,53 @@ Supported Report Types
 | JUnit       | ✅       |
 
 > Under Active Development
+
+## Examples
+
+### Defaults
+
+1. Identifies the target *(slack or teams)* based on the url.
+2. Defaults publish to `test-summary` report.
+
+```json
+{
+  "reports": [
+    {
+      "targets": [
+        {
+          "url": "<slack-incoming-webhook-url>"
+        }
+      ],
+      "results": [
+        {
+          "type": "testng",
+          "files": ["path/to/testng-results.xml"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Custom
+
+```json
+{
+  "reports": [
+    {
+      "targets": [
+        {
+          "name": "custom",
+          "path": "/relative/path/to/custom/.js"
+        }
+      ],
+      "results": [
+        {
+          "type": "junit",
+          "files": ["path/to/junit-results.xml"]
+        }
+      ]
+    }
+  ]
+}
+```

@@ -1,5 +1,6 @@
 const teams = require('./teams');
 const slack = require('./slack');
+const custom = require('./custom');
 
 function identifyTarget(target) {
   if (target.name) {
@@ -24,6 +25,9 @@ async function send(options, results) {
       break;
     case 'slack':
       await slack.send(options, results)
+      break;
+    case 'custom':
+      await custom.send(options, results)
       break;
     default:
       console.log(`UnSupported Target Type - ${name}`);

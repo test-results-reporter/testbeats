@@ -97,3 +97,17 @@ describe('publish - junit', () => {
   });
 
 });
+
+describe('publish - custom', () => {
+
+  it('custom target', async () => {
+    const id1 = mock.addInteraction('get custom');
+    await run({ config: 'test/data/configs/custom-target.json' });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+  });
+
+  afterEach(() => {
+    mock.clearInteractions();
+  });
+
+});

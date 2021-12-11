@@ -1102,3 +1102,15 @@ addInteractionHandler('post failure-details-slim to slack', () => {
     }
   }
 });
+
+addInteractionHandler('get custom', () => {
+  return {
+    request: {
+      method: 'GET',
+      path: '/custom'
+    },
+    response: {
+      status: 200
+    }
+  }
+})

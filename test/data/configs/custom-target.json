@@ -1,0 +1,20 @@
+{
+    "reports": [
+      {
+        "targets": [
+          {
+            "name": "custom",
+            "path": "test/data/custom-test.js"
+          }
+        ],
+        "results": [
+          {
+            "type": "junit",
+            "files": [
+              "test/data/junit/single-suite.xml"
+            ]
+          }
+        ]
+      }
+    ]
+  }
