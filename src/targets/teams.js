@@ -13,9 +13,18 @@ function getTitleText(result, options) {
 function getTitleTextBlock(testResult, opts) {
   const title = getTitleText(testResult, opts);
   const emoji = testResult.status === 'PASS' ? '✅' : '❌';
+  const report = getReportType(opts);
+  let text = '';
+  if (report.includes('slim')){
+    text = `${emoji} ${title}`;
+  } else if (testResult.suites.length > 1) {
+    text = title;
+  } else {
+    text = `${emoji} ${title}`;
+  }
   return {
     "type": "TextBlock",
-    "text": `${emoji} ${title}`,
+    "text": text,
     "size": "medium",
     "weight": "bolder"
   }
@@ -40,10 +49,11 @@ function getMainSummary(result) {
 
 function getSuiteSummary(suite) {
   const percentage = getPercentage(suite.passed, suite.total);
+  const emoji = suite.status === 'PASS' ? '✅' : '❌';
   return [
     {
       "type": "TextBlock",
-      "text": suite.name,
+      "text": `${emoji} ${suite.name}`,
       "isSubtle": true,
       "weight": "bolder"
     },

@@ -69,7 +69,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
               "body": [
                 {
                   "type": "TextBlock",
-                  "text": "❌ Regression Tests",
+                  "text": "Regression Tests",
                   "size": "medium",
                   "weight": "bolder"
                 },
@@ -88,7 +88,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "desktop-chrome",
+                  "text": "❌ desktop-chrome",
                   "isSubtle": true,
                   "weight": "bolder"
                 },
@@ -107,7 +107,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "mobile-ios",
+                  "text": "❌ mobile-ios",
                   "isSubtle": true,
                   "weight": "bolder"
                 },
@@ -201,7 +201,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
               "body": [
                 {
                   "type": "TextBlock",
-                  "text": "❌ Regression Tests",
+                  "text": "Regression Tests",
                   "size": "medium",
                   "weight": "bolder"
                 },
@@ -220,7 +220,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                 },
                 {
                   "type": "TextBlock",
-                  "text": "desktop-chrome",
+                  "text": "❌ desktop-chrome",
                   "isSubtle": true,
                   "weight": "bolder"
                 },
@@ -278,7 +278,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                 },
                 {
                   "type": "TextBlock",
-                  "text": "mobile-ios",
+                  "text": "❌ mobile-ios",
                   "isSubtle": true,
                   "weight": "bolder"
                 },
@@ -777,7 +777,7 @@ addInteractionHandler('post failure-summary to teams', () => {
               "body": [
                 {
                   "type": "TextBlock",
-                  "text": "❌ Staging - UI Smoke Test Run",
+                  "text": "Staging - UI Smoke Test Run",
                   "size": "medium",
                   "weight": "bolder"
                 },
@@ -796,7 +796,7 @@ addInteractionHandler('post failure-summary to teams', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "mobile-andoid",
+                  "text": "❌ mobile-andoid",
                   "isSubtle": true,
                   "weight": "bolder"
                 },
@@ -1001,7 +1001,7 @@ addInteractionHandler('post failure-details-slim to teams', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "mobile-andoid",
+                  "text": "❌ mobile-andoid",
                   "isSubtle": true,
                   "weight": "bolder"
                 },
