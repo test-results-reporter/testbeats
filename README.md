@@ -141,7 +141,7 @@ Supported Report Types
       "targets": [
         {
           "name": "custom",
-          "path": "/relative/path/to/custom/.js"
+          "path": "/relative/path/to/custom.js"
         }
       ],
       "results": [
