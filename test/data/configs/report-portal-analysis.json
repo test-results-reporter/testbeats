@@ -1,0 +1,50 @@
+{
+  "reports": [
+    {
+      "targets": [
+        {
+          "name": "teams",
+          "incoming-webhook-url": "http://localhost:9393/message",
+          "publish": "test-summary",
+          "report_portal_analysis": {
+            "url": "http://localhost:9393",
+            "api_key": "abc",
+            "project": "project-name",
+            "launch_id": "id123"
+          },
+          "links": [
+            {
+              "text": "Pipeline",
+              "url": "{some-url}"
+            }
+          ]
+        },
+        {
+          "name": "slack",
+          "incoming-webhook-url": "http://localhost:9393/message",
+          "publish": "test-summary",
+          "report_portal_analysis": {
+            "url": "http://localhost:9393",
+            "api_key": "abc",
+            "project": "project-name",
+            "launch_id": "id123"
+          },
+          "links": [
+            {
+              "text": "Pipeline",
+              "url": "{some-url}"
+            }
+          ]
+        }
+      ],
+      "results": [
+        {
+          "type": "testng",
+          "files": [
+            "test/data/testng/single-suite-failures.xml"
+          ]
+        }
+      ]
+    }
+  ]
+}

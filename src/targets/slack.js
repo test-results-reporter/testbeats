@@ -1,5 +1,6 @@
 const request = require('phin-retry');
-const { getUrl, getReportType, getPercentage, truncate } = require('../helpers/helper');
+const { getUrl, getReportType, getPercentage, truncate, getReportPortalDefectsSummary } = require('../helpers/helper');
+const { getLaunchDetails } = require('../helpers/report-portal');
 const { toColonNotation } = require('colon-notation');
 
 function getRootPayload() {
@@ -59,6 +60,28 @@ function getSuiteSummary(suite) {
   }
 }
 
+async function getReportPortalAnalysisAttachment(opts) {
+  try {
+    const { statistics } = await getLaunchDetails(opts);
+    if (statistics && statistics.defects) {
+      const results = getReportPortalDefectsSummary(statistics.defects, '*');
+      return {
+        "mrkdwn_in": ["fields"],
+        "fields": [
+          {
+            "title": "Report Portal Analysis",
+            "value": results.join(' | '),
+            "short": false
+          }
+        ]
+      }
+    }
+  } catch (error) {
+    console.log('Failed to get report portal analysis');
+    console.log(error);
+  }
+}
+
 function getLinks(options) {
   const links = [];
   for (const link of options.links) {
@@ -83,7 +106,26 @@ function getFailureDetailsFields(suite) {
   return fields;
 }
 
-function getTestSummaryMessage(results, options) {
+async function attachReportPortalAnalysis(payload, testResult, opts) {
+  if (testResult.status === 'PASS') {
+    return;
+  }
+  if (!opts.report_portal_analysis) {
+    return;
+  }
+  const att = await getReportPortalAnalysisAttachment(opts.report_portal_analysis);
+  if (att) {
+    payload.attachments.push(att);
+  }
+}
+
+function attachLinks(payload, options) {
+  if (options.links) {
+    payload.attachments.push(getLinks(options));
+  }
+}
+
+async function getTestSummaryMessage(results, options) {
   const result = results[0];
   const payload = getRootPayload();
   payload.text = getTitleText(result, options);
@@ -94,13 +136,12 @@ function getTestSummaryMessage(results, options) {
       payload.attachments.push(getSuiteSummary(suite));
     }
   }
-  if (options.links) {
-    payload.attachments.push(getLinks(options));
-  }
+  await attachReportPortalAnalysis(payload, result, options);
+  attachLinks(payload, options);
   return payload;
 }
 
-function getFailureSummaryMessage(results, options) {
+async function getFailureSummaryMessage(results, options) {
   const result = results[0];
   if (result.status === 'PASS') {
     return null;
@@ -116,24 +157,22 @@ function getFailureSummaryMessage(results, options) {
       }
     }
   }
-  if (options.links) {
-    payload.attachments.push(getLinks(options));
-  }
+  await attachReportPortalAnalysis(payload, result, options);
+  attachLinks(payload, options);
   return payload;
 }
 
-function getTestSummarySlimMessage(results, options) {
+async function getTestSummarySlimMessage(results, options) {
   const result = results[0];
   const payload = getRootPayload();
   payload.text = getTitleText(result, options);
   payload.attachments.push(getMainSummary(result));
-  if (options.links) {
-    payload.attachments.push(getLinks(options));
-  }
+  await attachReportPortalAnalysis(payload, result, options);
+  attachLinks(payload, options);
   return payload;
 }
 
-function getFailureSummarySlimMessage(results, options) {
+async function getFailureSummarySlimMessage(results, options) {
   const result = results[0];
   if (result.status === 'PASS') {
     return null;
@@ -141,13 +180,12 @@ function getFailureSummarySlimMessage(results, options) {
   const payload = getRootPayload();
   payload.text = getTitleText(result, options);
   payload.attachments.push(getMainSummary(result));
-  if (options.links) {
-    payload.attachments.push(getLinks(options));
-  }
+  await attachReportPortalAnalysis(payload, result, options);
+  attachLinks(payload, options);
   return payload;
 }
 
-function getFailureDetailsMessage(results, options) {
+async function getFailureDetailsMessage(results, options) {
   const result = results[0];
   if (result.status === 'PASS') {
     return null;
@@ -169,13 +207,12 @@ function getFailureDetailsMessage(results, options) {
     const suite = result.suites[0];
     mainSummary.fields = mainSummary.fields.concat(getFailureDetailsFields(suite));
   }
-  if (options.links) {
-    payload.attachments.push(getLinks(options));
-  }
+  await attachReportPortalAnalysis(payload, result, options);
+  attachLinks(payload, options);
   return payload;
 }
 
-function getFailureDetailsSlimMessage(results, options) {
+async function getFailureDetailsSlimMessage(results, options) {
   const result = results[0];
   if (result.status === 'PASS') {
     return null;
@@ -197,9 +234,8 @@ function getFailureDetailsSlimMessage(results, options) {
     const suite = result.suites[0];
     mainSummary.fields = mainSummary.fields.concat(getFailureDetailsFields(suite));
   }
-  if (options.links) {
-    payload.attachments.push(getLinks(options));
-  }
+  await attachReportPortalAnalysis(payload, result, options);
+  attachLinks(payload, options);
   return payload;
 }
 
@@ -224,8 +260,8 @@ function getMessage(options, results) {
   }
 }
 
-function send(options, results) {
-  const message = getMessage(options, results);
+async function send(options, results) {
+  const message = await getMessage(options, results);
   if (message) {
     return request.post({
       url: getUrl(options),

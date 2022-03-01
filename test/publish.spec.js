@@ -111,3 +111,21 @@ describe('publish - custom', () => {
   });
 
 });
+
+describe('publish - report portal analysis', () => {
+  
+  it('test-summary for single suite - teams', async () => {
+    const id1 = mock.addInteraction('get launch details');
+    const id2 = mock.addInteraction('post test-summary to teams with report portal analysis');
+    const id3 = mock.addInteraction('post test-summary to slack with report portal analysis');
+    await run({ config: 'test/data/configs/report-portal-analysis.json' });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
+  });
+
+  afterEach(() => {
+    mock.clearInteractions();
+  });
+
+});

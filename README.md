@@ -55,7 +55,7 @@ To use environment variables in the config file, wrap the environment variable n
 
 ![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/slack/test-summary-single-suite.png)
 
-### Options
+### Config File Properties
 
 #### reports
 
@@ -65,19 +65,15 @@ To use environment variables in the config file, wrap the environment variable n
 | results  | list of results to parse           | Required  |
 | options  | common options for all targets     | Optional  |
 
-##### targets
-
-| Property     | Description                    | Attribute         |
-|--------------|--------------------------------|-------------------|
-| name         | name of the target             | Required/Optional |
-| url          | url of the target              | Required/Optional |
-| publish      | type of report to publish      | Required/Optional |
-| links        | links to be part of the report | Optional          |
-| title        | title of the report            | Optional          |
-| title_suffix | suffix to add to title         | Optional          |
-| path         | path to custom js file         | Optional          |
-
 ## Supports
+
+### Results
+
+| Result Type | Support |
+|-------------|---------|
+| TestNG      | ✅       |
+| JUnit       | ✅       |
+| xUnit       | ✅       |
 
 ### Targets
 
@@ -87,7 +83,19 @@ To use environment variables in the config file, wrap the environment variable n
 | Slack           | ✅       |
 | Custom          | ✅       |
 
-Supported Report Types
+#### Teams
+
+| Property               | Description                    | Attribute |
+|------------------------|--------------------------------|-----------|
+| name                   | name of the target             | Optional  |
+| url                    | url of the target              | Required  |
+| publish                | type of report to publish      | Optional  |
+| links                  | links to be part of the report | Optional  |
+| title                  | title of the report            | Optional  |
+| title_suffix           | suffix to add to title         | Optional  |
+| report_portal_analysis | report portal analysis options | Optional  |
+
+##### Supported Report Types to Publish
 
 - test-summary
 - failure-summary
@@ -96,12 +104,43 @@ Supported Report Types
 - failure-details
 - failure-details-slim
 
-### Results
+##### Report Portal Analysis Options
 
-| Result Type | Support |
-|-------------|---------|
-| TestNG      | ✅       |
-| JUnit       | ✅       |
+```json
+{
+  "url": "<report-portal-base-url>",
+  "api_key": "<api-key>",
+  "project": "<project-id>",
+  "launch_id": "<launch-id>"
+}
+```
+
+#### Slack
+
+| Property               | Description                    | Attribute |
+|------------------------|--------------------------------|-----------|
+| name                   | name of the target             | Optional  |
+| url                    | url of the target              | Required  |
+| publish                | type of report to publish      | Optional  |
+| links                  | links to be part of the report | Optional  |
+| title                  | title of the report            | Optional  |
+| title_suffix           | suffix to add to title         | Optional  |
+
+##### Supported Report Types to Publish
+
+- test-summary
+- failure-summary
+- test-summary-slim
+- failure-summary-slim
+- failure-details
+- failure-details-slim
+
+#### Custom
+
+| Property | Description            | Attribute |
+|----------|------------------------|-----------|
+| name     | name of the target     | Required  |
+| path     | path to custom js file | Required  |
 
 > Under Active Development
 

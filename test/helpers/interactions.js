@@ -1113,4 +1113,141 @@ addInteractionHandler('get custom', () => {
       status: 200
     }
   }
-})
+});
+
+addInteractionHandler('get launch details', () => {
+  return {
+    request: {
+      method: 'GET',
+      path: '/api/v1/project-name/launch/id123',
+      headers: {
+        "authorization": "Bearer abc"
+      }
+    },
+    response: {
+      status: 200,
+      body: {
+        "statistics": {
+          "defects": {
+            "to_investigate": {
+              "total": 4,
+              "ti001": 4
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to teams with report portal analysis', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Default suite",
+                  "size": "medium",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "3 / 4 Passed (75%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "00:02"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Report Portal Analysis",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "separator": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "🔴 PB - 0 | 🟡 AB - 0 | 🔵 SI - 0 | ◯ ND - 0 | **🟠 TI - 4**"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "[Pipeline](some-url)",
+                  "separator": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to slack with report portal analysis', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "danger",
+            "mrkdwn_in": ["text", "fields"],
+            "fields": [
+              {
+                "title": "Results",
+                "value": "3 / 4 Passed (75%)",
+                "short": true
+              },
+              {
+                "title": "Duration",
+                "value": "00:02",
+                "short": true
+              }
+            ]
+          },
+          {
+            "mrkdwn_in": [
+              "fields"
+            ],
+            "fields": [
+              {
+                "title": "Report Portal Analysis",
+                "value": "🔴 PB - 0 | 🟡 AB - 0 | 🔵 SI - 0 | ◯ ND - 0 | *🟠 TI - 4*",
+                "short": false
+              }
+            ]
+          },
+          {
+            "fallback": "links",
+            "footer": "<some-url|Pipeline>"
+          }
+        ],
+        "text": "*Default suite*"
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
