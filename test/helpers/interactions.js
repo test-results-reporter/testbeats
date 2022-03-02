@@ -1183,7 +1183,7 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
                 },
                 {
                   "type": "TextBlock",
-                  "text": "🔴 PB - 0 | 🟡 AB - 0 | 🔵 SI - 0 | ◯ ND - 0 | **🟠 TI - 4**"
+                  "text": "🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ **🟠 TI - 4**"
                 },
                 {
                   "type": "TextBlock",
@@ -1233,7 +1233,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis', 
             "fields": [
               {
                 "title": "Report Portal Analysis",
-                "value": "🔴 PB - 0 | 🟡 AB - 0 | 🔵 SI - 0 | ◯ ND - 0 | *🟠 TI - 4*",
+                "value": "🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ *🟠 TI - 4*",
                 "short": false
               }
             ]
