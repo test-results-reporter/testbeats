@@ -89,7 +89,7 @@ async function getReportPortalAnalysisBlocks(opts) {
         },
         {
           "type": "TextBlock",
-          "text": results.join(' | ')
+          "text": results.join(' ｜ ')
         }
       ]
     }
