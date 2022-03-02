@@ -70,7 +70,7 @@ async function getReportPortalAnalysisAttachment(opts) {
         "fields": [
           {
             "title": "Report Portal Analysis",
-            "value": results.join(' | '),
+            "value": results.join(' ｜ '),
             "short": false
           }
         ]
@@ -89,7 +89,7 @@ function getLinks(options) {
   }
   return {
     "fallback": "links",
-    "footer": links.join(' | ')
+    "footer": links.join(' ｜ ')
   }
 }
 
