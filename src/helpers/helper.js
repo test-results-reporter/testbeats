@@ -58,41 +58,11 @@ function truncate(text, length) {
   }
 }
 
-function getReportPortalDefectsSummary(defects, bold = '**') {
-  const results = [];
-  if (defects.product_bug) {
-    results.push(`${bold}🔴 PB - ${defects.product_bug.total}${bold}`);
-  } else {
-    results.push(`🔴 PB - 0`);
-  }
-  if (defects.automation_bug) {
-    results.push(`${bold}🟡 AB - ${defects.automation_bug.total}${bold}`);
-  } else {
-    results.push(`🟡 AB - 0`);
-  }
-  if (defects.system_issue) {
-    results.push(`${bold}🔵 SI - ${defects.system_issue.total}${bold}`);
-  } else {
-    results.push(`🔵 SI - 0`);
-  }
-  if (defects.no_defect) {
-    results.push(`${bold}◯ ND - ${defects.no_defect.total}${bold}`);
-  } else {
-    results.push(`◯ ND - 0`);
-  }
-  if (defects.to_investigate) {
-    results.push(`${bold}🟠 TI - ${defects.to_investigate.total}${bold}`);
-  } else {
-    results.push(`🟠 TI - 0`);
-  }
-  return results;
-}
-
 module.exports = {
   getPercentage,
   processData,
   getReportType,
   getUrl,
   truncate,
-  getReportPortalDefectsSummary
+  // getReportPortalDefectsSummary
 }

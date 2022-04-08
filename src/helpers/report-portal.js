@@ -1,10 +1,10 @@
 const request = require('phin-retry');
 
-async function getLaunchDetails(opts) {
+async function getLaunchDetails(options) {
   return request.get({
-    url: `${opts.url}/api/v1/${opts.project}/launch/${opts.launch_id}`,
+    url: `${options.url}/api/v1/${options.project}/launch/${options.launch_id}`,
     headers: {
-      'Authorization': `Bearer ${opts.api_key}`
+      'Authorization': `Bearer ${options.api_key}`
     }
   });
 }
