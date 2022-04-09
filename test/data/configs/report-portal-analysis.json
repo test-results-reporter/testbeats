@@ -9,7 +9,6 @@
           "extensions": [
             {
               "name": "report-portal-analysis",
-              "hook": "post-main",
               "options": {
                 "url": "http://localhost:9393",
                 "api_key": "abc",
@@ -29,12 +28,6 @@
           "name": "slack",
           "incoming-webhook-url": "http://localhost:9393/message",
           "publish": "test-summary",
-          "report_portal_analysis": {
-            "url": "http://localhost:9393",
-            "api_key": "abc",
-            "project": "project-name",
-            "launch_id": "id123"
-          },
           "extensions": [
             {
               "name": "report-portal-analysis",
