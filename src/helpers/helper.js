@@ -64,5 +64,4 @@ module.exports = {
   getReportType,
   getUrl,
   truncate,
-  // getReportPortalDefectsSummary
 }
