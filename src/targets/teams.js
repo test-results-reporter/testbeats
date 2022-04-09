@@ -1,7 +1,7 @@
 const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
-const { getPercentage, getReportType, getUrl, truncate, getReportPortalDefectsSummary } = require('../helpers/helper');
-const { getLaunchDetails } = require('../helpers/report-portal');
+const { getPercentage, getReportType, getUrl, truncate } = require('../helpers/helper');
+const extensions = require('../extensions');
 
 function getTitleText(result, options) {
   const title = options.title ? options.title : result.name;
@@ -74,31 +74,6 @@ function getSuiteSummary(suite) {
   ]
 }
 
-async function getReportPortalAnalysisBlocks(opts) {
-  try {
-    const { statistics } = await getLaunchDetails(opts);
-    if (statistics && statistics.defects) {
-      const results = getReportPortalDefectsSummary(statistics.defects);
-      return [
-        {
-          "type": "TextBlock",
-          "text": "Report Portal Analysis",
-          "isSubtle": true,
-          "weight": "bolder",
-          "separator": true
-        },
-        {
-          "type": "TextBlock",
-          "text": results.join(' ｜ ')
-        }
-      ]
-    }
-  } catch (error) {
-    console.log('Failed to get report portal analysis');
-    console.log(error);
-  }
-}
-
 function getLinks(opts) {
   const links = [];
   for (const link of opts.links) {
@@ -145,120 +120,136 @@ function getFailureDetailsFactSets(suite) {
   return fact_sets;
 }
 
-async function attachReportPortalAnalysis(adaptive, testResult, opts) {
-  if (testResult.status === 'PASS') {
-    return;
-  }
-  if (!opts.report_portal_analysis) {
-    return;
-  }
-  const blocks = await getReportPortalAnalysisBlocks(opts.report_portal_analysis);
-  if (blocks) {
-    adaptive.body.push(blocks[0]);
-    adaptive.body.push(blocks[1]);
-  }
-}
-
 function attachLinks(adaptive, opts) {
   if (opts.links) {
     adaptive.body.push(getLinks(opts));
   }
 }
 
-async function getTestSummaryMessage(testResults, opts) {
-  const testResult = testResults[0];
-  const adaptive = getPayloadRoot();
-  adaptive.body.push(getTitleTextBlock(testResult, opts));
-  adaptive.body.push(getMainSummary(testResult));
-  if (testResult.suites.length > 1) {
-    for (let i = 0; i < testResult.suites.length; i++) {
-      const suite = testResult.suites[i];
-      adaptive.body.push(...getSuiteSummary(suite));
+/**
+ * lifecycle hooks
+ */
+
+async function lifecycle({ options, hook, payload, result }) {
+  const _extensions = getExtensions(options.extensions, hook);
+  for (let i = 0; i < _extensions.length; i++) {
+    const _extension = _extensions[i];
+    if (_extension.condition.includes(result.status.toLowerCase())) {
+      await extensions.run(_extension, { payload, result, options });
     }
   }
-  await attachReportPortalAnalysis(adaptive, testResult, opts);
-  attachLinks(adaptive, opts);
-  const payload = {
+}
+
+function getExtensions(_extensions, hook) {
+  return _extensions ? _extensions.filter(_ext => _ext.hook === hook) : [];
+}
+
+/**
+ * messages
+ */
+
+async function getTestSummaryMessage(testResults, options) {
+  const result = testResults[0];
+  const payload = getPayloadRoot();
+  await lifecycle({ options, payload, result, hook: 'start' });
+  payload.body.push(getTitleTextBlock(result, options));
+  payload.body.push(getMainSummary(result));
+  if (result.suites.length > 1) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
+      payload.body.push(...getSuiteSummary(suite));
+    }
+  }
+  await lifecycle({ options, payload, result, hook: 'post-main' });
+  attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
+  const root_payload = {
     "type": "message",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": adaptive
+        "content": payload
       }
     ]
   };
-  return payload;
+  return root_payload;
 }
 
-async function getFailureSummaryMessage(testResults, opts) {
-  const testResult = testResults[0];
-  if (testResult.status === 'PASS') {
+async function getFailureSummaryMessage(testResults, options) {
+  const result = testResults[0];
+  if (result.status === 'PASS') {
     return null;
   }
-  const adaptive = getPayloadRoot();
-  adaptive.body.push(getTitleTextBlock(testResult, opts));
-  adaptive.body.push(getMainSummary(testResult));
-  if (testResult.suites.length > 1) {
-    for (let i = 0; i < testResult.suites.length; i++) {
-      const suite = testResult.suites[i];
+  const payload = getPayloadRoot();
+  await lifecycle({ options, payload, result, hook: 'start' });
+  payload.body.push(getTitleTextBlock(result, options));
+  payload.body.push(getMainSummary(result));
+  if (result.suites.length > 1) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
       if (suite.status === 'FAIL') {
-        adaptive.body.push(...getSuiteSummary(suite));
+        payload.body.push(...getSuiteSummary(suite));
       }
     }
   }
-  await attachReportPortalAnalysis(adaptive, testResult, opts);
-  attachLinks(adaptive, opts);
-  const payload = {
+  await lifecycle({ options, payload, result, hook: 'post-main' });
+  attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
+  const root_payload = {
     "type": "message",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": adaptive
+        "content": payload
       }
     ]
   };
-  return payload;
+  return root_payload;
 }
 
-async function getTestSummarySlimMessage(testResults, opts) {
-  const testResult = testResults[0];
-  const adaptive = getPayloadRoot();
-  adaptive.body.push(getTitleTextBlock(testResult, opts));
-  adaptive.body.push(getMainSummary(testResult));
-  await attachReportPortalAnalysis(adaptive, testResult, opts);
-  attachLinks(adaptive, opts);
-  const payload = {
+async function getTestSummarySlimMessage(testResults, options) {
+  const result = testResults[0];
+  const payload = getPayloadRoot();
+  await lifecycle({ options, payload, result, hook: 'start' });
+  payload.body.push(getTitleTextBlock(result, options));
+  payload.body.push(getMainSummary(result));
+  await lifecycle({ options, payload, result, hook: 'post-main' });
+  attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
+  const root_payload = {
     "type": "message",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": adaptive
+        "content": payload
       }
     ]
   };
-  return payload;
+  return root_payload;
 }
 
-async function getFailureSummarySlimMessage(testResults, opts) {
-  const testResult = testResults[0];
-  if (testResult.status === 'PASS') {
+async function getFailureSummarySlimMessage(testResults, options) {
+  const result = testResults[0];
+  if (result.status === 'PASS') {
     return null;
   }
-  const adaptive = getPayloadRoot();
-  adaptive.body.push(getTitleTextBlock(testResult, opts));
-  adaptive.body.push(getMainSummary(testResult));
-  await attachReportPortalAnalysis(adaptive, testResult, opts);
-  attachLinks(adaptive, opts);
-  const payload = {
+  const payload = getPayloadRoot();
+  await lifecycle({ options, payload, result, hook: 'start' });
+  payload.body.push(getTitleTextBlock(result, options));
+  payload.body.push(getMainSummary(result));
+  await lifecycle({ options, payload, result, hook: 'post-main' });
+  attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
+  const root_payload = {
     "type": "message",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": adaptive
+        "content": payload
       }
     ]
   };
-  return payload;
+  return root_payload;
 }
 
 async function getFailureDetailsMessage(results, options) {
@@ -266,33 +257,35 @@ async function getFailureDetailsMessage(results, options) {
   if (result.status === 'PASS') {
     return null;
   }
-  const adaptive = getPayloadRoot();
-  adaptive.body.push(getTitleTextBlock(result, options));
-  adaptive.body.push(getMainSummary(result));
+  const payload = getPayloadRoot();
+  await lifecycle({ options, payload, result, hook: 'start' });
+  payload.body.push(getTitleTextBlock(result, options));
+  payload.body.push(getMainSummary(result));
   if (result.suites.length > 1) {
     for (let i = 0; i < result.suites.length; i++) {
       const suite = result.suites[i];
-      adaptive.body.push(...getSuiteSummary(suite));
+      payload.body.push(...getSuiteSummary(suite));
       if (suite.status === 'FAIL') {
-        adaptive.body.push(...getFailureDetailsFactSets(suite));
+        payload.body.push(...getFailureDetailsFactSets(suite));
       }
     }
   } else {
     const suite = result.suites[0];
-    adaptive.body.push(...getFailureDetailsFactSets(suite));
+    payload.body.push(...getFailureDetailsFactSets(suite));
   }
-  await attachReportPortalAnalysis(adaptive, result, options);
-  attachLinks(adaptive, options);
-  const payload = {
+  await lifecycle({ options, payload, result, hook: 'post-main' });
+  attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
+  const root_payload = {
     "type": "message",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": adaptive
+        "content": payload
       }
     ]
   };
-  return payload;
+  return root_payload;
 }
 
 async function getFailureDetailsSlimMessage(results, options) {
@@ -300,33 +293,35 @@ async function getFailureDetailsSlimMessage(results, options) {
   if (result.status === 'PASS') {
     return null;
   }
-  const adaptive = getPayloadRoot();
-  adaptive.body.push(getTitleTextBlock(result, options));
-  adaptive.body.push(getMainSummary(result));
+  const payload = getPayloadRoot();
+  await lifecycle({ options, payload, result, hook: 'start' });
+  payload.body.push(getTitleTextBlock(result, options));
+  payload.body.push(getMainSummary(result));
   if (result.suites.length > 1) {
     for (let i = 0; i < result.suites.length; i++) {
       const suite = result.suites[i];
       if (suite.status === 'FAIL') {
-        adaptive.body.push(...getSuiteSummary(suite));
-        adaptive.body.push(...getFailureDetailsFactSets(suite));
+        payload.body.push(...getSuiteSummary(suite));
+        payload.body.push(...getFailureDetailsFactSets(suite));
       }
     }
   } else {
     const suite = result.suites[0];
-    adaptive.body.push(...getFailureDetailsFactSets(suite));
+    payload.body.push(...getFailureDetailsFactSets(suite));
   }
-  await attachReportPortalAnalysis(adaptive, result, options);
-  attachLinks(adaptive, options);
-  const payload = {
+  await lifecycle({ options, payload, result, hook: 'post-main' });
+  attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
+  const root_payload = {
     "type": "message",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": adaptive
+        "content": payload
       }
     ]
   };
-  return payload;
+  return root_payload;
 }
 
 function getMessage(options, results) {

@@ -1,7 +1,7 @@
 const request = require('phin-retry');
-const { getUrl, getReportType, getPercentage, truncate, getReportPortalDefectsSummary } = require('../helpers/helper');
-const { getLaunchDetails } = require('../helpers/report-portal');
+const { getUrl, getReportType, getPercentage, truncate } = require('../helpers/helper');
 const { toColonNotation } = require('colon-notation');
+const extensions = require('../extensions');
 
 function getRootPayload() {
   return {
@@ -60,28 +60,6 @@ function getSuiteSummary(suite) {
   }
 }
 
-async function getReportPortalAnalysisAttachment(opts) {
-  try {
-    const { statistics } = await getLaunchDetails(opts);
-    if (statistics && statistics.defects) {
-      const results = getReportPortalDefectsSummary(statistics.defects, '*');
-      return {
-        "mrkdwn_in": ["fields"],
-        "fields": [
-          {
-            "title": "Report Portal Analysis",
-            "value": results.join(' ｜ '),
-            "short": false
-          }
-        ]
-      }
-    }
-  } catch (error) {
-    console.log('Failed to get report portal analysis');
-    console.log(error);
-  }
-}
-
 function getLinks(options) {
   const links = [];
   for (const link of options.links) {
@@ -106,28 +84,38 @@ function getFailureDetailsFields(suite) {
   return fields;
 }
 
-async function attachReportPortalAnalysis(payload, testResult, opts) {
-  if (testResult.status === 'PASS') {
-    return;
-  }
-  if (!opts.report_portal_analysis) {
-    return;
-  }
-  const att = await getReportPortalAnalysisAttachment(opts.report_portal_analysis);
-  if (att) {
-    payload.attachments.push(att);
-  }
-}
-
 function attachLinks(payload, options) {
   if (options.links) {
     payload.attachments.push(getLinks(options));
   }
 }
 
+/**
+ * lifecycle hooks
+ */
+
+async function lifecycle({ options, hook, payload, result }) {
+  const _extensions = getExtensions(options.extensions, hook);
+  for (let i = 0; i < _extensions.length; i++) {
+    const _extension = _extensions[i];
+    if (_extension.condition.includes(result.status.toLowerCase())) {
+      await extensions.run(_extension, { payload, result, options });
+    }
+  }
+}
+
+function getExtensions(_extensions, hook) {
+  return _extensions ? _extensions.filter(_ext => _ext.hook === hook) : [];
+}
+
+/**
+ * messages
+ */
+
 async function getTestSummaryMessage(results, options) {
   const result = results[0];
   const payload = getRootPayload();
+  await lifecycle({ options, payload, result, hook: 'start' });
   payload.text = getTitleText(result, options);
   payload.attachments.push(getMainSummary(result));
   if (result.suites.length > 1) {
@@ -136,8 +124,9 @@ async function getTestSummaryMessage(results, options) {
       payload.attachments.push(getSuiteSummary(suite));
     }
   }
-  await attachReportPortalAnalysis(payload, result, options);
+  await lifecycle({ options, payload, result, hook: 'post-main' });
   attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
   return payload;
 }
 
@@ -147,6 +136,7 @@ async function getFailureSummaryMessage(results, options) {
     return null;
   }
   const payload = getRootPayload();
+  await lifecycle({ options, payload, result, hook: 'start' });
   payload.text = getTitleText(result, options);
   payload.attachments.push(getMainSummary(result));
   if (result.suites.length > 1) {
@@ -157,18 +147,21 @@ async function getFailureSummaryMessage(results, options) {
       }
     }
   }
-  await attachReportPortalAnalysis(payload, result, options);
+  await lifecycle({ options, payload, result, hook: 'post-main' });
   attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
   return payload;
 }
 
 async function getTestSummarySlimMessage(results, options) {
   const result = results[0];
   const payload = getRootPayload();
+  await lifecycle({ options, payload, result, hook: 'start' });
   payload.text = getTitleText(result, options);
   payload.attachments.push(getMainSummary(result));
-  await attachReportPortalAnalysis(payload, result, options);
+  await lifecycle({ options, payload, result, hook: 'post-main' });
   attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
   return payload;
 }
 
@@ -178,10 +171,12 @@ async function getFailureSummarySlimMessage(results, options) {
     return null;
   }
   const payload = getRootPayload();
+  await lifecycle({ options, payload, result, hook: 'start' });
   payload.text = getTitleText(result, options);
   payload.attachments.push(getMainSummary(result));
-  await attachReportPortalAnalysis(payload, result, options);
+  await lifecycle({ options, payload, result, hook: 'post-main' });
   attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
   return payload;
 }
 
@@ -191,6 +186,7 @@ async function getFailureDetailsMessage(results, options) {
     return null;
   }
   const payload = getRootPayload();
+  await lifecycle({ options, payload, result, hook: 'start' });
   payload.text = getTitleText(result, options);
   const mainSummary = getMainSummary(result);
   payload.attachments.push(mainSummary);
@@ -207,8 +203,9 @@ async function getFailureDetailsMessage(results, options) {
     const suite = result.suites[0];
     mainSummary.fields = mainSummary.fields.concat(getFailureDetailsFields(suite));
   }
-  await attachReportPortalAnalysis(payload, result, options);
+  await lifecycle({ options, payload, result, hook: 'post-main' });
   attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
   return payload;
 }
 
@@ -218,6 +215,7 @@ async function getFailureDetailsSlimMessage(results, options) {
     return null;
   }
   const payload = getRootPayload();
+  await lifecycle({ options, payload, result, hook: 'start' });
   payload.text = getTitleText(result, options);
   const mainSummary = getMainSummary(result);
   payload.attachments.push(mainSummary);
@@ -234,8 +232,9 @@ async function getFailureDetailsSlimMessage(results, options) {
     const suite = result.suites[0];
     mainSummary.fields = mainSummary.fields.concat(getFailureDetailsFields(suite));
   }
-  await attachReportPortalAnalysis(payload, result, options);
+  await lifecycle({ options, payload, result, hook: 'post-main' });
   attachLinks(payload, options);
+  await lifecycle({ options, payload, result, hook: 'end' });
   return payload;
 }
 
