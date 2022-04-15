@@ -1,4 +1,7 @@
 const blocks_like_teams = {
+	"attachments": [
+		{
+			"color": "#ECB22E",
 	"blocks": [
 		{
 			"type": "section",
@@ -38,4 +41,13 @@ const blocks_like_teams = {
 			]
 		}
 	]
+	  }
+	
+	]
+}
+
+const colors = {
+  good: '36a64f',
+	danger: 'DC143C',
+	warning: 'ECB22E'
 }
