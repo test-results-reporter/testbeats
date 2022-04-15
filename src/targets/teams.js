@@ -1,6 +1,6 @@
 const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
-const { getPercentage, getReportType, getUrl, truncate } = require('../helpers/helper');
+const { getPercentage, truncate } = require('../helpers/helper');
 const extension_manager = require('../extensions');
 
 async function run({result, target}) {

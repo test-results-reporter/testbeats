@@ -1,11 +1,16 @@
 const path = require('path');
 
-async function send(options, results) {
+async function run({result, target}) {
   const cwd = process.cwd();
-  const target = require(path.join(cwd, options.path));
-  await target.send(options, results);
+  const target_runner = require(path.join(cwd, target.inputs.path));
+  await target_runner.run({result, target});
+}
+
+const default_options = {
+  condition: 'passOrFail'
 }
 
 module.exports = {
-  send
+  run,
+  default_options
 }

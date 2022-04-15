@@ -45,16 +45,13 @@ function attachForTeams(payload, analyses) {
 }
 
 function attachForSlack(payload, analyses) {
-  payload.attachments.push({
-    "mrkdwn_in": ["fields"],
-    "fields": [
-      {
-        "title": "Report Portal Analysis",
-        "value": analyses.join(' ｜ '),
-        "short": false
-      }
-    ]
-  });
+  payload.blocks.push({
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": `*Report Portal Analysis*\n\n${analyses.join(' ｜ ')}`
+    }
+  })
 }
 
 async function run({ extension, payload, target }) {

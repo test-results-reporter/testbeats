@@ -50,6 +50,52 @@ describe('extensions - hyperlink', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary with links to slack', async () => {
+    const id = mock.addInteraction('post test-summary with hyperlinks to slack');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "slack",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "hyperlink",
+                    "inputs": {
+                      "links": [
+                        {
+                          "text": "Pipeline",
+                          "url": "some-url"
+                        },
+                        {
+                          "text": "Video",
+                          "url": "some-url"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });
