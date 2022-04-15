@@ -2,7 +2,7 @@ const { mock } = require('pactum');
 const assert = require('assert');
 const { publish } = require('../src');
 
-describe('publish - testng', () => {
+xdescribe('publish - testng', () => {
   
   it('test-summary for single suite - teams', async () => {
     const id = mock.addInteraction('post test-summary to teams with single suite');
@@ -62,7 +62,7 @@ describe('publish - testng', () => {
 
 });
 
-describe('publish - junit', () => {
+xdescribe('publish - junit', () => {
 
   it('test-summary for single suite - teams & slack', async () => {
     const id1 = mock.addInteraction('post test-summary to teams with single suite');
@@ -98,7 +98,7 @@ describe('publish - junit', () => {
 
 });
 
-describe('publish - custom', () => {
+xdescribe('publish - custom', () => {
 
   it('custom target', async () => {
     const id1 = mock.addInteraction('get custom');
@@ -112,7 +112,7 @@ describe('publish - custom', () => {
 
 });
 
-describe('publish - report portal analysis', () => {
+xdescribe('publish - report portal analysis', () => {
   
   it('test-summary for single suite - teams', async () => {
     const id1 = mock.addInteraction('get launch details');

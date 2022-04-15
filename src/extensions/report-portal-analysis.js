@@ -57,11 +57,11 @@ function attachForSlack(payload, analyses) {
   });
 }
 
-async function run(extension, { payload, options }) {
+async function run({ extension, payload, target }) {
   try {
-    const { statistics } = await getLaunchDetails(extension.options);
+    const { statistics } = await getLaunchDetails(extension.inputs);
     if (statistics && statistics.defects) {
-      if (options.name === 'teams') {
+      if (target.name === 'teams') {
         const analyses = getReportPortalDefectsSummary(statistics.defects);
         attachForTeams(payload, analyses);
       } else {
@@ -75,12 +75,12 @@ async function run(extension, { payload, options }) {
   }
 }
 
-const defaults = {
-  hook: 'post-main',
+const default_options = {
+  hook: 'end',
   condition: 'fail'
 }
 
 module.exports = {
   run,
-  defaults
+  default_options
 }
