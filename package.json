@@ -1,6 +1,6 @@
 {
   "name": "test-results-reporter",
-  "version": "0.0.21",
+  "version": "1.0.0",
   "description": "Publish test results to Microsoft Teams and Slack",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
