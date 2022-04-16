@@ -1,4 +1,4 @@
-const hyperlink = require('./hyperlink');
+const hyperlinks = require('./hyperlinks');
 const rp_analysis = require('./report-portal-analysis');
 
 async function run(options) {
@@ -19,8 +19,8 @@ async function run(options) {
 
 function getExtensionRunner(extension) {
   switch (extension.name) {
-    case 'hyperlink':
-      return hyperlink;
+    case 'hyperlinks':
+      return hyperlinks;
     case 'report-portal-analysis':
       return rp_analysis;
     default:

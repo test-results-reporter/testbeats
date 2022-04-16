@@ -2,7 +2,7 @@ const { mock } = require('pactum');
 const assert = require('assert');
 const { publish } = require('../src');
 
-describe('extensions - hyperlink', () => {
+describe('extensions - hyperlinks', () => {
 
   it('should send test-summary with links to teams', async () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to teams');
@@ -18,7 +18,7 @@ describe('extensions - hyperlink', () => {
                 },
                 "extensions": [
                   {
-                    "name": "hyperlink",
+                    "name": "hyperlinks",
                     "inputs": {
                       "links": [
                         {
@@ -64,7 +64,7 @@ describe('extensions - hyperlink', () => {
                 },
                 "extensions": [
                   {
-                    "name": "hyperlink",
+                    "name": "hyperlinks",
                     "inputs": {
                       "links": [
                         {

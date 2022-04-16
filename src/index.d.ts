@@ -1,4 +1,4 @@
-export type ExtensionName = 'report-portal-analysis' | 'hyperlink';
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks';
 export type Hook = 'start' | 'end';
 export type Condition = 'pass' | 'fail' | 'passOrFail';
 
