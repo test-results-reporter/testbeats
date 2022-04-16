@@ -1,35 +1,54 @@
-export type CommunicationExtensionName = 'report-portal-analysis';
-export type Hook = 'start' | 'post-main' | 'end';
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks';
+export type Hook = 'start' | 'end';
 export type Condition = 'pass' | 'fail' | 'passOrFail';
 
-export interface ReportPortalAnalysisOptions {
+export interface ReportPortalAnalysisInputs {
   url: string;
   api_key: string;
   project: string;
   launch_id: string;
 }
 
-export interface CommunicationExtension {
-  name: CommunicationExtensionName;
-  hook?: Hook;
-  condition?: Condition;
-  options?: ReportPortalAnalysisOptions;
+export interface HyperlinkInputs {
+  links: Link[];
 }
 
-export interface CommunicationLink {
+export interface Extension {
+  name: ExtensionName;
+  condition?: Condition;
+  hook?: Hook;
+  inputs?: ReportPortalAnalysisInputs | HyperlinkInputs;
+}
+
+export interface Link {
   text: string;
   url: string;
 }
 
-export type PublishTarget = 'slack' | 'teams' | 'custom';
-export type PublishReportType = 'test-summary' | 'failure-summary' | 'test-summary-slim' | 'failure-summary-slim' | 'failure-details' | 'failure-details-slim';
+export type TargetName = 'slack' | 'teams' | 'custom';
+export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
 
-export interface CommunicationTarget {
-  name: PublishTarget;
-  "incoming-webhook-url": string;
-  publish: PublishReportType;
-  extensions?: CommunicationExtension[];
-  links?: CommunicationLink[];
+export interface SlackInputs {
+  url: string;
+  publish?: PublishReportType;
+  only_failures?: boolean;
+  title?: string;
+  title_suffix?: string;
+}
+
+export interface TeamsInputs {
+  url: string;
+  publish?: PublishReportType;
+  only_failures?: boolean;
+  title?: string;
+  title_suffix?: string;
+}
+
+export interface Target {
+  name: TargetName;
+  condition: Condition;
+  inputs: SlackInputs | TeamsInputs;
+  extensions?: Extension[];
 }
 
 export interface PublishResult {
@@ -38,7 +57,7 @@ export interface PublishResult {
 }
 
 export interface PublishReport {
-  targets: CommunicationTarget[];
+  targets: Target[];
   results: PublishResult[];
 }
 

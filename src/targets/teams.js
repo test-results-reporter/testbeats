@@ -1,37 +1,71 @@
 const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
-const { getPercentage, getReportType, getUrl, truncate } = require('../helpers/helper');
-const extensions = require('../extensions');
+const { getPercentage, truncate } = require('../helpers/helper');
+const extension_manager = require('../extensions');
 
-function getTitleText(result, options) {
-  const title = options.title ? options.title : result.name;
-  if (options.title_suffix) {
-    return `${title} ${options.title_suffix}`;
+async function run({result, target}) {
+  setTargetInputs(target);
+  const payload = getMainPayload();
+  await extension_manager.run({ result, target, payload, hook: 'start' });
+  setTitleBlock(result, { target, payload });
+  setMainBlock(result, { target, payload });
+  setSuiteBlock(result, { target, payload });
+  await extension_manager.run({ result, target, payload, hook: 'end' });
+  const message = getRootPayload(payload);
+  return request.post({
+    url: target.inputs.url,
+    body: message
+  });
+}
+
+function setTargetInputs(target) {
+  target.inputs = Object.assign({}, default_inputs, target.inputs);
+  if (target.inputs.publish === 'test-summary-slim') {
+    target.inputs.include_suites = false;
+  }
+  if (target.inputs.publish === 'failure-details') {
+    target.inputs.include_failure_details = true;
+  }
+}
+
+function getMainPayload() {
+  return {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [],
+    "actions": []
+  };
+}
+
+function getTitleText(result, target) {
+  const title = target.inputs.title ? target.inputs.title : result.name;
+  if (target.inputs.title_suffix) {
+    return `${title} ${target.inputs.title_suffix}`;
   }
   return `${title}`;
 }
 
-function getTitleTextBlock(testResult, opts) {
-  const title = getTitleText(testResult, opts);
-  const emoji = testResult.status === 'PASS' ? '✅' : '❌';
-  const report = getReportType(opts);
+function setTitleBlock(result, { target, payload }) {
+  const title = getTitleText(result, target);
+  const emoji = result.status === 'PASS' ? '✅' : '❌';
   let text = '';
-  if (report.includes('slim')) {
+  if (target.inputs.include_suites === false) {
     text = `${emoji} ${title}`;
-  } else if (testResult.suites.length > 1) {
+  } else if (result.suites.length > 1) {
     text = title;
   } else {
     text = `${emoji} ${title}`;
   }
-  return {
+  payload.body.push({
     "type": "TextBlock",
     "text": text,
     "size": "medium",
     "weight": "bolder"
-  }
+  });
 }
 
-function getMainSummary(result) {
+function setMainBlock(result, { payload }) {
   const facts = [];
   const percentage = getPercentage(result.passed, result.total);
   facts.push({
@@ -42,9 +76,27 @@ function getMainSummary(result) {
     "title": "Duration:",
     "value": `${toColonNotation(parseInt(result.duration))}`
   });
-  return {
+  payload.body.push({
     "type": "FactSet",
     "facts": facts
+  });
+}
+
+function setSuiteBlock(result, { target, payload }) {
+  if (target.inputs.include_suites) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
+      if (target.inputs.only_failure_suites && suite.status !== 'FAIL') {
+        continue;
+      }
+      // if suites length eq to 1 then main block will include suite summary
+      if (result.suites.length > 1) {
+        payload.body.push(...getSuiteSummary(suite));
+      }
+      if (target.inputs.include_failure_details) {
+        payload.body.push(...getFailureDetailsFactSets(suite));
+      }
+    }
   }
 }
 
@@ -74,28 +126,6 @@ function getSuiteSummary(suite) {
   ]
 }
 
-function getLinks(opts) {
-  const links = [];
-  for (const link of opts.links) {
-    links.push(`[${link.text}](${link.url})`);
-  }
-  return {
-    "type": "TextBlock",
-    "text": links.join(' ｜ '),
-    "separator": true
-  }
-}
-
-function getPayloadRoot() {
-  return {
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "type": "AdaptiveCard",
-    "version": "1.0",
-    "body": [],
-    "actions": []
-  };
-}
-
 function getFailureDetailsFactSets(suite) {
   const fact_sets = [];
   const cases = suite.cases;
@@ -120,50 +150,8 @@ function getFailureDetailsFactSets(suite) {
   return fact_sets;
 }
 
-function attachLinks(adaptive, opts) {
-  if (opts.links) {
-    adaptive.body.push(getLinks(opts));
-  }
-}
-
-/**
- * lifecycle hooks
- */
-
-async function lifecycle({ options, hook, payload, result }) {
-  const _extensions = getExtensions(options.extensions, hook);
-  for (let i = 0; i < _extensions.length; i++) {
-    const _extension = _extensions[i];
-    if (_extension.condition.includes(result.status.toLowerCase())) {
-      await extensions.run(_extension, { payload, result, options });
-    }
-  }
-}
-
-function getExtensions(_extensions, hook) {
-  return _extensions ? _extensions.filter(_ext => _ext.hook === hook) : [];
-}
-
-/**
- * messages
- */
-
-async function getTestSummaryMessage(testResults, options) {
-  const result = testResults[0];
-  const payload = getPayloadRoot();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.body.push(getTitleTextBlock(result, options));
-  payload.body.push(getMainSummary(result));
-  if (result.suites.length > 1) {
-    for (let i = 0; i < result.suites.length; i++) {
-      const suite = result.suites[i];
-      payload.body.push(...getSuiteSummary(suite));
-    }
-  }
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  const root_payload = {
+function getRootPayload(payload) {
+  return {
     "type": "message",
     "attachments": [
       {
@@ -172,189 +160,20 @@ async function getTestSummaryMessage(testResults, options) {
       }
     ]
   };
-  return root_payload;
 }
 
-async function getFailureSummaryMessage(testResults, options) {
-  const result = testResults[0];
-  if (result.status === 'PASS') {
-    return null;
-  }
-  const payload = getPayloadRoot();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.body.push(getTitleTextBlock(result, options));
-  payload.body.push(getMainSummary(result));
-  if (result.suites.length > 1) {
-    for (let i = 0; i < result.suites.length; i++) {
-      const suite = result.suites[i];
-      if (suite.status === 'FAIL') {
-        payload.body.push(...getSuiteSummary(suite));
-      }
-    }
-  }
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  const root_payload = {
-    "type": "message",
-    "attachments": [
-      {
-        "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": payload
-      }
-    ]
-  };
-  return root_payload;
+const default_options = {
+  condition: 'passOrFail'
 }
 
-async function getTestSummarySlimMessage(testResults, options) {
-  const result = testResults[0];
-  const payload = getPayloadRoot();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.body.push(getTitleTextBlock(result, options));
-  payload.body.push(getMainSummary(result));
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  const root_payload = {
-    "type": "message",
-    "attachments": [
-      {
-        "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": payload
-      }
-    ]
-  };
-  return root_payload;
-}
-
-async function getFailureSummarySlimMessage(testResults, options) {
-  const result = testResults[0];
-  if (result.status === 'PASS') {
-    return null;
-  }
-  const payload = getPayloadRoot();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.body.push(getTitleTextBlock(result, options));
-  payload.body.push(getMainSummary(result));
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  const root_payload = {
-    "type": "message",
-    "attachments": [
-      {
-        "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": payload
-      }
-    ]
-  };
-  return root_payload;
-}
-
-async function getFailureDetailsMessage(results, options) {
-  const result = results[0];
-  if (result.status === 'PASS') {
-    return null;
-  }
-  const payload = getPayloadRoot();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.body.push(getTitleTextBlock(result, options));
-  payload.body.push(getMainSummary(result));
-  if (result.suites.length > 1) {
-    for (let i = 0; i < result.suites.length; i++) {
-      const suite = result.suites[i];
-      payload.body.push(...getSuiteSummary(suite));
-      if (suite.status === 'FAIL') {
-        payload.body.push(...getFailureDetailsFactSets(suite));
-      }
-    }
-  } else {
-    const suite = result.suites[0];
-    payload.body.push(...getFailureDetailsFactSets(suite));
-  }
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  const root_payload = {
-    "type": "message",
-    "attachments": [
-      {
-        "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": payload
-      }
-    ]
-  };
-  return root_payload;
-}
-
-async function getFailureDetailsSlimMessage(results, options) {
-  const result = results[0];
-  if (result.status === 'PASS') {
-    return null;
-  }
-  const payload = getPayloadRoot();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.body.push(getTitleTextBlock(result, options));
-  payload.body.push(getMainSummary(result));
-  if (result.suites.length > 1) {
-    for (let i = 0; i < result.suites.length; i++) {
-      const suite = result.suites[i];
-      if (suite.status === 'FAIL') {
-        payload.body.push(...getSuiteSummary(suite));
-        payload.body.push(...getFailureDetailsFactSets(suite));
-      }
-    }
-  } else {
-    const suite = result.suites[0];
-    payload.body.push(...getFailureDetailsFactSets(suite));
-  }
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  const root_payload = {
-    "type": "message",
-    "attachments": [
-      {
-        "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": payload
-      }
-    ]
-  };
-  return root_payload;
-}
-
-function getMessage(options, results) {
-  const report = getReportType(options);
-  switch (report) {
-    case 'test-summary':
-      return getTestSummaryMessage(results, options);
-    case 'failure-summary':
-      return getFailureSummaryMessage(results, options);
-    case 'test-summary-slim':
-      return getTestSummarySlimMessage(results, options);
-    case 'failure-summary-slim':
-      return getFailureSummarySlimMessage(results, options);
-    case 'failure-details':
-      return getFailureDetailsMessage(results, options);
-    case 'failure-details-slim':
-      return getFailureDetailsSlimMessage(results, options);
-    default:
-      console.log('UnSupported Report Type');
-      break;
-  }
-}
-
-async function send(options, results) {
-  const message = await getMessage(options, results);
-  if (message) {
-    return request.post({
-      url: getUrl(options),
-      body: message
-    });
-  }
+const default_inputs = {
+  publish: 'test-summary',
+  include_suites: true,
+  only_failure_suites: false,
+  include_failure_details: false,
 }
 
 module.exports = {
-  send
+  run,
+  default_options
 }

@@ -39,17 +39,6 @@ function processData(data) {
   return data;
 }
 
-function getReportType(options) {
-  if (options) {
-    if (options.publish) return options.publish;
-  }
-  return 'test-summary';
-}
-
-function getUrl(options) {
-  return options.url || options.webhook || options['incoming-webhook-url'];
-}
-
 function truncate(text, length) {
   if (text && text.length > length) {
     return text.slice(0, length) + "...";
@@ -61,7 +50,5 @@ function truncate(text, length) {
 module.exports = {
   getPercentage,
   processData,
-  getReportType,
-  getUrl,
   truncate,
 }

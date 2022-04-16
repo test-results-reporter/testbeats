@@ -1,23 +1,7 @@
 const path = require('path');
 const { parse } = require('test-results-parser');
 const { processData } = require('../helpers/helper');
-const targets = require('../targets');
-const extensions = require('../extensions');
-
-function setDefaultsForExtensions(options) {
-  const _extensions = options.extensions ? options.extensions : [];
-  // backward compatibility
-  if (options.report_portal_analysis) {
-    _extensions.push({
-      name: 'report-portal-analysis',
-      options: options.report_portal_analysis
-    });
-  }
-  for (let i = 0; i < _extensions.length; i++) {
-    const _extension = _extensions[i];
-    extensions.setDefaults(_extension);
-  }
-}
+const target_manager = require('../targets');
 
 async function run(opts) {
   if (typeof opts.config === 'string') {
@@ -25,17 +9,16 @@ async function run(opts) {
     opts.config = require(path.join(cwd, opts.config));
   }
   const config = processData(opts.config);
-  const testResults = [];
   for (const report of config.reports) {
+    const results = [];
     for (const result of report.results) {
-      testResults.push(parse(result));
+      results.push(parse(result));
     }
-    const globalOpts = report.options || {};
-    for (const target of report.targets) {
-      const clonedGlobalOpts = Object.assign({}, globalOpts);
-      const options = Object.assign(clonedGlobalOpts, target);
-      setDefaultsForExtensions(options);
-      await targets.send(options, testResults);
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      for (const target of report.targets) {
+        await target_manager.run(target, result);
+      }
     }
   }
 }

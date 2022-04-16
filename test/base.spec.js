@@ -2,7 +2,8 @@ const { mock } = require('pactum');
 
 before(async () => {
   await mock.start();
-  require('./helpers/interactions');
+  // require('./helpers/interactions');
+  require('./mocks');
 });
 
 after(async () => {

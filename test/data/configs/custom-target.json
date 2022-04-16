@@ -4,7 +4,9 @@
       "targets": [
         {
           "name": "custom",
-          "path": "test/data/custom-test.js"
+          "inputs": {
+            "path": "test/data/custom-test.js"
+          }
         }
       ],
       "results": [

@@ -45,23 +45,20 @@ function attachForTeams(payload, analyses) {
 }
 
 function attachForSlack(payload, analyses) {
-  payload.attachments.push({
-    "mrkdwn_in": ["fields"],
-    "fields": [
-      {
-        "title": "Report Portal Analysis",
-        "value": analyses.join(' ｜ '),
-        "short": false
-      }
-    ]
-  });
+  payload.blocks.push({
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": `*Report Portal Analysis*\n\n${analyses.join(' ｜ ')}`
+    }
+  })
 }
 
-async function run(extension, { payload, options }) {
+async function run({ extension, payload, target }) {
   try {
-    const { statistics } = await getLaunchDetails(extension.options);
+    const { statistics } = await getLaunchDetails(extension.inputs);
     if (statistics && statistics.defects) {
-      if (options.name === 'teams') {
+      if (target.name === 'teams') {
         const analyses = getReportPortalDefectsSummary(statistics.defects);
         attachForTeams(payload, analyses);
       } else {
@@ -75,12 +72,12 @@ async function run(extension, { payload, options }) {
   }
 }
 
-const defaults = {
-  hook: 'post-main',
+const default_options = {
+  hook: 'end',
   condition: 'fail'
 }
 
 module.exports = {
   run,
-  defaults
+  default_options
 }

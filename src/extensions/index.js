@@ -1,29 +1,33 @@
+const hyperlinks = require('./hyperlinks');
 const rp_analysis = require('./report-portal-analysis');
 
-async function run(extension, params) {
-  switch (extension.name) {
-    case 'report-portal-analysis':
-      await rp_analysis.run(extension, params);
-      break;
-    default:
-      break;
+async function run(options) {
+  const { target, result, hook } = options;
+  const extensions = target.extensions || [];
+  for (let i = 0; i < extensions.length; i++) {
+    const extension = extensions[i];
+    const extension_runner = getExtensionRunner(extension);
+    const extension_options = Object.assign({}, extension_runner.default_options, extension);
+    if (extension_options.hook === hook) {
+      if (extension_options.condition.toLowerCase().includes(result.status.toLowerCase())) {
+        options.extension = extension;
+        await extension_runner.run(options);
+      }
+    }
   }
 }
 
-function setDefaults(extension) {
-  let defaults = {};
+function getExtensionRunner(extension) {
   switch (extension.name) {
+    case 'hyperlinks':
+      return hyperlinks;
     case 'report-portal-analysis':
-      defaults = rp_analysis.defaults;
-      break;
+      return rp_analysis;
     default:
-      break;
+      return require(extension.name);
   }
-  extension.hook = extension.hook ? extension.hook : defaults.hook ? defaults.hook : 'end';
-  extension.condition = extension.condition ? extension.condition : defaults.condition ? defaults.condition : 'pass';
 }
 
 module.exports = {
-  run,
-  setDefaults
+  run
 }

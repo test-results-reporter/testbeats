@@ -1,274 +1,173 @@
 const request = require('phin-retry');
-const { getUrl, getReportType, getPercentage, truncate } = require('../helpers/helper');
+const { getPercentage, truncate } = require('../helpers/helper');
 const { toColonNotation } = require('colon-notation');
-const extensions = require('../extensions');
+const extension_manager = require('../extensions');
 
-function getRootPayload() {
+const COLORS = {
+  GOOD: '#36A64F',
+  WARNING: '#ECB22E',
+  DANGER: '#DC143C'
+}
+
+async function run({ result, target }) {
+  setTargetInputs(target);
+  const payload = getMainPayload();
+  await extension_manager.run({ result, target, payload, hook: 'start' });
+  setMainBlock({ result, target, payload });
+  setSuiteBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, hook: 'end' });
+  const message = getRootPayload({ result, payload });
+  return request.post({
+    url: target.inputs.url,
+    body: message
+  });
+}
+
+function setTargetInputs(target) {
+  target.inputs = Object.assign({}, default_inputs, target.inputs);
+  if (target.inputs.publish === 'test-summary-slim') {
+    target.inputs.include_suites = false;
+  }
+  if (target.inputs.publish === 'failure-details') {
+    target.inputs.include_failure_details = true;
+  }
+}
+
+function getMainPayload() {
   return {
-    "attachments": []
+    "blocks": []
   };
 }
 
-function getTitleText(result, options) {
-  const title = options.title ? options.title : result.name;
-  if (options.title_suffix) {
-    return `*${title} ${options.title_suffix}*`;
-  }
-  return `*${title}*`;
+function setMainBlock({ result, target, payload }) {
+  let text = `*${getTitleText(result, target)}*\n`;
+  text += `\n*Results*: ${getResultText(result)}`;
+  text += `\n*Duration*: ${getDurationText(result)}`;
+  payload.blocks.push({
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": text
+    }
+  });
 }
 
-function getMainSummary(result) {
-  const color = result.status === 'PASS' ? 'good' : 'danger';
+function getTitleText(result, target) {
+  const title = target.inputs.title ? target.inputs.title : result.name;
+  if (target.inputs.title_suffix) {
+    return `${title} ${target.inputs.title_suffix}`;
+  }
+  return `${title}`;
+}
+
+function getResultText(result) {
   const percentage = getPercentage(result.passed, result.total);
-  return {
-    "mrkdwn_in": ["text", "fields"],
-    "color": color,
-    "fields": [
-      {
-        "title": "Results",
-        "value": `${result.passed} / ${result.total} Passed (${percentage}%)`,
-        "short": true
-      },
-      {
-        "title": "Duration",
-        "value": `${toColonNotation(parseInt(result.duration))}`,
-        "short": true
+  return `${result.passed} / ${result.total} Passed (${percentage}%)`;
+}
+
+function getDurationText(result) {
+  return `${toColonNotation(parseInt(result.duration))}`;
+}
+
+function setSuiteBlock({ result, target, payload }) {
+  if (target.inputs.include_suites) {
+    for (let i = 0; i < result.suites.length; i++) {
+      const suite = result.suites[i];
+      if (target.inputs.only_failure_suites && suite.status !== 'FAIL') {
+        continue;
       }
-    ]
+      // if suites length eq to 1 then main block will include suite summary
+      if (result.suites.length > 1) {
+        payload.blocks.push(getSuiteSummary(suite));
+      }
+      if (target.inputs.include_failure_details) {
+        payload.blocks.push(getFailureDetails(suite));
+      }
+    }
   }
 }
 
 function getSuiteSummary(suite) {
-  const color = suite.status === 'PASS' ? 'good' : 'danger';
-  const percentage = getPercentage(suite.passed, suite.total);
+  let text = `*${getSuiteTitle(suite)}*\n`;
+  text += `\n*Results*: ${getResultText(suite)}`;
+  text += `\n*Duration*: ${getDurationText(suite)}`;
   return {
-    "text": `*${suite.name}*`,
-    "mrkdwn_in": ["text", "fields"],
-    "color": color,
-    "fields": [
-      {
-        "title": "Results",
-        "value": `${suite.passed} / ${suite.total} Passed (${percentage}%)`,
-        "short": true
-      },
-      {
-        "title": "Duration",
-        "value": `${toColonNotation(parseInt(suite.duration))}`,
-        "short": true
-      }
-    ]
-  }
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": text
+    }
+  };
 }
 
-function getLinks(options) {
-  const links = [];
-  for (const link of options.links) {
-    links.push(`<${link.url}|${link.text}>`);
-  }
+function getSuiteSummary(suite) {
+  let text = `*${getSuiteTitle(suite)}*\n`;
+  text += `\n*Results*: ${getResultText(suite)}`;
+  text += `\n*Duration*: ${getDurationText(suite)}`;
   return {
-    "fallback": "links",
-    "footer": links.join(' ｜ ')
-  }
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": text
+    }
+  };
 }
 
-function getFailureDetailsFields(suite) {
-  const fields = [];
+function getSuiteTitle(suite) {
+  const emoji = suite.status === 'PASS' ? '✅' : '❌';
+  return `${emoji} ${suite.name}`;
+}
+
+function getFailureDetails(suite) {
+  let text = '';
   const cases = suite.cases;
   for (let i = 0; i < cases.length; i++) {
     const test_case = cases[i];
     if (test_case.status === 'FAIL') {
-      const message = `*Test*: ${test_case.name}\n*Error*: ${truncate(test_case.failure, 150)}`;
-      fields.push({ value: message });
+      text += `*Test*: ${test_case.name}\n*Error*: ${truncate(test_case.failure, 150)}\n\n`;
     }
   }
-  return fields;
-}
-
-function attachLinks(payload, options) {
-  if (options.links) {
-    payload.attachments.push(getLinks(options));
-  }
-}
-
-/**
- * lifecycle hooks
- */
-
-async function lifecycle({ options, hook, payload, result }) {
-  const _extensions = getExtensions(options.extensions, hook);
-  for (let i = 0; i < _extensions.length; i++) {
-    const _extension = _extensions[i];
-    if (_extension.condition.includes(result.status.toLowerCase())) {
-      await extensions.run(_extension, { payload, result, options });
+  return {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": text
     }
   }
 }
 
-function getExtensions(_extensions, hook) {
-  return _extensions ? _extensions.filter(_ext => _ext.hook === hook) : [];
-}
-
-/**
- * messages
- */
-
-async function getTestSummaryMessage(results, options) {
-  const result = results[0];
-  const payload = getRootPayload();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.text = getTitleText(result, options);
-  payload.attachments.push(getMainSummary(result));
-  if (result.suites.length > 1) {
-    for (let i = 0; i < result.suites.length; i++) {
-      const suite = result.suites[i];
-      payload.attachments.push(getSuiteSummary(suite));
+function getRootPayload({ result, payload }) {
+  let color = COLORS.GOOD;
+  if (result.status !== 'PASS') {
+    const somePassed = result.suites.some(suite => suite.status === 'PASS');
+    if (somePassed) {
+      color = COLORS.WARNING;
+    } else {
+      color = COLORS.DANGER;
     }
   }
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  return payload;
-}
-
-async function getFailureSummaryMessage(results, options) {
-  const result = results[0];
-  if (result.status === 'PASS') {
-    return null;
-  }
-  const payload = getRootPayload();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.text = getTitleText(result, options);
-  payload.attachments.push(getMainSummary(result));
-  if (result.suites.length > 1) {
-    for (let i = 0; i < result.suites.length; i++) {
-      const suite = result.suites[i];
-      if (suite.status === 'FAIL') {
-        payload.attachments.push(getSuiteSummary(suite));
+  return {
+    "attachments": [
+      {
+        "color": color,
+        "blocks": payload.blocks
       }
-    }
-  }
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  return payload;
+    ]
+  };
 }
 
-async function getTestSummarySlimMessage(results, options) {
-  const result = results[0];
-  const payload = getRootPayload();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.text = getTitleText(result, options);
-  payload.attachments.push(getMainSummary(result));
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  return payload;
+const default_options = {
+  condition: 'passOrFail'
 }
 
-async function getFailureSummarySlimMessage(results, options) {
-  const result = results[0];
-  if (result.status === 'PASS') {
-    return null;
-  }
-  const payload = getRootPayload();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.text = getTitleText(result, options);
-  payload.attachments.push(getMainSummary(result));
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  return payload;
-}
-
-async function getFailureDetailsMessage(results, options) {
-  const result = results[0];
-  if (result.status === 'PASS') {
-    return null;
-  }
-  const payload = getRootPayload();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.text = getTitleText(result, options);
-  const mainSummary = getMainSummary(result);
-  payload.attachments.push(mainSummary);
-  if (result.suites.length > 1) {
-    for (let i = 0; i < result.suites.length; i++) {
-      const suite = result.suites[i];
-      const suiteSummary = getSuiteSummary(suite);
-      if (suite.status === 'FAIL') {
-        suiteSummary.fields = suiteSummary.fields.concat(getFailureDetailsFields(suite));
-      }
-      payload.attachments.push(suiteSummary);
-    }
-  } else {
-    const suite = result.suites[0];
-    mainSummary.fields = mainSummary.fields.concat(getFailureDetailsFields(suite));
-  }
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  return payload;
-}
-
-async function getFailureDetailsSlimMessage(results, options) {
-  const result = results[0];
-  if (result.status === 'PASS') {
-    return null;
-  }
-  const payload = getRootPayload();
-  await lifecycle({ options, payload, result, hook: 'start' });
-  payload.text = getTitleText(result, options);
-  const mainSummary = getMainSummary(result);
-  payload.attachments.push(mainSummary);
-  if (result.suites.length > 1) {
-    for (let i = 0; i < result.suites.length; i++) {
-      const suite = result.suites[i];
-      if (suite.status === 'FAIL') {
-        const suiteSummary = getSuiteSummary(suite);
-        suiteSummary.fields = suiteSummary.fields.concat(getFailureDetailsFields(suite));
-        payload.attachments.push(suiteSummary);
-      }
-    }
-  } else {
-    const suite = result.suites[0];
-    mainSummary.fields = mainSummary.fields.concat(getFailureDetailsFields(suite));
-  }
-  await lifecycle({ options, payload, result, hook: 'post-main' });
-  attachLinks(payload, options);
-  await lifecycle({ options, payload, result, hook: 'end' });
-  return payload;
-}
-
-function getMessage(options, results) {
-  const report = getReportType(options);
-  switch (report) {
-    case 'test-summary':
-      return getTestSummaryMessage(results, options);
-    case 'failure-summary':
-      return getFailureSummaryMessage(results, options);
-    case 'test-summary-slim':
-      return getTestSummarySlimMessage(results, options);
-    case 'failure-summary-slim':
-      return getFailureSummarySlimMessage(results, options);
-    case 'failure-details':
-      return getFailureDetailsMessage(results, options);
-    case 'failure-details-slim':
-      return getFailureDetailsSlimMessage(results, options);
-    default:
-      console.log('UnSupported Report Type');
-      break;
-  }
-}
-
-async function send(options, results) {
-  const message = await getMessage(options, results);
-  if (message) {
-    return request.post({
-      url: getUrl(options),
-      body: message
-    });
-  }
+const default_inputs = {
+  publish: 'test-summary',
+  include_suites: true,
+  only_failure_suites: false,
+  include_failure_details: false,
 }
 
 module.exports = {
-  send
+  run,
+  default_options
 }

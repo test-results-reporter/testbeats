@@ -35,6 +35,28 @@ async function send(options, results) {
   }
 }
 
+function getTargetRunner(target) {
+  switch (target.name) {
+    case 'teams':
+      return teams;
+    case 'slack':
+      return slack;
+    case 'custom':
+      return custom;
+    default:
+      return require(target.name);
+  }
+}
+
+async function run(target, result) {
+  const target_runner = getTargetRunner(target);
+  const target_options = Object.assign({}, target_runner.default_options, target);
+  if (target_options.condition.toLowerCase().includes(result.status.toLowerCase())) {
+    await target_runner.run({result, target});
+  }
+}
+
 module.exports = {
-  send
+  send,
+  run
 }
