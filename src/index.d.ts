@@ -1,4 +1,6 @@
-export type ExtensionName = 'report-portal-analysis' | 'hyperlinks';
+import { User, Schedule } from 'rosters';
+
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions';
 export type Hook = 'start' | 'end';
 export type Condition = 'pass' | 'fail' | 'passOrFail';
 
@@ -13,11 +15,16 @@ export interface HyperlinkInputs {
   links: Link[];
 }
 
+export interface MentionInputs {
+  users?: User[];
+  schedule?: Schedule;
+}
+
 export interface Extension {
   name: ExtensionName;
   condition?: Condition;
   hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | HyperlinkInputs;
+  inputs?: ReportPortalAnalysisInputs | HyperlinkInputs | MentionInputs;
 }
 
 export interface Link {

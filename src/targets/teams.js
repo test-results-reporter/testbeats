@@ -5,16 +5,17 @@ const extension_manager = require('../extensions');
 
 async function run({result, target}) {
   setTargetInputs(target);
+  const root_payload = getRootPayload();
   const payload = getMainPayload();
-  await extension_manager.run({ result, target, payload, hook: 'start' });
+  await extension_manager.run({ result, target, payload, root_payload, hook: 'start' });
   setTitleBlock(result, { target, payload });
   setMainBlock(result, { target, payload });
   setSuiteBlock(result, { target, payload });
-  await extension_manager.run({ result, target, payload, hook: 'end' });
-  const message = getRootPayload(payload);
+  await extension_manager.run({ result, target, payload, root_payload, hook: 'end' });
+  setRootPayload(root_payload, payload);
   return request.post({
     url: target.inputs.url,
-    body: message
+    body: root_payload
   });
 }
 
@@ -150,16 +151,20 @@ function getFailureDetailsFactSets(suite) {
   return fact_sets;
 }
 
-function getRootPayload(payload) {
+function getRootPayload() {
   return {
     "type": "message",
     "attachments": [
       {
         "contentType": "application/vnd.microsoft.card.adaptive",
-        "content": payload
+        "content": ''
       }
     ]
   };
+}
+
+function setRootPayload(root_payload, payload) {
+  root_payload.attachments[0].content = payload;
 }
 
 const default_options = {

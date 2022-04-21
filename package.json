@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ASaiAnudeep/test-results-reporter.git"
+    "url": "git+https://github.com/test-results-reporter/reporter.git"
   },
   "keywords": [
     "test",
@@ -37,6 +37,7 @@
     "colon-notation": "^1.2.1",
     "dotenv": "^14.3.0",
     "phin-retry": "^1.0.3",
+    "rosters": "0.0.1",
     "sade": "^1.7.4",
     "test-results-parser": "^0.0.10"
   },

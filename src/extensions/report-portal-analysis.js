@@ -51,7 +51,7 @@ function attachForSlack(payload, analyses) {
       "type": "mrkdwn",
       "text": `*Report Portal Analysis*\n\n${analyses.join(' ｜ ')}`
     }
-  })
+  });
 }
 
 async function run({ extension, payload, target }) {
