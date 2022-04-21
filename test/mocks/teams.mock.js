@@ -511,3 +511,75 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
     }
   }
 });
+
+addInteractionHandler('post test-summary to teams with mentions', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Default suite",
+                  "size": "medium",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "3 / 4 Passed (75%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "00:02"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "<at>mom</at> ｜ <at>dad</at>",
+                  "separator": true
+                }
+              ],
+              "actions": [],
+              "msteams": {
+                "entities": [
+                  {
+                    "type": "mention",
+                    "text": "<at>mom</at>",
+                    "mentioned": {
+                      "id": "mom@family",
+                      "name": "mom"
+                    }
+                  },
+                  {
+                    "type": "mention",
+                    "text": "<at>dad</at>",
+                    "mentioned": {
+                      "id": "dad@family",
+                      "name": "dad"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

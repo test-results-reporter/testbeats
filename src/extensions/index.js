@@ -1,4 +1,5 @@
 const hyperlinks = require('./hyperlinks');
+const mentions = require('./mentions');
 const rp_analysis = require('./report-portal-analysis');
 
 async function run(options) {
@@ -21,6 +22,8 @@ function getExtensionRunner(extension) {
   switch (extension.name) {
     case 'hyperlinks':
       return hyperlinks;
+    case 'mentions':
+      return mentions;
     case 'report-portal-analysis':
       return rp_analysis;
     default:
