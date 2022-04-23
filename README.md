@@ -1,6 +1,6 @@
 <span align="center">
 
-<img src="https://github.com/test-results-reporter/test-results-reporter.github.io/blob/main/docs/.vuepress/public/logo.png?raw=true" height="96px" width="96px" style="display: block; margin: 0 auto;" />
+![logo](https://github.com/test-results-reporter/reporter/raw/main/assets/logo.png)
 
 # Test Results Reporter
 
@@ -34,3 +34,6 @@ We use [Github Discussions](https://github.com/test-results-reporter/reporter/di
 ## Support Us
 
 Like this project! Star it on [Github](https://github.com/test-results-reporter/reporter) ⭐. Your support means a lot to us.
+
+
+<a href="https://www.flaticon.com/free-icons/flask" title="flask icons">Flask icons created by Freepik - Flaticon</a>
