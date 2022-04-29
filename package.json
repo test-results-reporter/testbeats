@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/test-results-reporter/reporter/issues"
   },
-  "homepage": "https://github.com/test-results-reporter/reporter#readme",
+  "homepage": "https://test-results-reporter.github.io",
   "dependencies": {
     "colon-notation": "^1.2.1",
     "dotenv": "^14.3.0",
