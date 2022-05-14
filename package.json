@@ -1,6 +1,6 @@
 {
   "name": "test-results-reporter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Publish test results to Microsoft Teams and Slack",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
@@ -42,7 +42,7 @@
     "test-results-parser": "^0.0.10"
   },
   "devDependencies": {
-    "mocha": "^9.1.1",
-    "pactum": "^3.1.5"
+    "mocha": "^10.0.0",
+    "pactum": "^3.1.8"
   }
 }

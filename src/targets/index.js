@@ -1,6 +1,7 @@
 const teams = require('./teams');
 const slack = require('./slack');
 const custom = require('./custom');
+const delay = require('./delay');
 
 function identifyTarget(target) {
   if (target.name) {
@@ -43,6 +44,8 @@ function getTargetRunner(target) {
       return slack;
     case 'custom':
       return custom;
+    case 'delay':
+      return delay;
     default:
       return require(target.name);
   }
