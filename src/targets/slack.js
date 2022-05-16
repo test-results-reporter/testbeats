@@ -14,6 +14,7 @@ async function run({ result, target }) {
   const payload = getMainPayload();
   await extension_manager.run({ result, target, payload, hook: 'start' });
   setMainBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, hook: 'post-main' });
   setSuiteBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, hook: 'end' });
   const message = getRootPayload({ result, payload });
