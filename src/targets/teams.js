@@ -10,6 +10,7 @@ async function run({result, target}) {
   await extension_manager.run({ result, target, payload, root_payload, hook: 'start' });
   setTitleBlock(result, { target, payload });
   setMainBlock(result, { target, payload });
+  await extension_manager.run({ result, target, payload, root_payload, hook: 'post-main' });
   setSuiteBlock(result, { target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: 'end' });
   setRootPayload(root_payload, payload);

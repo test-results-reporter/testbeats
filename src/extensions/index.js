@@ -1,6 +1,7 @@
 const hyperlinks = require('./hyperlinks');
 const mentions = require('./mentions');
 const rp_analysis = require('./report-portal-analysis');
+const qc_test_summary = require('./quick-charts-test-summary');
 
 async function run(options) {
   const { target, result, hook } = options;
@@ -26,6 +27,8 @@ function getExtensionRunner(extension) {
       return mentions;
     case 'report-portal-analysis':
       return rp_analysis;
+    case 'quick-charts-test-summary':
+      return qc_test_summary;
     default:
       return require(extension.name);
   }
