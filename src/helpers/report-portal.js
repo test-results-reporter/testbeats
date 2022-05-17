@@ -9,6 +9,24 @@ async function getLaunchDetails(options) {
   });
 }
 
+async function getLaunchesByName(options) {
+  return request.get({
+    url: `${options.url}/api/v1/${options.project}/launch?filter.eq.name=${options.launch_name}&page.size=1&page.sort=startTime%2Cdesc`,
+    headers: {
+      'Authorization': `Bearer ${options.api_key}`
+    }
+  });
+}
+
+async function getLastLaunchByName(options) {
+  const response = await getLaunchesByName(options);
+  if (response.content && response.content.length > 0) {
+    return response.content[0];
+  }
+  return null;
+}
+
 module.exports = {
-  getLaunchDetails
+  getLaunchDetails,
+  getLastLaunchByName
 }
