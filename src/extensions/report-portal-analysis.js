@@ -1,4 +1,4 @@
-const { getLaunchDetails } = require('../helpers/report-portal');
+const { getLaunchDetails, getLastLaunchByName } = require('../helpers/report-portal');
 
 function getReportPortalDefectsSummary(defects, bold = '**') {
   const results = [];
@@ -54,9 +54,16 @@ function attachForSlack(payload, analyses) {
   });
 }
 
+async function _getLaunchDetails(options) {
+  if (!options.launch_id && options.launch_name) {
+   return getLastLaunchByName(options);
+  }
+  return getLaunchDetails(options);
+}
+
 async function run({ extension, payload, target }) {
   try {
-    const { statistics } = await getLaunchDetails(extension.inputs);
+    const { statistics } = await _getLaunchDetails(extension.inputs);
     if (statistics && statistics.defects) {
       if (target.name === 'teams') {
         const analyses = getReportPortalDefectsSummary(statistics.defects);
