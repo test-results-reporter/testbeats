@@ -59,3 +59,67 @@ addInteractionHandler('get last launch details', () => {
     }
   }
 });
+
+addInteractionHandler('get suite history', () => {
+  return {
+    request: {
+      method: 'GET',
+      path: '/api/v1/project-name/item/history',
+      queryParams: {
+        "historyDepth": "5",
+        "filter.eq.launchId": "id123",
+        "filter.!ex.parentId": "true"
+      },
+      headers: {
+        "authorization": "Bearer abc"
+      }
+    },
+    response: {
+      status: 200,
+      body: {
+        "content": [
+          {
+            "resources": [
+              {
+                "status": "FAILED",
+              },
+              {
+                "status": "PASSED",
+              },
+              {
+                "status": "RUNNING",
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+});
+
+addInteractionHandler('get empty suite history', () => {
+  return {
+    request: {
+      method: 'GET',
+      path: '/api/v1/project-name/item/history',
+      queryParams: {
+        "historyDepth": "5",
+        "filter.eq.launchId": "id123",
+        "filter.!ex.parentId": "true"
+      },
+      headers: {
+        "authorization": "Bearer abc"
+      }
+    },
+    response: {
+      status: 200,
+      body: {
+        "content": [
+          {
+            "resources": []
+          }
+        ]
+      }
+    }
+  }
+});

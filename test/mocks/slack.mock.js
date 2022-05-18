@@ -328,3 +328,38 @@ addInteractionHandler('post test-summary to slack with qc-test-summary', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary to slack with report portal history', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Last 3 Runs*\n\n❌ ✅ ⚠️"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

@@ -26,7 +26,22 @@ async function getLastLaunchByName(options) {
   return null;
 }
 
+async function getSuiteHistory(options) {
+  return request.get({
+    url: `${options.url}/api/v1/${options.project}/item/history`,
+    qs: {
+      historyDepth: options.history_depth,
+      'filter.eq.launchId': options.launch_id,
+      'filter.!ex.parentId': 'true'
+    },
+    headers: {
+      'Authorization': `Bearer ${options.api_key}`
+    }
+  });
+}
+
 module.exports = {
   getLaunchDetails,
-  getLastLaunchByName
+  getLastLaunchByName,
+  getSuiteHistory
 }
