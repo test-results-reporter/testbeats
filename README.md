@@ -14,9 +14,9 @@
 
 [![Stars](https://img.shields.io/github/stars/test-results-reporter/reporter?style=social)](https://github.com/test-results-reporter/reporter/stargazers)
 
-![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/teams/test-summary-single-suite.png)
+![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/teams-qc.png)
 
-![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/slack/test-summary-single-suite.png)
+![slack-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/slack-report-portal-analysis.png)
 
 <br />
 
