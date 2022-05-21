@@ -1,6 +1,7 @@
 const { getPercentage } = require('../helpers/helper');
+const constants = require('../lib/constants');
 
-function getUrl(result) {
+function getUrl(extension, result) {
   const percentage = getPercentage(result.passed, result.total);
   const chart = {
     type: 'radialGauge',
@@ -16,14 +17,14 @@ function getUrl(result) {
       centerPercentage: 80,
       centerArea: {
         fontSize: 80,
-        text: (val) => val + '%',
+        text: `${percentage}%`,
       },
     }
   }
-  return `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify(chart))}`;
+  return `${extension.url}/chart?c=${encodeURIComponent(JSON.stringify(chart))}`;
 }
 
-function attachForTeams({ result, payload }) {
+function attachForTeams({ extension, result, payload }) {
   const main_column = {
     "type": "Column",
     "items": [payload.body[0], payload.body[1]],
@@ -34,7 +35,7 @@ function attachForTeams({ result, payload }) {
     "items": [
       {
         "type": "Image",
-        "url": getUrl(result),
+        "url": getUrl(extension, result),
         "altText": "overall-results-summary",
         "size": "large"
       }
@@ -51,16 +52,17 @@ function attachForTeams({ result, payload }) {
   payload.body = [column_set];
 }
 
-function attachForSlack({ result, payload }) {
+function attachForSlack({ extension, result, payload }) {
   payload.blocks[0]["accessory"] = {
     "type": "image",
     "alt_text": "overall-results-summary",
-    "image_url": getUrl(result)
+    "image_url": getUrl(extension, result)
   }
 }
 
 function run(params) {
-  const { target } = params;
+  const { extension, target } = params;
+  params.extension.url = ((extension.url && extension.url.trim()) || constants.QUICK_CHART_URL);
   if (target.name === 'teams') {
     attachForTeams(params);
   } else {
