@@ -87,7 +87,9 @@ describe('extensions - quick-chart-test-summary', () => {
                 "extensions": [
                   {
                     "name": "quick-chart-test-summary",
-                    "url": "https://demo.quickchart.example.com"
+                    "inputs": {
+                      "url": "https://demo.quickchart.example.com"
+                    }
                   }
                 ]
               }
@@ -122,7 +124,9 @@ describe('extensions - quick-chart-test-summary', () => {
                 "extensions": [
                   {
                     "name": "quick-chart-test-summary",
-                    "url": "https://demo.quickchart.example.com"
+                    "inputs": {
+                      "url": "https://demo.quickchart.example.com"
+                    }
                   }
                 ]
               }
@@ -157,7 +161,9 @@ describe('extensions - quick-chart-test-summary', () => {
                 "extensions": [
                   {
                     "name": "quick-chart-test-summary",
-                    "url": " "
+                    "inputs": {
+                      "url": " "
+                    }
                   }
                 ]
               }

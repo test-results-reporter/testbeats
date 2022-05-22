@@ -21,7 +21,7 @@ function getUrl(extension, result) {
       },
     }
   }
-  return `${extension.url}/chart?c=${encodeURIComponent(JSON.stringify(chart))}`;
+  return `${extension.inputs.url}/chart?c=${encodeURIComponent(JSON.stringify(chart))}`;
 }
 
 function attachForTeams({ extension, result, payload }) {
@@ -61,8 +61,9 @@ function attachForSlack({ extension, result, payload }) {
 }
 
 function run(params) {
-  const { extension, target } = params;
-  params.extension.url = ((extension.url && extension.url.trim()) || constants.QUICK_CHART_URL);
+  const { extension, target } = params;  
+  params.extension.inputs = extension.inputs || {};
+  params.extension.inputs["url"] = (extension.inputs.url && extension.inputs.url.trim()) || constants.QUICK_CHART_URL;
   if (target.name === 'teams') {
     attachForTeams(params);
   } else {
