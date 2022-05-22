@@ -584,7 +584,7 @@ addInteractionHandler('post test-summary to teams with mentions', () => {
   }
 });
 
-addInteractionHandler('post test-summary to teams with qc-test-summary', () => {
+addInteractionHandler('post test-summary to teams with qc-test-summary', (ctx) => {
   return {
     request: {
       method: 'POST',
@@ -632,7 +632,7 @@ addInteractionHandler('post test-summary to teams with qc-test-summary', () => {
                       "items": [
                         {
                           "type": "Image",
-                          "url": "https://quickchart.io/chart?c=%7B%22type%22%3A%22radialGauge%22%2C%22data%22%3A%7B%22datasets%22%3A%5B%7B%22data%22%3A%5B75%5D%2C%22backgroundColor%22%3A%22green%22%7D%5D%7D%2C%22options%22%3A%7B%22trackColor%22%3A%22%23FF0000%22%2C%22roundedCorners%22%3Afalse%2C%22centerPercentage%22%3A80%2C%22centerArea%22%3A%7B%22fontSize%22%3A80%7D%7D%7D",
+                          "url": `${ctx.data.quickChartUrl}/chart?c=%7B%22type%22%3A%22radialGauge%22%2C%22data%22%3A%7B%22datasets%22%3A%5B%7B%22data%22%3A%5B75%5D%2C%22backgroundColor%22%3A%22green%22%7D%5D%7D%2C%22options%22%3A%7B%22trackColor%22%3A%22%23FF0000%22%2C%22roundedCorners%22%3Afalse%2C%22centerPercentage%22%3A80%2C%22centerArea%22%3A%7B%22fontSize%22%3A80%2C%22text%22%3A%2275%25%22%7D%7D%7D`,
                           "altText": "overall-results-summary",
                           "size": "large"
                         }
