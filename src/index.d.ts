@@ -1,6 +1,6 @@
 import { User, Schedule } from 'rosters';
 
-export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions';
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary';
 export type Hook = 'start' | 'end';
 export type Condition = 'pass' | 'fail' | 'passOrFail';
 
@@ -9,6 +9,20 @@ export interface ReportPortalAnalysisInputs {
   api_key: string;
   project: string;
   launch_id: string;
+  launch_name: string;
+}
+
+export interface ReportPortalHistoryInputs {
+  url: string;
+  api_key: string;
+  project: string;
+  launch_id: string;
+  launch_name: string;
+  history_depth: number;
+}
+
+export interface QuickChartTestSummaryInputs {
+  url: string;
 }
 
 export interface HyperlinkInputs {
@@ -24,7 +38,7 @@ export interface Extension {
   name: ExtensionName;
   condition?: Condition;
   hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | HyperlinkInputs | MentionInputs;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs;
 }
 
 export interface Link {
