@@ -189,7 +189,7 @@ addInteractionHandler('post failure-details to slack with single suite', () => {
   }
 });
 
-addInteractionHandler('post test-summary with hyperlinks to slack', () => {
+addInteractionHandler('post test-summary with hyperlinks to slack - pass status', () => {
   return {
     request: {
       method: 'POST',
@@ -204,6 +204,43 @@ addInteractionHandler('post test-summary with hyperlinks to slack', () => {
                 "text": {
                   "type": "mrkdwn",
                   "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 00:02"
+                }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "<some-url|Pipeline> ｜ <some-url|Video>"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary with hyperlinks to slack - fail status', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
                 }
               },
               {
