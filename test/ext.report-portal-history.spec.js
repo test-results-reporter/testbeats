@@ -5,8 +5,9 @@ const { publish } = require('../src');
 describe('extensions - report-portal-history', () => {
 
   it('should send report-portal-history to teams', async () => {
-    const id1 = mock.addInteraction('get suite history');
-    const id2 = mock.addInteraction('post test-summary to teams with report portal history');
+    const id1 = mock.addInteraction('get launch details');
+    const id2 = mock.addInteraction('get suite history');
+    const id3 = mock.addInteraction('post test-summary to teams with report portal history');
     await publish({
       config: {
         "reports": [
@@ -44,11 +45,13 @@ describe('extensions - report-portal-history', () => {
     });
     assert.equal(mock.getInteraction(id1).exercised, true);
     assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
   });
 
   it('should send report-portal-history to slack', async () => {
-    const id1 = mock.addInteraction('get suite history');
-    const id2 = mock.addInteraction('post test-summary to slack with report portal history');
+    const id1 = mock.addInteraction('get launch details');
+    const id2 = mock.addInteraction('get suite history');
+    const id3 = mock.addInteraction('post test-summary to slack with report portal history');
     await publish({
       config: {
         "reports": [
@@ -86,6 +89,7 @@ describe('extensions - report-portal-history', () => {
     });
     assert.equal(mock.getInteraction(id1).exercised, true);
     assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
   });
 
   it('should send report-portal-history with launch name', async () => {
@@ -133,8 +137,9 @@ describe('extensions - report-portal-history', () => {
   });
 
   it('should send report-portal-history with launch id and name', async () => {
-    const id1 = mock.addInteraction('get suite history');
-    const id2 = mock.addInteraction('post test-summary to teams with report portal history');
+    const id1 = mock.addInteraction('get launch details');
+    const id2 = mock.addInteraction('get suite history');
+    const id3 = mock.addInteraction('post test-summary to teams with report portal history');
     await publish({
       config: {
         "reports": [
@@ -173,11 +178,13 @@ describe('extensions - report-portal-history', () => {
     });
     assert.equal(mock.getInteraction(id1).exercised, true);
     assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
   });
 
   it('should not send report-portal-history to teams', async () => {
-    const id1 = mock.addInteraction('get empty suite history');
-    const id2 = mock.addInteraction('post test-summary to teams');
+    const id1 = mock.addInteraction('get launch details');
+    const id2 = mock.addInteraction('get empty suite history');
+    const id3 = mock.addInteraction('post test-summary to teams');
     await publish({
       config: {
         "reports": [
@@ -216,6 +223,7 @@ describe('extensions - report-portal-history', () => {
     });
     assert.equal(mock.getInteraction(id1).exercised, true);
     assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
   });
 
   afterEach(() => {

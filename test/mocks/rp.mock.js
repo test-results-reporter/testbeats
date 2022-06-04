@@ -12,6 +12,7 @@ addInteractionHandler('get launch details', () => {
     response: {
       status: 200,
       body: {
+        "id": 123,
         "statistics": {
           "defects": {
             "to_investigate": {
@@ -44,7 +45,7 @@ addInteractionHandler('get last launch details', () => {
       body: {
         "content": [
           {
-            "id": "id123",
+            "id": 123,
             "statistics": {
               "defects": {
                 "to_investigate": {
@@ -67,7 +68,7 @@ addInteractionHandler('get suite history', () => {
       path: '/api/v1/project-name/item/history',
       queryParams: {
         "historyDepth": "5",
-        "filter.eq.launchId": "id123",
+        "filter.eq.launchId": "123",
         "filter.!ex.parentId": "true"
       },
       headers: {
@@ -104,7 +105,7 @@ addInteractionHandler('get empty suite history', () => {
       path: '/api/v1/project-name/item/history',
       queryParams: {
         "historyDepth": "5",
-        "filter.eq.launchId": "id123",
+        "filter.eq.launchId": "123",
         "filter.!ex.parentId": "true"
       },
       headers: {

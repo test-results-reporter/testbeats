@@ -1,8 +1,12 @@
-const { getSuiteHistory, getLastLaunchByName } = require('../helpers/report-portal');
+const { getSuiteHistory, getLastLaunchByName, getLaunchDetails } = require('../helpers/report-portal');
 
 async function getLaunchHistory(inputs) {
   if (!inputs.launch_id && inputs.launch_name) {
     const launch = await getLastLaunchByName(inputs);
+    inputs.launch_id = launch.id;
+  }
+  if (typeof inputs.launch_id === 'string') {
+    const launch = await getLaunchDetails(inputs);
     inputs.launch_id = launch.id;
   }
   const response = await getSuiteHistory(inputs);
