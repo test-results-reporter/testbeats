@@ -249,7 +249,6 @@ describe('extensions - hyperlinks', () => {
 
   it('should send test-summary with links to slack - conditional hyperlinks - multiconditions', async () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to slack - fail status');
-    console.log(JSON.stringify(mock.getInteraction(id), null, 4))
     await publish({
       config: {
         "reports": [
