@@ -63,6 +63,7 @@ export interface TeamsInputs {
   only_failures?: boolean;
   title?: string;
   title_suffix?: string;
+  width?: string;
 }
 
 export interface Target {

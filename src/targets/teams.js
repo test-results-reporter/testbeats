@@ -6,7 +6,7 @@ const extension_manager = require('../extensions');
 async function run({result, target}) {
   setTargetInputs(target);
   const root_payload = getRootPayload();
-  const payload = getMainPayload();
+  const payload = getMainPayload(target);
   await extension_manager.run({ result, target, payload, root_payload, hook: 'start' });
   setTitleBlock(result, { target, payload });
   setMainBlock(result, { target, payload });
@@ -30,14 +30,21 @@ function setTargetInputs(target) {
   }
 }
 
-function getMainPayload() {
-  return {
+function getMainPayload(target) {
+  const main = {
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "type": "AdaptiveCard",
     "version": "1.0",
     "body": [],
     "actions": []
   };
+  if (target.inputs.width) {
+    if (!main.msteams) {
+      main.msteams = {};
+    }
+    main.msteams.width = target.inputs.width;
+  }
+  return main;
 }
 
 function getTitleText(result, target) {
@@ -63,7 +70,8 @@ function setTitleBlock(result, { target, payload }) {
     "type": "TextBlock",
     "text": text,
     "size": "medium",
-    "weight": "bolder"
+    "weight": "bolder",
+    "wrap": true
   });
 }
 
@@ -110,7 +118,8 @@ function getSuiteSummary(suite) {
       "type": "TextBlock",
       "text": `${emoji} ${suite.name}`,
       "isSubtle": true,
-      "weight": "bolder"
+      "weight": "bolder",
+      "wrap": true
     },
     {
       "type": "FactSet",
@@ -177,6 +186,7 @@ const default_inputs = {
   include_suites: true,
   only_failure_suites: false,
   include_failure_details: false,
+  width: ""
 }
 
 module.exports = {

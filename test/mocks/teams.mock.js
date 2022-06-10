@@ -19,7 +19,8 @@ addInteractionHandler('post test-summary to teams', () => {
                   "type": "TextBlock",
                   "text": "✅ Default suite",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -66,7 +67,8 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                   "type": "TextBlock",
                   "text": "Regression Tests",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -85,7 +87,8 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                   "type": "TextBlock",
                   "text": "❌ desktop-chrome",
                   "isSubtle": true,
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -104,7 +107,8 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                   "type": "TextBlock",
                   "text": "❌ mobile-ios",
                   "isSubtle": true,
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -151,7 +155,8 @@ addInteractionHandler('post test-summary-slim to teams with multiple suites', ()
                   "type": "TextBlock",
                   "text": "❌ Regression Tests",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -198,7 +203,8 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                   "type": "TextBlock",
                   "text": "Regression Tests",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -217,7 +223,8 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                   "type": "TextBlock",
                   "text": "❌ desktop-chrome",
                   "isSubtle": true,
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -275,7 +282,8 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                   "type": "TextBlock",
                   "text": "❌ mobile-ios",
                   "isSubtle": true,
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -361,7 +369,8 @@ addInteractionHandler('post failure-details to teams with single suite', () => {
                   "type": "TextBlock",
                   "text": "❌ Default suite",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -421,7 +430,8 @@ addInteractionHandler('post test-summary with hyperlinks to teams - pass status'
                   "type": "TextBlock",
                   "text": "✅ Default suite",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -473,7 +483,8 @@ addInteractionHandler('post test-summary with hyperlinks to teams - fail status'
                   "type": "TextBlock",
                   "text": "❌ Default suite",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -525,7 +536,8 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
                   "type": "TextBlock",
                   "text": "❌ Default suite",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -583,7 +595,8 @@ addInteractionHandler('post test-summary to teams with mentions', () => {
                   "type": "TextBlock",
                   "text": "❌ Default suite",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -661,7 +674,8 @@ addInteractionHandler('post test-summary to teams with qc-test-summary', (ctx) =
                           "type": "TextBlock",
                           "text": "❌ Default suite",
                           "size": "medium",
-                          "weight": "bolder"
+                          "weight": "bolder",
+                          "wrap": true
                         },
                         {
                           "type": "FactSet",
@@ -725,7 +739,8 @@ addInteractionHandler('post test-summary to teams with report portal history', (
                   "type": "TextBlock",
                   "text": "❌ Default suite",
                   "size": "medium",
-                  "weight": "bolder"
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "type": "FactSet",
@@ -753,6 +768,57 @@ addInteractionHandler('post test-summary to teams with report portal history', (
                 }
               ],
               "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to teams with full width', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "✅ Default suite",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "4 / 4 Passed (100%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "00:02"
+                    }
+                  ]
+                }
+              ],
+              "actions": [],
+              "msteams": {
+                "width": "Full"
+              }
             }
           }
         ]
