@@ -778,3 +778,54 @@ addInteractionHandler('post test-summary to teams with report portal history', (
     }
   }
 });
+
+addInteractionHandler('post test-summary to teams with full width', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "✅ Default suite",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "4 / 4 Passed (100%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "00:02"
+                    }
+                  ]
+                }
+              ],
+              "actions": [],
+              "msteams": {
+                "width": "Full"
+              }
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
