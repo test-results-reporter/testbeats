@@ -63,7 +63,8 @@ function setTitleBlock(result, { target, payload }) {
     "type": "TextBlock",
     "text": text,
     "size": "medium",
-    "weight": "bolder"
+    "weight": "bolder",
+    "wrap": true
   });
 }
 
@@ -110,7 +111,8 @@ function getSuiteSummary(suite) {
       "type": "TextBlock",
       "text": `${emoji} ${suite.name}`,
       "isSubtle": true,
-      "weight": "bolder"
+      "weight": "bolder",
+      "wrap": true
     },
     {
       "type": "FactSet",
