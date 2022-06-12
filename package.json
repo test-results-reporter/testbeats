@@ -25,7 +25,12 @@
     "microsoft teams",
     "teams",
     "slack",
-    "junit"
+    "junit",
+    "mocha",
+    "cucumber",
+    "testng",
+    "xunit",
+    "reportportal"
   ],
   "author": "",
   "license": "ISC",
@@ -39,7 +44,7 @@
     "phin-retry": "^1.0.3",
     "rosters": "0.0.1",
     "sade": "^1.7.4",
-    "test-results-parser": "^0.0.10"
+    "test-results-parser": "^0.0.11"
   },
   "devDependencies": {
     "mocha": "^10.0.0",
