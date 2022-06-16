@@ -449,7 +449,8 @@ addInteractionHandler('post test-summary with hyperlinks to teams - pass status'
                 {
                   "type": "TextBlock",
                   "text": "[Pipeline](some-url) ｜ [Video](some-url)",
-                  "separator": true
+                  "separator": true,
+                  "wrap": true
                 }
               ],
               "actions": []
@@ -502,7 +503,69 @@ addInteractionHandler('post test-summary with hyperlinks to teams - fail status'
                 {
                   "type": "TextBlock",
                   "text": "[Pipeline](some-url) ｜ [Video](some-url)",
-                  "separator": true
+                  "separator": true,
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary with hyperlinks having a title and without a separator to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "✅ Default suite",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "4 / 4 Passed (100%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "00:02"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Hyperlinks",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "separator": false,
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "[Pipeline](some-url) ｜ [Video](some-url)",
+                  "wrap": true
                 }
               ],
               "actions": []

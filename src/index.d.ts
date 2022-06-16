@@ -27,6 +27,8 @@ export interface QuickChartTestSummaryInputs {
 
 export interface HyperlinkInputs {
   links: Link[];
+  title?: string;
+  separator?: boolean;
 }
 
 export interface MentionInputs {

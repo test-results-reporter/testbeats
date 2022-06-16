@@ -1,6 +1,8 @@
-const { STATUS } = require("../helpers/constants");
+const { STATUS, HOOK } = require("../helpers/constants");
+const { addExtension } = require('../helpers/teams');
 
 async function run({ target, extension, payload, result }) {
+  extension.inputs = Object.assign({}, default_inputs, extension.inputs);
   if (target.name === 'teams') {
     attachTeamLinks({ extension, payload, result });
   } else if (target.name === 'slack') {
@@ -17,11 +19,7 @@ function attachTeamLinks({ extension, payload, result }) {
     }
   }
   if (links.length) {
-    payload.body.push({
-      "type": "TextBlock",
-      "text": links.join(' ｜ '),
-      "separator": true
-    });
+    addExtension({ payload, extension, text: links.join(' ｜ ') });
   }
 }
 
@@ -47,8 +45,13 @@ function attachSlackLinks({ extension, payload, result }) {
 }
 
 const default_options = {
-  hook: 'end',
-  condition: STATUS.PASS_OR_FAIL
+  hook: HOOK.END,
+  condition: STATUS.PASS_OR_FAIL,
+}
+
+const default_inputs = {
+  title: '',
+  separator: true
 }
 
 module.exports = {
