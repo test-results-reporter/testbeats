@@ -1,11 +1,13 @@
 const { STATUS, HOOK } = require("../helpers/constants");
 const { addExtension } = require('../helpers/teams');
+const { addContextText } = require('../helpers/slack');
 
 async function run({ target, extension, payload, result }) {
-  extension.inputs = Object.assign({}, default_inputs, extension.inputs);
   if (target.name === 'teams') {
+    extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
     attachTeamLinks({ extension, payload, result });
   } else if (target.name === 'slack') {
+    extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
     attachSlackLinks({ extension, payload, result });
   }
 }
@@ -32,15 +34,7 @@ function attachSlackLinks({ extension, payload, result }) {
     }
   }
   if (links.length) {
-    payload.blocks.push({
-      "type": "context",
-      "elements": [
-        {
-          "type": "mrkdwn",
-          "text": links.join(' ｜ ')
-        }
-      ]
-    });
+    addContextText({ payload, extension, text: links.join(' ｜ ') });
   }
 }
 
@@ -49,9 +43,14 @@ const default_options = {
   condition: STATUS.PASS_OR_FAIL,
 }
 
-const default_inputs = {
+const default_inputs_teams = {
   title: '',
   separator: true
+}
+
+const default_inputs_slack = {
+  title: '',
+  separator: false
 }
 
 module.exports = {

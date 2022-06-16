@@ -1,4 +1,4 @@
-function addExtension({payload, extension, text }) {
+function addExtension({ payload, extension, text }) {
   if (extension.inputs.title) {
     payload.body.push({
       "type": "TextBlock",
@@ -21,7 +21,7 @@ function addExtension({payload, extension, text }) {
       "separator": extension.inputs.separator
     });
   }
-  
+
 }
 
 module.exports = {

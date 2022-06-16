@@ -1,11 +1,13 @@
 const { getOnCallPerson } = require('rosters');
 const { addExtension } = require('../helpers/teams');
+const { addSectionText } = require('../helpers/slack');
 
 function run({ target, extension, payload }) {
-  extension.inputs = Object.assign({}, default_inputs, extension.inputs);
   if (target.name === 'teams') {
+    extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
     attachForTeam({ extension, payload });
   } else if (target.name === 'slack') {
+    extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
     attachForSlack({ extension, payload });
   }
 }
@@ -33,13 +35,7 @@ function attachForSlack({ extension, payload }) {
   const users = getUsers(extension);
   const user_ids = users.map(user => `<@${user.slack_uid}>`);
   if (users.length > 0) {
-    payload.blocks.push({
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": user_ids.join(' ｜ ')
-      }
-    });
+    addSectionText({ payload, extension, text: user_ids.join(' ｜ ') });
   }
 }
 
@@ -73,9 +69,14 @@ const default_options = {
   condition: 'fail'
 }
 
-const default_inputs = {
+const default_inputs_teams = {
   title: '',
   separator: true
+}
+
+const default_inputs_slack = {
+  title: '',
+  separator: false
 }
 
 module.exports = {
