@@ -1,4 +1,5 @@
 const { getLaunchDetails, getLastLaunchByName } = require('../helpers/report-portal');
+const { addExtension } = require('../helpers/teams');
 
 function getReportPortalDefectsSummary(defects, bold = '**') {
   const results = [];
@@ -30,18 +31,8 @@ function getReportPortalDefectsSummary(defects, bold = '**') {
   return results;
 }
 
-function attachForTeams(payload, analyses) {
-  payload.body.push({
-    "type": "TextBlock",
-    "text": "Report Portal Analysis",
-    "isSubtle": true,
-    "weight": "bolder",
-    "separator": true
-  });
-  payload.body.push({
-    "type": "TextBlock",
-    "text": analyses.join(' ｜ ')
-  });
+function attachForTeams({ payload, analyses, extension }) {
+  addExtension({ payload, extension, text: analyses.join(' ｜ ')});
 }
 
 function attachForSlack(payload, analyses) {
@@ -63,11 +54,12 @@ async function _getLaunchDetails(options) {
 
 async function run({ extension, payload, target }) {
   try {
+    extension.inputs = Object.assign({}, default_inputs, extension.inputs);
     const { statistics } = await _getLaunchDetails(extension.inputs);
     if (statistics && statistics.defects) {
       if (target.name === 'teams') {
         const analyses = getReportPortalDefectsSummary(statistics.defects);
-        attachForTeams(payload, analyses);
+        attachForTeams({ payload, analyses, extension });
       } else {
         const analyses = getReportPortalDefectsSummary(statistics.defects, '*');
         attachForSlack(payload, analyses);
@@ -82,6 +74,11 @@ async function run({ extension, payload, target }) {
 const default_options = {
   hook: 'end',
   condition: 'fail'
+}
+
+const default_inputs = {
+  title: 'Report Portal Analysis',
+  separator: true
 }
 
 module.exports = {

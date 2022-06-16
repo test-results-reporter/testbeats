@@ -299,7 +299,7 @@ describe('extensions - hyperlinks', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
-  it('should send test-summary with links to teams - default condition', async () => {
+  it('should send test-summary with links to teams - with title and without separator', async () => {
     const id = mock.addInteraction('post test-summary with hyperlinks having a title and without a separator to teams');
     await publish({
       config: {

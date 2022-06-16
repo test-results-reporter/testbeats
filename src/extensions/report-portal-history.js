@@ -1,4 +1,5 @@
 const { getSuiteHistory, getLastLaunchByName, getLaunchDetails } = require('../helpers/report-portal');
+const { addExtension } = require('../helpers/teams');
 
 async function getLaunchHistory(inputs) {
   if (!inputs.launch_id && inputs.launch_name) {
@@ -31,18 +32,11 @@ function getSymbols(launches) {
   return symbols;
 }
 
-function attachForTeams(payload, symbols) {
-  payload.body.push({
-    "type": "TextBlock",
-    "text": `Last ${symbols.length} Runs`,
-    "isSubtle": true,
-    "weight": "bolder",
-    "separator": true
-  });
-  payload.body.push({
-    "type": "TextBlock",
-    "text": symbols.join(' ')
-  });
+function attachForTeams({ payload, symbols, extension }) {
+  if (extension.inputs.title === 'Last Runs') {
+    extension.inputs.title = `Last ${symbols.length} Runs`
+  }
+  addExtension({ payload, extension, text: symbols.join(' ') });
 }
 
 function attachForSlack(payload, symbols) {
@@ -62,7 +56,7 @@ async function run({ extension, target, payload }) {
     const symbols = getSymbols(launches);
     if (symbols.length > 0) {
       if (target.name === 'teams') {
-        attachForTeams(payload, symbols);
+        attachForTeams({ payload, symbols, extension });
       } else {
         attachForSlack(payload, symbols);
       }
@@ -74,7 +68,9 @@ async function run({ extension, target, payload }) {
 }
 
 const default_inputs = {
-  history_depth: 5
+  history_depth: 5,
+  title: 'Last Runs',
+  separator: true
 }
 
 const default_options = {
