@@ -1,6 +1,5 @@
 const request = require('phin-retry');
-const { getPercentage, truncate } = require('../helpers/helper');
-const { toColonNotation } = require('colon-notation');
+const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
 const { HOOK } = require('../helpers/constants');
 
@@ -44,7 +43,7 @@ function getMainPayload() {
 function setMainBlock({ result, target, payload }) {
   let text = `*${getTitleText(result, target)}*\n`;
   text += `\n*Results*: ${getResultText(result)}`;
-  text += `\n*Duration*: ${getDurationText(result)}`;
+  text += `\n*Duration*: ${getPrettyDuration(result.duration, target.inputs.duration)}`;
   payload.blocks.push({
     "type": "section",
     "text": {
@@ -67,10 +66,6 @@ function getResultText(result) {
   return `${result.passed} / ${result.total} Passed (${percentage}%)`;
 }
 
-function getDurationText(result) {
-  return `${toColonNotation(parseInt(result.duration))}`;
-}
-
 function setSuiteBlock({ result, target, payload }) {
   if (target.inputs.include_suites) {
     for (let i = 0; i < result.suites.length; i++) {
@@ -80,7 +75,7 @@ function setSuiteBlock({ result, target, payload }) {
       }
       // if suites length eq to 1 then main block will include suite summary
       if (result.suites.length > 1) {
-        payload.blocks.push(getSuiteSummary(suite));
+        payload.blocks.push(getSuiteSummary({ target, suite }));
       }
       if (target.inputs.include_failure_details) {
         payload.blocks.push(getFailureDetails(suite));
@@ -89,23 +84,10 @@ function setSuiteBlock({ result, target, payload }) {
   }
 }
 
-function getSuiteSummary(suite) {
+function getSuiteSummary({ target, suite }) {
   let text = `*${getSuiteTitle(suite)}*\n`;
   text += `\n*Results*: ${getResultText(suite)}`;
-  text += `\n*Duration*: ${getDurationText(suite)}`;
-  return {
-    "type": "section",
-    "text": {
-      "type": "mrkdwn",
-      "text": text
-    }
-  };
-}
-
-function getSuiteSummary(suite) {
-  let text = `*${getSuiteTitle(suite)}*\n`;
-  text += `\n*Results*: ${getResultText(suite)}`;
-  text += `\n*Duration*: ${getDurationText(suite)}`;
+  text += `\n*Duration*: ${getPrettyDuration(suite.duration, target.inputs.duration )}`;
   return {
     "type": "section",
     "text": {
@@ -167,6 +149,7 @@ const default_inputs = {
   include_suites: true,
   only_failure_suites: false,
   include_failure_details: false,
+  duration: 'colonNotation'
 }
 
 module.exports = {

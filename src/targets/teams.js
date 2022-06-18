@@ -1,6 +1,5 @@
 const request = require('phin-retry');
-const { toColonNotation } = require('colon-notation');
-const { getPercentage, truncate } = require('../helpers/helper');
+const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
 const { HOOK } = require('../helpers/constants');
 
@@ -10,7 +9,7 @@ async function run({result, target}) {
   const payload = getMainPayload(target);
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   setTitleBlock(result, { target, payload });
-  setMainBlock(result, { target, payload });
+  setMainBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
   setSuiteBlock(result, { target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
@@ -76,7 +75,7 @@ function setTitleBlock(result, { target, payload }) {
   });
 }
 
-function setMainBlock(result, { payload }) {
+function setMainBlock({ result, target, payload }) {
   const facts = [];
   const percentage = getPercentage(result.passed, result.total);
   facts.push({
@@ -85,7 +84,7 @@ function setMainBlock(result, { payload }) {
   });
   facts.push({
     "title": "Duration:",
-    "value": `${toColonNotation(parseInt(result.duration))}`
+    "value": `${getPrettyDuration(result.duration, target.inputs.duration)}`
   });
   payload.body.push({
     "type": "FactSet",
@@ -102,7 +101,7 @@ function setSuiteBlock(result, { target, payload }) {
       }
       // if suites length eq to 1 then main block will include suite summary
       if (result.suites.length > 1) {
-        payload.body.push(...getSuiteSummary(suite));
+        payload.body.push(...getSuiteSummary({ suite, target }));
       }
       if (target.inputs.include_failure_details) {
         payload.body.push(...getFailureDetailsFactSets(suite));
@@ -111,7 +110,7 @@ function setSuiteBlock(result, { target, payload }) {
   }
 }
 
-function getSuiteSummary(suite) {
+function getSuiteSummary({ suite, target }) {
   const percentage = getPercentage(suite.passed, suite.total);
   const emoji = suite.status === 'PASS' ? '✅' : '❌';
   return [
@@ -131,7 +130,7 @@ function getSuiteSummary(suite) {
         },
         {
           "title": "Duration:",
-          "value": `${toColonNotation(parseInt(suite.duration))}`
+          "value": `${getPrettyDuration(suite.duration, target.inputs.duration)}`
         }
       ]
     }
@@ -187,7 +186,8 @@ const default_inputs = {
   include_suites: true,
   only_failure_suites: false,
   include_failure_details: false,
-  width: ""
+  width: '',
+  duration: 'colonNotation'
 }
 
 module.exports = {
