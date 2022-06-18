@@ -182,6 +182,37 @@ describe('targets - teams', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary-slim with verbose duration', async () => {
+    const id = mock.addInteraction('post test-summary-slim with verbose duration');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message",
+                  "publish": "test-summary-slim",
+                  "duration": "verbose"
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/multiple-suites.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

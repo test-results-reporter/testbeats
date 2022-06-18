@@ -63,6 +63,7 @@ export interface SlackInputs {
   only_failures?: boolean;
   title?: string;
   title_suffix?: string;
+  duration?: string;
 }
 
 export interface TeamsInputs {
@@ -72,6 +73,7 @@ export interface TeamsInputs {
   title?: string;
   title_suffix?: string;
   width?: string;
+  duration?: string;
 }
 
 export interface Target {

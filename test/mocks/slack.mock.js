@@ -14,7 +14,7 @@ addInteractionHandler('post test-summary to slack', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 0:02"
                 }
               }
             ]
@@ -49,14 +49,14 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 03:22"
+                  "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 3:22"
                 }
               },
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 09:05"
+                  "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 9:05"
                 }
               }
             ]
@@ -119,7 +119,7 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 03:22"
+                  "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 3:22"
                 }
               },
               {
@@ -133,7 +133,7 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 09:05"
+                  "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 9:05"
                 }
               },
               {
@@ -168,7 +168,7 @@ addInteractionHandler('post failure-details to slack with single suite', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
                 }
               },
               {
@@ -203,7 +203,7 @@ addInteractionHandler('post test-summary with hyperlinks to slack - pass status'
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 0:02"
                 }
               },
               {
@@ -240,7 +240,7 @@ addInteractionHandler('post test-summary with hyperlinks to slack - fail status'
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
                 }
               },
               {
@@ -277,7 +277,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis', 
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
                 }
               },
               {
@@ -312,7 +312,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis wi
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
                 }
               },
               {
@@ -350,7 +350,7 @@ addInteractionHandler('post test-summary with mentions to slack', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
                 }
               },
               {
@@ -385,7 +385,7 @@ addInteractionHandler('post test-summary to slack with qc-test-summary', (ctx) =
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
                 },
                 "accessory": {
                   "type": "image",
@@ -418,7 +418,7 @@ addInteractionHandler('post test-summary to slack with report portal history', (
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 00:02"
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
                 }
               },
               {

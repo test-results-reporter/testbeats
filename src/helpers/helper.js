@@ -1,4 +1,5 @@
 const DATA_REF_PATTERN = /(\{[^\}]+\})/g;
+const pretty_ms = require('pretty-ms');
 
 function getPercentage(x, y) {
   if (y > 0) {
@@ -47,8 +48,13 @@ function truncate(text, length) {
   }
 }
 
+function getPrettyDuration(ms, format) {
+  return pretty_ms(parseInt(ms), { [format]: true, secondsDecimalDigits: 0 })
+}
+
 module.exports = {
   getPercentage,
   processData,
   truncate,
+  getPrettyDuration
 }

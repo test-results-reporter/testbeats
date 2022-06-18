@@ -31,7 +31,7 @@ addInteractionHandler('post test-summary to teams', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 }
@@ -99,7 +99,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "03:22"
+                      "value": "3:22"
                     }
                   ]
                 },
@@ -119,7 +119,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "09:05"
+                      "value": "9:05"
                     }
                   ]
                 }
@@ -235,7 +235,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                     },
                     {
                       "title": "Duration:",
-                      "value": "03:22"
+                      "value": "3:22"
                     }
                   ]
                 },
@@ -294,7 +294,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                     },
                     {
                       "title": "Duration:",
-                      "value": "09:05"
+                      "value": "9:05"
                     }
                   ]
                 },
@@ -381,7 +381,7 @@ addInteractionHandler('post failure-details to teams with single suite', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 },
@@ -442,7 +442,7 @@ addInteractionHandler('post test-summary with hyperlinks to teams - pass status'
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 },
@@ -496,7 +496,7 @@ addInteractionHandler('post test-summary with hyperlinks to teams - fail status'
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 },
@@ -550,7 +550,7 @@ addInteractionHandler('post test-summary with hyperlinks having a title and with
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 },
@@ -611,7 +611,7 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 },
@@ -672,7 +672,7 @@ addInteractionHandler('post test-summary to teams with mentions', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 },
@@ -752,7 +752,7 @@ addInteractionHandler('post test-summary to teams with qc-test-summary', (ctx) =
                             },
                             {
                               "title": "Duration:",
-                              "value": "00:02"
+                              "value": "0:02"
                             }
                           ]
                         }
@@ -817,7 +817,7 @@ addInteractionHandler('post test-summary to teams with report portal history', (
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 },
@@ -878,7 +878,7 @@ addInteractionHandler('post test-summary to teams with report portal history wit
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 },
@@ -932,7 +932,7 @@ addInteractionHandler('post test-summary to teams with full width', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "0:02"
                     }
                   ]
                 }
@@ -941,6 +941,54 @@ addInteractionHandler('post test-summary to teams with full width', () => {
               "msteams": {
                 "width": "Full"
               }
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary-slim with verbose duration', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Regression Tests",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "8 / 20 Passed (40%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "23 minutes 23 seconds"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
             }
           }
         ]

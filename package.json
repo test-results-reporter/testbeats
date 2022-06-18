@@ -39,9 +39,9 @@
   },
   "homepage": "https://test-results-reporter.github.io",
   "dependencies": {
-    "colon-notation": "^1.2.1",
     "dotenv": "^14.3.0",
     "phin-retry": "^1.0.3",
+    "pretty-ms": "^7.0.0",
     "rosters": "0.0.1",
     "sade": "^1.7.4",
     "test-results-parser": "^0.0.11"
