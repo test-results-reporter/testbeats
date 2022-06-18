@@ -2,49 +2,17 @@ const teams = require('./teams');
 const slack = require('./slack');
 const custom = require('./custom');
 const delay = require('./delay');
-
-function identifyTarget(target) {
-  if (target.name) {
-    return target.name;
-  }
-  const url = target.url || target.webhook || target['incoming-webhook-url'];
-  if (url) {
-    if (url.includes('hooks.slack.com')) {
-      return 'slack';
-    } else if (url.includes('webhook.office.com')) {
-      return 'team';
-    }
-  }
-  return '';
-}
-
-async function send(options, results) {
-  const name = identifyTarget(options);
-  switch (name) {
-    case 'teams':
-      await teams.send(options, results)
-      break;
-    case 'slack':
-      await slack.send(options, results)
-      break;
-    case 'custom':
-      await custom.send(options, results)
-      break;
-    default:
-      console.log(`UnSupported Target Type - ${name}`);
-      break;
-  }
-}
+const { TARGET } = require('../helpers/constants');
 
 function getTargetRunner(target) {
   switch (target.name) {
-    case 'teams':
+    case TARGET.TEAMS:
       return teams;
-    case 'slack':
+    case TARGET.SLACK:
       return slack;
-    case 'custom':
+    case TARGET.CUSTOM:
       return custom;
-    case 'delay':
+    case TARGET.DELAY:
       return delay;
     default:
       return require(target.name);
@@ -60,6 +28,5 @@ async function run(target, result) {
 }
 
 module.exports = {
-  send,
   run
 }

@@ -1,4 +1,6 @@
 const { getLaunchDetails, getLastLaunchByName } = require('../helpers/report-portal');
+const { addExtension } = require('../helpers/teams');
+const { addSectionText } = require('../helpers/slack');
 
 function getReportPortalDefectsSummary(defects, bold = '**') {
   const results = [];
@@ -30,28 +32,12 @@ function getReportPortalDefectsSummary(defects, bold = '**') {
   return results;
 }
 
-function attachForTeams(payload, analyses) {
-  payload.body.push({
-    "type": "TextBlock",
-    "text": "Report Portal Analysis",
-    "isSubtle": true,
-    "weight": "bolder",
-    "separator": true
-  });
-  payload.body.push({
-    "type": "TextBlock",
-    "text": analyses.join(' ｜ ')
-  });
+function attachForTeams({ payload, analyses, extension }) {
+  addExtension({ payload, extension, text: analyses.join(' ｜ ')});
 }
 
-function attachForSlack(payload, analyses) {
-  payload.blocks.push({
-    "type": "section",
-    "text": {
-      "type": "mrkdwn",
-      "text": `*Report Portal Analysis*\n\n${analyses.join(' ｜ ')}`
-    }
-  });
+function attachForSlack({ payload, analyses, extension }) {
+  addSectionText({ payload, extension, text: analyses.join(' ｜ ')});
 }
 
 async function _getLaunchDetails(options) {
@@ -66,11 +52,13 @@ async function run({ extension, payload, target }) {
     const { statistics } = await _getLaunchDetails(extension.inputs);
     if (statistics && statistics.defects) {
       if (target.name === 'teams') {
+        extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
         const analyses = getReportPortalDefectsSummary(statistics.defects);
-        attachForTeams(payload, analyses);
+        attachForTeams({ payload, analyses, extension });
       } else {
+        extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
         const analyses = getReportPortalDefectsSummary(statistics.defects, '*');
-        attachForSlack(payload, analyses);
+        attachForSlack({ payload, analyses, extension });
       }
     }
   } catch (error) {
@@ -82,6 +70,16 @@ async function run({ extension, payload, target }) {
 const default_options = {
   hook: 'end',
   condition: 'fail'
+}
+
+const default_inputs_teams = {
+  title: 'Report Portal Analysis',
+  separator: true
+}
+
+const default_inputs_slack = {
+  title: 'Report Portal Analysis',
+  separator: false
 }
 
 module.exports = {

@@ -226,6 +226,52 @@ describe('extensions - report-portal-history', () => {
     assert.equal(mock.getInteraction(id3).exercised, true);
   });
 
+  it('should send report-portal-history to teams without title and separator', async () => {
+    const id1 = mock.addInteraction('get launch details');
+    const id2 = mock.addInteraction('get suite history');
+    const id3 = mock.addInteraction('post test-summary to teams with report portal history without title and separator');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "report-portal-history",
+                    "inputs": {
+                      "url": "http://localhost:9393",
+                      "api_key": "abc",
+                      "project": "project-name",
+                      "launch_id": "id123",
+                      "title": "",
+                      "separator": false
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite-failures.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

@@ -3,6 +3,7 @@ const mentions = require('./mentions');
 const rp_analysis = require('./report-portal-analysis');
 const rp_history = require('./report-portal-history');
 const qc_test_summary = require('./quick-chart-test-summary');
+const { EXTENSION } = require('../helpers/constants');
 
 async function run(options) {
   const { target, result, hook } = options;
@@ -22,15 +23,15 @@ async function run(options) {
 
 function getExtensionRunner(extension) {
   switch (extension.name) {
-    case 'hyperlinks':
+    case EXTENSION.HYPERLINKS:
       return hyperlinks;
-    case 'mentions':
+    case EXTENSION.MENTIONS:
       return mentions;
-    case 'report-portal-analysis':
+    case EXTENSION.REPORT_PORTAL_ANALYSIS:
       return rp_analysis;
-    case 'report-portal-history':
+    case EXTENSION.REPORT_PORTAL_HISTORY:
       return rp_history;
-    case 'quick-chart-test-summary':
+    case EXTENSION.QUICK_CHART_TEST_SUMMARY:
       return qc_test_summary;
     default:
       return require(extension.name);

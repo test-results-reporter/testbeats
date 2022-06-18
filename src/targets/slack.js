@@ -2,6 +2,7 @@ const request = require('phin-retry');
 const { getPercentage, truncate } = require('../helpers/helper');
 const { toColonNotation } = require('colon-notation');
 const extension_manager = require('../extensions');
+const { HOOK } = require('../helpers/constants');
 
 const COLORS = {
   GOOD: '#36A64F',
@@ -12,11 +13,11 @@ const COLORS = {
 async function run({ result, target }) {
   setTargetInputs(target);
   const payload = getMainPayload();
-  await extension_manager.run({ result, target, payload, hook: 'start' });
+  await extension_manager.run({ result, target, payload, hook: HOOK.START });
   setMainBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, hook: 'post-main' });
+  await extension_manager.run({ result, target, payload, hook: HOOK.POST_MAIN });
   setSuiteBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, hook: 'end' });
+  await extension_manager.run({ result, target, payload, hook: HOOK.END });
   const message = getRootPayload({ result, payload });
   return request.post({
     url: target.inputs.url,

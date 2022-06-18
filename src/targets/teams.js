@@ -2,17 +2,18 @@ const request = require('phin-retry');
 const { toColonNotation } = require('colon-notation');
 const { getPercentage, truncate } = require('../helpers/helper');
 const extension_manager = require('../extensions');
+const { HOOK } = require('../helpers/constants');
 
 async function run({result, target}) {
   setTargetInputs(target);
   const root_payload = getRootPayload();
   const payload = getMainPayload(target);
-  await extension_manager.run({ result, target, payload, root_payload, hook: 'start' });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   setTitleBlock(result, { target, payload });
   setMainBlock(result, { target, payload });
-  await extension_manager.run({ result, target, payload, root_payload, hook: 'post-main' });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
   setSuiteBlock(result, { target, payload });
-  await extension_manager.run({ result, target, payload, root_payload, hook: 'end' });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
   setRootPayload(root_payload, payload);
   return request.post({
     url: target.inputs.url,

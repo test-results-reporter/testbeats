@@ -299,6 +299,54 @@ describe('extensions - hyperlinks', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary with links to teams - with title and without separator', async () => {
+    const id = mock.addInteraction('post test-summary with hyperlinks having a title and without a separator to teams');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "hyperlinks",
+                    "inputs": {
+                      "title": "Hyperlinks",
+                      "separator": false,
+                      "links": [
+                        {
+                          "text": "Pipeline",
+                          "url": "some-url"
+                        },
+                        {
+                          "text": "Video",
+                          "url": "some-url"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

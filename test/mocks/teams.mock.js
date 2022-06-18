@@ -449,7 +449,8 @@ addInteractionHandler('post test-summary with hyperlinks to teams - pass status'
                 {
                   "type": "TextBlock",
                   "text": "[Pipeline](some-url) ｜ [Video](some-url)",
-                  "separator": true
+                  "separator": true,
+                  "wrap": true
                 }
               ],
               "actions": []
@@ -502,7 +503,69 @@ addInteractionHandler('post test-summary with hyperlinks to teams - fail status'
                 {
                   "type": "TextBlock",
                   "text": "[Pipeline](some-url) ｜ [Video](some-url)",
-                  "separator": true
+                  "separator": true,
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary with hyperlinks having a title and without a separator to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "✅ Default suite",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "4 / 4 Passed (100%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "00:02"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Hyperlinks",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "separator": false,
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "[Pipeline](some-url) ｜ [Video](some-url)",
+                  "wrap": true
                 }
               ],
               "actions": []
@@ -557,11 +620,13 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
                   "text": "Report Portal Analysis",
                   "isSubtle": true,
                   "weight": "bolder",
+                  "wrap": true,
                   "separator": true
                 },
                 {
                   "type": "TextBlock",
-                  "text": "🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ **🟠 TI - 4**"
+                  "text": "🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ **🟠 TI - 4**",
+                  "wrap": true
                 }
               ],
               "actions": []
@@ -614,6 +679,7 @@ addInteractionHandler('post test-summary to teams with mentions', () => {
                 {
                   "type": "TextBlock",
                   "text": "<at>mom</at> ｜ <at>dad</at>",
+                  "wrap": true,
                   "separator": true
                 }
               ],
@@ -760,11 +826,67 @@ addInteractionHandler('post test-summary to teams with report portal history', (
                   "text": "Last 3 Runs",
                   "isSubtle": true,
                   "weight": "bolder",
+                  "wrap": true,
                   "separator": true
                 },
                 {
                   "type": "TextBlock",
-                  "text": "❌ ✅ ⚠️"
+                  "text": "❌ ✅ ⚠️",
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to teams with report portal history without title and separator', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Default suite",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "3 / 4 Passed (75%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "00:02"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "❌ ✅ ⚠️",
+                  "wrap": true,
+                  "separator": false
                 }
               ],
               "actions": []

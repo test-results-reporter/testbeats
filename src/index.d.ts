@@ -10,6 +10,8 @@ export interface ReportPortalAnalysisInputs {
   project: string;
   launch_id: string;
   launch_name: string;
+  title?: string;
+  separator?: boolean;
 }
 
 export interface ReportPortalHistoryInputs {
@@ -19,6 +21,8 @@ export interface ReportPortalHistoryInputs {
   launch_id: string;
   launch_name: string;
   history_depth: number;
+  title?: string;
+  separator?: boolean;
 }
 
 export interface QuickChartTestSummaryInputs {
@@ -27,11 +31,15 @@ export interface QuickChartTestSummaryInputs {
 
 export interface HyperlinkInputs {
   links: Link[];
+  title?: string;
+  separator?: boolean;
 }
 
 export interface MentionInputs {
   users?: User[];
   schedule?: Schedule;
+  title?: string;
+  separator?: boolean;
 }
 
 export interface Extension {
