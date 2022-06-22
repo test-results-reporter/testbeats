@@ -1,8 +1,9 @@
 function addExtension({ payload, extension, text }) {
   if (extension.inputs.title) {
+    const title = extension.inputs.title_link ? `[${extension.inputs.title}](${extension.inputs.title_link})` : extension.inputs.title
     payload.body.push({
       "type": "TextBlock",
-      "text": extension.inputs.title,
+      "text": title,
       "isSubtle": true,
       "weight": "bolder",
       "separator": extension.inputs.separator,

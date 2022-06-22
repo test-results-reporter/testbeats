@@ -6,7 +6,8 @@ function addSectionText({ payload, extension, text }) {
   }
   let updated_text = text;
   if (extension.inputs.title) {
-    updated_text = `*${extension.inputs.title}*\n\n${text}`;
+    const title = extension.inputs.title_link ? `<${extension.inputs.title_link}|${extension.inputs.title}>` : extension.inputs.title;
+    updated_text = `*${title}*\n\n${text}`;
   }
   payload.blocks.push({
     "type": "section",

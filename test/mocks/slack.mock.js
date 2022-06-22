@@ -298,6 +298,41 @@ addInteractionHandler('post test-summary to slack with report portal analysis', 
   }
 });
 
+addInteractionHandler('post test-summary to slack with report portal analysis with title_link', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*<http://localhost:9393|Report Portal Analysis>*\n\n🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ *🟠 TI - 4*"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post test-summary to slack with report portal analysis with separator and without title', () => {
   return {
     request: {

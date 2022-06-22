@@ -4,42 +4,40 @@ export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions'
 export type Hook = 'start' | 'end';
 export type Condition = 'pass' | 'fail' | 'passOrFail';
 
-export interface ReportPortalAnalysisInputs {
+export interface ExtensionInputs {
+  title?: string;
+  title_link?: string;
+  separator?: boolean;
+}
+
+export interface ReportPortalAnalysisInputs extends ExtensionInputs {
   url: string;
   api_key: string;
   project: string;
   launch_id: string;
   launch_name: string;
-  title?: string;
-  separator?: boolean;
 }
 
-export interface ReportPortalHistoryInputs {
+export interface ReportPortalHistoryInputs extends ExtensionInputs {
   url: string;
   api_key: string;
   project: string;
   launch_id: string;
   launch_name: string;
   history_depth: number;
-  title?: string;
-  separator?: boolean;
 }
 
 export interface QuickChartTestSummaryInputs {
   url: string;
 }
 
-export interface HyperlinkInputs {
+export interface HyperlinkInputs extends ExtensionInputs {
   links: Link[];
-  title?: string;
-  separator?: boolean;
 }
 
-export interface MentionInputs {
+export interface MentionInputs extends ExtensionInputs {
   users?: User[];
   schedule?: Schedule;
-  title?: string;
-  separator?: boolean;
 }
 
 export interface Extension {
