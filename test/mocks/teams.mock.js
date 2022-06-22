@@ -641,6 +641,67 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
   }
 });
 
+addInteractionHandler('post test-summary to teams with report portal analysis with title_link', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Default suite",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "3 / 4 Passed (75%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "0:02"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "[Report Portal Analysis](http://localhost:9393)",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true,
+                  "separator": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ **🟠 TI - 4**",
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post test-summary to teams with mentions', () => {
   return {
     request: {

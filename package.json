@@ -1,6 +1,6 @@
 {
   "name": "test-results-reporter",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Publish test results to Microsoft Teams and Slack",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
@@ -11,7 +11,8 @@
     "/src"
   ],
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "coverage": "nyc --reporter=lcov --reporter=text npm run test"
   },
   "repository": {
     "type": "git",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "mocha": "^10.0.0",
+    "nyc": "^15.1.0",
     "pactum": "^3.1.8"
   }
 }
