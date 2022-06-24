@@ -3,6 +3,8 @@ import { User, Schedule } from 'rosters';
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary';
 export type Hook = 'start' | 'end';
 export type Condition = 'pass' | 'fail' | 'passOrFail';
+export type TargetName = 'slack' | 'teams' | 'chat' | 'custom';
+export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
 
 export interface ExtensionInputs {
   title?: string;
@@ -52,8 +54,6 @@ export interface Link {
   url: string;
 }
 
-export type TargetName = 'slack' | 'teams' | 'custom';
-export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
 
 export interface SlackInputs {
   url: string;
