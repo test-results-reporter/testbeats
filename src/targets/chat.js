@@ -9,9 +9,9 @@ async function run({ result, target }) {
   const payload = root_payload.cards[0];
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   setMainBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, hook: HOOK.POST_MAIN });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
   setSuiteBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, hook: HOOK.END });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
   return request.post({
     url: target.inputs.url,
     body: root_payload

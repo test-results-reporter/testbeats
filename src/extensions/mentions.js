@@ -1,14 +1,17 @@
 const { getOnCallPerson } = require('rosters');
 const { addExtension } = require('../helpers/teams');
-const { addSectionText } = require('../helpers/slack');
+const { addTextBlock } = require('../helpers/slack');
 
-function run({ target, extension, payload }) {
+function run({ target, extension, payload, root_payload }) {
   if (target.name === 'teams') {
     extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
     attachForTeam({ extension, payload });
   } else if (target.name === 'slack') {
     extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
     attachForSlack({ extension, payload });
+  } else if (target.name === 'chat') {
+    extension.inputs = Object.assign({}, default_inputs_chat, extension.inputs);
+    attachForChat({ extension, root_payload });
   }
 }
 
@@ -35,7 +38,15 @@ function attachForSlack({ extension, payload }) {
   const users = getUsers(extension);
   const user_ids = users.map(user => `<@${user.slack_uid}>`);
   if (users.length > 0) {
-    addSectionText({ payload, extension, text: user_ids.join(' ｜ ') });
+    addTextBlock({ payload, extension, text: user_ids.join(' ｜ ') });
+  }
+}
+
+function attachForChat({ extension, root_payload }) {
+  const users = getUsers(extension);
+  const user_ids = users.map(user => `<users/${user.chat_uid}>`);
+  if (users.length > 0) {
+    root_payload.text = user_ids.join(' ｜ ');
   }
 }
 
@@ -77,6 +88,11 @@ const default_inputs_teams = {
 const default_inputs_slack = {
   title: '',
   separator: false
+}
+
+const default_inputs_chat = {
+  title: '',
+  separator: true
 }
 
 module.exports = {

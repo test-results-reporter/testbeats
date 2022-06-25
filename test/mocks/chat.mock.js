@@ -196,3 +196,123 @@ addInteractionHandler('post failure-details to chat with single suite', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary with hyperlinks to chat', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE"
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<a href=\"some-url\">Pipeline</a> ｜ <a href=\"some-url\">Video</a>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to chat with mentions', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "text": "<users/12345> ｜ <users/67890>",
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to chat with report portal analysis', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>Report Portal Analysis</b><br><br>🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ <b>🟠 TI - 4</b>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to chat with report portal history', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>Last 3 Runs</b><br><br>❌ ✅ ⚠️"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

@@ -272,6 +272,50 @@ describe('extensions - report-portal-history', () => {
     assert.equal(mock.getInteraction(id3).exercised, true);
   });
 
+  it('should send report-portal-history to chat', async () => {
+    const id1 = mock.addInteraction('get launch details');
+    const id2 = mock.addInteraction('get suite history');
+    const id3 = mock.addInteraction('post test-summary to chat with report portal history');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "chat",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "report-portal-history",
+                    "inputs": {
+                      "url": "http://localhost:9393",
+                      "api_key": "abc",
+                      "project": "project-name",
+                      "launch_id": "id123"
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite-failures.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

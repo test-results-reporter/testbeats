@@ -347,6 +347,52 @@ describe('extensions - hyperlinks', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary with links to chat', async () => {
+    const id = mock.addInteraction('post test-summary with hyperlinks to chat');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "chat",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "hyperlinks",
+                    "inputs": {
+                      "links": [
+                        {
+                          "text": "Pipeline",
+                          "url": "some-url"
+                        },
+                        {
+                          "text": "Video",
+                          "url": "some-url"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

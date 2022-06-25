@@ -1,4 +1,4 @@
-function addSectionText({ payload, extension, text }) {
+function addTextBlock({ payload, extension, text }) {
   if (extension.inputs.separator) {
     payload.blocks.push({
       "type": "divider"
@@ -18,7 +18,7 @@ function addSectionText({ payload, extension, text }) {
   });
 }
 
-function addContextText({ payload, extension, text }) {
+function addContextTextBlock({ payload, extension, text }) {
   if (extension.inputs.separator) {
     payload.blocks.push({
       "type": "divider"
@@ -40,6 +40,6 @@ function addContextText({ payload, extension, text }) {
 }
 
 module.exports = {
-  addSectionText,
-  addContextText
+  addTextBlock,
+  addContextTextBlock
 }
