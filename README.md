@@ -30,8 +30,6 @@
 
 <hr>
 
-<br>
-
 ## Sample Reports
 
 <br>
