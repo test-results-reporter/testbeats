@@ -4,7 +4,7 @@
 
 ## Test Results Reporter
 
-#### Publish test results to Microsoft Teams, Slack and many more.
+#### Publish test results to Microsoft Teams, Google Chat, Slack and many more.
 
 <br />
 
@@ -13,6 +13,26 @@
 ![Size](https://img.shields.io/bundlephobia/minzip/test-results-reporter)
 
 [![Stars](https://img.shields.io/github/stars/test-results-reporter/reporter?style=social)](https://github.com/test-results-reporter/reporter/stargazers)
+
+<hr>
+
+### Targets
+
+<img height="48" style="margin: 6px;" src="./assets/slack.png" alt="slack" /> <img height="48" style="margin: 6px;"  src="./assets/teams.png" alt="teams" /> <img height="48" style="margin: 6px;"  src="./assets/chat.png" alt="chat" />
+
+### Extensions
+
+<img height="48" style="margin: 6px;" src="./assets/reportportal.jpeg" alt="reportportal" /> <img height="48" style="margin: 6px;"  src="./assets/quickchart.png" alt="quickchart" /> <img height="48" style="margin: 6px;"  src="./assets/hyperlink.png" alt="hyperlink" /> <img height="48" style="margin: 6px;"  src="./assets/mentions.png" alt="mentions" />
+
+### Test Results
+
+<img height="48" style="margin: 6px;" src="./assets/testng.png" alt="testng" /> <img height="48" style="margin: 6px;"  src="./assets/junit.png" alt="junit" /> <img height="48" style="margin: 6px;"  src="./assets/cucumber.png" alt="cucumber" /> <img height="48" style="margin: 6px;"  src="./assets/mocha.png" alt="mocha" /> <img height="48" style="margin: 6px;"  src="./assets/xunit.png" alt="xunit" />
+
+<hr>
+
+## Sample Reports
+
+<br>
 
 ![teams-summary-report](https://github.com/test-results-reporter/reporter/raw/main/assets/teams-qc.png)
 

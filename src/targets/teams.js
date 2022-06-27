@@ -3,7 +3,7 @@ const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helpe
 const extension_manager = require('../extensions');
 const { HOOK } = require('../helpers/constants');
 
-async function run({result, target}) {
+async function run({ result, target }) {
   setTargetInputs(target);
   const root_payload = getRootPayload();
   const payload = getMainPayload(target);

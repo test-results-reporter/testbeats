@@ -66,7 +66,7 @@ function run(params) {
   params.extension.inputs["url"] = (extension.inputs.url && extension.inputs.url.trim()) || constants.QUICK_CHART_URL;
   if (target.name === 'teams') {
     attachForTeams(params);
-  } else {
+  } else if (target.name === 'slack') {
     attachForSlack(params);
   }
 }

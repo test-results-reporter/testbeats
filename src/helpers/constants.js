@@ -13,6 +13,7 @@ const HOOK = Object.freeze({
 const TARGET = Object.freeze({
   SLACK: 'slack',
   TEAMS: 'teams',
+  CHAT: 'chat',
   CUSTOM: "custom",
   DELAY: 'delay'
 });

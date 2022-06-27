@@ -205,6 +205,52 @@ describe('extensions - mentions', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should mention users in chat', async () => {
+    const id = mock.addInteraction('post test-summary to chat with mentions');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "chat",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "mentions",
+                    "inputs": {
+                      "users": [
+                        {
+                          "name": "mom",
+                          "chat_uid": "12345"
+                        },
+                        {
+                          "name": "dad",
+                          "chat_uid": "67890"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite-failures.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

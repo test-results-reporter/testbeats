@@ -1,6 +1,7 @@
 const { getSuiteHistory, getLastLaunchByName, getLaunchDetails } = require('../helpers/report-portal');
 const { addExtension } = require('../helpers/teams');
-const { addSectionText } = require('../helpers/slack');
+const { addTextBlock } = require('../helpers/slack');
+const { addTextSection } = require('../helpers/chat');
 
 async function getLaunchHistory(inputs) {
   if (!inputs.launch_id && inputs.launch_name) {
@@ -34,17 +35,24 @@ function getSymbols(launches) {
 }
 
 function attachForTeams({ payload, symbols, extension }) {
-  if (extension.inputs.title === 'Last Runs') {
-    extension.inputs.title = `Last ${symbols.length} Runs`
-  }
+  setTitle(extension, symbols);
   addExtension({ payload, extension, text: symbols.join(' ') });
 }
 
 function attachForSlack({ payload, symbols, extension }) {
+  setTitle(extension, symbols);
+  addTextBlock({ payload, extension, text: symbols.join(' ') });
+}
+
+function attachForChat({ payload, symbols, extension }) {
+  setTitle(extension, symbols);
+  addTextSection({ payload, extension, text: symbols.join(' ') });
+}
+
+function setTitle(extension, symbols) {
   if (extension.inputs.title === 'Last Runs') {
     extension.inputs.title = `Last ${symbols.length} Runs`
   }
-  addSectionText({ payload, extension, text: symbols.join(' ') });
 }
 
 async function run({ extension, target, payload }) {
@@ -56,9 +64,12 @@ async function run({ extension, target, payload }) {
       if (target.name === 'teams') {
         extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
         attachForTeams({ payload, symbols, extension });
-      } else {
+      } else if (target.name === 'slack') {
         extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
         attachForSlack({ payload, symbols, extension });
+      } else if (target.name === 'chat') {
+        extension.inputs = Object.assign({}, default_inputs_chat, extension.inputs);
+        attachForChat({ payload, symbols, extension });
       }
     }
   } catch (error) {
@@ -73,6 +84,10 @@ const default_inputs = {
 }
 
 const default_inputs_teams = {
+  separator: true
+}
+
+const default_inputs_chat = {
   separator: true
 }
 

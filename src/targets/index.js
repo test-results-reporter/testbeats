@@ -1,5 +1,6 @@
 const teams = require('./teams');
 const slack = require('./slack');
+const chat = require('./chat');
 const custom = require('./custom');
 const delay = require('./delay');
 const { TARGET } = require('../helpers/constants');
@@ -10,6 +11,8 @@ function getTargetRunner(target) {
       return teams;
     case TARGET.SLACK:
       return slack;
+    case TARGET.CHAT:
+      return chat;
     case TARGET.CUSTOM:
       return custom;
     case TARGET.DELAY:

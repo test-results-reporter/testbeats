@@ -52,9 +52,24 @@ function getPrettyDuration(ms, format) {
   return pretty_ms(parseInt(ms), { [format]: true, secondsDecimalDigits: 0 })
 }
 
+function getTitleText({ result, target }) {
+  const title = target.inputs.title ? target.inputs.title : result.name;
+  if (target.inputs.title_suffix) {
+    return `${title} ${target.inputs.title_suffix}`;
+  }
+  return `${title}`;
+}
+
+function getResultText({ result }) {
+  const percentage = getPercentage(result.passed, result.total);
+  return `${result.passed} / ${result.total} Passed (${percentage}%)`;
+}
+
 module.exports = {
   getPercentage,
   processData,
   truncate,
-  getPrettyDuration
+  getPrettyDuration,
+  getTitleText,
+  getResultText
 }

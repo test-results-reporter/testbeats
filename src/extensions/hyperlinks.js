@@ -1,18 +1,22 @@
 const { STATUS, HOOK } = require("../helpers/constants");
 const { addExtension } = require('../helpers/teams');
-const { addContextText } = require('../helpers/slack');
+const { addContextTextBlock } = require('../helpers/slack');
+const { addTextSection } = require('../helpers/chat');
 
 async function run({ target, extension, payload, result }) {
   if (target.name === 'teams') {
     extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
-    attachTeamLinks({ extension, payload, result });
+    attachLinksToTeams({ extension, payload, result });
   } else if (target.name === 'slack') {
     extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
-    attachSlackLinks({ extension, payload, result });
+    attachLinksToSLack({ extension, payload, result });
+  } else if (target.name === 'chat') {
+    extension.inputs = Object.assign({}, default_inputs_chat, extension.inputs);
+    attachLinksToChat({ extension, payload, result });
   }
 }
 
-function attachTeamLinks({ extension, payload, result }) {
+function attachLinksToTeams({ extension, payload, result }) {
   const links = [];
   for (const link of extension.inputs.links) {
     link["condition"] = link.condition || default_options.condition;
@@ -25,7 +29,7 @@ function attachTeamLinks({ extension, payload, result }) {
   }
 }
 
-function attachSlackLinks({ extension, payload, result }) {
+function attachLinksToSLack({ extension, payload, result }) {
   const links = [];
   for (const link of extension.inputs.links) {
     link["condition"] = link.condition || default_options.condition;
@@ -34,7 +38,20 @@ function attachSlackLinks({ extension, payload, result }) {
     }
   }
   if (links.length) {
-    addContextText({ payload, extension, text: links.join(' ｜ ') });
+    addContextTextBlock({ payload, extension, text: links.join(' ｜ ') });
+  }
+}
+
+function attachLinksToChat({ extension, payload, result }) {
+  const links = [];
+  for (const link of extension.inputs.links) {
+    link["condition"] = link.condition || default_options.condition;
+    if (link.condition.toLowerCase().includes(result.status.toLowerCase())) {
+      links.push(`<a href="${link.url}">${link.text}</a>`);
+    }
+  }
+  if (links.length) {
+    addTextSection({ payload, extension, text: links.join(' ｜ ') });
   }
 }
 
@@ -51,6 +68,11 @@ const default_inputs_teams = {
 const default_inputs_slack = {
   title: '',
   separator: false
+}
+
+const default_inputs_chat = {
+  title: '',
+  separator: true
 }
 
 module.exports = {
