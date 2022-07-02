@@ -1,5 +1,7 @@
-const DATA_REF_PATTERN = /(\{[^\}]+\})/g;
 const pretty_ms = require('pretty-ms');
+
+const DATA_REF_PATTERN = /(\{[^\}]+\})/g;
+const ALLOWED_CONDITIONS = new Set(['pass', 'fail', 'passorfail']);
 
 function getPercentage(x, y) {
   if (y > 0) {
@@ -65,11 +67,26 @@ function getResultText({ result }) {
   return `${result.passed} / ${result.total} Passed (${percentage}%)`;
 }
 
+/**
+ * 
+ * @param {object} param0
+ * @param {string} param0.condition 
+ */
+function checkCondition({ condition, result }) {
+  const lower_condition = condition.toLowerCase();
+  if (ALLOWED_CONDITIONS.has(lower_condition)) {
+    return lower_condition.includes(result.status.toLowerCase());
+  } else {
+    return eval(condition);
+  }
+}
+
 module.exports = {
   getPercentage,
   processData,
   truncate,
   getPrettyDuration,
   getTitleText,
-  getResultText
+  getResultText,
+  checkCondition
 }

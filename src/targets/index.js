@@ -4,6 +4,7 @@ const chat = require('./chat');
 const custom = require('./custom');
 const delay = require('./delay');
 const { TARGET } = require('../helpers/constants');
+const { checkCondition } = require('../helpers/helper');
 
 function getTargetRunner(target) {
   switch (target.name) {
@@ -25,7 +26,7 @@ function getTargetRunner(target) {
 async function run(target, result) {
   const target_runner = getTargetRunner(target);
   const target_options = Object.assign({}, target_runner.default_options, target);
-  if (target_options.condition.toLowerCase().includes(result.status.toLowerCase())) {
+  if (checkCondition({ condition: target_options.condition, result })) {
     await target_runner.run({result, target});
   }
 }

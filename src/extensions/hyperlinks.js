@@ -2,6 +2,7 @@ const { STATUS, HOOK } = require("../helpers/constants");
 const { addExtension } = require('../helpers/teams');
 const { addContextTextBlock } = require('../helpers/slack');
 const { addTextSection } = require('../helpers/chat');
+const { checkCondition } = require('../helpers/helper');
 
 async function run({ target, extension, payload, result }) {
   if (target.name === 'teams') {
@@ -18,11 +19,8 @@ async function run({ target, extension, payload, result }) {
 
 function attachLinksToTeams({ extension, payload, result }) {
   const links = [];
-  for (const link of extension.inputs.links) {
-    link["condition"] = link.condition || default_options.condition;
-    if (link.condition.toLowerCase().includes(result.status.toLowerCase())) {
-      links.push(`[${link.text}](${link.url})`);
-    }
+  for (const link of getValidLinks(extension.inputs.links, result)) {
+    links.push(`[${link.text}](${link.url})`);
   }
   if (links.length) {
     addExtension({ payload, extension, text: links.join(' ｜ ') });
@@ -31,11 +29,8 @@ function attachLinksToTeams({ extension, payload, result }) {
 
 function attachLinksToSLack({ extension, payload, result }) {
   const links = [];
-  for (const link of extension.inputs.links) {
-    link["condition"] = link.condition || default_options.condition;
-    if (link.condition.toLowerCase().includes(result.status.toLowerCase())) {
-      links.push(`<${link.url}|${link.text}>`);
-    }
+  for (const link of getValidLinks(extension.inputs.links, result)) {
+    links.push(`<${link.url}|${link.text}>`);
   }
   if (links.length) {
     addContextTextBlock({ payload, extension, text: links.join(' ｜ ') });
@@ -44,15 +39,23 @@ function attachLinksToSLack({ extension, payload, result }) {
 
 function attachLinksToChat({ extension, payload, result }) {
   const links = [];
-  for (const link of extension.inputs.links) {
-    link["condition"] = link.condition || default_options.condition;
-    if (link.condition.toLowerCase().includes(result.status.toLowerCase())) {
-      links.push(`<a href="${link.url}">${link.text}</a>`);
-    }
+  for (const link of getValidLinks(extension.inputs.links, result)) {
+    links.push(`<a href="${link.url}">${link.text}</a>`);
   }
   if (links.length) {
     addTextSection({ payload, extension, text: links.join(' ｜ ') });
   }
+}
+
+function getValidLinks(links, result) {
+  const valid_links = [];
+  for (const link of links) {
+    const condition = link.condition || default_options.condition;
+    if (checkCondition({ condition, result })) {
+      valid_links.push(link);
+    }
+  }
+  return valid_links;
 }
 
 const default_options = {
