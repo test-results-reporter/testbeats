@@ -2,6 +2,7 @@ const { getSuiteHistory, getLastLaunchByName, getLaunchDetails } = require('../h
 const { addExtension } = require('../helpers/teams');
 const { addTextBlock } = require('../helpers/slack');
 const { addTextSection } = require('../helpers/chat');
+const { HOOK, STATUS } = require('../helpers/constants');
 
 async function getLaunchHistory(inputs) {
   if (!inputs.launch_id && inputs.launch_name) {
@@ -96,8 +97,8 @@ const default_inputs_slack = {
 }
 
 const default_options = {
-  hook: 'end',
-  condition: 'fail'
+  hook: HOOK.END,
+  condition: STATUS.FAIL
 }
 
 module.exports = {

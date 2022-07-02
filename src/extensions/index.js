@@ -3,6 +3,7 @@ const mentions = require('./mentions');
 const rp_analysis = require('./report-portal-analysis');
 const rp_history = require('./report-portal-history');
 const qc_test_summary = require('./quick-chart-test-summary');
+const percy_analysis = require('./percy-analysis');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 
@@ -34,6 +35,8 @@ function getExtensionRunner(extension) {
       return rp_history;
     case EXTENSION.QUICK_CHART_TEST_SUMMARY:
       return qc_test_summary;
+    case EXTENSION.PERCY_ANALYSIS:
+      return percy_analysis;
     default:
       return require(extension.name);
   }
