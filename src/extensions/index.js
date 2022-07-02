@@ -4,6 +4,7 @@ const rp_analysis = require('./report-portal-analysis');
 const rp_history = require('./report-portal-history');
 const qc_test_summary = require('./quick-chart-test-summary');
 const { EXTENSION } = require('../helpers/constants');
+const { checkCondition } = require('../helpers/helper');
 
 async function run(options) {
   const { target, result, hook } = options;
@@ -13,7 +14,7 @@ async function run(options) {
     const extension_runner = getExtensionRunner(extension);
     const extension_options = Object.assign({}, extension_runner.default_options, extension);
     if (extension_options.hook === hook) {
-      if (extension_options.condition.toLowerCase().includes(result.status.toLowerCase())) {
+      if (checkCondition({ condition: extension_options.condition, result })) {
         options.extension = extension;
         await extension_runner.run(options);
       }

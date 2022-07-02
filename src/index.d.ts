@@ -52,6 +52,7 @@ export interface Extension {
 export interface Link {
   text: string;
   url: string;
+  condition?: Condition;
 }
 
 
