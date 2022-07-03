@@ -20,7 +20,7 @@ async function getProjectByName(inputs) {
  */
 async function getLastBuild(inputs) {
   return request.get({
-    url: `${inputs.url}api/v1/builds?project_id=${inputs.project_id}&page[limit]=1`,
+    url: `${inputs.url}/api/v1/builds?project_id=${inputs.project_id}&page[limit]=1`,
     headers: {
       'Authorization': `Token ${inputs.token}`
     }
@@ -32,7 +32,7 @@ async function getLastBuild(inputs) {
  */
  async function getBuild(inputs) {
   return request.get({
-    url: `${inputs.url}api/v1/builds/${inputs.build_id}`,
+    url: `${inputs.url}/api/v1/builds/${inputs.build_id}`,
     headers: {
       'Authorization': `Token ${inputs.token}`
     }

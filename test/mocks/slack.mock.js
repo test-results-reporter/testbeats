@@ -473,3 +473,38 @@ addInteractionHandler('post test-summary to slack with report portal history', (
     }
   }
 });
+
+addInteractionHandler('post test-summary to slack with percy analysis', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*<https://percy.io/org-uid/project-name/builds/build-id|Percy Analysis>*\n\n✅ AP - 1"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

@@ -1,3 +1,4 @@
+const retry = require('async-retry');
 const { getProjectByName, getLastBuild, getBuild } = require('../helpers/percy');
 const { HOOK, STATUS, URLS } = require('../helpers/constants');
 const { addExtension } = require('../helpers/teams');
@@ -40,7 +41,7 @@ async function setBuildByLastRun(inputs) {
   if (!inputs.project_id) {
     await setProjectId(inputs)
   }
-  const response = await getLastBuild(inputs);
+  const response = await getLastFinishedBuild(inputs);
   inputs.build_id = response.data[0].id;
   inputs._build = response.data[0];
   if (!inputs._project) {
@@ -52,6 +53,19 @@ async function setBuildByLastRun(inputs) {
   if (!inputs.organization_uid) {
     inputs.organization_uid = getOrganizationUID(inputs._project.attributes['full-slug']);
   }
+}
+
+/**
+ * @param {import('../index').PercyAnalysisInputs} inputs 
+ */
+function getLastFinishedBuild(inputs) {
+  return retry(async () => {
+    const response = await getLastBuild(inputs);
+    if (response.data[0].attributes.state !== "finished") {
+      throw `build is still '${response.data[0].attributes.state}'`;
+    }
+    return response;
+  }, { retries: 10, minTimeout: 5000 });
 }
 
 /**
@@ -104,10 +118,15 @@ function attachForChat({ payload, extension }) {
 }
 
 function getResults(build) {
+  const results = [];
   const total = build.attributes['total-snapshots'];
   const un_reviewed = build.attributes['total-snapshots-unreviewed'];
   const approved = total - un_reviewed;
-  return [`✅ AP - ${approved}`, `❗ UR - ${un_reviewed}`];
+  results.push(`✅ AP - ${approved}`);
+  if (un_reviewed > 0) {
+    results.push(`🔎 UR - ${un_reviewed}`)
+  }
+  return results;
 }
 
 const default_options = {
