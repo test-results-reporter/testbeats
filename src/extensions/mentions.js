@@ -1,6 +1,7 @@
 const { getOnCallPerson } = require('rosters');
 const { addExtension } = require('../helpers/teams');
 const { addTextBlock } = require('../helpers/slack');
+const { HOOK, STATUS } = require('../helpers/constants');
 
 function run({ target, extension, payload, root_payload }) {
   if (target.name === 'teams') {
@@ -76,8 +77,8 @@ function setPayloadWithMSTeamsEntities(payload) {
 }
 
 const default_options = {
-  hook: 'end',
-  condition: 'fail'
+  hook: HOOK.END,
+  condition: STATUS.FAIL
 }
 
 const default_inputs_teams = {

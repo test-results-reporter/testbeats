@@ -2,6 +2,7 @@ const { getLaunchDetails, getLastLaunchByName } = require('../helpers/report-por
 const { addExtension } = require('../helpers/teams');
 const { addTextBlock } = require('../helpers/slack');
 const { addTextSection } = require('../helpers/chat');
+const { HOOK, STATUS } = require('../helpers/constants');
 
 function getReportPortalDefectsSummary(defects, bold_start = '**', bold_end= '**') {
   const results = [];
@@ -77,8 +78,8 @@ async function run({ extension, payload, target }) {
 }
 
 const default_options = {
-  hook: 'end',
-  condition: 'fail'
+  hook: HOOK.END,
+  condition: STATUS.FAIL
 }
 
 const default_inputs_teams = {

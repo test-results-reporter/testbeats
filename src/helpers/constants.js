@@ -23,12 +23,19 @@ const EXTENSION = Object.freeze({
   MENTIONS: 'mentions',
   REPORT_PORTAL_ANALYSIS: "report-portal-analysis",
   REPORT_PORTAL_HISTORY: 'report-portal-history',
-  QUICK_CHART_TEST_SUMMARY: "quick-chart-test-summary"
+  QUICK_CHART_TEST_SUMMARY: 'quick-chart-test-summary',
+  PERCY_ANALYSIS: 'percy-analysis'
+});
+
+const URLS = Object.freeze({
+  PERCY: 'https://percy.io',
+  QUICK_CHART: 'https://quickchart.io'
 });
 
 module.exports = Object.freeze({
   STATUS,
   HOOK,
   TARGET,
-  EXTENSION
+  EXTENSION,
+  URLS
 });

@@ -316,3 +316,35 @@ addInteractionHandler('post test-summary to chat with report portal history', ()
     }
   }
 });
+
+addInteractionHandler('post test-summary to chat with percy analysis', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b><a href=\"https://percy.io/org-uid/project-name/builds/build-id\">Percy Analysis</a></b><br><br>✅ AP - 1"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

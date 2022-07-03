@@ -1060,3 +1060,64 @@ addInteractionHandler('post test-summary-slim with verbose duration', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary to teams with percy analysis', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "❌ Default suite",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "3 / 4 Passed (75%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "0:02"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "[Percy Analysis](https://percy.io/org-uid/project-name/builds/build-id)",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true,
+                  "separator": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✅ AP - 1",
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

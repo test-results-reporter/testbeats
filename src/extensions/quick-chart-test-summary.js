@@ -1,5 +1,5 @@
 const { getPercentage } = require('../helpers/helper');
-const constants = require('../lib/constants');
+const { HOOK, STATUS, URLS } = require('../helpers/constants');
 
 function getUrl(extension, result) {
   const percentage = getPercentage(result.passed, result.total);
@@ -63,7 +63,7 @@ function attachForSlack({ extension, result, payload }) {
 function run(params) {
   const { extension, target } = params;  
   params.extension.inputs = extension.inputs || {};
-  params.extension.inputs["url"] = (extension.inputs.url && extension.inputs.url.trim()) || constants.QUICK_CHART_URL;
+  params.extension.inputs["url"] = (extension.inputs.url && extension.inputs.url.trim()) || URLS.QUICK_CHART;
   if (target.name === 'teams') {
     attachForTeams(params);
   } else if (target.name === 'slack') {
@@ -72,8 +72,8 @@ function run(params) {
 }
 
 const default_options = {
-  hook: 'post-main',
-  condition: 'passOrFail'
+  hook: HOOK.POST_MAIN,
+  condition: STATUS.PASS_OR_FAIL
 }
 
 module.exports = {

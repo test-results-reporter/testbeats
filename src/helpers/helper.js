@@ -5,7 +5,7 @@ const ALLOWED_CONDITIONS = new Set(['pass', 'fail', 'passorfail']);
 
 function getPercentage(x, y) {
   if (y > 0) {
-    return Math.round((x / y) * 100);
+    return Math.floor((x / y) * 100);
   }
   return 0;
 }

@@ -42,11 +42,21 @@ export interface MentionInputs extends ExtensionInputs {
   schedule?: Schedule;
 }
 
+export interface PercyAnalysisInputs extends ExtensionInputs {
+  url?: string;
+  token?: string;
+  build_id?: string;
+  project_id?: string;
+  project_name?: string;
+  organization_uid?: string;
+  title_link_to_build: boolean;
+}
+
 export interface Extension {
   name: ExtensionName;
   condition?: Condition;
   hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs;
 }
 
 export interface Link {
