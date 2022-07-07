@@ -495,7 +495,7 @@ addInteractionHandler('post test-summary to slack with percy analysis', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*<https://percy.io/org-uid/project-name/builds/build-id|Percy Analysis>*\n\n✅ AP - 1"
+                  "text": "*<https://percy.io/org-uid/project-name/builds/build-id|Percy Analysis>*\n\n*✔ AP - 1* ｜ 🔎 UR - 0 ｜ 🗑 RM - 0"
                 }
               }
             ]

@@ -1106,7 +1106,7 @@ addInteractionHandler('post test-summary to teams with percy analysis', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "✅ AP - 1",
+                  "text": "**✔ AP - 1** ｜ 🔎 UR - 0 ｜ 🗑 RM - 0",
                   "wrap": true
                 }
               ],

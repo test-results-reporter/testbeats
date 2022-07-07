@@ -39,9 +39,22 @@ async function getLastBuild(inputs) {
   });
 }
 
+/**
+ * @param {import('../index').PercyAnalysisInputs} inputs 
+ */
+ async function getRemovedSnapshots(inputs) {
+  return request.get({
+    url: `${inputs.url}/api/v1/builds/${inputs.build_id}/removed-snapshots`,
+    headers: {
+      'Authorization': `Token ${inputs.token}`
+    }
+  });
+}
+
 
 module.exports = {
   getProjectByName,
   getLastBuild,
-  getBuild
+  getBuild,
+  getRemovedSnapshots
 }

@@ -42,6 +42,13 @@ export interface MentionInputs extends ExtensionInputs {
   schedule?: Schedule;
 }
 
+export interface Extension {
+  name: ExtensionName;
+  condition?: Condition;
+  hook?: Hook;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs;
+}
+
 export interface PercyAnalysisInputs extends ExtensionInputs {
   url?: string;
   token?: string;
@@ -52,11 +59,14 @@ export interface PercyAnalysisInputs extends ExtensionInputs {
   title_link_to_build: boolean;
 }
 
-export interface Extension {
-  name: ExtensionName;
-  condition?: Condition;
-  hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs;
+export interface PercyAnalysisOutputs {
+  build?: object;
+  project?: object;
+}
+
+export interface PercyAnalysisExtension extends Extension {
+  inputs?: PercyAnalysisInputs;
+  outputs?: PercyAnalysisOutputs;
 }
 
 export interface Link {
