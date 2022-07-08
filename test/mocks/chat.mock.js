@@ -381,7 +381,7 @@ addInteractionHandler('post percy analysis with removed snapshots to chat', () =
   }
 });
 
-addInteractionHandler('post percy analysis with un reviewed snapshots to chat', () => {
+addInteractionHandler('post percy analysis with un-reviewed snapshots to chat', () => {
   return {
     request: {
       method: 'POST',

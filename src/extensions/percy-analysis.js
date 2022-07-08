@@ -56,7 +56,7 @@ async function setBuildByLastRun(extension) {
     outputs.project = response.included.find(_item => _item.type === 'projects');
   }
   if (!inputs.project_name) {
-    inputs.project_name = inputs._project.attributes.name;
+    inputs.project_name = outputs.project.attributes.name;
   }
   if (!inputs.organization_uid) {
     inputs.organization_uid = getOrganizationUID(outputs.project.attributes['full-slug']);
@@ -83,7 +83,7 @@ function getLastFinishedBuild(extension) {
 async function setProjectId(extension) {
   const { inputs, outputs } = extension;
   if (!inputs.project_name) {
-    throw "mandatory inputs 'build_id' or 'project_id' or 'project_name' are not provided"
+    throw "mandatory inputs 'build_id' or 'project_id' or 'project_name' are not provided for percy-analysis extension"
   }
   const response = await getProjectByName(inputs);
   inputs.project_id = response.data.id;
@@ -99,13 +99,13 @@ async function setBuild(extension) {
   outputs.build = response.data;
   outputs.project = response.included.find(_item => _item.type === 'projects');
   if (!inputs.project_id) {
-    inputs.project_id = inputs._project.id;
+    inputs.project_id = outputs.project.id;
   }
   if (!inputs.project_name) {
-    inputs.project_name = inputs._project.attributes.name;
+    inputs.project_name = outputs.project.attributes.name;
   }
   if (!inputs.organization_uid) {
-    inputs.organization_uid = getOrganizationUID(inputs._project.attributes['full-slug']);
+    inputs.organization_uid = getOrganizationUID(outputs.project.attributes['full-slug']);
   }
 }
 

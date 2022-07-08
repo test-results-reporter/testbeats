@@ -26,7 +26,7 @@ addInteractionHandler('get percy project', () => {
   }
 });
 
-addInteractionHandler('get last build in percy', () => {
+addInteractionHandler('get last build from percy', () => {
   return {
     request: {
       method: 'GET',
@@ -51,13 +51,23 @@ addInteractionHandler('get last build in percy', () => {
               "total-snapshots-unreviewed": 0,
             }
           }
+        ],
+        "included": [
+          {
+            "type": "projects",
+            "id": "project-id",
+            "attributes": {
+              "name": "project-name",
+              "full-slug": "org-uid/project-name",
+            }
+          }
         ]
       }
     }
   }
 });
 
-addInteractionHandler('get last build with un reviewed snapshots from percy', () => {
+addInteractionHandler('get last build with un-reviewed snapshots from percy', () => {
   return {
     request: {
       method: 'GET',
@@ -137,6 +147,41 @@ addInteractionHandler('get removed snapshots from percy', () => {
             },
             "links": {
               "self": "/api/v1/snapshots/<snapshot-id>"
+            }
+          }
+        ]
+      }
+    }
+  }
+});
+
+addInteractionHandler('get build from percy', () => {
+  return {
+    request: {
+      method: 'GET',
+      path: '/api/v1/builds/build-id',
+      headers: {
+        'authorization': 'Token token'
+      }
+    },
+    response: {
+      status: 200,
+      body: {
+        "data": {
+          "id": "build-id",
+          "attributes": {
+            "state": "finished",
+            "total-snapshots": 1,
+            "total-snapshots-unreviewed": 0,
+          }
+        },
+        "included": [
+          {
+            "type": "projects",
+            "id": "project-id",
+            "attributes": {
+              "name": "project-name",
+              "full-slug": "org-uid/project-name",
             }
           }
         ]
