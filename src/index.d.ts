@@ -52,6 +52,7 @@ export interface Extension {
 export interface PercyAnalysisInputs extends ExtensionInputs {
   url?: string;
   token?: string;
+  retries?: number;
   build_id?: string;
   project_id?: string;
   project_name?: string;

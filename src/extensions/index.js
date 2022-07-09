@@ -18,7 +18,13 @@ async function run(options) {
       if (checkCondition({ condition: extension_options.condition, result })) {
         extension.outputs = {};
         options.extension = extension;
-        await extension_runner.run(options);
+        try {
+          await extension_runner.run(options);
+        } catch (error) {
+          console.log('Failed to run extension');
+          console.log(extension);
+          console.log(error);
+        }
       }
     }
   }

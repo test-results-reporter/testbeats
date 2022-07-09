@@ -74,7 +74,7 @@ function getLastFinishedBuild(extension) {
       throw `build is still '${response.data[0].attributes.state}'`;
     }
     return response;
-  }, { retries: 10, minTimeout: 5000 });
+  }, { retries: inputs.retries, minTimeout: 5000 });
 }
 
 /**
@@ -169,6 +169,7 @@ const default_inputs = {
   title: 'Percy Analysis',
   url: URLS.PERCY,
   title_link_to_build: true,
+  retries: 10,
   build_id: '',
   project_id: '',
   project_name: '',
