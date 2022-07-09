@@ -1,4 +1,99 @@
 const { addInteractionHandler } = require('pactum').handler;
+const { addDataTemplate } = require('pactum').stash;
+
+addDataTemplate({
+  'TEAMS_ROOT_TITLE_SINGLE_SUITE': {
+    "type": "TextBlock",
+    "text": "✅ Default suite",
+    "size": "medium",
+    "weight": "bolder",
+    "wrap": true
+  },
+  'TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE': {
+    "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE",
+    "@OVERRIDES@": {
+      "text": "❌ Default suite",
+    }
+  },
+  'TEAMS_ROOT_RESULTS_SINGLE_SUITE': {
+    "type": "FactSet",
+    "facts": [
+      {
+        "title": "Results:",
+        "value": "4 / 4 Passed (100%)"
+      },
+      {
+        "title": "Duration:",
+        "value": "0:02"
+      }
+    ]
+  },
+  'TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES': {
+    "type": "FactSet",
+    "facts": [
+      {
+        "title": "Results:",
+        "value": "3 / 4 Passed (75%)"
+      },
+      {
+        "title": "Duration:",
+        "value": "0:02"
+      }
+    ]
+  },
+  'TEAMS_ROOT_RESULTS_MULTIPLE_SUITES': {
+    "type": "FactSet",
+    "facts": [
+      {
+        "title": "Results:",
+        "value": "8 / 20 Passed (40%)"
+      },
+      {
+        "title": "Duration:",
+        "value": "23:23"
+      }
+    ]
+  },
+  'TEAMS_SUITE_CHROME_TITLE': {
+    "type": "TextBlock",
+    "text": "❌ desktop-chrome",
+    "isSubtle": true,
+    "weight": "bolder",
+    "wrap": true
+  },
+  'TEAMS_SUITE_IOS_TITLE': {
+    "@DATA:TEMPLATE@": "TEAMS_SUITE_CHROME_TITLE",
+    "@OVERRIDES@": {
+      "text": "❌ mobile-ios",
+    }
+  },
+  'TEAMS_SUITE_CHROME_RESULTS': {
+    "type": "FactSet",
+    "facts": [
+      {
+        "title": "Results:",
+        "value": "2 / 5 Passed (40%)"
+      },
+      {
+        "title": "Duration:",
+        "value": "3:22"
+      }
+    ]
+  },
+  'TEAMS_SUITE_IOS_RESULTS': {
+    "type": "FactSet",
+    "facts": [
+      {
+        "title": "Results:",
+        "value": "2 / 5 Passed (40%)"
+      },
+      {
+        "title": "Duration:",
+        "value": "9:05"
+      }
+    ]
+  },
+});
 
 addInteractionHandler('post test-summary to teams', () => {
   return {
@@ -16,24 +111,10 @@ addInteractionHandler('post test-summary to teams', () => {
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "✅ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "4 / 4 Passed (100%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
                 }
               ],
               "actions": []
@@ -64,64 +145,25 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "Regression Tests",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE",
+                  "@OVERRIDES@": {
+                    "text": "Regression Tests",
+                  },
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "8 / 20 Passed (40%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "23:23"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_MULTIPLE_SUITES",
                 },
                 {
-                  "type": "TextBlock",
-                  "text": "❌ desktop-chrome",
-                  "isSubtle": true,
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_SUITE_CHROME_TITLE",
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "2 / 5 Passed (40%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "3:22"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_SUITE_CHROME_RESULTS",
                 },
                 {
-                  "type": "TextBlock",
-                  "text": "❌ mobile-ios",
-                  "isSubtle": true,
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_SUITE_IOS_TITLE",
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "2 / 5 Passed (40%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "9:05"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_SUITE_IOS_RESULTS",
                 }
               ],
               "actions": []
@@ -152,24 +194,13 @@ addInteractionHandler('post test-summary-slim to teams with multiple suites', ()
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Regression Tests",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE",
+                  "@OVERRIDES@": {
+                    "text": "❌ Regression Tests",
+                  },
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "8 / 20 Passed (40%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "23:23"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_MULTIPLE_SUITES",
                 }
               ],
               "actions": []
@@ -200,44 +231,19 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "Regression Tests",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE",
+                  "@OVERRIDES@": {
+                    "text": "Regression Tests",
+                  },
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "8 / 20 Passed (40%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "23:23"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_MULTIPLE_SUITES",
                 },
                 {
-                  "type": "TextBlock",
-                  "text": "❌ desktop-chrome",
-                  "isSubtle": true,
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_SUITE_CHROME_TITLE",
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "2 / 5 Passed (40%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "3:22"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_SUITE_CHROME_RESULTS",
                 },
                 {
                   "type": "FactSet",
@@ -279,24 +285,10 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                   ]
                 },
                 {
-                  "type": "TextBlock",
-                  "text": "❌ mobile-ios",
-                  "isSubtle": true,
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_SUITE_IOS_TITLE",
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "2 / 5 Passed (40%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "9:05"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_SUITE_IOS_RESULTS"
                 },
                 {
                   "type": "FactSet",
@@ -366,24 +358,10 @@ addInteractionHandler('post failure-details to teams with single suite', () => {
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "3 / 4 Passed (75%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                 },
                 {
                   "type": "FactSet",
@@ -427,24 +405,10 @@ addInteractionHandler('post test-summary with hyperlinks to teams - pass status'
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "✅ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "4 / 4 Passed (100%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
                 },
                 {
                   "type": "TextBlock",
@@ -481,24 +445,10 @@ addInteractionHandler('post test-summary with hyperlinks to teams - fail status'
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "3 / 4 Passed (75%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                 },
                 {
                   "type": "TextBlock",
@@ -535,24 +485,10 @@ addInteractionHandler('post test-summary with hyperlinks having a title and with
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "✅ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "4 / 4 Passed (100%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
                 },
                 {
                   "type": "TextBlock",
@@ -596,24 +532,10 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "3 / 4 Passed (75%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                 },
                 {
                   "type": "TextBlock",
@@ -657,24 +579,10 @@ addInteractionHandler('post test-summary to teams with report portal analysis wi
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "3 / 4 Passed (75%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                 },
                 {
                   "type": "TextBlock",
@@ -718,24 +626,10 @@ addInteractionHandler('post test-summary to teams with mentions', () => {
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "3 / 4 Passed (75%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                 },
                 {
                   "type": "TextBlock",
@@ -798,24 +692,10 @@ addInteractionHandler('post test-summary to teams with qc-test-summary', (ctx) =
                       "type": "Column",
                       "items": [
                         {
-                          "type": "TextBlock",
-                          "text": "❌ Default suite",
-                          "size": "medium",
-                          "weight": "bolder",
-                          "wrap": true
+                          "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                         },
                         {
-                          "type": "FactSet",
-                          "facts": [
-                            {
-                              "title": "Results:",
-                              "value": "3 / 4 Passed (75%)"
-                            },
-                            {
-                              "title": "Duration:",
-                              "value": "0:02"
-                            }
-                          ]
+                          "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                         }
                       ],
                       "width": "stretch"
@@ -863,24 +743,10 @@ addInteractionHandler('post test-summary to teams with report portal history', (
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "3 / 4 Passed (75%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                 },
                 {
                   "type": "TextBlock",
@@ -924,24 +790,10 @@ addInteractionHandler('post test-summary to teams with report portal history wit
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "3 / 4 Passed (75%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                 },
                 {
                   "type": "TextBlock",
@@ -978,24 +830,10 @@ addInteractionHandler('post test-summary to teams with full width', () => {
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "✅ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "4 / 4 Passed (100%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
                 }
               ],
               "actions": [],
@@ -1029,11 +867,10 @@ addInteractionHandler('post test-summary-slim with verbose duration', () => {
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Regression Tests",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE",
+                  "@OVERRIDES@": {
+                    "text": "❌ Regression Tests",
+                  },
                 },
                 {
                   "type": "FactSet",
@@ -1077,24 +914,10 @@ addInteractionHandler('post test-summary to teams with percy analysis', () => {
               "version": "1.0",
               "body": [
                 {
-                  "type": "TextBlock",
-                  "text": "❌ Default suite",
-                  "size": "medium",
-                  "weight": "bolder",
-                  "wrap": true
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE_FAILURE"
                 },
                 {
-                  "type": "FactSet",
-                  "facts": [
-                    {
-                      "title": "Results:",
-                      "value": "3 / 4 Passed (75%)"
-                    },
-                    {
-                      "title": "Duration:",
-                      "value": "0:02"
-                    }
-                  ]
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES"
                 },
                 {
                   "type": "TextBlock",
@@ -1108,6 +931,43 @@ addInteractionHandler('post test-summary to teams with percy analysis', () => {
                   "type": "TextBlock",
                   "text": "**✔ AP - 1** ｜ 🔎 UR - 0 ｜ 🗑 RM - 0",
                   "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to teams with title_link', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE",
+                  "@OVERRIDES@": {
+                    "text": "[✅ Default suite](some-url)",
+                  }
+                },
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
                 }
               ],
               "actions": []

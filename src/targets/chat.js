@@ -52,6 +52,9 @@ function setMainBlock({ result, target, payload }) {
   } else {
     title_text_with_emoji = `${emoji} ${title_text}`;
   }
+  if (target.inputs.title_link) {
+    title_text_with_emoji = `<a href="${target.inputs.title_link}">${title_text_with_emoji}</a>`;
+  }
   const text = `<b>${title_text_with_emoji}</b><br><br><b>Results</b>: ${result_text}<br><b>Duration</b>: ${duration_text}`;
   payload.sections.push({
     "widgets": [

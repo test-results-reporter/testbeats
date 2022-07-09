@@ -1,4 +1,43 @@
 const { addInteractionHandler } = require('pactum').handler;
+const { addDataTemplate } = require('pactum').stash;
+
+addDataTemplate({
+  'SLACK_ROOT_SINGLE_SUITE': {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 0:02"
+    }
+  },
+  'SLACK_ROOT_SINGLE_SUITE_FAILURE': {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
+    }
+  },
+  'SLACK_ROOT_MULTIPLE_SUITES': {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": "*Regression Tests*\n\n*Results*: 8 / 20 Passed (40%)\n*Duration*: 23:23"
+    }
+  },
+  'SLACK_SUITE_CHROME': {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 3:22"
+    }
+  },
+  'SLACK_SUITE_IOS': {
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 9:05"
+    }
+  }
+});
 
 addInteractionHandler('post test-summary to slack', () => {
   return {
@@ -11,11 +50,7 @@ addInteractionHandler('post test-summary to slack', () => {
             "color": "#36A64F",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
               }
             ]
           }
@@ -39,25 +74,13 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Regression Tests*\n\n*Results*: 8 / 20 Passed (40%)\n*Duration*: 23:23"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_MULTIPLE_SUITES"
               },
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 3:22"
-                }
+                "@DATA:TEMPLATE@": "SLACK_SUITE_CHROME"
               },
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 9:05"
-                }
+                "@DATA:TEMPLATE@": "SLACK_SUITE_IOS"
               }
             ]
           }
@@ -81,11 +104,7 @@ addInteractionHandler('post test-summary-slim to slack with multiple suites', ()
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Regression Tests*\n\n*Results*: 8 / 20 Passed (40%)\n*Duration*: 23:23"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_MULTIPLE_SUITES"
               }
             ]
           }
@@ -109,18 +128,10 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Regression Tests*\n\n*Results*: 8 / 20 Passed (40%)\n*Duration*: 23:23"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_MULTIPLE_SUITES"
               },
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 3:22"
-                }
+                "@DATA:TEMPLATE@": "SLACK_SUITE_CHROME"
               },
               {
                 "type": "section",
@@ -130,11 +141,7 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
                 }
               },
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 9:05"
-                }
+                "@DATA:TEMPLATE@": "SLACK_SUITE_IOS"
               },
               {
                 "type": "section",
@@ -165,11 +172,7 @@ addInteractionHandler('post failure-details to slack with single suite', () => {
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
               },
               {
                 "type": "section",
@@ -200,11 +203,7 @@ addInteractionHandler('post test-summary with hyperlinks to slack - pass status'
             "color": "#36A64F",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
               },
               {
                 "type": "context",
@@ -237,11 +236,7 @@ addInteractionHandler('post test-summary with hyperlinks to slack - fail status'
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
               },
               {
                 "type": "context",
@@ -274,11 +269,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis', 
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
               },
               {
                 "type": "section",
@@ -309,11 +300,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis wi
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
               },
               {
                 "type": "section",
@@ -344,11 +331,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis wi
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
               },
               {
                 "type": "divider"
@@ -382,11 +365,7 @@ addInteractionHandler('post test-summary with mentions to slack', () => {
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
               },
               {
                 "type": "section",
@@ -417,15 +396,13 @@ addInteractionHandler('post test-summary to slack with qc-test-summary', (ctx) =
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                },
-                "accessory": {
-                  "type": "image",
-                  "image_url": `${ctx.data.quickChartUrl}/chart?c=%7B%22type%22%3A%22radialGauge%22%2C%22data%22%3A%7B%22datasets%22%3A%5B%7B%22data%22%3A%5B75%5D%2C%22backgroundColor%22%3A%22green%22%7D%5D%7D%2C%22options%22%3A%7B%22trackColor%22%3A%22%23FF0000%22%2C%22roundedCorners%22%3Afalse%2C%22centerPercentage%22%3A80%2C%22centerArea%22%3A%7B%22fontSize%22%3A80%2C%22text%22%3A%2275%25%22%7D%7D%7D`,
-                  "alt_text": "overall-results-summary"
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE",
+                "@OVERRIDES@": {
+                  "accessory": {
+                    "type": "image",
+                    "image_url": `${ctx.data.quickChartUrl}/chart?c=%7B%22type%22%3A%22radialGauge%22%2C%22data%22%3A%7B%22datasets%22%3A%5B%7B%22data%22%3A%5B75%5D%2C%22backgroundColor%22%3A%22green%22%7D%5D%7D%2C%22options%22%3A%7B%22trackColor%22%3A%22%23FF0000%22%2C%22roundedCorners%22%3Afalse%2C%22centerPercentage%22%3A80%2C%22centerArea%22%3A%7B%22fontSize%22%3A80%2C%22text%22%3A%2275%25%22%7D%7D%7D`,
+                    "alt_text": "overall-results-summary"
+                  }
                 }
               }
             ]
@@ -450,11 +427,7 @@ addInteractionHandler('post test-summary to slack with report portal history', (
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
               },
               {
                 "type": "section",
@@ -485,17 +458,41 @@ addInteractionHandler('post test-summary to slack with percy analysis', () => {
             "color": "#DC143C",
             "blocks": [
               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
-                }
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
               },
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
                   "text": "*<https://percy.io/org-uid/project-name/builds/build-id|Percy Analysis>*\n\n*✔ AP - 1* ｜ 🔎 UR - 0 ｜ 🗑 RM - 0"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to slack with title_link', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*<some-url|Default suite>*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 0:02"
                 }
               }
             ]
