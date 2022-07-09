@@ -333,7 +333,71 @@ addInteractionHandler('post test-summary to chat with percy analysis', () => {
                 "widgets": [
                   {
                     "textParagraph": {
-                      "text": "<b><a href=\"https://percy.io/org-uid/project-name/builds/build-id\">Percy Analysis</a></b><br><br>✅ AP - 1"
+                      "text": "<b><a href=\"https://percy.io/org-uid/project-name/builds/build-id\">Percy Analysis</a></b><br><br><b>✔ AP - 1</b> ｜ 🔎 UR - 0 ｜ 🗑 RM - 0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post percy analysis with removed snapshots to chat', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b><a href=\"https://percy.io/org-uid/project-name/builds/build-id\">Percy Analysis</a></b><br><br><b>✔ AP - 1</b> ｜ 🔎 UR - 0 ｜ <b>🗑 RM - 2</b>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post percy analysis with un-reviewed snapshots to chat', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b><a href=\"https://percy.io/org-uid/project-name/builds/build-id\">Percy Analysis</a></b><br><br>✔ AP - 0 ｜ <b>🔎 UR - 1</b> ｜ <b>🗑 RM - 2</b>"
                     }
                   }
                 ]

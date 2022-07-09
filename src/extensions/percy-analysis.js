@@ -1,13 +1,18 @@
 const retry = require('async-retry');
-const { getProjectByName, getLastBuild, getBuild } = require('../helpers/percy');
+const { getProjectByName, getLastBuild, getBuild, getRemovedSnapshots } = require('../helpers/percy');
 const { HOOK, STATUS, URLS } = require('../helpers/constants');
 const { addExtension } = require('../helpers/teams');
 const { addTextBlock } = require('../helpers/slack');
 const { addTextSection } = require('../helpers/chat');
 
+/**
+ * 
+ * @param {object} param0 
+ * @param {import('../index').PercyAnalysisExtension} param0.extension 
+ */
 async function run({ extension, payload, target }) {
   extension.inputs = Object.assign({}, default_inputs, extension.inputs);
-  await initialize(extension.inputs);
+  await initialize(extension);
   if (target.name === 'teams') {
     extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
     attachForTeams({ payload, extension });
@@ -21,80 +26,86 @@ async function run({ extension, payload, target }) {
 }
 
 /**
- * @param {import('../index').PercyAnalysisInputs} inputs 
+ * @param {import('../index').PercyAnalysisExtension} extension 
  */
-async function initialize(inputs) {
+async function initialize(extension) {
+  const { inputs } = extension;
   if (!inputs.build_id) {
-    await setBuildByLastRun(inputs);
+    await setBuildByLastRun(extension);
   } else {
-    await setBuild(inputs);
+    await setBuild(extension);
   }
+  await setRemovedSnapshots(extension);
   if (!inputs.title_link && inputs.title_link_to_build) {
     inputs.title_link = `https://percy.io/${inputs.organization_uid}/${inputs.project_name}/builds/${inputs.build_id}`;
   }
 }
 
 /**
- * @param {import('../index').PercyAnalysisInputs} inputs 
+ * @param {import('../index').PercyAnalysisExtension} extension 
  */
-async function setBuildByLastRun(inputs) {
+async function setBuildByLastRun(extension) {
+  const { inputs, outputs } = extension;
   if (!inputs.project_id) {
-    await setProjectId(inputs)
+    await setProjectId(extension)
   }
-  const response = await getLastFinishedBuild(inputs);
+  const response = await getLastFinishedBuild(extension);
   inputs.build_id = response.data[0].id;
-  inputs._build = response.data[0];
-  if (!inputs._project) {
-    inputs._project = response.included.find(_item => _item.type === 'projects');
+  outputs.build = response.data[0];
+  if (!outputs.project) {
+    outputs.project = response.included.find(_item => _item.type === 'projects');
   }
   if (!inputs.project_name) {
-    inputs.project_name = inputs._project.attributes.name;
+    inputs.project_name = outputs.project.attributes.name;
   }
   if (!inputs.organization_uid) {
-    inputs.organization_uid = getOrganizationUID(inputs._project.attributes['full-slug']);
+    inputs.organization_uid = getOrganizationUID(outputs.project.attributes['full-slug']);
   }
 }
 
 /**
- * @param {import('../index').PercyAnalysisInputs} inputs 
+ * @param {import('../index').PercyAnalysisExtension} extension 
  */
-function getLastFinishedBuild(inputs) {
+function getLastFinishedBuild(extension) {
+  const { inputs } = extension;
   return retry(async () => {
     const response = await getLastBuild(inputs);
     if (response.data[0].attributes.state !== "finished") {
       throw `build is still '${response.data[0].attributes.state}'`;
     }
     return response;
-  }, { retries: 10, minTimeout: 5000 });
+  }, { retries: inputs.retries, minTimeout: 5000 });
 }
 
 /**
- * @param {import('../index').PercyAnalysisInputs} inputs 
+ * @param {import('../index').PercyAnalysisExtension} extension 
  */
-async function setProjectId(inputs) {
+async function setProjectId(extension) {
+  const { inputs, outputs } = extension;
   if (!inputs.project_name) {
-    throw "mandatory inputs 'build_id' or 'project_id' or 'project_name' are not provided"
+    throw "mandatory inputs 'build_id' or 'project_id' or 'project_name' are not provided for percy-analysis extension"
   }
   const response = await getProjectByName(inputs);
   inputs.project_id = response.data.id;
-  inputs._project = response.data;
+  outputs.project = response.data;
 }
 
 /**
- * @param {import('../index').PercyAnalysisInputs} inputs 
+ * @param {import('../index').PercyAnalysisExtension} extension 
  */
-async function setBuild(inputs) {
+async function setBuild(extension) {
+  const { inputs, outputs } = extension;
   const response = await getBuild(inputs);
-  inputs._build = response.data;
-  inputs._project = response.included.find(_item => _item.type === 'projects');
+  outputs.build = response.data;
+  outputs.project = response.included.find(_item => _item.type === 'projects');
   if (!inputs.project_id) {
-    inputs.project_id = inputs._project.id;
+    inputs.project_id = outputs.project.id;
   }
   if (!inputs.project_name) {
-    inputs.project_name = inputs._project.attributes.name;
+    inputs.project_name = outputs.project.attributes.name;
   }
   if (!inputs.organization_uid) {
-    inputs.organization_uid = getOrganizationUID(inputs._project.attributes['full-slug']);
+    inputs.organization_uid = getOrganizationUID(outputs.project.attributes['full-slug']);
   }
 }
 
@@ -102,29 +113,49 @@ function getOrganizationUID(slug) {
   return slug.split('/')[0];
 }
 
+/**
+ * @param {import('../index').PercyAnalysisExtension} extension 
+ */
+async function setRemovedSnapshots(extension) {
+  const response = await getRemovedSnapshots(extension.inputs);
+  extension.outputs.removed_snapshots = response.data;
+}
+
 function attachForTeams({ payload, extension }) {
-  const text = getResults(extension.inputs._build).join(' ｜ ');
+  const text = getAnalysisSummary(extension.outputs).join(' ｜ ');
   addExtension({ payload, extension, text });
 }
 
 function attachForSlack({ payload, extension }) {
-  const text = getResults(extension.inputs._build).join(' ｜ ');
+  const text = getAnalysisSummary(extension.outputs, '*', '*').join(' ｜ ');
   addTextBlock({ payload, extension, text });
 }
 
 function attachForChat({ payload, extension }) {
-  const text = getResults(extension.inputs._build).join(' ｜ ');
+  const text = getAnalysisSummary(extension.outputs, '<b>', '</b>').join(' ｜ ');
   addTextSection({ payload, extension, text });
 }
 
-function getResults(build) {
+function getAnalysisSummary(outputs, bold_start = '**', bold_end= '**') {
+  const { build, removed_snapshots } = outputs;
   const results = [];
   const total = build.attributes['total-snapshots'];
   const un_reviewed = build.attributes['total-snapshots-unreviewed'];
   const approved = total - un_reviewed;
-  results.push(`✅ AP - ${approved}`);
-  if (un_reviewed > 0) {
+  if (approved) {
+    results.push(`${bold_start}✔ AP - ${approved}${bold_end}`);
+  } else {
+    results.push(`✔ AP - ${approved}`);
+  }
+  if (un_reviewed) {
+    results.push(`${bold_start}🔎 UR - ${un_reviewed}${bold_end}`);
+  } else {
     results.push(`🔎 UR - ${un_reviewed}`)
+  }
+  if (removed_snapshots.length) {
+    results.push(`${bold_start}🗑 RM - ${removed_snapshots.length}${bold_end}`);
+  } else {
+    results.push(`🗑 RM - ${removed_snapshots.length}`)
   }
   return results;
 }
@@ -138,6 +169,7 @@ const default_inputs = {
   title: 'Percy Analysis',
   url: URLS.PERCY,
   title_link_to_build: true,
+  retries: 10,
   build_id: '',
   project_id: '',
   project_name: '',
