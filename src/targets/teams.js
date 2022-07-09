@@ -8,10 +8,10 @@ async function run({ result, target }) {
   const root_payload = getRootPayload();
   const payload = getMainPayload(target);
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
-  setTitleBlock(result, { target, payload });
+  setTitleBlock({ result, target, payload });
   setMainBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
-  setSuiteBlock(result, { target, payload });
+  setSuiteBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
   setRootPayload(root_payload, payload);
   return request.post({
@@ -55,7 +55,7 @@ function getTitleText(result, target) {
   return `${title}`;
 }
 
-function setTitleBlock(result, { target, payload }) {
+function setTitleBlock({ result, target, payload }) {
   const title = getTitleText(result, target);
   const emoji = result.status === 'PASS' ? '✅' : '❌';
   let text = '';
@@ -65,6 +65,9 @@ function setTitleBlock(result, { target, payload }) {
     text = title;
   } else {
     text = `${emoji} ${title}`;
+  }
+  if (target.inputs.title_link) {
+    text = `[${text}](${target.inputs.title_link})`
   }
   payload.body.push({
     "type": "TextBlock",
@@ -92,7 +95,7 @@ function setMainBlock({ result, target, payload }) {
   });
 }
 
-function setSuiteBlock(result, { target, payload }) {
+function setSuiteBlock({ result, target, payload }) {
   if (target.inputs.include_suites) {
     for (let i = 0; i < result.suites.length; i++) {
       const suite = result.suites[i];

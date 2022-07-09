@@ -54,11 +54,14 @@ function setMainBlock({ result, target, payload }) {
 }
 
 function getTitleText(result, target) {
-  const title = target.inputs.title ? target.inputs.title : result.name;
+  let text = target.inputs.title ? target.inputs.title : result.name;
   if (target.inputs.title_suffix) {
-    return `${title} ${target.inputs.title_suffix}`;
+    text = `${text} ${target.inputs.title_suffix}`;
   }
-  return `${title}`;
+  if (target.inputs.title_link) {
+    text = `<${target.inputs.title_link}|${text}>`;
+  }
+  return text;
 }
 
 function getResultText(result) {

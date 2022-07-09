@@ -152,6 +152,36 @@ describe('targets - google chat', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary with title_link', async () => {
+    const id = mock.addInteraction('post test-summary to chat with title_link');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "chat",
+                "inputs": {
+                  "url": "http://localhost:9393/message",
+                  "title_link": "some-url"
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

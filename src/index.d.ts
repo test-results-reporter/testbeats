@@ -76,30 +76,28 @@ export interface Link {
   condition?: Condition;
 }
 
-
-export interface SlackInputs {
+export interface TargetInputs {
   url: string;
-  publish?: PublishReportType;
-  only_failures?: boolean;
   title?: string;
   title_suffix?: string;
+  title_link?: string;
   duration?: string;
+  publish?: PublishReportType;
+  only_failures?: boolean;
 }
 
-export interface TeamsInputs {
-  url: string;
-  publish?: PublishReportType;
-  only_failures?: boolean;
-  title?: string;
-  title_suffix?: string;
+export interface SlackInputs extends TargetInputs {}
+
+export interface TeamsInputs extends TargetInputs {
   width?: string;
-  duration?: string;
 }
+
+export interface ChatInputs extends TargetInputs {}
 
 export interface Target {
   name: TargetName;
   condition: Condition;
-  inputs: SlackInputs | TeamsInputs;
+  inputs: SlackInputs | TeamsInputs | ChatInputs;
   extensions?: Extension[];
 }
 

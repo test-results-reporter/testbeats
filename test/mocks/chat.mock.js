@@ -2,7 +2,7 @@ const { addInteractionHandler } = require('pactum').handler;
 const { addDataTemplate } = require('pactum').stash;
 
 addDataTemplate({
-  'RESULT_SINGLE_SUITE': {
+  'CHAT_RESULT_SINGLE_SUITE': {
     "widgets": [
       {
         "textParagraph": {
@@ -11,7 +11,7 @@ addDataTemplate({
       }
     ]
   },
-  'RESULT_SINGLE_SUITE_FAILURES': {
+  'CHAT_RESULT_SINGLE_SUITE_FAILURES': {
     "widgets": [
       {
         "textParagraph": {
@@ -20,7 +20,7 @@ addDataTemplate({
       }
     ]
   },
-  'RESULT_MULTIPLE_SUITE_FAILURES': {
+  'CHAT_RESULT_MULTIPLE_SUITE_FAILURES': {
     "widgets": [
       {
         "textParagraph": {
@@ -29,7 +29,7 @@ addDataTemplate({
       }
     ]
   },
-  'RESULT_MULTIPLE_SUITE_FAILURES_WITH_EMOJI': {
+  'CHAT_RESULT_MULTIPLE_SUITE_FAILURES_WITH_EMOJI': {
     "widgets": [
       {
         "textParagraph": {
@@ -83,7 +83,7 @@ addInteractionHandler('post test-summary to chat', () => {
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE"
               }
             ]
           }
@@ -106,7 +106,7 @@ addInteractionHandler('post test-summary to chat with multiple suites', () => {
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_MULTIPLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_MULTIPLE_SUITE_FAILURES"
               },
               {
                 "@DATA:TEMPLATE@": "SUITE_MULTIPLE_SUITE_FAILURES"
@@ -132,7 +132,7 @@ addInteractionHandler('post test-summary-slim to chat with multiple suites', () 
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_MULTIPLE_SUITE_FAILURES_WITH_EMOJI"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_MULTIPLE_SUITE_FAILURES_WITH_EMOJI"
               }
             ]
           }
@@ -155,7 +155,7 @@ addInteractionHandler('post failure-details to chat with multiple suites', () =>
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_MULTIPLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_MULTIPLE_SUITE_FAILURES"
               },
               {
                 "@DATA:TEMPLATE@": "SUITE_MULTIPLE_SUITE_FAILURE_DETAILS"
@@ -181,7 +181,7 @@ addInteractionHandler('post failure-details to chat with single suite', () => {
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE_FAILURES"
               },
               {
                 "@DATA:TEMPLATE@": "SINGLE_SUITE_FAILURE_DETAILS"
@@ -207,7 +207,7 @@ addInteractionHandler('post test-summary with hyperlinks to chat', () => {
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE"
               },
               {
                 "widgets": [
@@ -240,7 +240,7 @@ addInteractionHandler('post test-summary to chat with mentions', () => {
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE_FAILURES"
               }
             ]
           }
@@ -263,7 +263,7 @@ addInteractionHandler('post test-summary to chat with report portal analysis', (
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE_FAILURES"
               },
               {
                 "widgets": [
@@ -295,7 +295,7 @@ addInteractionHandler('post test-summary to chat with report portal history', ()
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE_FAILURES"
               },
               {
                 "widgets": [
@@ -327,7 +327,7 @@ addInteractionHandler('post test-summary to chat with percy analysis', () => {
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE_FAILURES"
               },
               {
                 "widgets": [
@@ -359,7 +359,7 @@ addInteractionHandler('post percy analysis with removed snapshots to chat', () =
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE_FAILURES"
               },
               {
                 "widgets": [
@@ -391,13 +391,42 @@ addInteractionHandler('post percy analysis with un-reviewed snapshots to chat', 
           {
             "sections": [
               {
-                "@DATA:TEMPLATE@": "RESULT_SINGLE_SUITE_FAILURES"
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE_FAILURES"
               },
               {
                 "widgets": [
                   {
                     "textParagraph": {
                       "text": "<b><a href=\"https://percy.io/org-uid/project-name/builds/build-id\">Percy Analysis</a></b><br><br>✔ AP - 0 ｜ <b>🔎 UR - 1</b> ｜ <b>🗑 RM - 2</b>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to chat with title_link', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b><a href=\"some-url\">✅ Default suite</a></b><br><br><b>Results</b>: 4 / 4 Passed (100%)<br><b>Duration</b>: 0:02"
                     }
                   }
                 ]

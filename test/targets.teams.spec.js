@@ -152,7 +152,7 @@ describe('targets - teams', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
-  it('should send test-summary', async () => {
+  it('should send test-summary with full width', async () => {
     const id = mock.addInteraction('post test-summary to teams with full width');
     await publish({
       config: {
@@ -203,6 +203,36 @@ describe('targets - teams', () => {
                 "type": "testng",
                 "files": [
                   "test/data/testng/multiple-suites.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with title_link', async () => {
+    const id = mock.addInteraction('post test-summary to teams with title_link');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message",
+                  "title_link": "some-url"
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite.xml"
                 ]
               }
             ]
