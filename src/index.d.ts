@@ -1,4 +1,5 @@
 import { User, Schedule } from 'rosters';
+import TestResult from 'test-results-parser/src/models/TestResult';
 
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary';
 export type Hook = 'start' | 'end';
@@ -31,10 +32,6 @@ export interface ReportPortalHistoryInputs extends ExtensionInputs {
 
 export interface QuickChartTestSummaryInputs {
   url: string;
-}
-
-export interface HyperlinkInputs extends ExtensionInputs {
-  links: Link[];
 }
 
 export interface MentionInputs extends ExtensionInputs {
@@ -70,10 +67,26 @@ export interface PercyAnalysisExtension extends Extension {
   outputs?: PercyAnalysisOutputs;
 }
 
+export interface LinkUrlFunctionContext {
+  target: Target;
+  extension: HyperlinksExtension,
+  result: TestResult;
+}
+
+export type LinkUrlFunction = (ctx: LinkUrlFunctionContext) => string | Promise<string>;
+
 export interface Link {
   text: string;
-  url: string;
+  url: string | LinkUrlFunction;
   condition?: Condition;
+}
+
+export interface HyperlinkInputs extends ExtensionInputs {
+  links: Link[];
+}
+
+export interface HyperlinksExtension extends Extension {
+  inputs?: HyperlinkInputs;
 }
 
 export interface TargetInputs {
@@ -120,3 +133,4 @@ export interface PublishOptions {
 }
 
 export function publish(options: PublishOptions): Promise<any>
+export function defineConfig(config: PublishConfig): PublishConfig

@@ -1,6 +1,6 @@
 const { mock } = require('pactum');
 const assert = require('assert');
-const { publish } = require('../src');
+const { publish, defineConfig } = require('../src');
 
 describe('extensions - hyperlinks', () => {
 
@@ -367,6 +367,102 @@ describe('extensions - hyperlinks', () => {
                         {
                           "text": "Pipeline",
                           "url": "some-url"
+                        },
+                        {
+                          "text": "Video",
+                          "url": "some-url"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with synchronous dynamic link', async () => {
+    const id = mock.addInteraction('post test-summary with hyperlinks to chat');
+    const config = defineConfig({
+      "reports": [
+        {
+          "targets": [
+            {
+              "name": "chat",
+              "inputs": {
+                "url": "http://localhost:9393/message"
+              },
+              "extensions": [
+                {
+                  "name": "hyperlinks",
+                  "inputs": {
+                    "links": [
+                      {
+                        "text": "Pipeline",
+                        "url": function () { return 'some-url' }
+                      },
+                      {
+                        "text": "Video",
+                        "url": "some-url"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          "results": [
+            {
+              "type": "testng",
+              "files": [
+                "test/data/testng/single-suite.xml"
+              ]
+            }
+          ]
+        }
+      ]
+    });
+    await publish({ config });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with asynchronous dynamic link', async () => {
+    const id = mock.addInteraction('post test-summary with hyperlinks to chat');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "chat",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "hyperlinks",
+                    "inputs": {
+                      "links": [
+                        {
+                          "text": "Pipeline",
+                          "url": async (ctx) => {
+                            assert.equal(ctx.target.name, 'chat');
+                            assert.equal(ctx.extension.name, 'hyperlinks');
+                            assert.equal(ctx.result.total, 4)
+                            return 'some-url' 
+                          }
                         },
                         {
                           "text": "Video",
