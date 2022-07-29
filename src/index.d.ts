@@ -3,9 +3,16 @@ import TestResult from 'test-results-parser/src/models/TestResult';
 
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'custom';
 export type Hook = 'start' | 'end';
-export type Condition = 'pass' | 'fail' | 'passOrFail';
 export type TargetName = 'slack' | 'teams' | 'chat' | 'custom';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
+
+export interface ConditionFunctionContext {
+  target: Target;
+  extension?: Extension,
+  result: TestResult;
+}
+export type ConditionFunction = (ctx: ConditionFunctionContext) => boolean | Promise<boolean>;
+export type Condition = 'pass' | 'fail' | 'passOrFail' | ConditionFunction;
 
 /**
  * Extensions
@@ -73,7 +80,7 @@ export interface PercyAnalysisExtension extends Extension {
 
 export interface CustomExtensionFunctionContext {
   target: Target;
-  extension: HyperlinksExtension,
+  extension: Extension,
   result: TestResult;
   payload: any;
   root_payload: any;

@@ -70,14 +70,18 @@ function getResultText({ result }) {
 /**
  * 
  * @param {object} param0
- * @param {string} param0.condition 
+ * @param {string | Function} param0.condition 
  */
-function checkCondition({ condition, result }) {
-  const lower_condition = condition.toLowerCase();
-  if (ALLOWED_CONDITIONS.has(lower_condition)) {
-    return lower_condition.includes(result.status.toLowerCase());
+async function checkCondition({ condition, result, target, extension }) {
+  if (typeof condition === 'function') {
+    return await condition({target, result, extension });
   } else {
-    return eval(condition);
+    const lower_condition = condition.toLowerCase();
+    if (ALLOWED_CONDITIONS.has(lower_condition)) {
+      return lower_condition.includes(result.status.toLowerCase());
+    } else {
+      return eval(condition);
+    }
   }
 }
 

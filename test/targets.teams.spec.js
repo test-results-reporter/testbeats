@@ -243,6 +243,40 @@ describe('targets - teams', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary with functional condition', async () => {
+    const id = mock.addInteraction('post test-summary to teams');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "condition": ({target, result}) => {
+                  assert.equal(target.name, 'teams');
+                  assert.equal(result.name, 'Default suite');
+                  return true;
+                },
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

@@ -461,8 +461,60 @@ describe('extensions - hyperlinks', () => {
                             assert.equal(ctx.target.name, 'chat');
                             assert.equal(ctx.extension.name, 'hyperlinks');
                             assert.equal(ctx.result.total, 4)
-                            return 'some-url' 
+                            return 'some-url'
                           }
+                        },
+                        {
+                          "text": "Video",
+                          "url": "some-url"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with links to teams - functional condition', async () => {
+    const id = mock.addInteraction('post test-summary with hyperlinks to teams - pass status');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "hyperlinks",
+                    "condition": async ({ target, extension, result }) => {
+                      assert.equal(target.name, 'teams');
+                      assert.equal(extension.name, 'hyperlinks');
+                      assert.equal(result.name, 'Default suite');
+                      return true;
+                    },
+                    "inputs": {
+                      "links": [
+                        {
+                          "text": "Pipeline",
+                          "url": "some-url"
                         },
                         {
                           "text": "Video",

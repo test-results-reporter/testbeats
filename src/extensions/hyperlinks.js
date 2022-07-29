@@ -50,7 +50,7 @@ function attachLinksToChat({ extension, payload, raw_links }) {
 
 async function getLinks({ target, result, extension }) {
   const raw_links = extension.inputs.links;
-  const raw_valid_links = getValidLinks(raw_links, result);
+  const raw_valid_links = await getValidLinks(raw_links, result);
   for (let i = 0; i < raw_valid_links.length; i++) {
     const url_function = raw_valid_links[i].url;
     if (typeof url_function === 'function') {
@@ -60,11 +60,11 @@ async function getLinks({ target, result, extension }) {
   return raw_valid_links;
 }
 
-function getValidLinks(links, result) {
+async function getValidLinks(links, result) {
   const valid_links = [];
   for (const link of links) {
     const condition = link.condition || default_options.condition;
-    if (checkCondition({ condition, result })) {
+    if (await checkCondition({ condition, result })) {
       valid_links.push(link);
     }
   }
