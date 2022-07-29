@@ -1,7 +1,9 @@
-name: Publish
+name: Assets
 on:
-  release:
-    types: [created]
+  push:
+    branches: 
+      - 68-publish-executable-file-github-releases
+  workflow_dispatch:
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -11,12 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
-          registry-url: 'https://registry.npmjs.org'
       - run: npm install
-      - run: npm test
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm run build
       - uses: vimtor/action-zip@v1
         with:
