@@ -17,22 +17,3 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: npm run build
-      - uses: vimtor/action-zip@v1
-        with:
-          files: dist/test-results-reporter-linux
-          dest: dist/test-results-reporter-linux.zip
-      - uses: vimtor/action-zip@v1
-        with:
-          files: dist/test-results-reporter-macos
-          dest: dist/test-results-reporter-macos.zip
-      - uses: vimtor/action-zip@v1
-        with:
-          files: dist/test-results-reporter-win.exe
-          dest: dist/test-results-reporter-win.zip
-      - name: Upload release binaries
-        uses: alexellis/upload-assets@0.2.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.DOCS_TOKEN }}
-        with:
-          asset_paths: '["./dist/*zip"]'
