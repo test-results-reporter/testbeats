@@ -16,7 +16,7 @@ async function run(options) {
     const extension_runner = getExtensionRunner(extension);
     const extension_options = Object.assign({}, extension_runner.default_options, extension);
     if (extension_options.hook === hook) {
-      if (checkCondition({ condition: extension_options.condition, result })) {
+      if (await checkCondition({ condition: extension_options.condition, result, target, extension })) {
         extension.outputs = {};
         options.extension = extension;
         try {

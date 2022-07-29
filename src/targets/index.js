@@ -26,7 +26,7 @@ function getTargetRunner(target) {
 async function run(target, result) {
   const target_runner = getTargetRunner(target);
   const target_options = Object.assign({}, target_runner.default_options, target);
-  if (checkCondition({ condition: target_options.condition, result })) {
+  if (await checkCondition({ condition: target_options.condition, result, target })) {
     await target_runner.run({result, target});
   }
 }
