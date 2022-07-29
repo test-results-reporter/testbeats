@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "test": "mocha test",
-    "coverage": "nyc --reporter=lcov --reporter=text npm run test"
+    "coverage": "nyc --reporter=lcov --reporter=text npm run test",
+    "build": "pkg --out-path dist ."
   },
   "repository": {
     "type": "git",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
-    "pactum": "^3.1.10"
+    "pactum": "^3.1.10",
+    "pkg": "^5.8.0"
   }
 }

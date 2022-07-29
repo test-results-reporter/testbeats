@@ -1,0 +1,34 @@
+name: Upload Assets
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npm run build
+      - uses: vimtor/action-zip@v1
+        with:
+          files: dist/test-results-reporter-linux
+          dest: dist/test-results-reporter-linux.zip
+      - uses: vimtor/action-zip@v1
+        with:
+          files: dist/test-results-reporter-macos
+          dest: dist/test-results-reporter-macos.zip
+      - uses: vimtor/action-zip@v1
+        with:
+          files: dist/test-results-reporter-win.exe
+          dest: dist/test-results-reporter-win.zip
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["./dist/*zip"]'
