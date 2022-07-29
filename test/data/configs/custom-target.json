@@ -5,7 +5,7 @@
         {
           "name": "custom",
           "inputs": {
-            "path": "test/data/custom-test.js"
+            "load": "test/data/custom/custom-runner.js"
           }
         }
       ],
