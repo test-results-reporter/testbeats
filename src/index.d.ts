@@ -1,11 +1,15 @@
 import { User, Schedule } from 'rosters';
 import TestResult from 'test-results-parser/src/models/TestResult';
 
-export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary';
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'custom';
 export type Hook = 'start' | 'end';
 export type Condition = 'pass' | 'fail' | 'passOrFail';
 export type TargetName = 'slack' | 'teams' | 'chat' | 'custom';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
+
+/**
+ * Extensions
+ */
 
 export interface ExtensionInputs {
   title?: string;
@@ -43,7 +47,7 @@ export interface Extension {
   name: ExtensionName;
   condition?: Condition;
   hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs;
 }
 
 export interface PercyAnalysisInputs extends ExtensionInputs {
@@ -65,6 +69,25 @@ export interface PercyAnalysisOutputs {
 export interface PercyAnalysisExtension extends Extension {
   inputs?: PercyAnalysisInputs;
   outputs?: PercyAnalysisOutputs;
+}
+
+export interface CustomExtensionFunctionContext {
+  target: Target;
+  extension: HyperlinksExtension,
+  result: TestResult;
+  payload: any;
+  root_payload: any;
+}
+
+export type CustomExtensionFunction = (ctx: CustomExtensionFunctionContext) => void | Promise<void>;
+
+export interface CustomExtensionInputs extends ExtensionInputs {
+  load: string | CustomExtensionFunction;
+}
+
+export interface CustomExtension extends Extension {
+  inputs?: CustomExtensionInputs;
+  outputs?: any;
 }
 
 export interface LinkUrlFunctionContext {
@@ -89,6 +112,10 @@ export interface HyperlinksExtension extends Extension {
   inputs?: HyperlinkInputs;
 }
 
+/**
+ * Targets
+ */
+
 export interface TargetInputs {
   url: string;
   title?: string;
@@ -107,10 +134,21 @@ export interface TeamsInputs extends TargetInputs {
 
 export interface ChatInputs extends TargetInputs {}
 
+export interface CustomTargetFunctionContext {
+  target: Target;
+  result: TestResult;
+}
+
+export type CustomTargetFunction = (ctx: CustomTargetFunctionContext) => void | Promise<void>;
+
+export interface CustomTargetInputs {
+  load: string | CustomTargetFunction;
+}
+
 export interface Target {
   name: TargetName;
   condition: Condition;
-  inputs: SlackInputs | TeamsInputs | ChatInputs;
+  inputs: SlackInputs | TeamsInputs | ChatInputs | CustomTargetInputs;
   extensions?: Extension[];
 }
 
