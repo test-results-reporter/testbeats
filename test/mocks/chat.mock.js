@@ -269,7 +269,7 @@ addInteractionHandler('post test-summary to chat with report portal analysis', (
                 "widgets": [
                   {
                     "textParagraph": {
-                      "text": "<b>Report Portal Analysis</b><br><br>🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ <b>🟠 TI - 4</b>"
+                      "text": "<b><a href=\"http://localhost:9393/ui/#project-name/launches/all/uuid\">Report Portal Analysis</a></b><br><br>🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ <b>🟠 TI - 4</b>"
                     }
                   }
                 ]
@@ -301,7 +301,7 @@ addInteractionHandler('post test-summary to chat with report portal history', ()
                 "widgets": [
                   {
                     "textParagraph": {
-                      "text": "<b>Last 3 Runs</b><br><br>❌ ✅ ⚠️"
+                      "text": "<b>Last 3 Runs</b><br><br><a href=\"http://localhost:9393/ui/#project-name/launches/all/uuid\">❌</a> <a href=\"http://localhost:9393/ui/#project-name/launches/all/uuid\">✅</a> <a href=\"http://localhost:9393/ui/#project-name/launches/all/uuid\">⚠️</a>"
                     }
                   }
                 ]

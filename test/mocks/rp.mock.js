@@ -13,6 +13,7 @@ addInteractionHandler('get launch details', () => {
       status: 200,
       body: {
         "id": 123,
+        "uuid": "uuid",
         "statistics": {
           "defects": {
             "to_investigate": {
@@ -46,6 +47,7 @@ addInteractionHandler('get last launch details', () => {
         "content": [
           {
             "id": 123,
+            "uuid": "uuid",
             "statistics": {
               "defects": {
                 "to_investigate": {
@@ -82,12 +84,15 @@ addInteractionHandler('get suite history', () => {
           {
             "resources": [
               {
+                "uuid": "uuid",
                 "status": "FAILED",
               },
               {
+                "uuid": "uuid",
                 "status": "PASSED",
               },
               {
+                "uuid": "uuid",
                 "status": "RUNNING",
               }
             ]

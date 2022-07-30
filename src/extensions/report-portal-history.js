@@ -4,32 +4,45 @@ const { addTextBlock } = require('../helpers/slack');
 const { addTextSection } = require('../helpers/chat');
 const { HOOK, STATUS } = require('../helpers/constants');
 
-async function getLaunchHistory(inputs) {
+async function getLaunchHistory(extension) {
+  const { inputs, outputs } = extension;
   if (!inputs.launch_id && inputs.launch_name) {
     const launch = await getLastLaunchByName(inputs);
+    outputs.launch = launch;
     inputs.launch_id = launch.id;
   }
   if (typeof inputs.launch_id === 'string') {
     const launch = await getLaunchDetails(inputs);
+    outputs.launch = launch;
     inputs.launch_id = launch.id;
   }
   const response = await getSuiteHistory(inputs);
   if (response.content.length > 0) {
+    outputs.history = response.content[0].resources;
     return response.content[0].resources;
   }
   return [];
 }
 
-function getSymbols(launches) {
+function getSymbols({ target, extension, launches }) {
   const symbols = [];
   for (let i = 0; i < launches.length; i++) {
     const launch = launches[i];
+    const launch_url = `${extension.inputs.url}/ui/#${extension.inputs.project}/launches/all/${launch.uuid}`;
+    let current_symbol = '⚠️';
     if (launch.status === 'PASSED') {
-      symbols.push('✅');
+      current_symbol = '✅'; 
     } else if (launch.status === 'FAILED') {
-      symbols.push('❌');
+      current_symbol = '❌'; 
+    }
+    if (target.name === 'teams') {
+      symbols.push(`[${current_symbol}](${launch_url})`);
+    } else if (target.name === 'slack') {
+      symbols.push(`<${launch_url}|${current_symbol}>`);
+    } else if (target.name === 'chat') {
+      symbols.push(`<a href="${launch_url}">${current_symbol}</a>`);
     } else {
-      symbols.push('⚠️');
+      symbols.push(current_symbol);
     }
   }
   return symbols;
@@ -59,8 +72,8 @@ function setTitle(extension, symbols) {
 async function run({ extension, target, payload }) {
   try {
     extension.inputs = Object.assign({}, default_inputs, extension.inputs);
-    const launches = await getLaunchHistory(extension.inputs);
-    const symbols = getSymbols(launches);
+    const launches = await getLaunchHistory(extension);
+    const symbols = getSymbols({ target, extension, launches });
     if (symbols.length > 0) {
       if (target.name === 'teams') {
         extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);

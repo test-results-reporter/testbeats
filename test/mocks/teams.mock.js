@@ -539,7 +539,7 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
                 },
                 {
                   "type": "TextBlock",
-                  "text": "Report Portal Analysis",
+                  "text": "[Report Portal Analysis](http://localhost:9393/ui/#project-name/launches/all/uuid)",
                   "isSubtle": true,
                   "weight": "bolder",
                   "wrap": true,
@@ -758,7 +758,7 @@ addInteractionHandler('post test-summary to teams with report portal history', (
                 },
                 {
                   "type": "TextBlock",
-                  "text": "❌ ✅ ⚠️",
+                  "text": "[❌](http://localhost:9393/ui/#project-name/launches/all/uuid) [✅](http://localhost:9393/ui/#project-name/launches/all/uuid) [⚠️](http://localhost:9393/ui/#project-name/launches/all/uuid)",
                   "wrap": true
                 }
               ],
@@ -797,7 +797,7 @@ addInteractionHandler('post test-summary to teams with report portal history wit
                 },
                 {
                   "type": "TextBlock",
-                  "text": "❌ ✅ ⚠️",
+                  "text": "[❌](http://localhost:9393/ui/#project-name/launches/all/uuid) [✅](http://localhost:9393/ui/#project-name/launches/all/uuid) [⚠️](http://localhost:9393/ui/#project-name/launches/all/uuid)",
                   "wrap": true,
                   "separator": false
                 }
