@@ -53,8 +53,17 @@ async function _getLaunchDetails(options) {
   return getLaunchDetails(options);
 }
 
+async function initialize(extension) {
+  extension.inputs = Object.assign({}, default_inputs, extension.inputs);
+  extension.outputs.launch = await _getLaunchDetails(extension.inputs);
+  if (!extension.inputs.title_link && extension.inputs.title_link_to_launch) {
+    extension.inputs.title_link = `${extension.inputs.url}/ui/#${extension.inputs.project}/launches/all/${extension.outputs.launch.uuid}`;
+  }
+}
+
 async function run({ extension, payload, target }) {
-  const { statistics } = await _getLaunchDetails(extension.inputs);
+  await initialize(extension);
+  const { statistics } = extension.outputs.launch;
   if (statistics && statistics.defects) {
     if (target.name === 'teams') {
       extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
@@ -77,18 +86,20 @@ const default_options = {
   condition: STATUS.FAIL
 }
 
-const default_inputs_teams = {
+const default_inputs = {
   title: 'Report Portal Analysis',
+  title_link_to_launch: true,
+}
+
+const default_inputs_teams = {
   separator: true
 }
 
 const default_inputs_slack = {
-  title: 'Report Portal Analysis',
   separator: false
 }
 
 const default_inputs_chat = {
-  title: 'Report Portal Analysis',
   separator: true
 }
 

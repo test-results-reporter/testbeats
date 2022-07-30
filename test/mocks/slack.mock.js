@@ -275,7 +275,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis', 
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Report Portal Analysis*\n\n🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ *🟠 TI - 4*"
+                  "text": "*<http://localhost:9393/ui/#project-name/launches/all/uuid|Report Portal Analysis>*\n\n🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ *🟠 TI - 4*"
                 }
               }
             ]
@@ -433,7 +433,7 @@ addInteractionHandler('post test-summary to slack with report portal history', (
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Last 3 Runs*\n\n❌ ✅ ⚠️"
+                  "text": "*Last 3 Runs*\n\n<http://localhost:9393/ui/#project-name/launches/all/uuid|❌> <http://localhost:9393/ui/#project-name/launches/all/uuid|✅> <http://localhost:9393/ui/#project-name/launches/all/uuid|⚠️>"
                 }
               }
             ]
