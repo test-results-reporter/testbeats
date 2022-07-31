@@ -25,7 +25,7 @@ jobs:
       - uses: vimtor/action-zip@v1
         with:
           files: dist/test-results-reporter-win.exe
-          dest: dist/test-results-reporter-win.zip
+          dest: dist/test-results-reporter-win.exe.zip
       - name: Upload release binaries
         uses: alexellis/upload-assets@0.2.2
         env:
