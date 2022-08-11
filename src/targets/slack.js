@@ -81,7 +81,10 @@ function setSuiteBlock({ result, target, payload }) {
         payload.blocks.push(getSuiteSummary({ target, suite }));
       }
       if (target.inputs.include_failure_details) {
-        payload.blocks.push(getFailureDetails(suite));
+        // Only attach failure details block if there were failures
+        if (result.failed > 0 ) {
+          payload.blocks.push(getFailureDetails(suite));
+        }
       }
     }
   }
