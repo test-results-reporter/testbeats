@@ -82,7 +82,7 @@ function setSuiteBlock({ result, target, payload }) {
       }
       if (target.inputs.include_failure_details) {
         // Only attach failure details block if there were failures
-        if (result.failed > 0 ) {
+        if (suite.failed > 0 ) {
           payload.blocks.push(getFailureDetails(suite));
         }
       }
