@@ -2,7 +2,7 @@ const { mock } = require('pactum');
 const assert = require('assert');
 const { publish } = require('../src');
 
-describe('targets - teams', () => {
+describe('targets - teams - functional', () => {
 
   it('should send test-summary', async () => {
     const id = mock.addInteraction('post test-summary to teams');
@@ -267,6 +267,198 @@ describe('targets - teams', () => {
                 "type": "testng",
                 "files": [
                   "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  afterEach(() => {
+    mock.clearInteractions();
+  });
+
+});
+
+describe('targets - teams - performance', () => {
+
+  it('should send test-summary', async () => {
+    const id = mock.addInteraction('post test-summary to teams for JMeter');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "jmeter",
+                "files": [
+                  "test/data/jmeter/sample.csv"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with thresholds', async () => {
+    const id = mock.addInteraction('post test-summary to teams for failed JMeter');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "jmeter",
+                "files": [
+                  "test/data/jmeter/sample.csv"
+                ],
+                "thresholds": [
+                  {
+                    "metric": "Samples",
+                    "checks": ["sum>10"]
+                  },
+                  {
+                    "metric": "Request Duration",
+                    "checks": ["avg<3500"]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary-slim', async () => {
+    const id = mock.addInteraction('post test-summary-slim to teams for JMeter');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message",
+                  "publish": "test-summary-slim",
+                  "title": "Performance Test",
+                  "title_suffix": "Results"
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "jmeter",
+                "files": [
+                  "test/data/jmeter/sample.csv"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with failures only', async () => {
+    const id = mock.addInteraction('post test-summary with failures to teams for failed JMeter');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message",
+                  "only_failures": true
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "jmeter",
+                "files": [
+                  "test/data/jmeter/sample.csv"
+                ],
+                "thresholds": [
+                  {
+                    "metric": "Samples",
+                    "checks": ["sum>10"]
+                  },
+                  {
+                    "metric": "Request Duration",
+                    "checks": ["avg<3500"]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with filtered metrics and fields', async () => {
+    const id = mock.addInteraction('post test-summary to teams with filtered metrics and fields for JMeter');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "teams",
+                "inputs": {
+                  "url": "http://localhost:9393/message",
+                  "metrics": [
+                    {
+                      "name": "Samples",
+                      "condition": "fail"
+                    },
+                    {
+                      "name": "Request Duration",
+                      "condition": "always",
+                      "fields": ["avg", "p99"]
+                    },
+                    {
+                      "name": "Data Sent",
+                      "fields": ["rate"]
+                    }
+                  ]
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "jmeter",
+                "files": [
+                  "test/data/jmeter/sample.csv"
                 ]
               }
             ]

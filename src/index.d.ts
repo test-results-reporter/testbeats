@@ -1,5 +1,6 @@
 import { User, Schedule } from 'rosters';
 import TestResult from 'test-results-parser/src/models/TestResult';
+import { PerformanceParseOptions } from 'performance-results-parser';
 
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'custom';
 export type Hook = 'start' | 'end';
@@ -12,7 +13,7 @@ export interface ConditionFunctionContext {
   result: TestResult;
 }
 export type ConditionFunction = (ctx: ConditionFunctionContext) => boolean | Promise<boolean>;
-export type Condition = 'pass' | 'fail' | 'passOrFail' | ConditionFunction;
+export type Condition = 'pass' | 'fail' | 'passOrFail' | 'always' | 'never' | ConditionFunction;
 
 /**
  * Extensions
@@ -123,6 +124,12 @@ export interface HyperlinksExtension extends Extension {
  * Targets
  */
 
+export interface MetricConfig {
+  name: string;
+  condition: Condition;
+  fields: string[];
+}
+
 export interface TargetInputs {
   url: string;
   title?: string;
@@ -131,15 +138,16 @@ export interface TargetInputs {
   duration?: string;
   publish?: PublishReportType;
   only_failures?: boolean;
+  metrics?: MetricConfig[];
 }
 
-export interface SlackInputs extends TargetInputs {}
+export interface SlackInputs extends TargetInputs { }
 
 export interface TeamsInputs extends TargetInputs {
   width?: string;
 }
 
-export interface ChatInputs extends TargetInputs {}
+export interface ChatInputs extends TargetInputs { }
 
 export interface CustomTargetFunctionContext {
   target: Target;
@@ -166,7 +174,7 @@ export interface PublishResult {
 
 export interface PublishReport {
   targets: Target[];
-  results: PublishResult[];
+  results: PublishResult[] | PerformanceParseOptions[];
 }
 
 export interface PublishConfig {
