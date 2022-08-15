@@ -72,7 +72,7 @@ function setSuiteBlock({ result, target, payload }) {
     let texts = [];
     for (let i = 0; i < result.suites.length; i++) {
       const suite = result.suites[i];
-      if (target.inputs.only_failure_suites && suite.status !== 'FAIL') {
+      if (target.inputs.only_failures && suite.status !== 'FAIL') {
         continue;
       }
       // if suites length eq to 1 then main block will include suite summary
@@ -125,7 +125,7 @@ const default_options = {
 const default_inputs = {
   publish: 'test-summary',
   include_suites: true,
-  only_failure_suites: false,
+  only_failures: false,
   include_failure_details: false,
   duration: 'colonNotation'
 };

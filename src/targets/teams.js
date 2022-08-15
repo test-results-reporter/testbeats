@@ -1,23 +1,49 @@
 const request = require('phin-retry');
 const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
+const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const extension_manager = require('../extensions');
 const { HOOK } = require('../helpers/constants');
 
+const TestResult = require('test-results-parser/src/models/TestResult');
+const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
+
+/**
+ * @param {object} param0 
+ * @param {PerformanceTestResult | TestResult} param0.result 
+ * @returns 
+ */
 async function run({ result, target }) {
   setTargetInputs(target);
   const root_payload = getRootPayload();
   const payload = getMainPayload(target);
+  if (result instanceof PerformanceTestResult) {
+    await setPerformancePayload({ result, target, payload, root_payload });
+  } else {
+    await setFunctionalPayload({ result, target, payload, root_payload });
+  }
+  setRootPayload(root_payload, payload);
+  return request.post({
+    url: target.inputs.url,
+    body: root_payload
+  });
+}
+
+async function setPerformancePayload({ result, target, payload, root_payload }) {
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
+  setTitleBlock({ result, target, payload });
+  await setMainBlockForPerformance({ result, target, payload });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
+  await setTransactionBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
+}
+
+async function setFunctionalPayload({ result, target, payload, root_payload }) {
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   setTitleBlock({ result, target, payload });
   setMainBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
   setSuiteBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
-  setRootPayload(root_payload, payload);
-  return request.post({
-    url: target.inputs.url,
-    body: root_payload
-  });
 }
 
 function setTargetInputs(target) {
@@ -61,7 +87,7 @@ function setTitleBlock({ result, target, payload }) {
   let text = '';
   if (target.inputs.include_suites === false) {
     text = `${emoji} ${title}`;
-  } else if (result.suites.length > 1) {
+  } else if (result.suites && result.suites.length > 1 || result.transactions && result.transactions.length > 1) {
     text = title;
   } else {
     text = `${emoji} ${title}`;
@@ -99,7 +125,7 @@ function setSuiteBlock({ result, target, payload }) {
   if (target.inputs.include_suites) {
     for (let i = 0; i < result.suites.length; i++) {
       const suite = result.suites[i];
-      if (target.inputs.only_failure_suites && suite.status !== 'FAIL') {
+      if (target.inputs.only_failures && suite.status !== 'FAIL') {
         continue;
       }
       // if suites length eq to 1 then main block will include suite summary
@@ -180,6 +206,60 @@ function setRootPayload(root_payload, payload) {
   root_payload.attachments[0].content = payload;
 }
 
+/**
+ * @param {object} param0 
+ * @param {PerformanceTestResult} param0.result 
+ */
+async function setMainBlockForPerformance({ result, target, payload }) {
+  payload.body.push({
+    "type": "FactSet",
+    "facts": await getFactMetrics({ metrics: result.metrics, result, target })
+  });
+}
+
+async function getFactMetrics({ metrics, target, result }) {
+  const facts = [];
+  const valid_metrics = await getValidMetrics({ metrics, target, result });
+  for (let i = 0; i < valid_metrics.length; i++) {
+    const metric = valid_metrics[i];
+    facts.push({
+      "title": `${metric.name}:`,
+      "value": getMetricValuesText({ metrics, metric, target, result })
+    })
+  }
+  return facts;
+}
+
+/**
+ * @param {object} param0 
+ * @param {PerformanceTestResult} param0.result 
+ */
+async function setTransactionBlock({ result, target, payload }) {
+  if (target.inputs.include_suites) {
+    for (let i = 0; i < result.transactions.length; i++) {
+      const transaction = result.transactions[i];
+      if (target.inputs.only_failures && transaction.status !== 'FAIL') {
+        continue;
+      }
+      // if transactions length eq to 1 then main block will include transaction summary
+      if (result.transactions.length > 1) {
+        const emoji = transaction.status === 'PASS' ? '✅' : '❌';
+        payload.body.push({
+          "type": "TextBlock",
+          "text": `${emoji} ${transaction.name}`,
+          "isSubtle": true,
+          "weight": "bolder",
+          "wrap": true
+        });
+        payload.body.push({
+          "type": "FactSet",
+          "facts": await getFactMetrics({ metrics: transaction.metrics, result, target })
+        });
+      }
+    }
+  }
+}
+
 const default_options = {
   condition: 'passOrFail'
 }
@@ -187,7 +267,7 @@ const default_options = {
 const default_inputs = {
   publish: 'test-summary',
   include_suites: true,
-  only_failure_suites: false,
+  only_failures: false,
   include_failure_details: false,
   width: '',
   duration: 'colonNotation'

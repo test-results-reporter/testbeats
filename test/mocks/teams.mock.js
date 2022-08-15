@@ -981,3 +981,491 @@ addInteractionHandler('post test-summary to teams with title_link', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary to teams for JMeter', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "TOTAL",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "39 0.55535/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "avg=4s ｜ min=1s ｜ med=3s ｜ max=15s ｜ p90=11s ｜ p95=11s ｜ p99=15s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 38.87 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 5166.44 KB/sec"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✅ S01_T01_Application_Launch",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "10 0.14422/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "avg=3s ｜ min=2s ｜ med=2s ｜ max=3s ｜ p90=3s ｜ p95=3s ｜ p99=3s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0.001 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 5.36 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 2662.79 KB/sec"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✅ S01_T02_Application_Login",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "9 0.1461/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "avg=4s ｜ min=3s ｜ med=3s ｜ max=10s ｜ p90=4s ｜ p95=10s ｜ p99=10s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 12.94 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 2754.9 KB/sec"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to teams for failed JMeter', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "TOTAL",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "39 0.55535/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "🔺 avg=4s (+1s) ｜ min=1s ｜ med=3s ｜ max=15s ｜ p90=11s ｜ p95=11s ｜ p99=15s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 38.87 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 5166.44 KB/sec"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✅ S01_T01_Application_Launch",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "10 0.14422/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "avg=3s ｜ min=2s ｜ med=2s ｜ max=3s ｜ p90=3s ｜ p95=3s ｜ p99=3s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0.001 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 5.36 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 2662.79 KB/sec"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "❌ S01_T02_Application_Login",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "🔻 9 (-1) 0.1461/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "🔺 avg=4s (+855ms) ｜ min=3s ｜ med=3s ｜ max=10s ｜ p90=4s ｜ p95=10s ｜ p99=10s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 12.94 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 2754.9 KB/sec"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary-slim to teams for JMeter', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "✅ Performance Test Results",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "39 0.55535/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "avg=4s ｜ min=1s ｜ med=3s ｜ max=15s ｜ p90=11s ｜ p95=11s ｜ p99=15s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 38.87 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 5166.44 KB/sec"
+                    }
+                  ]
+                },
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary with failures to teams for failed JMeter', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "TOTAL",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "39 0.55535/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "🔺 avg=4s (+1s) ｜ min=1s ｜ med=3s ｜ max=15s ｜ p90=11s ｜ p95=11s ｜ p99=15s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 38.87 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 5166.44 KB/sec"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "❌ S01_T02_Application_Login",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Samples:",
+                      "value": "🔻 9 (-1) 0.1461/s"
+                    },
+                    {
+                      "title": "Request Duration:",
+                      "value": "🔺 avg=4s (+855ms) ｜ min=3s ｜ med=3s ｜ max=10s ｜ p90=4s ｜ p95=10s ｜ p99=10s"
+                    },
+                    {
+                      "title": "Error:",
+                      "value": "0 %"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "0 12.94 KB/sec"
+                    },
+                    {
+                      "title": "Data Received:",
+                      "value": "0 2754.9 KB/sec"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to teams with filtered metrics and fields for JMeter', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "TOTAL",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Request Duration:",
+                      "value": "avg=4s ｜ p99=15s"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "38.87 KB/sec"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✅ S01_T01_Application_Launch",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Request Duration:",
+                      "value": "avg=3s ｜ p99=3s"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "5.36 KB/sec"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✅ S01_T02_Application_Login",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Request Duration:",
+                      "value": "avg=4s ｜ p99=10s"
+                    },
+                    {
+                      "title": "Data Sent:",
+                      "value": "12.94 KB/sec"
+                    }
+                  ]
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

@@ -2,6 +2,7 @@ const pretty_ms = require('pretty-ms');
 
 const DATA_REF_PATTERN = /(\{[^\}]+\})/g;
 const ALLOWED_CONDITIONS = new Set(['pass', 'fail', 'passorfail']);
+const GENERIC_CONDITIONS = new Set(['always', 'never']);
 
 function getPercentage(x, y) {
   if (y > 0) {
@@ -30,6 +31,9 @@ function processText(raw) {
   return raw;
 }
 
+/** 
+ * @returns {import('../index').PublishConfig }
+ */
 function processData(data) {
   if (typeof data === 'string') {
     return processText(data);
@@ -79,6 +83,8 @@ async function checkCondition({ condition, result, target, extension }) {
     const lower_condition = condition.toLowerCase();
     if (ALLOWED_CONDITIONS.has(lower_condition)) {
       return lower_condition.includes(result.status.toLowerCase());
+    } else if (GENERIC_CONDITIONS.has(lower_condition)) {
+      return lower_condition === 'always';
     } else {
       return eval(condition);
     }
