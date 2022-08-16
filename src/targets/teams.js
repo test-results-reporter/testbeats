@@ -270,7 +270,7 @@ const default_inputs = {
   only_failures: false,
   include_failure_details: false,
   width: '',
-  duration: 'colonNotation'
+  duration: ''
 }
 
 module.exports = {

@@ -1,5 +1,6 @@
 const Metric = require("performance-results-parser/src/models/Metric");
-const { getPrettyDuration, checkCondition } = require("./helper");
+const { checkCondition } = require("./helper");
+const pretty_ms = require('pretty-ms');
 
 /**
  * @param {object} param0 
@@ -60,9 +61,9 @@ function getTrendMetricFieldValue(metric, field) {
   const failure = metric.failures.find(_failure => _failure.field === field);
   if (failure) {
     const emoji = getEmoji(failure.difference);
-    return `${emoji} ${field}=${getPrettyDuration(metric[field])} (${getDifferenceSymbol(failure.difference)}${getPrettyDuration(failure.difference)})`
+    return `${emoji} ${field}=${pretty_ms(metric[field])} (${getDifferenceSymbol(failure.difference)}${pretty_ms(failure.difference)})`
   }
-  return `${field}=${getPrettyDuration(metric[field])}`;
+  return `${field}=${pretty_ms(metric[field])}`;
 }
 
 /**

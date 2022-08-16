@@ -6,7 +6,7 @@ addDataTemplate({
     "widgets": [
       {
         "textParagraph": {
-          "text": "<b>✅ Default suite</b><br><br><b>Results</b>: 4 / 4 Passed (100%)<br><b>Duration</b>: 0:02"
+          "text": "<b>✅ Default suite</b><br><br><b>Results</b>: 4 / 4 Passed (100%)<br><b>Duration</b>: 2s"
         }
       }
     ]
@@ -15,7 +15,7 @@ addDataTemplate({
     "widgets": [
       {
         "textParagraph": {
-          "text": "<b>❌ Default suite</b><br><br><b>Results</b>: 3 / 4 Passed (75%)<br><b>Duration</b>: 0:02"
+          "text": "<b>❌ Default suite</b><br><br><b>Results</b>: 3 / 4 Passed (75%)<br><b>Duration</b>: 2s"
         }
       }
     ]
@@ -24,7 +24,7 @@ addDataTemplate({
     "widgets": [
       {
         "textParagraph": {
-          "text": "<b>Regression Tests</b><br><br><b>Results</b>: 8 / 20 Passed (40%)<br><b>Duration</b>: 23:23"
+          "text": "<b>Regression Tests</b><br><br><b>Results</b>: 8 / 20 Passed (40%)<br><b>Duration</b>: 23m 23s"
         }
       }
     ]
@@ -33,7 +33,7 @@ addDataTemplate({
     "widgets": [
       {
         "textParagraph": {
-          "text": "<b>❌ Regression Tests</b><br><br><b>Results</b>: 8 / 20 Passed (40%)<br><b>Duration</b>: 23:23"
+          "text": "<b>❌ Regression Tests</b><br><br><b>Results</b>: 8 / 20 Passed (40%)<br><b>Duration</b>: 23m 23s"
         }
       }
     ]
@@ -45,7 +45,7 @@ addDataTemplate({
     "widgets": [
       {
         "textParagraph": {
-          "text": "<b>❌ desktop-chrome</b><br><br><b>Results</b>: 2 / 5 Passed (40%)<br><b>Duration</b>: 3:22<br><br><b>❌ mobile-ios</b><br><br><b>Results</b>: 2 / 5 Passed (40%)<br><b>Duration</b>: 9:05"
+          "text": "<b>❌ desktop-chrome</b><br><br><b>Results</b>: 2 / 5 Passed (40%)<br><b>Duration</b>: 3m 22s<br><br><b>❌ mobile-ios</b><br><br><b>Results</b>: 2 / 5 Passed (40%)<br><b>Duration</b>: 9m 5s"
         }
       }
     ]
@@ -54,7 +54,7 @@ addDataTemplate({
     "widgets": [
       {
         "textParagraph": {
-          "text": "<b>❌ desktop-chrome</b><br><br><b>Results</b>: 2 / 5 Passed (40%)<br><b>Duration</b>: 3:22<br><br><b>Test</b>: GU<br><b>Error</b>: expected [A] but found [948474]<br><br><b>Test</b>: SBP_WA<br><b>Error</b>: Expected condition failed: : 95ddbda01ea4b3dbcb049e681a6...}<br><br><b>Test</b>: CB<br><b>Error</b>: element click intercepted:<br><br><br><br><b>❌ mobile-ios</b><br><br><b>Results</b>: 2 / 5 Passed (40%)<br><b>Duration</b>: 9:05<br><br><b>Test</b>: GU<br><b>Error</b>: expected [A] but found [948474]<br><br><b>Test</b>: SBP_WA<br><b>Error</b>: Appium error: An unknown sr='Search...']}<br><br><b>Test</b>: CB<br><b>Error</b>: A script did not complete <br><br>"
+          "text": "<b>❌ desktop-chrome</b><br><br><b>Results</b>: 2 / 5 Passed (40%)<br><b>Duration</b>: 3m 22s<br><br><b>Test</b>: GU<br><b>Error</b>: expected [A] but found [948474]<br><br><b>Test</b>: SBP_WA<br><b>Error</b>: Expected condition failed: : 95ddbda01ea4b3dbcb049e681a6...}<br><br><b>Test</b>: CB<br><b>Error</b>: element click intercepted:<br><br><br><br><b>❌ mobile-ios</b><br><br><b>Results</b>: 2 / 5 Passed (40%)<br><b>Duration</b>: 9m 5s<br><br><b>Test</b>: GU<br><b>Error</b>: expected [A] but found [948474]<br><br><b>Test</b>: SBP_WA<br><b>Error</b>: Appium error: An unknown sr='Search...']}<br><br><b>Test</b>: CB<br><b>Error</b>: A script did not complete <br><br>"
         }
       }
     ]
@@ -426,7 +426,7 @@ addInteractionHandler('post test-summary to chat with title_link', () => {
                 "widgets": [
                   {
                     "textParagraph": {
-                      "text": "<b><a href=\"some-url\">✅ Default suite</a></b><br><br><b>Results</b>: 4 / 4 Passed (100%)<br><b>Duration</b>: 0:02"
+                      "text": "<b><a href=\"some-url\">✅ Default suite</a></b><br><br><b>Results</b>: 4 / 4 Passed (100%)<br><b>Duration</b>: 2s"
                     }
                   }
                 ]

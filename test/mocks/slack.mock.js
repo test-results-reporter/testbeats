@@ -6,35 +6,35 @@ addDataTemplate({
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 0:02"
+      "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 2s"
     }
   },
   'SLACK_ROOT_SINGLE_SUITE_FAILURE': {
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 0:02"
+      "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 2s"
     }
   },
   'SLACK_ROOT_MULTIPLE_SUITES': {
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": "*Regression Tests*\n\n*Results*: 8 / 20 Passed (40%)\n*Duration*: 23:23"
+      "text": "*Regression Tests*\n\n*Results*: 8 / 20 Passed (40%)\n*Duration*: 23m 23s"
     }
   },
   'SLACK_SUITE_CHROME': {
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 3:22"
+      "text": "*❌ desktop-chrome*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 3m 22s"
     }
   },
   'SLACK_SUITE_IOS': {
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 9:05"
+      "text": "*❌ mobile-ios*\n\n*Results*: 2 / 5 Passed (40%)\n*Duration*: 9m 5s"
     }
   }
 });
@@ -492,7 +492,7 @@ addInteractionHandler('post test-summary to slack with title_link', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*<some-url|Default suite>*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 0:02"
+                  "text": "*<some-url|Default suite>*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 2s"
                 }
               }
             ]
