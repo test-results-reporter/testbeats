@@ -30,7 +30,7 @@ addInteractionHandler('post test-summary to teams with single suite', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "02s"
                     }
                   ]
                 },
@@ -82,7 +82,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "23:23"
+                      "value": "23m 23s"
                     }
                   ]
                 },
@@ -101,7 +101,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "03:22"
+                      "value": "03m 22s"
                     }
                   ]
                 },
@@ -120,7 +120,7 @@ addInteractionHandler('post test-summary to teams with multiple suites', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "09:05"
+                      "value": "9m 5s"
                     }
                   ]
                 }
@@ -167,7 +167,7 @@ addInteractionHandler('post test-summary-slim to teams with multiple suites', ()
                     },
                     {
                       "title": "Duration:",
-                      "value": "23:23"
+                      "value": "23m 23s"
                     }
                   ]
                 }
@@ -214,7 +214,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                     },
                     {
                       "title": "Duration:",
-                      "value": "23:23"
+                      "value": "23m 23s"
                     }
                   ]
                 },
@@ -233,7 +233,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                     },
                     {
                       "title": "Duration:",
-                      "value": "03:22"
+                      "value": "03m 22s"
                     }
                   ]
                 },
@@ -291,7 +291,7 @@ addInteractionHandler('post failure-details to teams with multiple suites', () =
                     },
                     {
                       "title": "Duration:",
-                      "value": "09:05"
+                      "value": "9m 5s"
                     }
                   ]
                 },
@@ -377,7 +377,7 @@ addInteractionHandler('post failure-details to teams with single suite', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "02s"
                     }
                   ]
                 },
@@ -425,7 +425,7 @@ addInteractionHandler('post test-summary to slack with single suite', () => {
               },
               {
                 "title": "Duration",
-                "value": "00:02",
+                "value": "02s",
                 "short": true
               }
             ]
@@ -462,7 +462,7 @@ addInteractionHandler('post test-summary-slim to slack with multiple suites', ()
               },
               {
                 "title": "Duration",
-                "value": "23:23",
+                "value": "23m 23s",
                 "short": true
               }
             ]
@@ -495,7 +495,7 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
               },
               {
                 "title": "Duration",
-                "value": "23:23",
+                "value": "23m 23s",
                 "short": true
               }
             ]
@@ -512,7 +512,7 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
               },
               {
                 "title": "Duration",
-                "value": "03:22",
+                "value": "03m 22s",
                 "short": true
               }
             ]
@@ -529,7 +529,7 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
               },
               {
                 "title": "Duration",
-                "value": "09:05",
+                "value": "9m 5s",
                 "short": true
               }
             ]
@@ -565,7 +565,7 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
               },
               {
                 "title": "Duration",
-                "value": "23:23",
+                "value": "23m 23s",
                 "short": true
               }
             ]
@@ -585,7 +585,7 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
               },
               {
                 "title": "Duration",
-                "value": "03:22",
+                "value": "03m 22s",
                 "short": true
               },
               {
@@ -614,7 +614,7 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
               },
               {
                 "title": "Duration",
-                "value": "09:05",
+                "value": "9m 5s",
                 "short": true
               },
               {
@@ -659,7 +659,7 @@ addInteractionHandler('post failure-details to slack with single suite', () => {
               },
               {
                 "title": "Duration",
-                "value": "00:02",
+                "value": "02s",
                 "short": true
               },
               {
@@ -1170,7 +1170,7 @@ addInteractionHandler('post test-summary to teams with report portal analysis', 
                     },
                     {
                       "title": "Duration:",
-                      "value": "00:02"
+                      "value": "02s"
                     }
                   ]
                 },
@@ -1221,7 +1221,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis', 
               },
               {
                 "title": "Duration",
-                "value": "00:02",
+                "value": "02s",
                 "short": true
               }
             ]

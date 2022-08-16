@@ -24,7 +24,7 @@ addDataTemplate({
       },
       {
         "title": "Duration:",
-        "value": "0:02"
+        "value": "2s"
       }
     ]
   },
@@ -37,7 +37,7 @@ addDataTemplate({
       },
       {
         "title": "Duration:",
-        "value": "0:02"
+        "value": "2s"
       }
     ]
   },
@@ -50,7 +50,7 @@ addDataTemplate({
       },
       {
         "title": "Duration:",
-        "value": "23:23"
+        "value": "23m 23s"
       }
     ]
   },
@@ -76,7 +76,7 @@ addDataTemplate({
       },
       {
         "title": "Duration:",
-        "value": "3:22"
+        "value": "3m 22s"
       }
     ]
   },
@@ -89,7 +89,7 @@ addDataTemplate({
       },
       {
         "title": "Duration:",
-        "value": "9:05"
+        "value": "9m 5s"
       }
     ]
   },
@@ -1013,7 +1013,7 @@ addInteractionHandler('post test-summary to teams for JMeter', () => {
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "avg=4s ｜ min=1s ｜ med=3s ｜ max=15s ｜ p90=11s ｜ p95=11s ｜ p99=15s"
+                      "value": "avg=4.6s ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s"
                     },
                     {
                       "title": "Error:",
@@ -1045,7 +1045,7 @@ addInteractionHandler('post test-summary to teams for JMeter', () => {
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "avg=3s ｜ min=2s ｜ med=2s ｜ max=3s ｜ p90=3s ｜ p95=3s ｜ p99=3s"
+                      "value": "avg=3s ｜ min=2.1s ｜ med=2.8s ｜ max=3.7s ｜ p90=3.7s ｜ p95=3.7s ｜ p99=3.7s"
                     },
                     {
                       "title": "Error:",
@@ -1077,7 +1077,7 @@ addInteractionHandler('post test-summary to teams for JMeter', () => {
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "avg=4s ｜ min=3s ｜ med=3s ｜ max=10s ｜ p90=4s ｜ p95=10s ｜ p99=10s"
+                      "value": "avg=4.3s ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s"
                     },
                     {
                       "title": "Error:",
@@ -1137,7 +1137,7 @@ addInteractionHandler('post test-summary to teams for failed JMeter', () => {
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "🔺 avg=4s (+1s) ｜ min=1s ｜ med=3s ｜ max=15s ｜ p90=11s ｜ p95=11s ｜ p99=15s"
+                      "value": "🔺 avg=4.6s (+1.1s) ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s"
                     },
                     {
                       "title": "Error:",
@@ -1169,7 +1169,7 @@ addInteractionHandler('post test-summary to teams for failed JMeter', () => {
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "avg=3s ｜ min=2s ｜ med=2s ｜ max=3s ｜ p90=3s ｜ p95=3s ｜ p99=3s"
+                      "value": "avg=3s ｜ min=2.1s ｜ med=2.8s ｜ max=3.7s ｜ p90=3.7s ｜ p95=3.7s ｜ p99=3.7s"
                     },
                     {
                       "title": "Error:",
@@ -1201,7 +1201,7 @@ addInteractionHandler('post test-summary to teams for failed JMeter', () => {
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "🔺 avg=4s (+855ms) ｜ min=3s ｜ med=3s ｜ max=10s ｜ p90=4s ｜ p95=10s ｜ p99=10s"
+                      "value": "🔺 avg=4.3s (+855ms) ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s"
                     },
                     {
                       "title": "Error:",
@@ -1261,7 +1261,7 @@ addInteractionHandler('post test-summary-slim to teams for JMeter', () => {
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "avg=4s ｜ min=1s ｜ med=3s ｜ max=15s ｜ p90=11s ｜ p95=11s ｜ p99=15s"
+                      "value": "avg=4.6s ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s"
                     },
                     {
                       "title": "Error:",
@@ -1321,7 +1321,7 @@ addInteractionHandler('post test-summary with failures to teams for failed JMete
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "🔺 avg=4s (+1s) ｜ min=1s ｜ med=3s ｜ max=15s ｜ p90=11s ｜ p95=11s ｜ p99=15s"
+                      "value": "🔺 avg=4.6s (+1.1s) ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s"
                     },
                     {
                       "title": "Error:",
@@ -1353,7 +1353,7 @@ addInteractionHandler('post test-summary with failures to teams for failed JMete
                     },
                     {
                       "title": "Request Duration:",
-                      "value": "🔺 avg=4s (+855ms) ｜ min=3s ｜ med=3s ｜ max=10s ｜ p90=4s ｜ p95=10s ｜ p99=10s"
+                      "value": "🔺 avg=4.3s (+855ms) ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s"
                     },
                     {
                       "title": "Error:",
@@ -1409,7 +1409,7 @@ addInteractionHandler('post test-summary to teams with filtered metrics and fiel
                   "facts": [
                     {
                       "title": "Request Duration:",
-                      "value": "avg=4s ｜ p99=15s"
+                      "value": "avg=4.6s ｜ p99=15.5s"
                     },
                     {
                       "title": "Data Sent:",
@@ -1429,7 +1429,7 @@ addInteractionHandler('post test-summary to teams with filtered metrics and fiel
                   "facts": [
                     {
                       "title": "Request Duration:",
-                      "value": "avg=3s ｜ p99=3s"
+                      "value": "avg=3s ｜ p99=3.7s"
                     },
                     {
                       "title": "Data Sent:",
@@ -1449,7 +1449,7 @@ addInteractionHandler('post test-summary to teams with filtered metrics and fiel
                   "facts": [
                     {
                       "title": "Request Duration:",
-                      "value": "avg=4s ｜ p99=10s"
+                      "value": "avg=4.3s ｜ p99=10.7s"
                     },
                     {
                       "title": "Data Sent:",

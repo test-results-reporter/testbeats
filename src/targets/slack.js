@@ -155,7 +155,7 @@ const default_inputs = {
   include_suites: true,
   only_failures: false,
   include_failure_details: false,
-  duration: 'colonNotation'
+  duration: ''
 }
 
 module.exports = {
