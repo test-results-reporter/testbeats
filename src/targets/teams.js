@@ -211,6 +211,18 @@ function setRootPayload(root_payload, payload) {
  * @param {PerformanceTestResult} param0.result 
  */
 async function setMainBlockForPerformance({ result, target, payload }) {
+  const total = result.transactions.length;
+  const passed = result.transactions.filter(_transaction => _transaction.status === 'PASS').length;
+  const percentage = getPercentage(passed, total);
+  payload.body.push({
+    "type": "FactSet",
+    "facts": [
+      {
+        "title": "Results:",
+        "value": `${passed} / ${total} Passed (${percentage}%)`
+      }
+    ]
+  });
   payload.body.push({
     "type": "FactSet",
     "facts": await getFactMetrics({ metrics: result.metrics, result, target })

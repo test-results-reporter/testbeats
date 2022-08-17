@@ -1008,6 +1008,15 @@ addInteractionHandler('post test-summary to teams for JMeter', () => {
                   "type": "FactSet",
                   "facts": [
                     {
+                      "title": "Results:",
+                      "value": "2 / 2 Passed (100%)"
+                    }
+                  ]
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
                       "title": "Samples:",
                       "value": "39 0.55535/s"
                     },
@@ -1127,6 +1136,15 @@ addInteractionHandler('post test-summary to teams for failed JMeter', () => {
                   "size": "medium",
                   "weight": "bolder",
                   "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "1 / 2 Passed (50%)"
+                    }
+                  ]
                 },
                 {
                   "type": "FactSet",
@@ -1256,6 +1274,15 @@ addInteractionHandler('post test-summary-slim to teams for JMeter', () => {
                   "type": "FactSet",
                   "facts": [
                     {
+                      "title": "Results:",
+                      "value": "2 / 2 Passed (100%)"
+                    }
+                  ]
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
                       "title": "Samples:",
                       "value": "39 0.55535/s"
                     },
@@ -1311,6 +1338,15 @@ addInteractionHandler('post test-summary with failures to teams for failed JMete
                   "size": "medium",
                   "weight": "bolder",
                   "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "1 / 2 Passed (50%)"
+                    }
+                  ]
                 },
                 {
                   "type": "FactSet",
@@ -1403,6 +1439,15 @@ addInteractionHandler('post test-summary to teams with filtered metrics and fiel
                   "size": "medium",
                   "weight": "bolder",
                   "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "2 / 2 Passed (100%)"
+                    }
+                  ]
                 },
                 {
                   "type": "FactSet",
