@@ -3,6 +3,11 @@ const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helpe
 const extension_manager = require('../extensions');
 const { HOOK } = require('../helpers/constants');
 
+const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
+const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
+const TestResult = require('test-results-parser/src/models/TestResult');
+
+
 const COLORS = {
   GOOD: '#36A64F',
   WARNING: '#ECB22E',
@@ -12,16 +17,24 @@ const COLORS = {
 async function run({ result, target }) {
   setTargetInputs(target);
   const payload = getMainPayload();
-  await extension_manager.run({ result, target, payload, hook: HOOK.START });
-  setMainBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, hook: HOOK.POST_MAIN });
-  setSuiteBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, hook: HOOK.END });
+  if (result instanceof PerformanceTestResult) {
+    await setPerformancePayload({ result, target, payload });
+  } else {
+    await setFunctionalPayload({ result, target, payload });
+  }
   const message = getRootPayload({ result, payload });
   return request.post({
     url: target.inputs.url,
     body: message
   });
+}
+
+async function setFunctionalPayload({ result, target, payload }) {
+  await extension_manager.run({ result, target, payload, hook: HOOK.START });
+  setMainBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, hook: HOOK.POST_MAIN });
+  setSuiteBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, hook: HOOK.END });
 }
 
 function setTargetInputs(target) {
@@ -82,7 +95,7 @@ function setSuiteBlock({ result, target, payload }) {
       }
       if (target.inputs.include_failure_details) {
         // Only attach failure details block if there were failures
-        if (suite.failed > 0 ) {
+        if (suite.failed > 0) {
           payload.blocks.push(getFailureDetails(suite));
         }
       }
@@ -93,7 +106,7 @@ function setSuiteBlock({ result, target, payload }) {
 function getSuiteSummary({ target, suite }) {
   let text = `*${getSuiteTitle(suite)}*\n`;
   text += `\n*Results*: ${getResultText(suite)}`;
-  text += `\n*Duration*: ${getPrettyDuration(suite.duration, target.inputs.duration )}`;
+  text += `\n*Duration*: ${getPrettyDuration(suite.duration, target.inputs.duration)}`;
   return {
     "type": "section",
     "text": {
@@ -126,10 +139,21 @@ function getFailureDetails(suite) {
   }
 }
 
+/**
+ * 
+ * @param {object} param0 
+ * @param {PerformanceTestResult | TestResult} param0.result 
+ * @returns 
+ */
 function getRootPayload({ result, payload }) {
   let color = COLORS.GOOD;
   if (result.status !== 'PASS') {
-    const somePassed = result.suites.some(suite => suite.status === 'PASS');
+    let somePassed = true;
+    if (result instanceof PerformanceTestResult) {
+      somePassed = result.transactions.some(suite => suite.status === 'PASS');
+    } else {
+      somePassed = result.suites.some(suite => suite.status === 'PASS');
+    }
     if (somePassed) {
       color = COLORS.WARNING;
     } else {
@@ -145,6 +169,71 @@ function getRootPayload({ result, payload }) {
     ]
   };
 }
+
+async function setPerformancePayload({ result, target, payload }) {
+  await extension_manager.run({ result, target, payload, hook: HOOK.START });
+  await setPerformanceMainBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, hook: HOOK.POST_MAIN });
+  await setTransactionBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, hook: HOOK.END });
+}
+
+/**
+ * 
+ * @param {object} param0 
+ * @param {PerformanceTestResult} param0.result 
+ */
+async function setPerformanceMainBlock({ result, target, payload }) {
+  let text = `*${getTitleText(result, target)}*\n`;
+  result.total = result.transactions.length;
+  result.passed = result.transactions.filter(_transaction => _transaction.status === 'PASS').length;
+  text += `\n*Results*: ${getResultText(result)}`;
+  const valid_metrics = await getValidMetrics({ metrics: result.metrics, target, result });
+  for (let i = 0; i < valid_metrics.length; i++) {
+    const metric = valid_metrics[i];
+    text += `\n${metric.name}: ${getMetricValuesText({ metric, target, result })}`;
+  }
+  payload.blocks.push({
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": text
+    }
+  });
+}
+
+/**
+ * 
+ * @param {object} param0 
+ * @param {PerformanceTestResult} param0.result 
+ */
+async function setTransactionBlock({ result, target, payload }) {
+  if (target.inputs.include_suites) {
+    for (let i = 0; i < result.transactions.length; i++) {
+      const transaction = result.transactions[i];
+      if (target.inputs.only_failures && transaction.status !== 'FAIL') {
+        continue;
+      }
+      // if transactions length eq to 1 then main block will include transaction summary
+      if (result.transactions.length > 1) {
+        let text = `*${getTitleText(transaction, target)}*\n`;
+        const valid_metrics = await getValidMetrics({ metrics: transaction.metrics, target, result });
+        for (let i = 0; i < valid_metrics.length; i++) {
+          const metric = valid_metrics[i];
+          text += `\n${metric.name}: ${getMetricValuesText({ metric, target, result })}`;
+        }
+        payload.blocks.push({
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": text
+          }
+        });
+      }
+    }
+  }
+}
+
 
 const default_options = {
   condition: 'passOrFail'

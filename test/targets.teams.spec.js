@@ -340,7 +340,7 @@ describe('targets - teams - performance', () => {
                     "checks": ["sum>10"]
                   },
                   {
-                    "metric": "Request Duration",
+                    "metric": "Duration",
                     "checks": ["avg<3500"]
                   }
                 ]
@@ -412,7 +412,7 @@ describe('targets - teams - performance', () => {
                     "checks": ["sum>10"]
                   },
                   {
-                    "metric": "Request Duration",
+                    "metric": "Duration",
                     "checks": ["avg<3500"]
                   }
                 ]
@@ -442,7 +442,7 @@ describe('targets - teams - performance', () => {
                       "condition": "fail"
                     },
                     {
-                      "name": "Request Duration",
+                      "name": "Duration",
                       "condition": "always",
                       "fields": ["avg", "p99"]
                     },

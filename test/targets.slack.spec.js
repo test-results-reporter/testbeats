@@ -2,7 +2,7 @@ const { mock } = require('pactum');
 const assert = require('assert');
 const { publish } = require('../src');
 
-describe('targets - slack', () => {
+describe('targets - slack - functional', () => {
 
   it('should send test-summary', async () => {
     const id = mock.addInteraction('post test-summary to slack');
@@ -172,6 +172,84 @@ describe('targets - slack', () => {
                 "type": "testng",
                 "files": [
                   "test/data/testng/single-suite.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  afterEach(() => {
+    mock.clearInteractions();
+  });
+
+});
+
+describe('targets - slack - performance', () => {
+
+  it('should send test-summary', async () => {
+    const id = mock.addInteraction('post test-summary to slack for JMeter');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "slack",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "jmeter",
+                "files": [
+                  "test/data/jmeter/sample.csv"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with failures only', async () => {
+    const id = mock.addInteraction('post test-summary with failures to slack for failed JMeter');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "slack",
+                "inputs": {
+                  "url": "http://localhost:9393/message",
+                  "title_suffix": "1.2.3",
+                  "only_failures": true
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "jmeter",
+                "files": [
+                  "test/data/jmeter/sample.csv"
+                ],
+                "thresholds": [
+                  {
+                    "metric": "Samples",
+                    "checks": ["sum>10"]
+                  },
+                  {
+                    "metric": "Duration",
+                    "checks": ["avg<3500"]
+                  }
                 ]
               }
             ]
