@@ -441,3 +441,79 @@ addInteractionHandler('post test-summary to chat with title_link', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary to chat for JMeter', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>TOTAL</b><br><br><b>Results</b>: undefined / undefined Passed (0%)<br><br><b>Samples</b>: 39 0.55535/s<br><b>Duration</b>: avg=4.6s ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s<br><b>Errors</b>: 0 %<br><b>Data Sent</b>: 0 38.87 KB/sec<br><b>Data Received</b>: 0 5166.44 KB/sec"
+                    }
+                  }
+                ]
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>✅ S01_T01_Application_Launch</b><br><br><b>Samples</b>: 10 0.14422/s<br><b>Duration</b>: avg=3s ｜ min=2.1s ｜ med=2.8s ｜ max=3.7s ｜ p90=3.7s ｜ p95=3.7s ｜ p99=3.7s<br><b>Errors</b>: 0.001 %<br><b>Data Sent</b>: 0 5.36 KB/sec<br><b>Data Received</b>: 0 2662.79 KB/sec<br><br><b>✅ S01_T02_Application_Login</b><br><br><b>Samples</b>: 9 0.1461/s<br><b>Duration</b>: avg=4.3s ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s<br><b>Errors</b>: 0 %<br><b>Data Sent</b>: 0 12.94 KB/sec<br><b>Data Received</b>: 0 2754.9 KB/sec"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary with failures to chat for failed JMeter', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>TOTAL 1.2.3</b><br><br><b>Results</b>: undefined / undefined Passed (0%)<br><br><b>Samples</b>: 39 0.55535/s<br><b>Duration</b>: 🔺 avg=4.6s (+1.1s) ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s<br><b>Errors</b>: 0 %<br><b>Data Sent</b>: 0 38.87 KB/sec<br><b>Data Received</b>: 0 5166.44 KB/sec"
+                    }
+                  }
+                ]
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>❌ S01_T02_Application_Login</b><br><br><b>Samples</b>: 🔻 9 (-1) 0.1461/s<br><b>Duration</b>: 🔺 avg=4.3s (+855ms) ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s<br><b>Errors</b>: 0 %<br><b>Data Sent</b>: 0 12.94 KB/sec<br><b>Data Received</b>: 0 2754.9 KB/sec"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

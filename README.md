@@ -9,10 +9,11 @@
 <br />
 
 ![Build](https://github.com/test-results-reporter/reporter/workflows/Build/badge.svg?branch=main)
-![Downloads](https://img.shields.io/npm/dt/test-results-reporter)
+![Downloads](https://img.shields.io/npm/dt/test-results-reporter?logo=npm)
 ![Size](https://img.shields.io/bundlephobia/minzip/test-results-reporter)
 
 [![Stars](https://img.shields.io/github/stars/test-results-reporter/reporter?style=social)](https://github.com/test-results-reporter/reporter/stargazers)
+![Downloads](https://img.shields.io/github/downloads/test-results-reporter/reporter/total?logo=github)
 
 <hr>
 
@@ -26,7 +27,7 @@
 
 ### Test Results
 
-<img height="48" style="margin: 6px;" src="./assets/testng.png" alt="testng" /> <img height="48" style="margin: 6px;"  src="./assets/junit.png" alt="junit" /> <img height="48" style="margin: 6px;"  src="./assets/cucumber.png" alt="cucumber" /> <img height="48" style="margin: 6px;"  src="./assets/mocha.png" alt="mocha" /> <img height="48" style="margin: 6px;"  src="./assets/xunit.png" alt="xunit" />
+<img height="48" style="margin: 6px;" src="./assets/testng.png" alt="testng" /> <img height="48" style="margin: 6px;"  src="./assets/junit.png" alt="junit" /> <img height="48" style="margin: 6px;"  src="./assets/cucumber.png" alt="cucumber" /> <img height="48" style="margin: 6px;"  src="./assets/mocha.png" alt="mocha" /> <img height="48" style="margin: 6px;"  src="./assets/xunit.png" alt="xunit" /> <img height="48" style="margin: 6px;"  src="./assets/jmeter.png" alt="jmeter" />
 
 <hr>
 
