@@ -2,20 +2,30 @@ const request = require('phin-retry');
 const { getTitleText, getResultText, getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
 const { HOOK } = require('../helpers/constants');
+const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
+const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 
 async function run({ result, target }) {
   setTargetInputs(target);
   const root_payload = getRootPayload();
   const payload = root_payload.cards[0];
+  if (result instanceof PerformanceTestResult) {
+    await setPerformancePayload({ result, target, payload, root_payload });
+  } else {
+    await setFunctionalPayload({ result, target, payload, root_payload });
+  }
+  return request.post({
+    url: target.inputs.url,
+    body: root_payload
+  });
+}
+
+async function setFunctionalPayload({ result, target, payload, root_payload }) {
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   setMainBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
   setSuiteBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
-  return request.post({
-    url: target.inputs.url,
-    body: root_payload
-  });
 }
 
 function setTargetInputs(target) {
@@ -39,22 +49,10 @@ function getRootPayload() {
 }
 
 function setMainBlock({ result, target, payload }) {
-  const emoji = result.status === 'PASS' ? '✅' : '❌';
-  const title_text = getTitleText({ result, target });
+  const title_text_with_emoji = getTitleTextWithEmoji({ result, target });
   const result_text = getResultText({ result });
   const duration_text = getPrettyDuration(result.duration, target.inputs.duration);
 
-  let title_text_with_emoji = '';
-  if (target.inputs.include_suites === false) {
-    title_text_with_emoji = `${emoji} ${title_text}`;
-  } else if (result.suites.length > 1) {
-    title_text_with_emoji = title_text;
-  } else {
-    title_text_with_emoji = `${emoji} ${title_text}`;
-  }
-  if (target.inputs.title_link) {
-    title_text_with_emoji = `<a href="${target.inputs.title_link}">${title_text_with_emoji}</a>`;
-  }
   const text = `<b>${title_text_with_emoji}</b><br><br><b>Results</b>: ${result_text}<br><b>Duration</b>: ${duration_text}`;
   payload.sections.push({
     "widgets": [
@@ -117,6 +115,102 @@ function getFailureDetails(suite) {
   }
   return text;
 }
+
+function getTitleTextWithEmoji({ result, target }) {
+  const emoji = result.status === 'PASS' ? '✅' : '❌';
+  const title_text = getTitleText({ result, target });
+
+  let title_text_with_emoji = '';
+  if (target.inputs.include_suites === false) {
+    title_text_with_emoji = `${emoji} ${title_text}`;
+  } else if (result.suites && result.suites.length > 1 || result.transactions && result.transactions.length > 1) {
+    title_text_with_emoji = title_text;
+  } else {
+    title_text_with_emoji = `${emoji} ${title_text}`;
+  }
+  if (target.inputs.title_link) {
+    title_text_with_emoji = `<a href="${target.inputs.title_link}">${title_text_with_emoji}</a>`;
+  }
+  return title_text_with_emoji;
+}
+
+async function setPerformancePayload({ result, target, payload, root_payload }) {
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
+  await setPerformanceMainBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
+  await setTransactionBlock({ result, target, payload });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
+}
+
+/**
+ * 
+ * @param {object} param0
+ * @param {PerformanceTestResult} param0.result 
+ */
+async function setPerformanceMainBlock({ result, target, payload }) {
+  const title_text_with_emoji = getTitleTextWithEmoji({ result, target });
+  const result_text = getResultText({ result });
+  let text = `<b>${title_text_with_emoji}</b><br><br><b>Results</b>: ${result_text}<br>`;
+  const valid_metrics = await getValidMetrics({ metrics: result.metrics, target, result });
+  for (let i = 0; i < valid_metrics.length; i++) {
+    const metric = valid_metrics[i];
+    text += `<br><b>${metric.name}</b>: ${getMetricValuesText({ metric, target, result })}`;
+  }
+  payload.sections.push({
+    "widgets": [
+      {
+        "textParagraph": {
+          text
+        }
+      }
+    ]
+  });
+}
+
+/**
+ * 
+ * @param {object} param0
+ * @param {PerformanceTestResult} param0.result 
+ */
+async function setTransactionBlock({ result, target, payload }) {
+  if (target.inputs.include_suites) {
+    let texts = [];
+    for (let i = 0; i < result.transactions.length; i++) {
+      const transaction = result.transactions[i];
+      if (target.inputs.only_failures && transaction.status !== 'FAIL') {
+        continue;
+      }
+      // if transactions length eq to 1 then main block will include suite summary
+      if (result.transactions.length > 1) {
+        texts.push(await getTransactionSummary({ target, transaction,  }));
+      }
+    }
+    if (texts.length > 0) {
+      payload.sections.push({
+        "widgets": [
+          {
+            "textParagraph": {
+              "text": texts.join("<br><br>")
+            }
+          }
+        ]
+      });
+    }
+  }
+}
+
+async function getTransactionSummary({ target, transaction }) {
+  const emoji = transaction.status === 'PASS' ? '✅' : '❌';
+  const suite_title = `${emoji} ${transaction.name}`;
+  let text = `<b>${suite_title}</b><br>`;
+  const valid_metrics = await getValidMetrics({ metrics: transaction.metrics, target, result: transaction });
+  for (let i = 0; i < valid_metrics.length; i++) {
+    const metric = valid_metrics[i];
+    text += `<br><b>${metric.name}</b>: ${getMetricValuesText({ metric, target })}`;
+  }
+  return text;
+}
+
 
 const default_options = {
   condition: 'passOrFail'

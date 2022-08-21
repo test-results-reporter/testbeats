@@ -191,7 +191,7 @@ async function setPerformanceMainBlock({ result, target, payload }) {
   const valid_metrics = await getValidMetrics({ metrics: result.metrics, target, result });
   for (let i = 0; i < valid_metrics.length; i++) {
     const metric = valid_metrics[i];
-    text += `\n${metric.name}: ${getMetricValuesText({ metric, target, result })}`;
+    text += `\n*${metric.name}*: ${getMetricValuesText({ metric, target, result })}`;
   }
   payload.blocks.push({
     "type": "section",
@@ -220,7 +220,7 @@ async function setTransactionBlock({ result, target, payload }) {
         const valid_metrics = await getValidMetrics({ metrics: transaction.metrics, target, result });
         for (let i = 0; i < valid_metrics.length; i++) {
           const metric = valid_metrics[i];
-          text += `\n${metric.name}: ${getMetricValuesText({ metric, target, result })}`;
+          text += `\n*${metric.name}*: ${getMetricValuesText({ metric, target, result })}`;
         }
         payload.blocks.push({
           "type": "section",
