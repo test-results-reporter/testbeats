@@ -1,6 +1,8 @@
 import { User, Schedule } from 'rosters';
 import TestResult from 'test-results-parser/src/models/TestResult';
 import { PerformanceParseOptions } from 'performance-results-parser';
+import { ParseOptions } from 'test-results-parser';
+import PerformanceTestResult from 'performance-results-parser/src/models/PerformanceTestResult';
 
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'custom';
 export type Hook = 'start' | 'end';
@@ -167,14 +169,14 @@ export interface Target {
   extensions?: Extension[];
 }
 
-export interface PublishResult {
+export interface CustomResultOptions {
   type: string;
-  files: string[];
+  result: TestResult | PerformanceTestResult;
 }
 
 export interface PublishReport {
   targets: Target[];
-  results: PublishResult[] | PerformanceParseOptions[];
+  results: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
 
 export interface PublishConfig {
