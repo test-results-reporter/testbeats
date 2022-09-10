@@ -1,6 +1,6 @@
 {
   "name": "test-results-reporter",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Publish test results to Microsoft Teams, Google Chat and Slack",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
@@ -33,7 +33,8 @@
     "xunit",
     "reportportal",
     "google chat",
-    "chat"
+    "chat",
+    "percy"
   ],
   "author": "",
   "license": "ISC",
