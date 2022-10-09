@@ -1,6 +1,6 @@
 {
   "name": "test-results-reporter",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Publish test results to Microsoft Teams, Google Chat and Slack",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
@@ -50,7 +50,7 @@
     "pretty-ms": "^7.0.0",
     "rosters": "0.0.1",
     "sade": "^1.7.4",
-    "test-results-parser": "^0.1.1"
+    "test-results-parser": "^0.1.2"
   },
   "devDependencies": {
     "c8": "^7.12.0",
