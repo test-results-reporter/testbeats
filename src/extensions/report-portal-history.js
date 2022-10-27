@@ -24,20 +24,11 @@ async function getLaunchHistory(extension) {
   return [];
 }
 
-function setLinkHistoryViaProperty(extension) {
-  var linkHistoryVia = "uuid";
-  if( extension.inputs.link_history_via && extension.inputs.link_history_via != '') {
-    linkHistoryVia = extension.inputs.link_history_via;
-  }
-  return linkHistoryVia;
-}
-
 function getSymbols({ target, extension, launches }) {
   const symbols = [];
   for (let i = 0; i < launches.length; i++) {
     const launch = launches[i];
-    eval("var linkHistoryVia = launch." + setLinkHistoryViaProperty(extension));
-    const launch_url = `${extension.inputs.url}/ui/#${extension.inputs.project}/launches/all/${linkHistoryVia}`;
+    const launch_url = `${extension.inputs.url}/ui/#${extension.inputs.project}/launches/all/${extension.inputs.link_history_via}`;
     let current_symbol = '⚠️';
     if (launch.status === 'PASSED') {
       current_symbol = '✅'; 
@@ -104,6 +95,7 @@ async function run({ extension, target, payload }) {
 const default_inputs = {
   history_depth: 5,
   title: 'Last Runs',
+  link_history_via: 'uuid'
 }
 
 const default_inputs_teams = {
