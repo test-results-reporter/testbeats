@@ -2,7 +2,7 @@ const request = require('phin-retry');
 const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const extension_manager = require('../extensions');
-const { HOOK } = require('../helpers/constants');
+const { HOOK, STATUS } = require('../helpers/constants');
 
 const TestResult = require('test-results-parser/src/models/TestResult');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
@@ -273,7 +273,7 @@ async function setTransactionBlock({ result, target, payload }) {
 }
 
 const default_options = {
-  condition: 'passOrFail'
+  condition: STATUS.PASS_OR_FAIL
 }
 
 const default_inputs = {
