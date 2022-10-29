@@ -28,7 +28,7 @@ function getSymbols({ target, extension, launches }) {
   const symbols = [];
   for (let i = 0; i < launches.length; i++) {
     const launch = launches[i];
-    const launch_url = `${extension.inputs.url}/ui/#${extension.inputs.project}/launches/all/${launch.uuid}`;
+    const launch_url = `${extension.inputs.url}/ui/#${extension.inputs.project}/launches/all/${launch[extension.inputs.link_history_via]}`;
     let current_symbol = '⚠️';
     if (launch.status === 'PASSED') {
       current_symbol = '✅'; 
@@ -95,6 +95,7 @@ async function run({ extension, target, payload }) {
 const default_inputs = {
   history_depth: 5,
   title: 'Last Runs',
+  link_history_via: 'uuid'
 }
 
 const default_inputs_teams = {
