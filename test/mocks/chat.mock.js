@@ -517,3 +517,35 @@ addInteractionHandler('post test-summary with failures to chat for failed JMeter
     }
   }
 });
+
+addInteractionHandler('post test-summary with metadata to chat', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE"
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>Browser:</b> Chrome ｜ 1920*1080 ｜ <a href=\"some-url\">Pipeline</a>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

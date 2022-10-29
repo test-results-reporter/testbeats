@@ -4,9 +4,9 @@ import { PerformanceParseOptions } from 'performance-results-parser';
 import { ParseOptions } from 'test-results-parser';
 import PerformanceTestResult from 'performance-results-parser/src/models/PerformanceTestResult';
 
-export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'custom';
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'custom';
 export type Hook = 'start' | 'end';
-export type TargetName = 'slack' | 'teams' | 'chat' | 'custom';
+export type TargetName = 'slack' | 'teams' | 'chat' | 'custom' | 'delay';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
 
 export interface ConditionFunctionContext {
@@ -58,7 +58,7 @@ export interface Extension {
   name: ExtensionName;
   condition?: Condition;
   hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs;
 }
 
 export interface PercyAnalysisInputs extends ExtensionInputs {
@@ -121,6 +121,21 @@ export interface HyperlinkInputs extends ExtensionInputs {
 
 export interface HyperlinksExtension extends Extension {
   inputs?: HyperlinkInputs;
+}
+
+export interface Metadata {
+  key?: string;
+  value: string;
+  type?: string;
+  condition?: Condition;
+}
+
+export interface MetadataInputs extends ExtensionInputs {
+  data?: Metadata[];
+}
+
+export interface MetadataExtension extends Extension {
+  inputs?: MetadataInputs;
 }
 
 /**

@@ -78,7 +78,7 @@ function getResultText({ result }) {
  */
 async function checkCondition({ condition, result, target, extension }) {
   if (typeof condition === 'function') {
-    return await condition({target, result, extension });
+    return await condition({ target, result, extension });
   } else {
     const lower_condition = condition.toLowerCase();
     if (ALLOWED_CONDITIONS.has(lower_condition)) {
