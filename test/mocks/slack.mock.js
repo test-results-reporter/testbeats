@@ -582,3 +582,34 @@ addInteractionHandler('post test-summary with failures to slack for failed JMete
     }
   }
 });
+
+addInteractionHandler('post test-summary with metadata to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Browser:* Chrome ｜ 1920*1080 ｜ <some-url|Pipeline>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

@@ -1,4 +1,5 @@
 const path = require('path');
+const { STATUS } = require('../helpers/constants');
 
 /**
  * 
@@ -18,7 +19,7 @@ async function run({result, target}) {
 }
 
 const default_options = {
-  condition: 'passOrFail'
+  condition: STATUS.PASS_OR_FAIL
 }
 
 module.exports = {

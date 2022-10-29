@@ -5,6 +5,7 @@ const rp_history = require('./report-portal-history');
 const qc_test_summary = require('./quick-chart-test-summary');
 const percy_analysis = require('./percy-analysis');
 const custom = require('./custom');
+const metadata = require('./metadata');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 
@@ -47,6 +48,8 @@ function getExtensionRunner(extension) {
       return percy_analysis;
     case EXTENSION.CUSTOM:
       return custom;
+    case EXTENSION.METADATA:
+      return metadata;
     default:
       return require(extension.name);
   }

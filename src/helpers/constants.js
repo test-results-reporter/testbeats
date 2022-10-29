@@ -25,7 +25,8 @@ const EXTENSION = Object.freeze({
   REPORT_PORTAL_HISTORY: 'report-portal-history',
   QUICK_CHART_TEST_SUMMARY: 'quick-chart-test-summary',
   PERCY_ANALYSIS: 'percy-analysis',
-  CUSTOM: 'custom'
+  CUSTOM: 'custom',
+  METADATA: 'metadata'
 });
 
 const URLS = Object.freeze({
