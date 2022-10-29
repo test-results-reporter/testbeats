@@ -31,17 +31,18 @@ export interface ReportPortalAnalysisInputs extends ExtensionInputs {
   url: string;
   api_key: string;
   project: string;
-  launch_id: string;
-  launch_name: string;
+  launch_id?: string;
+  launch_name?: string;
 }
 
 export interface ReportPortalHistoryInputs extends ExtensionInputs {
   url: string;
   api_key: string;
   project: string;
-  launch_id: string;
-  launch_name: string;
-  history_depth: number;
+  launch_id?: string;
+  launch_name?: string;
+  history_depth?: number;
+  link_history_via?: string;
 }
 
 export interface QuickChartTestSummaryInputs {
@@ -68,7 +69,7 @@ export interface PercyAnalysisInputs extends ExtensionInputs {
   project_id?: string;
   project_name?: string;
   organization_uid?: string;
-  title_link_to_build: boolean;
+  title_link_to_build?: boolean;
 }
 
 export interface PercyAnalysisOutputs {
