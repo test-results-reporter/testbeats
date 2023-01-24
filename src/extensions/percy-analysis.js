@@ -68,13 +68,32 @@ async function setBuildByLastRun(extension) {
  */
 function getLastFinishedBuild(extension) {
   const { inputs } = extension;
+
+  // Added a default value for retries in case the input is missing or is not a number
+  const retries = inputs.retries || 3;
+  const minTimeout = 5000;
+
   return retry(async () => {
-    const response = await getLastBuild(inputs);
-    if (response.data[0].attributes.state !== "finished") {
-      throw `build is still '${response.data[0].attributes.state}'`;
-    }
-    return response;
-  }, { retries: inputs.retries, minTimeout: 5000 });
+      let response;
+      try {
+          response = await getLastBuild(inputs);
+      } catch (error) {
+          // Used the Error class to throw errors instead of using template literals, 
+          // which provides more information about the error, 
+          // including a stack trace, and allows us to distinguish between different types of errors.
+          throw new Error(`Error occurred while fetching the last build: ${error}`);
+      }
+      // Added Checks to make sure that the response data is valid and is as expected.
+      if (!response.data || !response.data[0] || !response.data[0].attributes) {
+          throw new Error(`Invalid response data: ${JSON.stringify(response)}`);
+      }
+      const state = response.data[0].attributes.state;
+      // Included percy's "failed" build status for this fix: #113
+      if (state !== "finished" && state !== "failed") {
+          throw new Error(`build is still '${state}'`);
+      }
+      return response;
+  }, { retries, minTimeout });
 }
 
 /**
@@ -136,7 +155,7 @@ function attachForChat({ payload, extension }) {
   addTextSection({ payload, extension, text });
 }
 
-function getAnalysisSummary(outputs, bold_start = '**', bold_end= '**') {
+function getAnalysisSummary(outputs, bold_start = '**', bold_end = '**') {
   const { build, removed_snapshots } = outputs;
   const results = [];
   const total = build.attributes['total-snapshots'];
@@ -145,17 +164,24 @@ function getAnalysisSummary(outputs, bold_start = '**', bold_end= '**') {
   if (approved) {
     results.push(`${bold_start}✔ AP - ${approved}${bold_end}`);
   } else {
-    results.push(`✔ AP - ${approved}`);
+     // Implemented a defensive check to handle scenarios where the variable "approved" may be null, 
+     // by setting it to zero to avoid displaying null values.
+    results.push(`✔ AP - ${approved || 0}`);
   }
   if (un_reviewed) {
     results.push(`${bold_start}🔎 UR - ${un_reviewed}${bold_end}`);
   } else {
-    results.push(`🔎 UR - ${un_reviewed}`)
+    // As a solution for issue #113, we have implemented a check for Percy's build status, 
+    // if it is "failed", we set the value of "un_reviewed" to 0, 
+    // this way we handle the scenario where "un_reviewed" would be null and display a default value of zero instead.
+    results.push(`🔎 UR - ${un_reviewed || 0}`);
   }
-  if (removed_snapshots.length) {
+  // Implemented a defensive check for when "removed_snapshots" is null or undefined, 
+  // to avoid displaying null or undefined values and provide a default value of zero instead.
+  if (removed_snapshots && removed_snapshots.length) {
     results.push(`${bold_start}🗑 RM - ${removed_snapshots.length}${bold_end}`);
   } else {
-    results.push(`🗑 RM - ${removed_snapshots.length}`)
+    results.push(`🗑 RM - 0`);
   }
   return results;
 }
