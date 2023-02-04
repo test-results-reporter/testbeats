@@ -37,3 +37,41 @@ addInteractionHandler('save perf results with custom tags', () => {
     }
   }
 });
+
+addInteractionHandler('save test results', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/write',
+      headers: {
+        "authorization": "Basic dXNlcjpwYXNz"
+      },
+      queryParams: {
+        "db": "TestResults"
+      },
+      body: "TestRun,Name=Default\\ suite,Status=PASS status=0,total=4,passed=4,failed=0,duration=2000\nTestSuite,Name=Default\\ test,Status=PASS status=0,total=4,passed=4,failed=0,duration=2000\nTestCase,Name=c2,Status=PASS status=0,duration=0\nTestCase,Name=c3,Status=PASS status=0,duration=10\nTestCase,Name=c1,Status=PASS status=0,duration=0\nTestCase,Name=c4,Status=PASS status=0,duration=0"
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('save test results with custom tags', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/write',
+      headers: {
+        "authorization": "Basic dXNlcjpwYXNz"
+      },
+      queryParams: {
+        "db": "TestResults"
+      },
+      body: "TestRun,Team=QA,App=PactumJS,Name=Staging\\ -\\ UI\\ Smoke\\ Test\\ Run,Status=FAIL status=1,total=2,passed=1,failed=1,duration=1883597\nTestSuite,Team=QA,App=PactumJS,Name=desktop-chrome,Status=PASS status=0,total=1,passed=1,failed=0,duration=1164451\nTestCase,Team=QA,App=PactumJS,Name=GU,Status=PASS status=0,duration=243789\nTestSuite,Team=QA,App=PactumJS,Name=mobile-andoid,Status=FAIL status=1,total=1,passed=0,failed=1,duration=714100\nTestCase,Team=QA,App=PactumJS,Name=GU,Status=FAIL status=1,duration=156900"
+    },
+    response: {
+      status: 200
+    }
+  }
+});

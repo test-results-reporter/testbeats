@@ -174,6 +174,9 @@ export interface InfluxDBTargetInputs {
   password?: string;
   measurement_perf_run?: string;
   measurement_perf_transaction?: string;
+  measurement_test_run?: string;
+  measurement_test_suite?: string;
+  measurement_test_case?: string;
   tags?: object;
 }
 
