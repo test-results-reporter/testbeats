@@ -3,6 +3,7 @@ const slack = require('./slack');
 const chat = require('./chat');
 const custom = require('./custom');
 const delay = require('./delay');
+const influx = require('./influx');
 const { TARGET } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 
@@ -18,6 +19,8 @@ function getTargetRunner(target) {
       return custom;
     case TARGET.DELAY:
       return delay;
+    case TARGET.INFLUX:
+      return influx;
     default:
       return require(target.name);
   }

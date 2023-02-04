@@ -15,7 +15,8 @@ const TARGET = Object.freeze({
   TEAMS: 'teams',
   CHAT: 'chat',
   CUSTOM: 'custom',
-  DELAY: 'delay'
+  DELAY: 'delay',
+  INFLUX: 'influx',
 });
 
 const EXTENSION = Object.freeze({

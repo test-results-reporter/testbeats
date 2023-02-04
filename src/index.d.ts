@@ -167,6 +167,16 @@ export interface TeamsInputs extends TargetInputs {
 
 export interface ChatInputs extends TargetInputs { }
 
+export interface InfluxDBTargetInputs {
+  url: string;
+  db: string;
+  username?: string;
+  password?: string;
+  measurement_perf_run?: string;
+  measurement_perf_transaction?: string;
+  tags?: object;
+}
+
 export interface CustomTargetFunctionContext {
   target: Target;
   result: TestResult;
@@ -181,7 +191,7 @@ export interface CustomTargetInputs {
 export interface Target {
   name: TargetName;
   condition: Condition;
-  inputs: SlackInputs | TeamsInputs | ChatInputs | CustomTargetInputs;
+  inputs: SlackInputs | TeamsInputs | ChatInputs | CustomTargetInputs | InfluxDBTargetInputs;
   extensions?: Extension[];
 }
 
