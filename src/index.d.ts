@@ -178,6 +178,7 @@ export interface InfluxDBTargetInputs {
   measurement_test_suite?: string;
   measurement_test_case?: string;
   tags?: object;
+  fields?: object;
 }
 
 export interface CustomTargetFunctionContext {

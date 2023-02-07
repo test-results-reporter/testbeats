@@ -114,7 +114,12 @@ function getTransactionInfluxMetric(transaction, target) {
   tags.Name = transaction.name;
   tags.Status = transaction.status;
 
-  const fields = {};
+  const fields = Object.assign({}, target.inputs.fields);
+  for (const key in fields) {
+    if (Object.hasOwnProperty.call(fields, key)) {
+      fields[key] = parseInt(fields[key]);
+    }
+  }
   fields.status = transaction.status === 'PASS' ? 0 : 1;
 
   for (const metric of transaction.metrics) {
@@ -139,7 +144,12 @@ function getTestInfluxMetric({ result, target }, measurement) {
   tags.Name = result.name;
   tags.Status = result.status;
 
-  const fields = {};
+  const fields = Object.assign({}, target.inputs.fields);
+  for (const key in fields) {
+    if (Object.hasOwnProperty.call(fields, key)) {
+      fields[key] = parseInt(fields[key]);
+    }
+  }
   fields.status = result.status === 'PASS' ? 0 : 1;
   fields.total = result.total;
   fields.passed = result.passed;
@@ -164,7 +174,12 @@ function getTestCaseInfluxMetric({ result, target }) {
   tags.Name = result.name;
   tags.Status = result.status;
 
-  const fields = {};
+  const fields = Object.assign({}, target.inputs.fields);
+  for (const key in fields) {
+    if (Object.hasOwnProperty.call(fields, key)) {
+      fields[key] = parseInt(fields[key]);
+    }
+  }
   fields.status = result.status === 'PASS' ? 0 : 1;
   fields.duration = result.duration;
 
@@ -186,7 +201,8 @@ const default_inputs = {
   measurement_test_run: 'TestRun',
   measurement_test_suite: 'TestSuite',
   measurement_test_case: 'TestCase',
-  tags: {}
+  tags: {},
+  fields: {}
 }
 
 const default_options = {
