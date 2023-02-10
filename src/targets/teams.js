@@ -282,7 +282,17 @@ const default_inputs = {
   only_failures: false,
   include_failure_details: false,
   width: '',
-  duration: ''
+  duration: '',
+  metrics: [
+    {
+      "name": "Samples",
+    },
+    {
+      "name": "Duration",
+      "condition": "always",
+      "fields": ["avg", "p95"]
+    }
+  ]
 }
 
 module.exports = {
