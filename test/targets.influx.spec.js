@@ -36,7 +36,7 @@ describe('targets - influx - performance', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
-  it('should save results with custom tags', async () => {
+  it('should save results with custom tags and fields', async () => {
     const id = mock.addInteraction('save perf results with custom tags and fields');
     await publish({
       config: {
@@ -55,7 +55,7 @@ describe('targets - influx - performance', () => {
                     "App": "PactumJS"
                   },
                   "fields": {
-                    "id": "123",
+                    "id": 123,
                   }
                 }
               }
@@ -134,7 +134,7 @@ describe('targets - influx - functional', () => {
                     "App": "PactumJS"
                   },
                   "fields": {
-                    "id": "123",
+                    "id": 123,
                   }
                 }
               }

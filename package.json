@@ -1,6 +1,6 @@
 {
   "name": "test-results-reporter",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Publish test results to Microsoft Teams, Google Chat, Slack and InfluxDB",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
@@ -36,7 +36,8 @@
     "reportportal",
     "google chat",
     "chat",
-    "percy"
+    "percy",
+    "jmeter"
   ],
   "author": "",
   "license": "ISC",

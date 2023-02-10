@@ -66,7 +66,7 @@ function getPerfRunInfluxMetric({ result, target }) {
   tags.Name = result.name;
   tags.Status = result.status;
 
-  const fields = {};
+  const fields = Object.assign({}, target.inputs.fields);
   fields.status = result.status === 'PASS' ? 0 : 1;
   fields.transactions = result.transactions.length;
   fields.transactions_passed = result.transactions.filter(_transaction => _transaction.status === "PASS").length;
@@ -115,11 +115,6 @@ function getTransactionInfluxMetric(transaction, target) {
   tags.Status = transaction.status;
 
   const fields = Object.assign({}, target.inputs.fields);
-  for (const key in fields) {
-    if (Object.hasOwnProperty.call(fields, key)) {
-      fields[key] = parseInt(fields[key]);
-    }
-  }
   fields.status = transaction.status === 'PASS' ? 0 : 1;
 
   for (const metric of transaction.metrics) {
@@ -145,11 +140,6 @@ function getTestInfluxMetric({ result, target }, measurement) {
   tags.Status = result.status;
 
   const fields = Object.assign({}, target.inputs.fields);
-  for (const key in fields) {
-    if (Object.hasOwnProperty.call(fields, key)) {
-      fields[key] = parseInt(fields[key]);
-    }
-  }
   fields.status = result.status === 'PASS' ? 0 : 1;
   fields.total = result.total;
   fields.passed = result.passed;
@@ -175,11 +165,6 @@ function getTestCaseInfluxMetric({ result, target }) {
   tags.Status = result.status;
 
   const fields = Object.assign({}, target.inputs.fields);
-  for (const key in fields) {
-    if (Object.hasOwnProperty.call(fields, key)) {
-      fields[key] = parseInt(fields[key]);
-    }
-  }
   fields.status = result.status === 'PASS' ? 0 : 1;
   fields.duration = result.duration;
 
