@@ -1022,19 +1022,7 @@ addInteractionHandler('post test-summary to teams for JMeter', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "avg=4.6s ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 38.87 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 5166.44 KB/sec"
+                      "value": "avg=4.6s ｜ p95=11.4s"
                     }
                   ]
                 },
@@ -1054,19 +1042,7 @@ addInteractionHandler('post test-summary to teams for JMeter', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "avg=3s ｜ min=2.1s ｜ med=2.8s ｜ max=3.7s ｜ p90=3.7s ｜ p95=3.7s ｜ p99=3.7s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0.001 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 5.36 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 2662.79 KB/sec"
+                      "value": "avg=3s ｜ p95=3.7s"
                     }
                   ]
                 },
@@ -1086,19 +1062,7 @@ addInteractionHandler('post test-summary to teams for JMeter', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "avg=4.3s ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 12.94 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 2754.9 KB/sec"
+                      "value": "avg=4.3s ｜ p95=10.7s"
                     }
                   ]
                 }
@@ -1155,19 +1119,7 @@ addInteractionHandler('post test-summary to teams for failed JMeter', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "🔺 avg=4.6s (+1.1s) ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 38.87 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 5166.44 KB/sec"
+                      "value": "🔺 avg=4.6s (+1.1s) ｜ p95=11.4s"
                     }
                   ]
                 },
@@ -1187,19 +1139,7 @@ addInteractionHandler('post test-summary to teams for failed JMeter', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "avg=3s ｜ min=2.1s ｜ med=2.8s ｜ max=3.7s ｜ p90=3.7s ｜ p95=3.7s ｜ p99=3.7s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0.001 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 5.36 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 2662.79 KB/sec"
+                      "value": "avg=3s ｜ p95=3.7s"
                     }
                   ]
                 },
@@ -1219,19 +1159,7 @@ addInteractionHandler('post test-summary to teams for failed JMeter', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "🔺 avg=4.3s (+855ms) ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 12.94 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 2754.9 KB/sec"
+                      "value": "🔺 avg=4.3s (+855ms) ｜ p95=10.7s"
                     }
                   ]
                 }
@@ -1288,19 +1216,7 @@ addInteractionHandler('post test-summary-slim to teams for JMeter', () => {
                     },
                     {
                       "title": "Duration:",
-                      "value": "avg=4.6s ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 38.87 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 5166.44 KB/sec"
+                      "value": "avg=4.6s ｜ p95=11.4s"
                     }
                   ]
                 },
@@ -1357,19 +1273,7 @@ addInteractionHandler('post test-summary with failures to teams for failed JMete
                     },
                     {
                       "title": "Duration:",
-                      "value": "🔺 avg=4.6s (+1.1s) ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 38.87 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 5166.44 KB/sec"
+                      "value": "🔺 avg=4.6s (+1.1s) ｜ p95=11.4s"
                     }
                   ]
                 },
@@ -1389,19 +1293,7 @@ addInteractionHandler('post test-summary with failures to teams for failed JMete
                     },
                     {
                       "title": "Duration:",
-                      "value": "🔺 avg=4.3s (+855ms) ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s"
-                    },
-                    {
-                      "title": "Errors:",
-                      "value": "0 %"
-                    },
-                    {
-                      "title": "Data Sent:",
-                      "value": "0 12.94 KB/sec"
-                    },
-                    {
-                      "title": "Data Received:",
-                      "value": "0 2754.9 KB/sec"
+                      "value": "🔺 avg=4.3s (+855ms) ｜ p95=10.7s"
                     }
                   ]
                 }

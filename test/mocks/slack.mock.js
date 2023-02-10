@@ -520,21 +520,21 @@ addInteractionHandler('post test-summary to slack for JMeter', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*TOTAL*\n\n*Results*: 2 / 2 Passed (100%)\n*Samples*: 39 0.55535/s\n*Duration*: avg=4.6s ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s\n*Errors*: 0 %\n*Data Sent*: 0 38.87 KB/sec\n*Data Received*: 0 5166.44 KB/sec"
+                  "text": "*TOTAL*\n\n*Results*: 2 / 2 Passed (100%)\n*Samples*: 39 0.55535/s\n*Duration*: avg=4.6s ｜ p95=11.4s"
                 }
               },
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*S01_T01_Application_Launch*\n\n*Samples*: 10 0.14422/s\n*Duration*: avg=3s ｜ min=2.1s ｜ med=2.8s ｜ max=3.7s ｜ p90=3.7s ｜ p95=3.7s ｜ p99=3.7s\n*Errors*: 0.001 %\n*Data Sent*: 0 5.36 KB/sec\n*Data Received*: 0 2662.79 KB/sec"
+                  "text": "*S01_T01_Application_Launch*\n\n*Samples*: 10 0.14422/s\n*Duration*: avg=3s ｜ p95=3.7s"
                 }
               },
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*S01_T02_Application_Login*\n\n*Samples*: 9 0.1461/s\n*Duration*: avg=4.3s ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s\n*Errors*: 0 %\n*Data Sent*: 0 12.94 KB/sec\n*Data Received*: 0 2754.9 KB/sec"
+                  "text": "*S01_T02_Application_Login*\n\n*Samples*: 9 0.1461/s\n*Duration*: avg=4.3s ｜ p95=10.7s"
                 }
               }
             ]
@@ -562,14 +562,14 @@ addInteractionHandler('post test-summary with failures to slack for failed JMete
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*TOTAL 1.2.3*\n\n*Results*: 1 / 2 Passed (50%)\n*Samples*: 39 0.55535/s\n*Duration*: 🔺 avg=4.6s (+1.1s) ｜ min=1.1s ｜ med=3.3s ｜ max=15.5s ｜ p90=11.3s ｜ p95=11.4s ｜ p99=15.5s\n*Errors*: 0 %\n*Data Sent*: 0 38.87 KB/sec\n*Data Received*: 0 5166.44 KB/sec"
+                  "text": "*TOTAL 1.2.3*\n\n*Results*: 1 / 2 Passed (50%)\n*Samples*: 39 0.55535/s\n*Duration*: 🔺 avg=4.6s (+1.1s) ｜ p95=11.4s"
                 }
               },
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*S01_T02_Application_Login 1.2.3*\n\n*Samples*: 🔻 9 (-1) 0.1461/s\n*Duration*: 🔺 avg=4.3s (+855ms) ｜ min=3s ｜ med=3.2s ｜ max=10.7s ｜ p90=4.4s ｜ p95=10.7s ｜ p99=10.7s\n*Errors*: 0 %\n*Data Sent*: 0 12.94 KB/sec\n*Data Received*: 0 2754.9 KB/sec"
+                  "text": "*S01_T02_Application_Login 1.2.3*\n\n*Samples*: 🔻 9 (-1) 0.1461/s\n*Duration*: 🔺 avg=4.3s (+855ms) ｜ p95=10.7s"
                 }
               }
             ]
