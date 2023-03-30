@@ -117,7 +117,7 @@ function getSuiteSummary({ target, suite }) {
 }
 
 function getSuiteTitle(suite) {
-  const emoji = suite.status === 'PASS' ? '✅' : '❌';
+  const emoji = suite.status === 'PASS' ? '✅' : suite.total === suite.skipped ? '⏭️' : '❌';
   return `${emoji} ${suite.name}`;
 }
 
