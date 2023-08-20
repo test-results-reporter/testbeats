@@ -4,6 +4,7 @@ const chat = require('./chat');
 const custom = require('./custom');
 const delay = require('./delay');
 const influx = require('./influx');
+const influx2 = require('./influx2');
 const { TARGET } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 
@@ -21,6 +22,8 @@ function getTargetRunner(target) {
       return delay;
     case TARGET.INFLUX:
       return influx;
+    case TARGET.INFLUX2:
+      return influx2;
     default:
       return require(target.name);
   }
