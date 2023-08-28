@@ -14,12 +14,13 @@ describe('targets - influx2 - performance', () => {
               {
                 "name": "influx2",
                 "inputs": {
-                  "url": "http://localhost:9393",
+                  "host": "localhost",
+                  "port": 9393,
+                  "protocol": "http",
                   "token": "testtoken",
-                  "organization": "testorg",
+                  "org": "testorg",
                   "bucket": "testbucket",
-                  "precision": "ns",
-                  "gzipTransport": false // Turn off the compression, so we can match the write queries
+                  "precision": "ns"
                 }
               }
             ],
@@ -48,9 +49,11 @@ describe('targets - influx2 - performance', () => {
               {
                 "name": "influx2",
                 "inputs": {
-                  "url": "http://localhost:9393",
+                  "host": "localhost",
+                  "port": 9393,
+                  "protocol": "http",
                   "token": "testtoken",
-                  "organization": "testorg",
+                  "org": "testorg",
                   "bucket": "testbucket",
                   "precision": "ns",
                   "tags": {
@@ -59,8 +62,7 @@ describe('targets - influx2 - performance', () => {
                   },
                   "fields": {
                     "id": 123,
-                  },
-                  "gzipTransport": false // Turn off the compression, so we can match the write queries
+                  }
                 }
               }
             ],
@@ -98,12 +100,13 @@ describe('targets - influx2 - functional', () => {
               {
                 "name": "influx2",
                 "inputs": {
-                  "url": "http://localhost:9393",
+                  "host": "localhost",
+                  "port": 9393,
+                  "protocol": "http",
                   "token": "testtoken",
-                  "organization": "testorg",
+                  "org": "testorg",
                   "bucket": "testbucket",
-                  "precision": "ns",
-                  "gzipTransport": false // Turn off the compression, so we can match the write queries
+                  "precision": "ns"
                 }
               }
             ],
@@ -132,9 +135,11 @@ describe('targets - influx2 - functional', () => {
               {
                 "name": "influx2",
                 "inputs": {
-                  "url": "http://localhost:9393",
+                  "host": "localhost",
+                  "port": 9393,
+                  "protocol": "http",
                   "token": "testtoken",
-                  "organization": "testorg",
+                  "org": "testorg",
                   "bucket": "testbucket",
                   "precision": "ns",
                   "tags": {
@@ -144,8 +149,7 @@ describe('targets - influx2 - functional', () => {
                   "fields": {
                     "id": 123,
                     "stringfield": "coolvalue"
-                  },
-                  "gzipTransport": false // Turn off the compression, so we can match the write queries
+                  }
                 }
               }
             ],

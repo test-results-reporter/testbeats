@@ -1,11 +1,10 @@
-const { Point, InfluxDB, WriteApi } = require("@influxdata/influxdb-client");
+const Influxdb = require("influxdb-v2");
 const Metric = require('performance-results-parser/src/models/Metric');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const Transaction = require('performance-results-parser/src/models/Transaction');
 const TestCase = require('test-results-parser/src/models/TestCase');
 const TestResult = require('test-results-parser/src/models/TestResult');
 const TestSuite = require('test-results-parser/src/models/TestSuite');
-
 
 const { STATUS } = require('../helpers/constants');
 
@@ -19,85 +18,35 @@ async function run({ result, target }) {
     target.inputs = Object.assign({}, default_inputs, target.inputs);
     const metrics = getMetrics({ result, target });
 
-    const influxDBClient = getInfluxDBClient(target.inputs.url,
-        target.inputs.token,
-        target.inputs.organization,
-        target.inputs.bucket,
-        target.inputs.precision,
-        target.inputs.tags,
-        target.inputs.gzipTransport)
+    const influxDBClient = new Influxdb({
+        host: target.inputs.host,
+        protocol: target.inputs.protocol,
+        port: target.inputs.port,
+        token: target.inputs.token
+    })
 
-    influxDBClient.writePoints(metrics);
-
-    await influxDBClient.close()
-}
-
-/**
- * Creates an API client for writing to InfluxDB 2.x
- * @param url
- * @param token
- * @param organization
- * @param bucket
- * @param precision
- * @param defaultTags
- * @param gzipTransport
- * @returns {WriteApi}
- */
-function getInfluxDBClient(url, token, organization, bucket, precision, defaultTags, gzipTransport) {
-    const writeOptions = {}
-    if(!gzipTransport) {
-        writeOptions['gzipThreshold'] = undefined
+    const writeOptions = {
+        org: target.inputs.org,
+        bucket: target.inputs.bucket,
+        precision: target.inputs.precision
     }
 
-    const client = new InfluxDB({ url, token})
-        .getWriteApi(organization, bucket, precision, writeOptions)
-    client.useDefaultTags(defaultTags)
-    return client
+    await influxDBClient.write(writeOptions, metrics);
 }
 
 /**
- * Creates a {Point} object
+ * Creates a metric object
  * @param measurement
  * @param tags
  * @param fields
- * @returns {Point}
+ * @returns
  */
-function createPoint(measurement, tags, fields) {
-    const point = new Point(measurement)
-
-    for (const [tagName, tagValue] of Object.entries(tags)) {
-        point.tag(tagName, tagValue)
-    }
-
-    for (const [fieldName, fieldValue] of Object.entries(fields)) {
-        addFieldToPoint(point, fieldName, fieldValue)
-    }
-
-    return point
+function createMetric(measurement, tags, fields) {
+    return { measurement, tags, fields }
 }
 
 /**
- * Adds a single field to {Point} based on the data type
- * @param point
- * @param fieldName
- * @param fieldValue
- */
-function addFieldToPoint(point, fieldName, fieldValue) {
-    if (typeof fieldValue === 'boolean') {
-        point.booleanField(fieldName, fieldValue)
-        return
-    }
-
-    if (typeof fieldValue === 'number') {
-        point.floatField(fieldName, fieldValue)
-        return
-    }
-
-    point.stringField(fieldName, fieldValue)
-}
-
-/**
- * Converts the parsed metrics to InfluxDB point format
+ * Converts the parsed metrics to InfluxDB metric format
  * @param {object} param0
  * @param {PerformanceTestResult | TestResult} param0.result
  * @param {import('..').Target} param0.target
@@ -143,7 +92,7 @@ function getPerfRunInfluxMetric({ result, target }) {
         setPerfInfluxMetricFields(metric, fields);
     }
 
-    return createPoint(target.inputs.measurement_perf_run, tags, fields)
+    return createMetric(target.inputs.measurement_perf_run, tags, fields)
 }
 
 /**
@@ -184,7 +133,7 @@ function getTransactionInfluxMetric(transaction, target) {
         setPerfInfluxMetricFields(metric, fields);
     }
 
-    return createPoint(target.inputs.measurement_perf_run, tags, fields)
+    return createMetric(target.inputs.measurement_perf_transaction, tags, fields)
 }
 
 /**
@@ -205,7 +154,7 @@ function getTestInfluxMetric({ result, target }, measurement) {
     fields.failed = result.failed;
     fields.duration = result.duration;
 
-    return createPoint(measurement, tags, fields)
+    return createMetric(measurement, tags, fields)
 }
 
 /**
@@ -223,16 +172,17 @@ function getTestCaseInfluxMetric({ result, target }) {
     fields.status = result.status === 'PASS' ? 0 : 1;
     fields.duration = result.duration;
 
-    return createPoint(target.inputs.measurement_test_case, tags, fields)
+    return createMetric(target.inputs.measurement_test_case, tags, fields)
 }
 
 const default_inputs = {
-    url: '',
+    host: '',
+    protocol: 'https',
+    port: 443,
     token: '',
-    organization: '',
+    org: '',
     bucket: '',
     precision: 'ns',
-    gzipTransport: true,
     environment: 'test',
     measurement_perf_run: 'PerfRun',
     measurement_perf_transaction: 'PerfTransaction',
