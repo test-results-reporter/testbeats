@@ -17,6 +17,7 @@ const TARGET = Object.freeze({
   CUSTOM: 'custom',
   DELAY: 'delay',
   INFLUX: 'influx',
+  INFLUX2: 'influx2'
 });
 
 const EXTENSION = Object.freeze({
