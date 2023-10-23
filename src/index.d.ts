@@ -169,9 +169,14 @@ export interface ChatInputs extends TargetInputs { }
 
 export interface InfluxDBTargetInputs {
   url: string;
+  version?: string;
   db: string;
   username?: string;
   password?: string;
+  org?: string;
+  bucket?: string;
+  precision?: string;
+  token?: string;
   measurement_perf_run?: string;
   measurement_perf_transaction?: string;
   measurement_test_run?: string;

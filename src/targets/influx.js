@@ -1,4 +1,4 @@
-const influx_v1 = require('influxdb-v1');
+const influx = require('influxdb-lite');
 const Metric = require('performance-results-parser/src/models/Metric');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const Transaction = require('performance-results-parser/src/models/Transaction');
@@ -18,12 +18,16 @@ const { STATUS } = require('../helpers/constants');
 async function run({ result, target }) {
   target.inputs = Object.assign({}, default_inputs, target.inputs);
   const metrics = getMetrics({ result, target });
-  await influx_v1.write(
+  await influx.write(
     {
       url: target.inputs.url,
+      version: target.inputs.version,
       db: target.inputs.db,
       username: target.inputs.username,
       password: target.inputs.password,
+      org: target.inputs.org,
+      bucket: target.inputs.bucket,
+      token: target.inputs.token,
     },
     metrics
   );
@@ -178,9 +182,13 @@ function getTestCaseInfluxMetric({ result, target }) {
 
 const default_inputs = {
   url: '',
+  version: 'v1',
   db: '',
   username: '',
   password: '',
+  org: '',
+  bucket: '',
+  token: '',
   measurement_perf_run: 'PerfRun',
   measurement_perf_transaction: 'PerfTransaction',
   measurement_test_run: 'TestRun',

@@ -12,15 +12,14 @@ describe('targets - influx2 - performance', () => {
           {
             "targets": [
               {
-                "name": "influx2",
+                "name": "influx",
                 "inputs": {
-                  "host": "localhost",
-                  "port": 9393,
-                  "protocol": "http",
+                  "url": "http://localhost:9393",
+                  "version": "v2",
                   "token": "testtoken",
                   "org": "testorg",
                   "bucket": "testbucket",
-                  "precision": "ns"
+                  "precision": "ns",
                 }
               }
             ],
@@ -47,11 +46,10 @@ describe('targets - influx2 - performance', () => {
           {
             "targets": [
               {
-                "name": "influx2",
+                "name": "influx",
                 "inputs": {
-                  "host": "localhost",
-                  "port": 9393,
-                  "protocol": "http",
+                  "url": "http://localhost:9393",
+                  "version": "v2",
                   "token": "testtoken",
                   "org": "testorg",
                   "bucket": "testbucket",
@@ -98,15 +96,14 @@ describe('targets - influx2 - functional', () => {
           {
             "targets": [
               {
-                "name": "influx2",
+                "name": "influx",
                 "inputs": {
-                  "host": "localhost",
-                  "port": 9393,
-                  "protocol": "http",
+                  "url": "http://localhost:9393",
+                  "version": "v2",
                   "token": "testtoken",
                   "org": "testorg",
                   "bucket": "testbucket",
-                  "precision": "ns"
+                  "precision": "ns",
                 }
               }
             ],
@@ -133,11 +130,10 @@ describe('targets - influx2 - functional', () => {
           {
             "targets": [
               {
-                "name": "influx2",
+                "name": "influx",
                 "inputs": {
-                  "host": "localhost",
-                  "port": 9393,
-                  "protocol": "http",
+                  "url": "http://localhost:9393",
+                  "version": "v2",
                   "token": "testtoken",
                   "org": "testorg",
                   "bucket": "testbucket",
