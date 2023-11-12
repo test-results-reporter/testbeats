@@ -16,7 +16,7 @@ function getUrl(extension, result) {
       roundedCorners: false,
       centerPercentage: 80,
       centerArea: {
-        fontSize: 80,
+        fontSize: 74,
         text: `${percentage}%`,
       },
     }
