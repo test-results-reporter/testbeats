@@ -210,12 +210,20 @@ export interface CustomResultOptions {
 }
 
 export interface PublishReport {
-  targets: Target[];
-  results: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
+  api_key?: string;
+  project?: string;
+  build?: string;
+  targets?: Target[];
+  results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
 
 export interface PublishConfig {
-  reports: PublishReport[];
+  api_key?: string;
+  project?: string;
+  build?: string;
+  targets?: Target[];
+  results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
+  reports?: PublishReport[];
 }
 
 export interface PublishOptions {
