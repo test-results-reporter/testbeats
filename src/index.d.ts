@@ -156,6 +156,7 @@ export interface TargetInputs {
   duration?: string;
   publish?: PublishReportType;
   only_failures?: boolean;
+  max_suites?: number;
   metrics?: MetricConfig[];
 }
 
