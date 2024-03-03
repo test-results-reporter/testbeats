@@ -6,4 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: printenv
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '20.x'
+      - run: node src/helpers/ci.js
