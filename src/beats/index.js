@@ -1,7 +1,7 @@
 const request = require('phin-retry');
 const TestResult = require('test-results-parser/src/models/TestResult');
 
-const BASE_URL = "http://localhost:9393";
+const BASE_URL = process.env.TEST_BEATS_URL || "http://localhost:9393";
 
 /**
  * @param {import('../index').PublishReport} config

@@ -84,7 +84,7 @@ function getResultText(result) {
 
 function setSuiteBlock({ result, target, payload }) {
   if (target.inputs.include_suites) {
-    for (let i = 0; i < result.suites.length; i++) {
+    for (let i = 0; i < result.suites.length && i < target.inputs.max_suites; i++) {
       const suite = result.suites[i];
       if (target.inputs.only_failures && suite.status !== 'FAIL') {
         continue;
@@ -242,6 +242,7 @@ const default_options = {
 const default_inputs = {
   publish: 'test-summary',
   include_suites: true,
+  max_suites: 10,
   only_failures: false,
   include_failure_details: false,
   duration: '',
