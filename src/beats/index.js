@@ -1,5 +1,6 @@
 const request = require('phin-retry');
 const TestResult = require('test-results-parser/src/models/TestResult');
+const { getCIInformation } = require('../helpers/ci');
 
 const BASE_URL = process.env.TEST_BEATS_URL || "http://localhost:9393";
 
@@ -22,16 +23,22 @@ async function run(config, result) {
  */
 async function publishTestResults(config, result) {
   try {
+    const payload = {
+      project: config.project,
+      build: config.build,
+      ...result
+    }
+    const ci = getCIInformation();
+    if (ci) {
+      payload.ci_details = [ci];
+    }
+    
     const response = await request.post({
       url: `${BASE_URL}/api/core/v1/test-runs`,
       headers: {
         'x-api-key': config.api_key
       },
-      body: {
-        project: config.project,
-        build: config.build,
-        ...result
-      }
+      body: payload
     });
     return response.id;
   } catch (error) {
