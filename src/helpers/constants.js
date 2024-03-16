@@ -27,7 +27,8 @@ const EXTENSION = Object.freeze({
   QUICK_CHART_TEST_SUMMARY: 'quick-chart-test-summary',
   PERCY_ANALYSIS: 'percy-analysis',
   CUSTOM: 'custom',
-  METADATA: 'metadata'
+  METADATA: 'metadata',
+  CI_INFO: 'ci-info',
 });
 
 const URLS = Object.freeze({

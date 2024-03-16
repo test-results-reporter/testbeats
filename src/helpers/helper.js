@@ -71,28 +71,6 @@ function getResultText({ result }) {
   return `${result.passed} / ${result.total} Passed (${percentage}%)`;
 }
 
-async function getLinks({ target, result, extension, links, default_options }) {
-  const raw_valid_links = await getValidLinks(links, result, default_options);
-  for (let i = 0; i < raw_valid_links.length; i++) {
-    const url_function = raw_valid_links[i].url;
-    if (typeof url_function === 'function') {
-      raw_valid_links[i].url = await raw_valid_links[i].url({target, extension, result});
-    }
-  }
-  return raw_valid_links;
-}
-
-async function getValidLinks(links, result, default_options) {
-  const valid_links = [];
-  for (const link of links) {
-    const condition = link.condition || default_options.condition;
-    if (await checkCondition({ condition, result })) {
-      valid_links.push(link);
-    }
-  }
-  return valid_links;
-}
-
 /**
  * 
  * @param {object} param0
@@ -121,5 +99,4 @@ module.exports = {
   getTitleText,
   getResultText,
   checkCondition,
-  getLinks
 }

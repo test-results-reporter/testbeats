@@ -1,53 +1,38 @@
 const { STATUS, HOOK } = require("../helpers/constants");
-const { getLinks } = require('../helpers/helper');
 const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
+const { getTeamsMetaDataText, getSlackMetaDataText, getChatMetaDataText } = require("../helpers/metadata.helper");
 
 async function run({ target, extension, payload, result }) {
-  const raw_links = await getLinks({ target, extension, result, links: extension.inputs.links, default_options })
+  const elements = get_elements(extension.inputs.links);
   if (target.name === 'teams') {
     extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
-    attachLinksToTeams({ extension, payload, raw_links });
+    const text = await getTeamsMetaDataText({ elements, target, extension, result, default_condition: default_options.condition });
+    if (text) {
+      addTeamsExtension({ payload, extension, text });
+    }
   } else if (target.name === 'slack') {
     extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
-    attachLinksToSLack({ extension, payload, raw_links });
+    extension.inputs.block_type = 'context';
+    const text = await getSlackMetaDataText({ elements, target, extension, result, default_condition: default_options.condition });
+    if (text) {
+      addSlackExtension({ payload, extension, text });
+    }
   } else if (target.name === 'chat') {
     extension.inputs = Object.assign({}, default_inputs_chat, extension.inputs);
-    attachLinksToChat({ extension, payload, raw_links });
+    const text = await getChatMetaDataText({ elements, target, extension, result, default_condition: default_options.condition });
+    if (text) {
+      addChatExtension({ payload, extension, text });
+    }
   }
 }
 
-function attachLinksToTeams({ extension, payload, raw_links }) {
-  const links = [];
-  for (const link of raw_links) {
-    links.push(`[${link.text}](${link.url})`);
-  }
-  if (links.length) {
-    addTeamsExtension({ payload, extension, text: links.join(' ｜ ') });
-  }
+/**
+ * 
+ * @param {import("..").Link[]} links 
+ */
+function get_elements(links) {
+  return links.map(_ => { return { key: _.text, value: _.url, type: 'hyperlink', condition: _.condition } });
 }
-
-function attachLinksToSLack({ extension, payload, raw_links }) {
-  const links = [];
-  for (const link of raw_links) {
-    links.push(`<${link.url}|${link.text}>`);
-  }
-  if (links.length) {
-    extension.inputs.block_type = 'context';
-    addSlackExtension({ payload, extension, text: links.join(' ｜ ') });
-  }
-}
-
-function attachLinksToChat({ extension, payload, raw_links }) {
-  const links = [];
-  for (const link of raw_links) {
-    links.push(`<a href="${link.url}">${link.text}</a>`);
-  }
-  if (links.length) {
-    addChatExtension({ payload, extension, text: links.join(' ｜ ') });
-  }
-}
-
-
 
 const default_options = {
   hook: HOOK.END,
