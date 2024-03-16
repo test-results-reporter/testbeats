@@ -1,7 +1,5 @@
 const { getLaunchDetails, getLastLaunchByName } = require('../helpers/report-portal');
-const { addExtension } = require('../helpers/teams');
-const { addTextBlock } = require('../helpers/slack');
-const { addTextSection } = require('../helpers/chat');
+const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
 const { HOOK, STATUS } = require('../helpers/constants');
 
 function getReportPortalDefectsSummary(defects, bold_start = '**', bold_end = '**') {
@@ -34,18 +32,6 @@ function getReportPortalDefectsSummary(defects, bold_start = '**', bold_end = '*
   return results;
 }
 
-function attachForTeams({ payload, analyses, extension }) {
-  addExtension({ payload, extension, text: analyses.join(' ｜ ') });
-}
-
-function attachForSlack({ payload, analyses, extension }) {
-  addTextBlock({ payload, extension, text: analyses.join(' ｜ ') });
-}
-
-function attachForChat({ payload, analyses, extension }) {
-  addTextSection({ payload, extension, text: analyses.join(' ｜ ') });
-}
-
 async function _getLaunchDetails(options) {
   if (!options.launch_id && options.launch_name) {
     return getLastLaunchByName(options);
@@ -68,15 +54,15 @@ async function run({ extension, payload, target }) {
     if (target.name === 'teams') {
       extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
       const analyses = getReportPortalDefectsSummary(statistics.defects);
-      attachForTeams({ payload, analyses, extension });
+      addTeamsExtension({ payload, extension, text: analyses.join(' ｜ ') });
     } else if (target.name === 'slack') {
       extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
       const analyses = getReportPortalDefectsSummary(statistics.defects, '*', '*');
-      attachForSlack({ payload, analyses, extension });
+      addSlackExtension({ payload, extension, text: analyses.join(' ｜ ') });
     } else if (target.name === 'chat') {
       extension.inputs = Object.assign({}, default_inputs_chat, extension.inputs);
       const analyses = getReportPortalDefectsSummary(statistics.defects, '<b>', '</b>');
-      attachForChat({ payload, analyses, extension });
+      addChatExtension({ payload, extension, text: analyses.join(' ｜ ') });
     }
   }
 }

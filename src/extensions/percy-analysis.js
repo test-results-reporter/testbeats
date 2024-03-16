@@ -1,9 +1,7 @@
 const retry = require('async-retry');
 const { getProjectByName, getLastBuild, getBuild, getRemovedSnapshots } = require('../helpers/percy');
 const { HOOK, STATUS, URLS } = require('../helpers/constants');
-const { addExtension } = require('../helpers/teams');
-const { addTextBlock } = require('../helpers/slack');
-const { addTextSection } = require('../helpers/chat');
+const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
 
 /**
  * 
@@ -134,17 +132,17 @@ async function setRemovedSnapshots(extension) {
 
 function attachForTeams({ payload, extension }) {
   const text = getAnalysisSummary(extension.outputs).join(' ｜ ');
-  addExtension({ payload, extension, text });
+  addTeamsExtension({ payload, extension, text });
 }
 
 function attachForSlack({ payload, extension }) {
   const text = getAnalysisSummary(extension.outputs, '*', '*').join(' ｜ ');
-  addTextBlock({ payload, extension, text });
+  addSlackExtension({ payload, extension, text });
 }
 
 function attachForChat({ payload, extension }) {
   const text = getAnalysisSummary(extension.outputs, '<b>', '</b>').join(' ｜ ');
-  addTextSection({ payload, extension, text });
+  addChatExtension({ payload, extension, text });
 }
 
 function getAnalysisSummary(outputs, bold_start = '**', bold_end = '**') {
