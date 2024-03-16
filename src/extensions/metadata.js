@@ -1,6 +1,6 @@
 const { HOOK, STATUS } = require('../helpers/constants');
 const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
-const { checkCondition } = require('../helpers/helper');
+const { getTeamsMetaDataText, getSlackMetaDataText, getChatMetaDataText } = require('../helpers/metadata.helper');
 
 /**
  * @param {object} param0
@@ -10,13 +10,13 @@ const { checkCondition } = require('../helpers/helper');
 async function run({ target, extension, result, payload, root_payload }) {
   if (target.name === 'teams') {
     extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
-    await attachForTeams({ extension, payload, result });
+    await attachForTeams({ target, extension, payload, result });
   } else if (target.name === 'slack') {
     extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
-    await attachForSlack({ extension, payload, result });
+    await attachForSlack({ target, extension, payload, result });
   } else if (target.name === 'chat') {
     extension.inputs = Object.assign({}, default_inputs_chat, extension.inputs);
-    await attachForChat({ extension, payload, result });
+    await attachForChat({ target, extension, payload, result });
   }
 }
 
@@ -24,72 +24,44 @@ async function run({ target, extension, result, payload, root_payload }) {
  * @param {object} param0
  * @param {import('..').MetadataExtension} param0.extension
  */
-async function attachForTeams({ extension, payload, result }) {
-  const valid_data = await getValidData({ extension, result });
-  if (valid_data.length > 0) {
-    const data = [];
-    for (const current of valid_data) {
-      if (current.type === 'hyperlink') {
-        data.push(`[${current.key}](${current.value})`);
-      } else if (current.key) {
-        data.push(`**${current.key}:** ${current.value}`);
-      } else {
-        data.push(current.value);
-      }
-    }
-    addTeamsExtension({ payload, extension, text: data.join(' ｜ ') });
+async function attachForTeams({ target, extension, payload, result }) {
+  const text = await getTeamsMetaDataText({
+    elements: extension.inputs.data,
+    target,
+    extension,
+    result,
+    default_condition: default_options.condition
+  });
+  if (text) {
+    addTeamsExtension({ payload, extension, text });
   }
 }
 
-async function attachForSlack({ extension, payload, result }) {
-  const valid_data = await getValidData({ extension, result });
-  if (valid_data.length > 0) {
-    const data = [];
-    for (const current of valid_data) {
-      if (current.type === 'hyperlink') {
-        data.push(`<${current.value}|${current.key}>`);
-      } else if (current.key) {
-        data.push(`*${current.key}:* ${current.value}`);
-      } else {
-        data.push(current.value);
-      }
-    }
-    addSlackExtension({ payload, extension, text: data.join(' ｜ ') });
+async function attachForSlack({ target, extension, payload, result }) {
+  const text = await getSlackMetaDataText({
+    elements: extension.inputs.data,
+    target,
+    extension,
+    result,
+    default_condition: default_options.condition
+  });
+  if (text) {
+    addSlackExtension({ payload, extension, text });
   }
 }
 
-async function attachForChat({ extension, payload, result }) {
-  const valid_data = await getValidData({ extension, result });
-  if (valid_data.length > 0) {
-    const data = [];
-    for (const current of valid_data) {
-      if (current.type === 'hyperlink') {
-        data.push(`<a href="${current.value}">${current.key}</a>`);
-      } else if (current.key) {
-        data.push(`<b>${current.key}:</b> ${current.value}`);
-      } else {
-        data.push(current.value);
-      }
-    }
-    addChatExtension({ payload, extension, text: data.join(' ｜ ') });
+async function attachForChat({ target, extension, payload, result }) {
+  const text = await getChatMetaDataText({
+    elements: extension.inputs.data,
+    target,
+    extension,
+    result,
+    default_condition: default_options.condition
+  });
+  if (text) {
+    addChatExtension({ payload, extension, text });
   }
 }
-
-/**
- * @param {object} param0
- * @param {import('..').MetadataExtension} param0.extension
- */
-async function getValidData({ extension, result }) {
-  const valid_data = [];
-  for (const current of extension.inputs.data) {
-    const condition = current.condition || default_options.condition;
-    if (await checkCondition({ condition, result })) {
-      valid_data.push(current);
-    }
-  }
-  return valid_data;
-}
-
 
 const default_options = {
   hook: HOOK.END,
