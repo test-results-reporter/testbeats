@@ -1,7 +1,5 @@
 const { HOOK, STATUS } = require('../helpers/constants');
-const { addExtension } = require('../helpers/teams');
-const { addTextBlock } = require('../helpers/slack');
-const { addTextSection } = require('../helpers/chat');
+const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
 const { checkCondition } = require('../helpers/helper');
 
 /**
@@ -39,7 +37,7 @@ async function attachForTeams({ extension, payload, result }) {
         data.push(current.value);
       }
     }
-    addExtension({ payload, extension, text: data.join(' ｜ ') });
+    addTeamsExtension({ payload, extension, text: data.join(' ｜ ') });
   }
 }
 
@@ -56,7 +54,7 @@ async function attachForSlack({ extension, payload, result }) {
         data.push(current.value);
       }
     }
-    addTextBlock({ payload, extension, text: data.join(' ｜ ') });
+    addSlackExtension({ payload, extension, text: data.join(' ｜ ') });
   }
 }
 
@@ -73,7 +71,7 @@ async function attachForChat({ extension, payload, result }) {
         data.push(current.value);
       }
     }
-    addTextSection({ payload, extension, text: data.join(' ｜ ') });
+    addChatExtension({ payload, extension, text: data.join(' ｜ ') });
   }
 }
 

@@ -1,7 +1,5 @@
 const { getSuiteHistory, getLastLaunchByName, getLaunchDetails } = require('../helpers/report-portal');
-const { addExtension } = require('../helpers/teams');
-const { addTextBlock } = require('../helpers/slack');
-const { addTextSection } = require('../helpers/chat');
+const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
 const { HOOK, STATUS } = require('../helpers/constants');
 
 async function getLaunchHistory(extension) {
@@ -48,21 +46,6 @@ function getSymbols({ target, extension, launches }) {
   return symbols;
 }
 
-function attachForTeams({ payload, symbols, extension }) {
-  setTitle(extension, symbols);
-  addExtension({ payload, extension, text: symbols.join(' ') });
-}
-
-function attachForSlack({ payload, symbols, extension }) {
-  setTitle(extension, symbols);
-  addTextBlock({ payload, extension, text: symbols.join(' ') });
-}
-
-function attachForChat({ payload, symbols, extension }) {
-  setTitle(extension, symbols);
-  addTextSection({ payload, extension, text: symbols.join(' ') });
-}
-
 function setTitle(extension, symbols) {
   if (extension.inputs.title === 'Last Runs') {
     extension.inputs.title = `Last ${symbols.length} Runs`
@@ -75,15 +58,16 @@ async function run({ extension, target, payload }) {
     const launches = await getLaunchHistory(extension);
     const symbols = getSymbols({ target, extension, launches });
     if (symbols.length > 0) {
+      setTitle(extension, symbols);
       if (target.name === 'teams') {
         extension.inputs = Object.assign({}, default_inputs_teams, extension.inputs);
-        attachForTeams({ payload, symbols, extension });
+        addTeamsExtension({ payload, extension, text: symbols.join(' ') });
       } else if (target.name === 'slack') {
         extension.inputs = Object.assign({}, default_inputs_slack, extension.inputs);
-        attachForSlack({ payload, symbols, extension });
+        addSlackExtension({ payload, extension, text: symbols.join(' ') });
       } else if (target.name === 'chat') {
         extension.inputs = Object.assign({}, default_inputs_chat, extension.inputs);
-        attachForChat({ payload, symbols, extension });
+        addChatExtension({ payload, extension, text: symbols.join(' ') });
       }
     }
   } catch (error) {

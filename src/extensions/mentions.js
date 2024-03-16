@@ -1,6 +1,5 @@
 const { getOnCallPerson } = require('rosters');
-const { addExtension } = require('../helpers/teams');
-const { addTextBlock } = require('../helpers/slack');
+const { addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
 const { HOOK, STATUS } = require('../helpers/constants');
 
 function run({ target, extension, payload, root_payload }) {
@@ -21,7 +20,7 @@ function attachForTeam({ extension, payload }) {
   if (users.length > 0) {
     setPayloadWithMSTeamsEntities(payload);
     const users_ats = users.map(user => `<at>${user.name}</at>`);
-    addExtension({ payload, extension, text: users_ats.join(' ｜ ')});
+    addTeamsExtension({ payload, extension, text: users_ats.join(' ｜ ')});
     for (const user of users) {
       payload.msteams.entities.push({
         "type": "mention",
@@ -39,7 +38,7 @@ function attachForSlack({ extension, payload }) {
   const users = getUsers(extension);
   const user_ids = users.map(user => `<@${user.slack_uid}>`);
   if (users.length > 0) {
-    addTextBlock({ payload, extension, text: user_ids.join(' ｜ ') });
+    addSlackExtension({ payload, extension, text: user_ids.join(' ｜ ') });
   }
 }
 
