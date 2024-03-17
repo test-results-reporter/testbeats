@@ -6,6 +6,7 @@ const qc_test_summary = require('./quick-chart-test-summary');
 const percy_analysis = require('./percy-analysis');
 const custom = require('./custom');
 const metadata = require('./metadata');
+const ci_info = require('./ci-info');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 
@@ -50,6 +51,8 @@ function getExtensionRunner(extension) {
       return custom;
     case EXTENSION.METADATA:
       return metadata;
+    case EXTENSION.CI_INFO:
+      return ci_info;
     default:
       return require(extension.name);
   }
