@@ -613,3 +613,34 @@ addInteractionHandler('post test-summary with metadata to slack', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary with ci-info to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Repository:* <https://github.com/test/test|test/test> ｜ *Branch:* /feature-test\n<https://dev.azure.com/test/_build/results?buildId=id-123|Build #number-123>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

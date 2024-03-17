@@ -1,10 +1,10 @@
-import { User, Schedule } from 'rosters';
-import TestResult from 'test-results-parser/src/models/TestResult';
 import { PerformanceParseOptions } from 'performance-results-parser';
-import { ParseOptions } from 'test-results-parser';
 import PerformanceTestResult from 'performance-results-parser/src/models/PerformanceTestResult';
+import { Schedule, User } from 'rosters';
+import { ParseOptions } from 'test-results-parser';
+import TestResult from 'test-results-parser/src/models/TestResult';
 
-export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'custom';
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom';
 export type Hook = 'start' | 'end';
 export type TargetName = 'slack' | 'teams' | 'chat' | 'custom' | 'delay';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
@@ -54,11 +54,18 @@ export interface MentionInputs extends ExtensionInputs {
   schedule?: Schedule;
 }
 
+export interface CIInfoInputs extends ExtensionInputs {
+  show_repository?: boolean;
+  show_repository_branch?: boolean;
+  show_build?: boolean;
+  data?: Metadata[];
+}
+
 export interface Extension {
   name: ExtensionName;
   condition?: Condition;
   hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs;
 }
 
 export interface PercyAnalysisInputs extends ExtensionInputs {
@@ -124,6 +131,7 @@ export interface HyperlinksExtension extends Extension {
 }
 
 export interface Metadata {
+  label?: string;
   key?: string;
   value: string;
   type?: string;

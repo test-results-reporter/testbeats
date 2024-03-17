@@ -17,7 +17,11 @@ async function getSlackMetaDataText({ elements, target, extension, result, defau
     if (await is_valid({ element, result, default_condition })) {
       if (element.type === 'hyperlink') {
         const url = await get_url({ url: element.value, target, result, extension });
-        items.push(`<${url}|${element.key}>`);
+        if (element.label) {
+          items.push(`*${element.label}:* <${url}|${element.key}>`);
+        } else {
+          items.push(`<${url}|${element.key}>`);
+        }
       } else if (element.key) {
         items.push(`*${element.key}:* ${element.value}`);
       } else {
@@ -45,7 +49,11 @@ async function getTeamsMetaDataText({ elements, target, extension, result, defau
     if (await is_valid({ element, result, default_condition })) {
       if (element.type === 'hyperlink') {
         const url = await get_url({ url: element.value, target, result, extension });
-        items.push(`[${element.key}](${url})`);
+        if (element.label) {
+          items.push(`**${element.label}:** [${element.key}](${url})`);
+        } else {
+          items.push(`[${element.key}](${url})`);
+        }
       } else if (element.key) {
         items.push(`**${element.key}:** ${element.value}`);
       } else {
@@ -73,7 +81,11 @@ async function getChatMetaDataText({ elements, target, extension, result, defaul
     if (await is_valid({ element, result, default_condition })) {
       if (element.type === 'hyperlink') {
         const url = await get_url({ url: element.value, target, result, extension });
-        items.push(`<a href="${url}">${element.key}</a>`);
+        if (element.label) {
+          items.push(`<b>${element.label}:</b> <a href="${url}">${element.key}</a>`);
+        } else {
+          items.push(`<a href="${url}">${element.key}</a>`);
+        }
       } else if (element.key) {
         items.push(`<b>${element.key}:</b> ${element.value}`);
       } else {

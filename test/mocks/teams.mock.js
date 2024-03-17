@@ -1532,3 +1532,43 @@ addInteractionHandler('post test-summary with extensions and testbeats to teams'
     }
   }
 });
+
+addInteractionHandler('post test-summary with ci-info to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
+                },
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "**Repository:** [test/test](https://github.com/test/test) ｜ **Branch:** /feature-test\n\n[Build #number-123](https://github.com/test/test/commit/sha/checks/id-123)",
+                  "wrap": true,
+                  "separator": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
