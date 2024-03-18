@@ -549,3 +549,35 @@ addInteractionHandler('post test-summary with metadata to chat', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary with ci-info to chat', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "@DATA:TEMPLATE@": "CHAT_RESULT_SINGLE_SUITE"
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>Repository:</b> <a href=\"https://github.com/org/repo\">org/repo</a> ｜ <b>Branch:</b> <a href=\"https://github.com/org/repo/tree/feature-test\">/feature-test</a><br><b>Build:</b> <a href=\"https://github.com/org/repo/actions/runs/id-123\">Build #number-123</a> ｜ <a href=\"LOGS_URL\">Download Logs</a>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

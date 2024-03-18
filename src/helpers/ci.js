@@ -20,7 +20,7 @@ function getGitHubActionsInformation() {
     repository_name: ENV.GITHUB_REPOSITORY,
     repository_ref: ENV.GITHUB_REF,
     repository_commit_sha: ENV.GITHUB_SHA,
-    build_url: ENV.GITHUB_SERVER_URL + '/' + ENV.GITHUB_REPOSITORY + '/commit/' + ENV.GITHUB_SHA + '/checks/' + ENV.GITHUB_RUN_ID,
+    build_url: ENV.GITHUB_SERVER_URL + '/' + ENV.GITHUB_REPOSITORY + '/actions/runs/' + ENV.GITHUB_RUN_ID,
     build_number: ENV.GITHUB_RUN_NUMBER,
     build_name: ENV.GITHUB_WORKFLOW,
     user: ENV.GITHUB_ACTOR,

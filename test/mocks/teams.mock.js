@@ -1556,7 +1556,7 @@ addInteractionHandler('post test-summary with ci-info to teams', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "**Repository:** [test/test](https://github.com/test/test) ｜ **Branch:** /feature-test\n\n[Build #number-123](https://github.com/test/test/commit/sha/checks/id-123)",
+                  "text": "**Repository:** [test/test](https://github.com/test/test) ｜ **Branch:** [/feature-test](https://github.com/test/test/tree/feature-test)\n\n**Build:** [Build #number-123](https://github.com/test/test/actions/runs/id-123)",
                   "wrap": true,
                   "separator": true
                 }
