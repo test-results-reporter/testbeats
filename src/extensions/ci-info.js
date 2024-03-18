@@ -43,7 +43,15 @@ function get_repository_elements(inputs) {
     elements.push({ label: 'Repository', key: ci.repository_name, value: ci.repository_url, type: 'hyperlink' });
   }
   if (inputs.show_repository_branch && ci && ci.repository_ref) {
-    elements.push({ key: 'Branch', value: ci.repository_ref.replace('refs/heads/', '') });
+    if (ci.repository_ref.includes('refs/pull')) {
+      const pr_url = ci.repository_url + ci.repository_ref.replace('refs/pull/', 'pull/');
+      const pr_name = ci.repository_ref.replace('refs/pull/', '').replace('/merge', '');
+      elements.push({ label: 'Pull Request', key: pr_name, value: pr_url, type: 'hyperlink' });
+    } else {
+      const branch_url = ci.repository_url + ci.repository_ref.replace('refs/heads/', 'tree/');
+      const branch_name = ci.repository_ref.replace('refs/heads/', '');
+      elements.push({ label: 'Branch', key: branch_name, value: branch_url, type: 'hyperlink' });
+    }
   }
   return elements;
 }
@@ -57,7 +65,7 @@ function get_build_elements(inputs) {
   const ci = getCIInformation();
   if (inputs.show_build && ci && ci.build_url) {
     const name = (ci.build_name || 'Build') + (ci.build_number ? ` #${ci.build_number}` : '');
-    elements.push({ key: name, value: ci.build_url, type: 'hyperlink' });
+    elements.push({ label: 'Build', key: name, value: ci.build_url, type: 'hyperlink' });
   }
   if (inputs.data) {
     elements = elements.concat(inputs.data);

@@ -631,7 +631,7 @@ addInteractionHandler('post test-summary with ci-info to slack', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Repository:* <https://github.com/test/test|test/test> ｜ *Branch:* /feature-test\n<https://dev.azure.com/test/_build/results?buildId=id-123|Build #number-123>"
+                  "text": "*Repository:* <https://github.com/test/test|test/test> ｜ *Pull Request:* <https://github.com/test/test/pull/123/merge|/123>\n*Build:* <https://dev.azure.com/test/_build/results?buildId=id-123|Build #number-123>"
                 }
               }
             ]
