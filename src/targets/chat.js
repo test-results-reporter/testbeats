@@ -23,7 +23,7 @@ async function run({ result, target }) {
 async function setFunctionalPayload({ result, target, payload, root_payload }) {
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   setMainBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.AFTER_SUMMARY });
   setSuiteBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
 }
@@ -137,7 +137,7 @@ function getTitleTextWithEmoji({ result, target }) {
 async function setPerformancePayload({ result, target, payload, root_payload }) {
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   await setPerformanceMainBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.AFTER_SUMMARY });
   await setTransactionBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
 }

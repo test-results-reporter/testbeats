@@ -44,11 +44,11 @@ function get_repository_elements(inputs) {
   }
   if (inputs.show_repository_branch && ci && ci.repository_ref) {
     if (ci.repository_ref.includes('refs/pull')) {
-      const pr_url = ci.repository_url + ci.repository_ref.replace('refs/pull/', 'pull/');
+      const pr_url = ci.repository_url + ci.repository_ref.replace('refs/pull/', '/pull/');
       const pr_name = ci.repository_ref.replace('refs/pull/', '').replace('/merge', '');
       elements.push({ label: 'Pull Request', key: pr_name, value: pr_url, type: 'hyperlink' });
     } else {
-      const branch_url = ci.repository_url + ci.repository_ref.replace('refs/heads/', 'tree/');
+      const branch_url = ci.repository_url + ci.repository_ref.replace('refs/heads/', '/tree/');
       const branch_name = ci.repository_ref.replace('refs/heads/', '');
       elements.push({ label: 'Branch', key: branch_name, value: branch_url, type: 'hyperlink' });
     }
@@ -104,7 +104,7 @@ async function get_text({ target, extension, result }) {
 }
 
 const default_options = {
-  hook: HOOK.END,
+  hook: HOOK.AFTER_SUMMARY,
   condition: STATUS.PASS_OR_FAIL,
 }
 

@@ -6,7 +6,7 @@ const STATUS = Object.freeze({
 
 const HOOK = Object.freeze({
   START: 'start',
-  POST_MAIN: 'post-main',
+  AFTER_SUMMARY: 'after-summary',
   END: 'end',
 });
 
