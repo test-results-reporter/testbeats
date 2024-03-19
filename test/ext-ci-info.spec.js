@@ -58,7 +58,7 @@ describe('extensions - ci-info', () => {
     process.env.GITHUB_ACTIONS = 'GITHUB_ACTIONS';
     process.env.GITHUB_SERVER_URL = 'https://github.com';
     process.env.GITHUB_REPOSITORY = 'test/test';
-    process.env.GITHUB_REF = '/refs/heads/feature-test';
+    process.env.GITHUB_REF = 'refs/heads/feature-test';
     process.env.GITHUB_SHA = 'sha';
     process.env.GITHUB_RUN_ID = 'id-123';
     process.env.GITHUB_RUN_NUMBER = 'number-123';
@@ -97,7 +97,7 @@ describe('extensions - ci-info', () => {
     process.env.SYSTEM_TEAMPROJECT = 'test';
     process.env.BUILD_REPOSITORY_URI = 'https://github.com/test/test';
     process.env.BUILD_REPOSITORY_NAME = 'test/test';
-    process.env.BUILD_SOURCEBRANCH = '/refs/pull/123/merge';
+    process.env.BUILD_SOURCEBRANCH = 'refs/pull/123/merge';
     process.env.BUILD_SOURCEVERSION = 'sha';
     process.env.BUILD_BUILDID = 'id-123';
     process.env.BUILD_BUILDNUMBER = 'number-123';
@@ -135,7 +135,7 @@ describe('extensions - ci-info', () => {
     process.env.GITHUB_ACTIONS = 'GITHUB_ACTIONS';
     process.env.GITHUB_SERVER_URL = 'https://github.com';
     process.env.GITHUB_REPOSITORY = 'org/repo';
-    process.env.GITHUB_REF = '/refs/heads/feature-test';
+    process.env.GITHUB_REF = 'refs/heads/feature-test';
     process.env.GITHUB_SHA = 'sha';
     process.env.GITHUB_RUN_ID = 'id-123';
     process.env.GITHUB_RUN_NUMBER = 'number-123';
@@ -170,6 +170,45 @@ describe('extensions - ci-info', () => {
             type: 'testng',
             files: [
               'test/data/testng/single-suite.xml'
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with multiple suites and ci information to slack', async () => {
+    process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI = 'https://dev.azure.com/';
+    process.env.SYSTEM_TEAMPROJECT = 'test';
+    process.env.BUILD_REPOSITORY_URI = 'https://github.com/test/test';
+    process.env.BUILD_REPOSITORY_NAME = 'test/test';
+    process.env.BUILD_SOURCEBRANCH = 'refs/pull/123/merge';
+    process.env.BUILD_SOURCEVERSION = 'sha';
+    process.env.BUILD_BUILDID = 'id-123';
+    process.env.BUILD_BUILDNUMBER = 'number-123';
+    process.env.BUILD_DEFINITIONNAME = 'Build';
+    const id = mock.addInteraction('post test-summary with multiple suites and ci-info to to slack');
+    await publish({
+      config: {
+        targets: [
+          {
+            name: 'slack',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            },
+            extensions: [
+              {
+                name: 'ci-info'
+              }
+            ]
+          }
+        ],
+        results: [
+          {
+            type: 'testng',
+            files: [
+              'test/data/testng/multiple-suites.xml'
             ]
           }
         ]

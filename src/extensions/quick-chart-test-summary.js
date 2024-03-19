@@ -72,7 +72,7 @@ function run(params) {
 }
 
 const default_options = {
-  hook: HOOK.POST_MAIN,
+  hook: HOOK.AFTER_SUMMARY,
   condition: STATUS.PASS_OR_FAIL
 }
 

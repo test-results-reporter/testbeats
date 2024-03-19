@@ -32,7 +32,7 @@ async function setPerformancePayload({ result, target, payload, root_payload }) 
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   setTitleBlock({ result, target, payload });
   await setMainBlockForPerformance({ result, target, payload });
-  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.AFTER_SUMMARY });
   await setTransactionBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
 }
@@ -41,7 +41,7 @@ async function setFunctionalPayload({ result, target, payload, root_payload }) {
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.START });
   setTitleBlock({ result, target, payload });
   setMainBlock({ result, target, payload });
-  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.POST_MAIN });
+  await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.AFTER_SUMMARY });
   setSuiteBlock({ result, target, payload });
   await extension_manager.run({ result, target, payload, root_payload, hook: HOOK.END });
 }

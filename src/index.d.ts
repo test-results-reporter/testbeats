@@ -5,7 +5,7 @@ import { ParseOptions } from 'test-results-parser';
 import TestResult from 'test-results-parser/src/models/TestResult';
 
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom';
-export type Hook = 'start' | 'end';
+export type Hook = 'start' | 'end' | 'after-summary';
 export type TargetName = 'slack' | 'teams' | 'chat' | 'custom' | 'delay';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
 

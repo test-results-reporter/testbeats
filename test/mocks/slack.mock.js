@@ -631,8 +631,45 @@ addInteractionHandler('post test-summary with ci-info to slack', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Repository:* <https://github.com/test/test|test/test> ｜ *Pull Request:* <https://github.com/test/test/pull/123/merge|/123>\n*Build:* <https://dev.azure.com/test/_build/results?buildId=id-123|Build #number-123>"
+                  "text": "*Repository:* <https://github.com/test/test|test/test> ｜ *Pull Request:* <https://github.com/test/test/pull/123/merge|123>\n*Build:* <https://dev.azure.com/test/_build/results?buildId=id-123|Build #number-123>"
                 }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary with multiple suites and ci-info to to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_MULTIPLE_SUITES"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Repository:* <https://github.com/test/test|test/test> ｜ *Pull Request:* <https://github.com/test/test/pull/123/merge|123>\n*Build:* <https://dev.azure.com/test/_build/results?buildId=id-123|Build #number-123>"
+                }
+              },
+              {
+                "@DATA:TEMPLATE@": "SLACK_SUITE_CHROME"
+              },
+              {
+                "@DATA:TEMPLATE@": "SLACK_SUITE_IOS"
               }
             ]
           }
