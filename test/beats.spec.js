@@ -11,7 +11,7 @@ describe('TestBeats', () => {
       config: {
         api_key: 'api-key',
         project: 'project-name',
-        build: 'build-name',
+        run: 'build-name',
         targets: [
           {
             name: 'teams',
@@ -41,7 +41,7 @@ describe('TestBeats', () => {
       config: {
         api_key: 'api-key',
         project: 'project-name',
-        build: 'build-name',
+        run: 'build-name',
         targets: [
           {
             name: 'teams',
