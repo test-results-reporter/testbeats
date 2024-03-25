@@ -182,6 +182,36 @@ describe('targets - slack - functional', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary using max_suites as 1', async () => {
+    const id = mock.addInteraction('post test-summary to slack with max suites as 1');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "slack",
+                "inputs": {
+                  "url": "http://localhost:9393/message",
+                  "max_suites": 1
+                }
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/multiple-suites.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

@@ -9,7 +9,7 @@ const BASE_URL = process.env.TEST_BEATS_URL || "http://localhost:9393";
  * @param {TestResult} result
  */
 async function run(config, result) {
-  if (config.project && config.build && config.api_key) {
+  if (config.project && config.run && config.api_key) {
     const run_id = await publishTestResults(config, result);
     if (run_id) {
       attachTestBeatsReportHyperLink(config, run_id);
@@ -25,7 +25,7 @@ async function publishTestResults(config, result) {
   try {
     const payload = {
       project: config.project,
-      build: config.build,
+      run: config.run,
       ...result
     }
     const ci = getCIInformation();

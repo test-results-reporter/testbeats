@@ -66,9 +66,10 @@ function setMainBlock({ result, target, payload }) {
 }
 
 function setSuiteBlock({ result, target, payload }) {
+  let suite_attachments_length = 0;
   if (target.inputs.include_suites) {
     let texts = [];
-    for (let i = 0; i < result.suites.length && i < target.inputs.max_suites; i++) {
+    for (let i = 0; i < result.suites.length && suite_attachments_length < target.inputs.max_suites; i++) {
       const suite = result.suites[i];
       if (target.inputs.only_failures && suite.status !== 'FAIL') {
         continue;
@@ -76,7 +77,7 @@ function setSuiteBlock({ result, target, payload }) {
       // if suites length eq to 1 then main block will include suite summary
       if (result.suites.length > 1) {
         texts.push(getSuiteSummary({ target, suite }));
-
+        suite_attachments_length += 1;
       }
       if (target.inputs.include_failure_details) {
         texts.push(getFailureDetails(suite));

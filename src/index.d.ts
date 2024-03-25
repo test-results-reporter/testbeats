@@ -221,7 +221,7 @@ export interface CustomResultOptions {
 export interface PublishReport {
   api_key?: string;
   project?: string;
-  build?: string;
+  run?: string;
   targets?: Target[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
@@ -229,7 +229,7 @@ export interface PublishReport {
 export interface PublishConfig {
   api_key?: string;
   project?: string;
-  build?: string;
+  run?: string;
   targets?: Target[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
   reports?: PublishReport[];

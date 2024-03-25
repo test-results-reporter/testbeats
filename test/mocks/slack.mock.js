@@ -681,3 +681,30 @@ addInteractionHandler('post test-summary with multiple suites and ci-info to to 
     }
   }
 });
+
+addInteractionHandler('post test-summary to slack with max suites as 1', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_MULTIPLE_SUITES"
+              },
+              {
+                "@DATA:TEMPLATE@": "SLACK_SUITE_CHROME"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
