@@ -1447,7 +1447,7 @@ addInteractionHandler('post test-summary with metadata to teams', () => {
   }
 });
 
-addInteractionHandler('post test-summary with testbeats to teams', () => {
+addInteractionHandler('post test-summary with beats to teams', () => {
   return {
     request: {
       method: 'POST',
@@ -1463,62 +1463,14 @@ addInteractionHandler('post test-summary with testbeats to teams', () => {
               "version": "1.0",
               "body": [
                 {
-                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
+                  "type": "TextBlock",
+                  "text": "[✅ Default suite](http://localhost:9393/reports/test-run-id)",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
                 },
                 {
                   "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "[Test Beats Report](http://localhost:9393/reports/test-run-id)",
-                  "wrap": true,
-                  "separator": true
-                }
-              ],
-              "actions": []
-            }
-          }
-        ]
-      }
-    },
-    response: {
-      status: 200
-    }
-  }
-});
-
-addInteractionHandler('post test-summary with extensions and testbeats to teams', () => {
-  return {
-    request: {
-      method: 'POST',
-      path: '/message',
-      body: {
-        "type": "message",
-        "attachments": [
-          {
-            "contentType": "application/vnd.microsoft.card.adaptive",
-            "content": {
-              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-              "type": "AdaptiveCard",
-              "version": "1.0",
-              "body": [
-                {
-                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
-                },
-                {
-                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "[Test Beats Report](http://localhost:9393/reports/test-run-id)",
-                  "wrap": true,
-                  "separator": true
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "**Browser:** Chrome ｜ 1920*1080 ｜ [Pipeline](some-url)",
-                  "wrap": true,
-                  "separator": true
                 }
               ],
               "actions": []
