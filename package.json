@@ -11,7 +11,7 @@
     "/src"
   ],
   "scripts": {
-    "test": "export TEST_BEATS_URL=http://localhost:9393 && c8 mocha test",
+    "test": "c8 mocha test",
     "build": "pkg --out-path dist ."
   },
   "repository": {

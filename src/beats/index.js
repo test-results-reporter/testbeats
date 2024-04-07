@@ -2,7 +2,9 @@ const request = require('phin-retry');
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { getCIInformation } = require('../helpers/ci');
 
-const BASE_URL = process.env.TEST_BEATS_URL || "https://app.testbeats.com";
+function get_base_url() {
+  return process.env.TEST_BEATS_URL || "https://app.testbeats.com";
+}
 
 /**
  * @param {import('../index').PublishReport} config
@@ -34,7 +36,7 @@ async function publishTestResults(config, result) {
     }
     
     const response = await request.post({
-      url: `${BASE_URL}/api/core/v1/test-runs`,
+      url: `${get_base_url()}/api/core/v1/test-runs`,
       headers: {
         'x-api-key': config.api_key
       },
@@ -66,7 +68,7 @@ function attachTestBeatsReportHyperLink(config, run_id) {
  * @returns 
  */
 function get_test_beats_report_link(run_id) {
-  return `${BASE_URL}/reports/${run_id}`;
+  return `${get_base_url()}/reports/${run_id}`;
 }
 
 module.exports = { run }
