@@ -2,7 +2,9 @@ const request = require('phin-retry');
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { getCIInformation } = require('../helpers/ci');
 
-const BASE_URL = process.env.TEST_BEATS_URL || "http://localhost:9393";
+function get_base_url() {
+  return process.env.TEST_BEATS_URL || "https://app.testbeats.com";
+}
 
 /**
  * @param {import('../index').PublishReport} config
@@ -34,7 +36,7 @@ async function publishTestResults(config, result) {
     }
     
     const response = await request.post({
-      url: `${BASE_URL}/api/core/v1/test-runs`,
+      url: `${get_base_url()}/api/core/v1/test-runs`,
       headers: {
         'x-api-key': config.api_key
       },
@@ -52,17 +54,10 @@ async function publishTestResults(config, result) {
  * @param {string} run_id
  */
 function attachTestBeatsReportHyperLink(config, run_id) {
-  const hyperlink_to_test_beats = getTestBeatsReportHyperLink(run_id);
-  for (const target of config.targets) {
-    if (target.name === 'chat' || target.name === 'teams' || target.name === 'slack') {
-      target.extensions = target.extensions || [];
-      if (target.extensions.length > 0) {
-        if (target.extensions[0].name === 'hyperlinks' && target.extensions[0].inputs.links[0].name === 'Test Beats Report') {
-          target.extensions[0].inputs.links[0].url = `${BASE_URL}/reports/${run_id}`;
-          continue;
-        }
-      }
-      target.extensions = [hyperlink_to_test_beats, ...target.extensions];
+  const beats_link = get_test_beats_report_link(run_id);
+  if (config.targets) {
+    for (const target of config.targets) {
+      target.inputs.title_link = beats_link;
     }
   }
 }
@@ -72,18 +67,8 @@ function attachTestBeatsReportHyperLink(config, run_id) {
  * @param {string} run_id 
  * @returns 
  */
-function getTestBeatsReportHyperLink(run_id) {
-  return {
-    "name": "hyperlinks",
-    "inputs": {
-      "links": [
-        {
-          "text": "Test Beats Report",
-          "url": `${BASE_URL}/reports/${run_id}`
-        }
-      ]
-    }
-  }
+function get_test_beats_report_link(run_id) {
+  return `${get_base_url()}/reports/${run_id}`;
 }
 
 module.exports = { run }

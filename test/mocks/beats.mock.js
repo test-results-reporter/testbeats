@@ -1,6 +1,6 @@
 const { addInteractionHandler } = require('pactum').handler;
 
-addInteractionHandler('post test results to testbeats', () => {
+addInteractionHandler('post test results to beats', () => {
   return {
     strict: false,
     request: {
