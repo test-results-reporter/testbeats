@@ -385,6 +385,69 @@ addInteractionHandler('post test-summary with mentions to slack', () => {
   }
 });
 
+
+addInteractionHandler('post test-summary with mentions group name to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "<!subteam^ULA15K66M>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary with mentions special group name to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE_FAILURE"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "<!here>"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post test-summary to slack with qc-test-summary', (ctx) => {
   return {
     request: {

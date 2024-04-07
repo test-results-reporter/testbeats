@@ -148,6 +148,90 @@ describe('extensions - mentions', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should mention group name in slack', async () => {
+    const id = mock.addInteraction('post test-summary with mentions group name to slack');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "slack",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "mentions",
+                    "inputs": {
+                      "users": [
+                        {
+                          "name": "mom",
+                          "slack_gid": "ULA15K66M"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite-failures.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should mention special group name in slack', async () => {
+    const id = mock.addInteraction('post test-summary with mentions special group name to slack');
+    await publish({
+      config: {
+        "reports": [
+          {
+            "targets": [
+              {
+                "name": "slack",
+                "inputs": {
+                  "url": "http://localhost:9393/message"
+                },
+                "extensions": [
+                  {
+                    "name": "mentions",
+                    "inputs": {
+                      "users": [
+                        {
+                          "name": "mom",
+                          "slack_gid": "here"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "results": [
+              {
+                "type": "testng",
+                "files": [
+                  "test/data/testng/single-suite-failures.xml"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   it('should mention users with schedule rotation in slack', async () => {
     const id = mock.addInteraction('post test-summary with mentions to slack');
     await publish({
