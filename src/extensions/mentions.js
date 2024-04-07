@@ -34,9 +34,20 @@ function attachForTeam({ extension, payload }) {
   }
 }
 
+function formatSlackMentions({slack_uid, slack_gid}) {
+  if (slack_gid && slack_uid) {
+    throw new Error(`Error in slack extension configuration. Either slack user or group Id is allowed`);
+  }
+  if (slack_uid) {
+    return `<@${slack_uid}>`
+  }
+  const tagPrefix = ["here", "everyone", "channel"].includes(slack_gid.toLowerCase()) ? "" : "subteam^";
+  return `<!${tagPrefix}${slack_gid}>`
+}
+
 function attachForSlack({ extension, payload }) {
   const users = getUsers(extension);
-  const user_ids = users.map(user => `<@${user.slack_uid}>`);
+  const user_ids = users.map(formatSlackMentions);
   if (users.length > 0) {
     addSlackExtension({ payload, extension, text: user_ids.join(' ｜ ') });
   }
