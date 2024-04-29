@@ -1,3 +1,5 @@
+> !IMPORTANT - This npm package has been renamed from [test-results-reporter](https://www.npmjs.com/package/test-results-reporter) to [testbeats](https://www.npmjs.com/package/testbeats). test-results-reporter will soon be phased out, and users are encouraged to transition to testbeats.
+
 <span align="center">
 
 ![logo](https://github.com/test-results-reporter/testbeats/raw/main/assets/logo.png)
@@ -56,6 +58,3 @@ We use [Github Discussions](https://github.com/test-results-reporter/testbeats/d
 ## Support Us
 
 Like this project! Star it on [Github](https://github.com/test-results-reporter/testbeats) ⭐. Your support means a lot to us.
-
-
-<a href="https://www.flaticon.com/free-icons/flask" title="flask icons">Flask icons created by Freepik - Flaticon</a>
