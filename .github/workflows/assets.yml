@@ -16,16 +16,16 @@ jobs:
       - run: npm run build
       - uses: vimtor/action-zip@v1
         with:
-          files: dist/test-results-reporter-linux
-          dest: dist/test-results-reporter-linux.zip
+          files: dist/testbeats-linux
+          dest: dist/testbeats-linux.zip
       - uses: vimtor/action-zip@v1
         with:
-          files: dist/test-results-reporter-macos
-          dest: dist/test-results-reporter-macos.zip
+          files: dist/testbeats-macos
+          dest: dist/testbeats-macos.zip
       - uses: vimtor/action-zip@v1
         with:
-          files: dist/test-results-reporter-win.exe
-          dest: dist/test-results-reporter-win.exe.zip
+          files: dist/testbeats-win.exe
+          dest: dist/testbeats-win.exe.zip
       - name: Upload release binaries
         uses: alexellis/upload-assets@0.2.2
         env:
