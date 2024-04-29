@@ -4,23 +4,23 @@ on:
   pull_request:
     paths-ignore:
      - 'README.md'
-    branches: 
+    branches:
       - main
   push:
     paths-ignore:
      - 'README.md'
-    branches: 
+    branches:
       - main
 
 jobs:
   build:
-    
+
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x, 20.x]
 
     steps:
     - uses: actions/checkout@v2
