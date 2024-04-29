@@ -1,11 +1,11 @@
 {
-  "name": "test-results-reporter",
-  "version": "1.1.6",
+  "name": "testbeats",
+  "version": "2.0.0",
   "description": "Publish test results to Microsoft Teams, Google Chat, Slack and InfluxDB",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
   "bin": {
-    "test-results-reporter": "src/cli.js"
+    "testbeats": "src/cli.js"
   },
   "files": [
     "/src"
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/test-results-reporter/reporter.git"
+    "url": "git+https://github.com/test-results-reporter/testbeats.git"
   },
   "keywords": [
     "test",
@@ -42,7 +42,7 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/test-results-reporter/reporter/issues"
+    "url": "https://github.com/test-results-reporter/testbeats/issues"
   },
   "homepage": "https://test-results-reporter.github.io",
   "dependencies": {
