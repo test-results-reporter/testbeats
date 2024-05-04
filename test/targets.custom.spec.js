@@ -16,27 +16,23 @@ describe('targets - custom', () => {
     const id1 = mock.addInteraction('get custom');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "custom",
-                "inputs": {
-                  "load": async function({ target, result }) {
-                    assert.equal(target.name, 'custom');
-                    assert.equal(result.name, 'Default suite');
-                    await spec().get('http://localhost:9393/custom');
-                  }
-                }
+            "name": "custom",
+            "inputs": {
+              "load": async function ({ target, result }) {
+                assert.equal(target.name, 'custom');
+                assert.equal(result.name, 'Default suite');
+                await spec().get('http://localhost:9393/custom');
               }
-            ],
-            "results": [
-              {
-                "type": "junit",
-                "files": [
-                  "test/data/junit/single-suite.xml"
-                ]
-              }
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "junit",
+            "files": [
+              "test/data/junit/single-suite.xml"
             ]
           }
         ]
@@ -50,23 +46,19 @@ describe('targets - custom', () => {
     try {
       await publish({
         config: {
-          "reports": [
+          "targets": [
             {
-              "targets": [
-                {
-                  "name": "custom",
-                  "inputs": {
-                    "load": {}
-                  }
-                }
-              ],
-              "results": [
-                {
-                  "type": "junit",
-                  "files": [
-                    "test/data/junit/single-suite.xml"
-                  ]
-                }
+              "name": "custom",
+              "inputs": {
+                "load": {}
+              }
+            }
+          ],
+          "results": [
+            {
+              "type": "junit",
+              "files": [
+                "test/data/junit/single-suite.xml"
               ]
             }
           ]

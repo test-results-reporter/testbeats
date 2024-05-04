@@ -11,33 +11,29 @@ describe('extensions - percy-analysis', () => {
     const id4 = mock.addInteraction('post test-summary to teams with percy analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "percy-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "percy-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "token": "token",
-                      "project_name": "project-name"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "token": "token",
+                  "project_name": "project-name"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -56,33 +52,29 @@ describe('extensions - percy-analysis', () => {
     const id4 = mock.addInteraction('post test-summary to slack with percy analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "percy-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "percy-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "token": "token",
-                      "project_name": "project-name"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "token": "token",
+                  "project_name": "project-name"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -101,33 +93,29 @@ describe('extensions - percy-analysis', () => {
     const id4 = mock.addInteraction('post test-summary to chat with percy analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "percy-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "percy-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "token": "token",
-                      "project_name": "project-name"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "token": "token",
+                  "project_name": "project-name"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -146,33 +134,29 @@ describe('extensions - percy-analysis', () => {
     const id4 = mock.addInteraction('post percy analysis with removed snapshots to chat');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "percy-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "percy-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "token": "token",
-                      "project_name": "project-name"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "token": "token",
+                  "project_name": "project-name"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -191,33 +175,29 @@ describe('extensions - percy-analysis', () => {
     const id4 = mock.addInteraction('post percy analysis with un-reviewed snapshots to chat');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "percy-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "percy-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "token": "token",
-                      "project_name": "project-name"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "token": "token",
+                  "project_name": "project-name"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -235,33 +215,29 @@ describe('extensions - percy-analysis', () => {
     const id3 = mock.addInteraction('post test-summary to chat with percy analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "percy-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "percy-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "token": "token",
-                      "build_id": "build-id"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "token": "token",
+                  "build_id": "build-id"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -278,33 +254,29 @@ describe('extensions - percy-analysis', () => {
     const id3 = mock.addInteraction('post test-summary to chat with percy analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "percy-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "percy-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "token": "token",
-                      "project_id": "project-id"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "token": "token",
+                  "project_id": "project-id"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]

@@ -8,40 +8,36 @@ describe('extensions - mentions', () => {
     const id = mock.addInteraction('post test-summary to teams with mentions');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "mentions",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "mentions",
-                    "inputs": {
-                      "users": [
-                        {
-                          "name": "mom",
-                          "teams_upn": "mom@family"
-                        },
-                        {
-                          "name": "dad",
-                          "teams_upn": "dad@family"
-                        }
-                      ]
+                  "users": [
+                    {
+                      "name": "mom",
+                      "teams_upn": "mom@family"
+                    },
+                    {
+                      "name": "dad",
+                      "teams_upn": "dad@family"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -54,46 +50,42 @@ describe('extensions - mentions', () => {
     const id = mock.addInteraction('post test-summary to teams with mentions');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "mentions",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "mentions",
-                    "inputs": {
-                      "users": [
-                        {
-                          "name": "mom",
-                          "teams_upn": "mom@family"
-                        }
-                      ],
-                      "schedule": {
-                        "layers": [
-                          {
-                            "user": {
-                              "name": "dad",
-                              "teams_upn": "dad@family"
-                            }
-                          }
-                        ]
-                      }
+                  "users": [
+                    {
+                      "name": "mom",
+                      "teams_upn": "mom@family"
                     }
+                  ],
+                  "schedule": {
+                    "layers": [
+                      {
+                        "user": {
+                          "name": "dad",
+                          "teams_upn": "dad@family"
+                        }
+                      }
+                    ]
                   }
-                ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -106,40 +98,36 @@ describe('extensions - mentions', () => {
     const id = mock.addInteraction('post test-summary with mentions to slack');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "mentions",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "mentions",
-                    "inputs": {
-                      "users": [
-                        {
-                          "name": "mom",
-                          "slack_uid": "ULA15K66M"
-                        },
-                        {
-                          "name": "dad",
-                          "slack_uid": "ULA15K66N"
-                        }
-                      ]
+                  "users": [
+                    {
+                      "name": "mom",
+                      "slack_uid": "ULA15K66M"
+                    },
+                    {
+                      "name": "dad",
+                      "slack_uid": "ULA15K66N"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -152,36 +140,32 @@ describe('extensions - mentions', () => {
     const id = mock.addInteraction('post test-summary with mentions group name to slack');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "mentions",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "mentions",
-                    "inputs": {
-                      "users": [
-                        {
-                          "name": "mom",
-                          "slack_gid": "ULA15K66M"
-                        }
-                      ]
+                  "users": [
+                    {
+                      "name": "mom",
+                      "slack_gid": "ULA15K66M"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -194,36 +178,32 @@ describe('extensions - mentions', () => {
     const id = mock.addInteraction('post test-summary with mentions special group name to slack');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "mentions",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "mentions",
-                    "inputs": {
-                      "users": [
-                        {
-                          "name": "mom",
-                          "slack_gid": "here"
-                        }
-                      ]
+                  "users": [
+                    {
+                      "name": "mom",
+                      "slack_gid": "here"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -236,51 +216,47 @@ describe('extensions - mentions', () => {
     const id = mock.addInteraction('post test-summary with mentions to slack');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "mentions",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "mentions",
-                    "inputs": {
-                      "users": [
-                        {
-                          "name": "mom",
-                          "slack_uid": "ULA15K66M"
-                        }
-                      ],
-                      "schedule": {
-                        "layers": [
-                          {
-                            "rotation": {
-                              "every": "week",
-                              "users": [
-                                {
-                                  "name": "dad",
-                                  "slack_uid": "ULA15K66N"
-                                }
-                              ]
-                            }
-                          }
-                        ]
-                      }
+                  "users": [
+                    {
+                      "name": "mom",
+                      "slack_uid": "ULA15K66M"
                     }
+                  ],
+                  "schedule": {
+                    "layers": [
+                      {
+                        "rotation": {
+                          "every": "week",
+                          "users": [
+                            {
+                              "name": "dad",
+                              "slack_uid": "ULA15K66N"
+                            }
+                          ]
+                        }
+                      }
+                    ]
                   }
-                ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -293,40 +269,36 @@ describe('extensions - mentions', () => {
     const id = mock.addInteraction('post test-summary to chat with mentions');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "mentions",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "mentions",
-                    "inputs": {
-                      "users": [
-                        {
-                          "name": "mom",
-                          "chat_uid": "12345"
-                        },
-                        {
-                          "name": "dad",
-                          "chat_uid": "67890"
-                        }
-                      ]
+                  "users": [
+                    {
+                      "name": "mom",
+                      "chat_uid": "12345"
+                    },
+                    {
+                      "name": "dad",
+                      "chat_uid": "67890"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]

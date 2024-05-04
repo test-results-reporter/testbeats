@@ -8,23 +8,19 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post test-summary to teams');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -37,23 +33,19 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post test-summary to teams with multiple suites');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/multiple-suites.xml"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/multiple-suites.xml"
             ]
           }
         ]
@@ -66,24 +58,20 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post test-summary-slim to teams with multiple suites');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "publish": "test-summary-slim"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/multiple-suites.xml"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "publish": "test-summary-slim"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/multiple-suites.xml"
             ]
           }
         ]
@@ -96,24 +84,20 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post failure-details to teams with multiple suites');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "publish": "failure-details"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/multiple-suites.xml"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "publish": "failure-details"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/multiple-suites.xml"
             ]
           }
         ]
@@ -126,24 +110,20 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post failure-details to teams with single suite');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "publish": "failure-details"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "publish": "failure-details"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -156,24 +136,20 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post test-summary to teams with full width');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "width": "Full"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "width": "Full"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -186,25 +162,21 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post test-summary-slim with verbose duration');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "publish": "test-summary-slim",
-                  "duration": "verbose"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/multiple-suites.xml"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "publish": "test-summary-slim",
+              "duration": "verbose"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/multiple-suites.xml"
             ]
           }
         ]
@@ -217,24 +189,20 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post test-summary to teams with title_link');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "title_link": "some-url"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "title_link": "some-url"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -247,28 +215,24 @@ describe('targets - teams - functional', () => {
     const id = mock.addInteraction('post test-summary to teams');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "condition": ({target, result}) => {
-                  assert.equal(target.name, 'teams');
-                  assert.equal(result.name, 'Default suite');
-                  return true;
-                },
-                "inputs": {
-                  "url": "http://localhost:9393/message"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            "name": "teams",
+            "condition": ({ target, result }) => {
+              assert.equal(target.name, 'teams');
+              assert.equal(result.name, 'Default suite');
+              return true;
+            },
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -289,23 +253,19 @@ describe('targets - teams - performance', () => {
     const id = mock.addInteraction('post test-summary to teams for JMeter');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ]
           }
         ]
@@ -318,32 +278,28 @@ describe('targets - teams - performance', () => {
     const id = mock.addInteraction('post test-summary to teams for failed JMeter');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message"
-                }
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ],
-            "results": [
+            "thresholds": [
               {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ],
-                "thresholds": [
-                  {
-                    "metric": "Samples",
-                    "checks": ["sum>10"]
-                  },
-                  {
-                    "metric": "Duration",
-                    "checks": ["avg<3500"]
-                  }
-                ]
+                "metric": "Samples",
+                "checks": ["sum>10"]
+              },
+              {
+                "metric": "Duration",
+                "checks": ["avg<3500"]
               }
             ]
           }
@@ -357,26 +313,22 @@ describe('targets - teams - performance', () => {
     const id = mock.addInteraction('post test-summary-slim to teams for JMeter');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "publish": "test-summary-slim",
-                  "title": "Performance Test",
-                  "title_suffix": "Results"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ]
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "publish": "test-summary-slim",
+              "title": "Performance Test",
+              "title_suffix": "Results"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ]
           }
         ]
@@ -389,33 +341,29 @@ describe('targets - teams - performance', () => {
     const id = mock.addInteraction('post test-summary with failures to teams for failed JMeter');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "only_failures": true
-                }
-              }
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "only_failures": true
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ],
-            "results": [
+            "thresholds": [
               {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ],
-                "thresholds": [
-                  {
-                    "metric": "Samples",
-                    "checks": ["sum>10"]
-                  },
-                  {
-                    "metric": "Duration",
-                    "checks": ["avg<3500"]
-                  }
-                ]
+                "metric": "Samples",
+                "checks": ["sum>10"]
+              },
+              {
+                "metric": "Duration",
+                "checks": ["avg<3500"]
               }
             ]
           }
@@ -429,38 +377,34 @@ describe('targets - teams - performance', () => {
     const id = mock.addInteraction('post test-summary to teams with filtered metrics and fields for JMeter');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message",
-                  "metrics": [
-                    {
-                      "name": "Samples",
-                      "condition": "fail"
-                    },
-                    {
-                      "name": "Duration",
-                      "condition": "always",
-                      "fields": ["avg", "p99"]
-                    },
-                    {
-                      "name": "Data Sent",
-                      "fields": ["rate"]
-                    }
-                  ]
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "metrics": [
+                {
+                  "name": "Samples",
+                  "condition": "fail"
+                },
+                {
+                  "name": "Duration",
+                  "condition": "always",
+                  "fields": ["avg", "p99"]
+                },
+                {
+                  "name": "Data Sent",
+                  "fields": ["rate"]
                 }
-              }
-            ],
-            "results": [
-              {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ]
-              }
+              ]
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ]
           }
         ]

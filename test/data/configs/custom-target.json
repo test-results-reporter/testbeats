@@ -1,22 +1,16 @@
 {
-  "reports": [
+  "targets": [
     {
-      "targets": [
-        {
-          "name": "custom",
-          "inputs": {
-            "load": "test/data/custom/custom-runner.js"
-          }
-        }
-      ],
-      "results": [
-        {
-          "type": "junit",
-          "files": [
-            "test/data/junit/single-suite.xml"
-          ]
-        }
-      ]
+      "name": "custom",
+      "inputs": {
+        "load": "test/data/custom/custom-runner.js"
+      }
+    }
+  ],
+  "results": [
+    {
+      "type": "junit",
+      "files": ["test/data/junit/single-suite.xml"]
     }
   ]
 }

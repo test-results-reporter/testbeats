@@ -9,31 +9,27 @@ describe('extensions - custom', () => {
     const id2 = mock.addInteraction('get custom');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "custom",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "custom",
-                    "inputs": {
-                      "load": "test/data/custom/custom-runner.js"
-                    }
-                  }
-                ]
+                  "load": "test/data/custom/custom-runner.js"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -48,36 +44,32 @@ describe('extensions - custom', () => {
     const id2 = mock.addInteraction('get custom');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "custom",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "custom",
-                    "inputs": {
-                      "load": async function ({ target, extension, result }) {
-                        assert.equal(target.name, 'teams');
-                        assert.equal(extension.name, 'custom');
-                        assert.equal(result.name, 'Default suite');
-                        await spec().get('http://localhost:9393/custom');
-                      }
-                    }
+                  "load": async function ({ target, extension, result }) {
+                    assert.equal(target.name, 'teams');
+                    assert.equal(extension.name, 'custom');
+                    assert.equal(result.name, 'Default suite');
+                    await spec().get('http://localhost:9393/custom');
                   }
-                ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "junit",
-                "files": [
-                  "test/data/junit/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "junit",
+            "files": [
+              "test/data/junit/single-suite.xml"
             ]
           }
         ]
@@ -91,31 +83,27 @@ describe('extensions - custom', () => {
     const id1 = mock.addInteraction('post test-summary to teams');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "custom",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "custom",
-                    "inputs": {
-                      "load": {}
-                    }
-                  }
-                ]
+                  "load": {}
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "junit",
-                "files": [
-                  "test/data/junit/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "junit",
+            "files": [
+              "test/data/junit/single-suite.xml"
             ]
           }
         ]

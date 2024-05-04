@@ -10,34 +10,30 @@ describe('extensions - report-portal-history', () => {
     const id3 = mock.addInteraction('post test-summary to teams with report portal history');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-history",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-history",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -54,34 +50,30 @@ describe('extensions - report-portal-history', () => {
     const id3 = mock.addInteraction('post test-summary to slack with report portal history');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "report-portal-history",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-history",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -98,34 +90,30 @@ describe('extensions - report-portal-history', () => {
     const id3 = mock.addInteraction('get suite history');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-history",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-history",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_name": "smoke"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_name": "smoke"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -142,35 +130,31 @@ describe('extensions - report-portal-history', () => {
     const id3 = mock.addInteraction('post test-summary to teams with report portal history');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-history",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-history",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_name": "smoke",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_name": "smoke",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -187,35 +171,31 @@ describe('extensions - report-portal-history', () => {
     const id3 = mock.addInteraction('post test-summary to teams');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-history",
+                "condition": "passOrFail",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-history",
-                    "condition": "passOrFail",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -232,36 +212,32 @@ describe('extensions - report-portal-history', () => {
     const id3 = mock.addInteraction('post test-summary to teams with report portal history without title and separator');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-history",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-history",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123",
-                      "title": "",
-                      "separator": false
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123",
+                  "title": "",
+                  "separator": false
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -278,34 +254,30 @@ describe('extensions - report-portal-history', () => {
     const id3 = mock.addInteraction('post test-summary to chat with report portal history');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "report-portal-history",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-history",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]

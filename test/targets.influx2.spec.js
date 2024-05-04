@@ -5,31 +5,27 @@ const { publish } = require('../src');
 describe('targets - influx2 - performance', () => {
 
   it('should save results', async () => {
-    const id =  mock.addInteraction('save perf results to influx2');
+    const id = mock.addInteraction('save perf results to influx2');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "influx",
-                "inputs": {
-                  "url": "http://localhost:9393",
-                  "version": "v2",
-                  "token": "testtoken",
-                  "org": "testorg",
-                  "bucket": "testbucket",
-                  "precision": "ns",
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ]
-              }
+            "name": "influx",
+            "inputs": {
+              "url": "http://localhost:9393",
+              "version": "v2",
+              "token": "testtoken",
+              "org": "testorg",
+              "bucket": "testbucket",
+              "precision": "ns",
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ]
           }
         ]
@@ -42,35 +38,31 @@ describe('targets - influx2 - performance', () => {
     const id = mock.addInteraction('save perf results with custom tags and fields to influx2');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "influx",
-                "inputs": {
-                  "url": "http://localhost:9393",
-                  "version": "v2",
-                  "token": "testtoken",
-                  "org": "testorg",
-                  "bucket": "testbucket",
-                  "precision": "ns",
-                  "tags": {
-                    "Team": "QA",
-                    "App": "PactumJS"
-                  },
-                  "fields": {
-                    "id": 123,
-                  }
-                }
+            "name": "influx",
+            "inputs": {
+              "url": "http://localhost:9393",
+              "version": "v2",
+              "token": "testtoken",
+              "org": "testorg",
+              "bucket": "testbucket",
+              "precision": "ns",
+              "tags": {
+                "Team": "QA",
+                "App": "PactumJS"
+              },
+              "fields": {
+                "id": 123,
               }
-            ],
-            "results": [
-              {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ]
-              }
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ]
           }
         ]
@@ -92,28 +84,24 @@ describe('targets - influx2 - functional', () => {
     const id = mock.addInteraction('save test results to influx2');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "influx",
-                "inputs": {
-                  "url": "http://localhost:9393",
-                  "version": "v2",
-                  "token": "testtoken",
-                  "org": "testorg",
-                  "bucket": "testbucket",
-                  "precision": "ns",
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            "name": "influx",
+            "inputs": {
+              "url": "http://localhost:9393",
+              "version": "v2",
+              "token": "testtoken",
+              "org": "testorg",
+              "bucket": "testbucket",
+              "precision": "ns",
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -126,36 +114,32 @@ describe('targets - influx2 - functional', () => {
     const id = mock.addInteraction('save test results with custom tags and fields to influx2');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "influx",
-                "inputs": {
-                  "url": "http://localhost:9393",
-                  "version": "v2",
-                  "token": "testtoken",
-                  "org": "testorg",
-                  "bucket": "testbucket",
-                  "precision": "ns",
-                  "tags": {
-                    "Team": "QA",
-                    "App": "PactumJS"
-                  },
-                  "fields": {
-                    "id": 123,
-                    "stringfield": "coolvalue"
-                  }
-                }
+            "name": "influx",
+            "inputs": {
+              "url": "http://localhost:9393",
+              "version": "v2",
+              "token": "testtoken",
+              "org": "testorg",
+              "bucket": "testbucket",
+              "precision": "ns",
+              "tags": {
+                "Team": "QA",
+                "App": "PactumJS"
+              },
+              "fields": {
+                "id": 123,
+                "stringfield": "coolvalue"
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/multiple-suites-failures.xml"
-                ]
-              }
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/multiple-suites-failures.xml"
             ]
           }
         ]
