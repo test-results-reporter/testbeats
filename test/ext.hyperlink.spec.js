@@ -8,40 +8,36 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to teams - pass status');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url"
-                        }
-                      ]
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url"
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -54,41 +50,37 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to teams - pass status');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url",
-                          "condition": "pass"
-                        }
-                      ]
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url"
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url",
+                      "condition": "pass"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -101,46 +93,42 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to teams - fail status');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url",
-                        },
-                        {
-                          "text": "S3 link",
-                          "url": "some-url",
-                          "condition": "pass"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url",
-                          "condition": "fail"
-                        }
-                      ]
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url",
+                    },
+                    {
+                      "text": "S3 link",
+                      "url": "some-url",
+                      "condition": "pass"
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url",
+                      "condition": "fail"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -153,40 +141,36 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to slack - pass status');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url"
-                        }
-                      ]
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url"
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -199,46 +183,42 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to slack - pass status');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url"
-                        },
-                        {
-                          "text": "S3 link",
-                          "url": "some-url",
-                          "condition": "fail"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url",
-                          "condition": "pass"
-                        }
-                      ]
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url"
+                    },
+                    {
+                      "text": "S3 link",
+                      "url": "some-url",
+                      "condition": "fail"
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url",
+                      "condition": "pass"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -251,46 +231,42 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to slack - fail status');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url",
-                        },
-                        {
-                          "text": "S3 link",
-                          "url": "some-url",
-                          "condition": "pass"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url",
-                          "condition": "fail"
-                        }
-                      ]
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url",
+                    },
+                    {
+                      "text": "S3 link",
+                      "url": "some-url",
+                      "condition": "pass"
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url",
+                      "condition": "fail"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -303,42 +279,38 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks having a title and without a separator to teams');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "title": "Hyperlinks",
-                      "separator": false,
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url"
-                        }
-                      ]
+                  "title": "Hyperlinks",
+                  "separator": false,
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url"
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -351,40 +323,36 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to chat');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url"
-                        }
-                      ]
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url"
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -396,40 +364,36 @@ describe('extensions - hyperlinks', () => {
   it('should send test-summary with synchronous dynamic link', async () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to chat');
     const config = defineConfig({
-      "reports": [
+      "targets": [
         {
-          "targets": [
+          "name": "chat",
+          "inputs": {
+            "url": "http://localhost:9393/message"
+          },
+          "extensions": [
             {
-              "name": "chat",
+              "name": "hyperlinks",
               "inputs": {
-                "url": "http://localhost:9393/message"
-              },
-              "extensions": [
-                {
-                  "name": "hyperlinks",
-                  "inputs": {
-                    "links": [
-                      {
-                        "text": "Pipeline",
-                        "url": function () { return 'some-url' }
-                      },
-                      {
-                        "text": "Video",
-                        "url": "some-url"
-                      }
-                    ]
+                "links": [
+                  {
+                    "text": "Pipeline",
+                    "url": function () { return 'some-url' }
+                  },
+                  {
+                    "text": "Video",
+                    "url": "some-url"
                   }
-                }
-              ]
+                ]
+              }
             }
-          ],
-          "results": [
-            {
-              "type": "testng",
-              "files": [
-                "test/data/testng/single-suite.xml"
-              ]
-            }
+          ]
+        }
+      ],
+      "results": [
+        {
+          "type": "testng",
+          "files": [
+            "test/data/testng/single-suite.xml"
           ]
         }
       ]
@@ -442,45 +406,41 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to chat');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "hyperlinks",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": async (ctx) => {
-                            assert.equal(ctx.target.name, 'chat');
-                            assert.equal(ctx.extension.name, 'hyperlinks');
-                            assert.equal(ctx.result.total, 4)
-                            return 'some-url'
-                          }
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url"
-                        }
-                      ]
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": async (ctx) => {
+                        assert.equal(ctx.target.name, 'chat');
+                        assert.equal(ctx.extension.name, 'hyperlinks');
+                        assert.equal(ctx.result.total, 4)
+                        return 'some-url'
+                      }
+                    },
+                    {
+                      "text": "Video",
+                      "url": "some-url"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -493,46 +453,42 @@ describe('extensions - hyperlinks', () => {
     const id = mock.addInteraction('post test-summary with hyperlinks to teams - pass status');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
-                "inputs": {
-                  "url": "http://localhost:9393/message"
+                "name": "hyperlinks",
+                "condition": async ({ target, extension, result }) => {
+                  assert.equal(target.name, 'teams');
+                  assert.equal(extension.name, 'hyperlinks');
+                  assert.equal(result.name, 'Default suite');
+                  return true;
                 },
-                "extensions": [
-                  {
-                    "name": "hyperlinks",
-                    "condition": async ({ target, extension, result }) => {
-                      assert.equal(target.name, 'teams');
-                      assert.equal(extension.name, 'hyperlinks');
-                      assert.equal(result.name, 'Default suite');
-                      return true;
+                "inputs": {
+                  "links": [
+                    {
+                      "text": "Pipeline",
+                      "url": "some-url"
                     },
-                    "inputs": {
-                      "links": [
-                        {
-                          "text": "Pipeline",
-                          "url": "some-url"
-                        },
-                        {
-                          "text": "Video",
-                          "url": "some-url"
-                        }
-                      ]
+                    {
+                      "text": "Video",
+                      "url": "some-url"
                     }
-                  }
-                ]
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]

@@ -8,26 +8,22 @@ describe('targets - influx - performance', () => {
     const id = mock.addInteraction('save perf results');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "influx",
-                "inputs": {
-                  "url": "http://localhost:9393",
-                  "db": "TestResults",
-                  "username": "user",
-                  "password": "pass"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ]
-              }
+            "name": "influx",
+            "inputs": {
+              "url": "http://localhost:9393",
+              "db": "TestResults",
+              "username": "user",
+              "password": "pass"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ]
           }
         ]
@@ -40,33 +36,29 @@ describe('targets - influx - performance', () => {
     const id = mock.addInteraction('save perf results with custom tags and fields');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "influx",
-                "inputs": {
-                  "url": "http://localhost:9393",
-                  "db": "TestResults",
-                  "username": "user",
-                  "password": "pass",
-                  "tags": {
-                    "Team": "QA",
-                    "App": "PactumJS"
-                  },
-                  "fields": {
-                    "id": 123,
-                  }
-                }
+            "name": "influx",
+            "inputs": {
+              "url": "http://localhost:9393",
+              "db": "TestResults",
+              "username": "user",
+              "password": "pass",
+              "tags": {
+                "Team": "QA",
+                "App": "PactumJS"
+              },
+              "fields": {
+                "id": 123,
               }
-            ],
-            "results": [
-              {
-                "type": "jmeter",
-                "files": [
-                  "test/data/jmeter/sample.csv"
-                ]
-              }
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "jmeter",
+            "files": [
+              "test/data/jmeter/sample.csv"
             ]
           }
         ]
@@ -87,26 +79,22 @@ describe('targets - influx - functional', () => {
     const id = mock.addInteraction('save test results');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "influx",
-                "inputs": {
-                  "url": "http://localhost:9393",
-                  "db": "TestResults",
-                  "username": "user",
-                  "password": "pass"
-                }
-              }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            "name": "influx",
+            "inputs": {
+              "url": "http://localhost:9393",
+              "db": "TestResults",
+              "username": "user",
+              "password": "pass"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -119,33 +107,29 @@ describe('targets - influx - functional', () => {
     const id = mock.addInteraction('save test results with custom tags and fields');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
-              {
-                "name": "influx",
-                "inputs": {
-                  "url": "http://localhost:9393",
-                  "db": "TestResults",
-                  "username": "user",
-                  "password": "pass",
-                  "tags": {
-                    "Team": "QA",
-                    "App": "PactumJS"
-                  },
-                  "fields": {
-                    "id": 123,
-                  }
-                }
+            "name": "influx",
+            "inputs": {
+              "url": "http://localhost:9393",
+              "db": "TestResults",
+              "username": "user",
+              "password": "pass",
+              "tags": {
+                "Team": "QA",
+                "App": "PactumJS"
+              },
+              "fields": {
+                "id": 123,
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/multiple-suites-failures.xml"
-                ]
-              }
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/multiple-suites-failures.xml"
             ]
           }
         ]

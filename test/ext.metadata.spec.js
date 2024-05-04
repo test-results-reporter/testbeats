@@ -8,48 +8,44 @@ describe('extensions - metadata', () => {
     const id = mock.addInteraction('post test-summary with metadata to teams');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "metadata",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "metadata",
-                    "inputs": {
-                      "data": [
-                        {
-                          "key": "Browser",
-                          "value": "Chrome"
-                        },
-                        {
-                          "value": "1920*1080"
-                        },
-                        {
-                          "value": "1920*1080",
-                          "condition": "never"
-                        },
-                        {
-                          "key": "Pipeline",
-                          "value": "some-url",
-                          "type": "hyperlink"
-                        },
-                      ]
-                    }
-                  }
-                ]
+                  "data": [
+                    {
+                      "key": "Browser",
+                      "value": "Chrome"
+                    },
+                    {
+                      "value": "1920*1080"
+                    },
+                    {
+                      "value": "1920*1080",
+                      "condition": "never"
+                    },
+                    {
+                      "key": "Pipeline",
+                      "value": "some-url",
+                      "type": "hyperlink"
+                    },
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -62,48 +58,44 @@ describe('extensions - metadata', () => {
     const id = mock.addInteraction('post test-summary with metadata to slack');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "metadata",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "metadata",
-                    "inputs": {
-                      "data": [
-                        {
-                          "key": "Browser",
-                          "value": "Chrome"
-                        },
-                        {
-                          "value": "1920*1080"
-                        },
-                        {
-                          "value": "1920*1080",
-                          "condition": "never"
-                        },
-                        {
-                          "key": "Pipeline",
-                          "value": "some-url",
-                          "type": "hyperlink"
-                        },
-                      ]
-                    }
-                  }
-                ]
+                  "data": [
+                    {
+                      "key": "Browser",
+                      "value": "Chrome"
+                    },
+                    {
+                      "value": "1920*1080"
+                    },
+                    {
+                      "value": "1920*1080",
+                      "condition": "never"
+                    },
+                    {
+                      "key": "Pipeline",
+                      "value": "some-url",
+                      "type": "hyperlink"
+                    },
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]
@@ -116,48 +108,44 @@ describe('extensions - metadata', () => {
     const id = mock.addInteraction('post test-summary with metadata to chat');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "metadata",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "metadata",
-                    "inputs": {
-                      "data": [
-                        {
-                          "key": "Browser",
-                          "value": "Chrome"
-                        },
-                        {
-                          "value": "1920*1080"
-                        },
-                        {
-                          "value": "1920*1080",
-                          "condition": "never"
-                        },
-                        {
-                          "key": "Pipeline",
-                          "value": "some-url",
-                          "type": "hyperlink"
-                        },
-                      ]
-                    }
-                  }
-                ]
+                  "data": [
+                    {
+                      "key": "Browser",
+                      "value": "Chrome"
+                    },
+                    {
+                      "value": "1920*1080"
+                    },
+                    {
+                      "value": "1920*1080",
+                      "condition": "never"
+                    },
+                    {
+                      "key": "Pipeline",
+                      "value": "some-url",
+                      "type": "hyperlink"
+                    },
+                  ]
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
             ]
           }
         ]

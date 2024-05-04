@@ -232,7 +232,6 @@ export interface PublishConfig {
   run?: string;
   targets?: Target[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
-  reports?: PublishReport[];
 }
 
 export interface PublishOptions {

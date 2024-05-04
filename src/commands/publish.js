@@ -7,7 +7,7 @@ const beats = require('../beats');
 const target_manager = require('../targets');
 
 /**
- * @param {import('../index').PublishOptions} opts 
+ * @param {import('../index').PublishOptions} opts
  */
 async function run(opts) {
   if (typeof opts.config === 'string') {
@@ -25,8 +25,8 @@ async function run(opts) {
 }
 
 /**
- * 
- * @param {import('../index').PublishReport} report 
+ *
+ * @param {import('../index').PublishReport} report
  */
 async function processReport(report) {
   const parsed_results = [];

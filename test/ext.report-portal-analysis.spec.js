@@ -1,4 +1,4 @@
-const { mock, settings } = require('pactum');
+const { mock } = require('pactum');
 const assert = require('assert');
 const { publish } = require('../src');
 
@@ -9,34 +9,30 @@ describe('extensions - report-portal-analysis', () => {
     const id2 = mock.addInteraction('post test-summary to teams with report portal analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -51,34 +47,30 @@ describe('extensions - report-portal-analysis', () => {
     const id2 = mock.addInteraction('post test-summary to slack with report portal analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "report-portal-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -93,34 +85,30 @@ describe('extensions - report-portal-analysis', () => {
     const id2 = mock.addInteraction('post test-summary to teams with report portal analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_name": "smoke"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_name": "smoke"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -135,35 +123,31 @@ describe('extensions - report-portal-analysis', () => {
     const id2 = mock.addInteraction('post test-summary to teams with report portal analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_name": "smoke",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_name": "smoke",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -178,36 +162,32 @@ describe('extensions - report-portal-analysis', () => {
     const id2 = mock.addInteraction('post test-summary to slack with report portal analysis with separator and without title');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "report-portal-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123",
-                      "title": "",
-                      "separator": true
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123",
+                  "title": "",
+                  "separator": true
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -222,35 +202,31 @@ describe('extensions - report-portal-analysis', () => {
     const id2 = mock.addInteraction('post test-summary to teams with report portal analysis with title_link');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "teams",
+                "name": "report-portal-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123",
-                      "title_link": "http://localhost:9393"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123",
+                  "title_link": "http://localhost:9393"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -260,40 +236,36 @@ describe('extensions - report-portal-analysis', () => {
     assert.equal(mock.getInteraction(id2).exercised, true);
   });
 
-  it('should report-portal-analysis to slack', async () => {
+  it('should report-portal-analysis to slack with title_link', async () => {
     const id1 = mock.addInteraction('get launch details');
     const id2 = mock.addInteraction('post test-summary to slack with report portal analysis with title_link');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "slack",
+                "name": "report-portal-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123",
-                      "title_link": "http://localhost:9393"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123",
+                  "title_link": "http://localhost:9393"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
@@ -308,34 +280,30 @@ describe('extensions - report-portal-analysis', () => {
     const id2 = mock.addInteraction('post test-summary to chat with report portal analysis');
     await publish({
       config: {
-        "reports": [
+        "targets": [
           {
-            "targets": [
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
               {
-                "name": "chat",
+                "name": "report-portal-analysis",
                 "inputs": {
-                  "url": "http://localhost:9393/message"
-                },
-                "extensions": [
-                  {
-                    "name": "report-portal-analysis",
-                    "inputs": {
-                      "url": "http://localhost:9393",
-                      "api_key": "abc",
-                      "project": "project-name",
-                      "launch_id": "id123"
-                    }
-                  }
-                ]
+                  "url": "http://localhost:9393",
+                  "api_key": "abc",
+                  "project": "project-name",
+                  "launch_id": "id123"
+                }
               }
-            ],
-            "results": [
-              {
-                "type": "testng",
-                "files": [
-                  "test/data/testng/single-suite-failures.xml"
-                ]
-              }
+            ]
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite-failures.xml"
             ]
           }
         ]
