@@ -7,6 +7,7 @@ const percy_analysis = require('./percy-analysis');
 const custom = require('./custom');
 const metadata = require('./metadata');
 const ci_info = require('./ci-info');
+const ai_failure_summary = require('./ai-failure-summary');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 const logger = require('../utils/logger');
@@ -54,6 +55,8 @@ function getExtensionRunner(extension) {
       return metadata;
     case EXTENSION.CI_INFO:
       return ci_info;
+    case EXTENSION.AI_FAILURE_SUMMARY:
+      return ai_failure_summary;
     default:
       return require(extension.name);
   }
