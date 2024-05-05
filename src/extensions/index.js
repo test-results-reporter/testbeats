@@ -9,6 +9,7 @@ const metadata = require('./metadata');
 const ci_info = require('./ci-info');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
+const logger = require('../utils/logger');
 
 async function run(options) {
   const { target, result, hook } = options;
@@ -24,9 +25,9 @@ async function run(options) {
         try {
           await extension_runner.run(options);
         } catch (error) {
-          console.log('Failed to run extension');
-          console.log(extension);
-          console.log(error);
+          logger.error(`Failed to run extension: ${error.message}`);
+          logger.debug(`Extension details`, extension);
+          logger.debug(`Error: `, error);
         }
       }
     }

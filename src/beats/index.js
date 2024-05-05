@@ -1,6 +1,7 @@
 const request = require('phin-retry');
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { getCIInformation } = require('../helpers/ci');
+const logger = require('../utils/logger');
 
 function get_base_url() {
   return process.env.TEST_BEATS_URL || "https://app.testbeats.com";
@@ -18,7 +19,7 @@ async function run(config, result) {
       attachTestBeatsReportHyperLink(config, run_id);
     }
   } else {
-    console.warn('Missing testbeats config parameters');
+    logger.warn('Missing testbeats config parameters');
   }
 }
 
@@ -45,7 +46,7 @@ function isValid(config) {
  * @param {TestResult} result
  */
 async function publishTestResults(config, result) {
-  console.log("Publishing results to TestBeats");
+  logger.info("Publishing results to TestBeats Cloud...");
   try {
     const payload = {
       project: config.project,
@@ -64,10 +65,11 @@ async function publishTestResults(config, result) {
       },
       body: payload
     });
+    logger.info("Result published to TestBeats Cloud successfully!");
     return response.id;
   } catch (error) {
-    console.log("Unable to publish results to TestBeats");
-    console.log(error);
+    logger.error(`Unable to publish results to TestBeats Cloud: ${error.message}`);
+    logger.debug(error);
   }
 }
 
