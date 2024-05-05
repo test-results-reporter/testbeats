@@ -208,8 +208,8 @@ export interface CustomTargetInputs {
 
 export interface Target {
   name: TargetName;
-  condition: Condition;
-  inputs: SlackInputs | TeamsInputs | ChatInputs | CustomTargetInputs | InfluxDBTargetInputs;
+  condition?: Condition;
+  inputs?: SlackInputs | TeamsInputs | ChatInputs | CustomTargetInputs | InfluxDBTargetInputs;
   extensions?: Extension[];
 }
 

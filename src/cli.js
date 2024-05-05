@@ -2,12 +2,12 @@
 require('dotenv').config();
 
 const sade = require('sade');
- 
-const prog = sade('test-results-reporter');
+
+const prog = sade('testbeats');
 const publish = require('./commands/publish');
- 
+
 prog
-  .version('0.0.7')
+  .version('2.0.1')
   .option('-c, --config', 'Provide path to custom config', 'config.json');
 
 prog.command('publish')

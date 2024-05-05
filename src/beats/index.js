@@ -11,19 +11,41 @@ function get_base_url() {
  * @param {TestResult} result
  */
 async function run(config, result) {
-  if (config.project && config.run && config.api_key) {
+  init(config);
+  if (isValid(config)) {
     const run_id = await publishTestResults(config, result);
     if (run_id) {
       attachTestBeatsReportHyperLink(config, run_id);
     }
+  } else {
+    console.warn('Missing testbeats config parameters');
   }
 }
 
 /**
- * @param {import('../index').PublishReport} config 
+ *
+ * @param {import('../index').PublishReport} config
+ */
+function init(config) {
+  config.project = config.project || process.env.TEST_BEATS_PROJECT;
+  config.run = config.run || process.env.TEST_BEATS_RUN;
+  config.api_key = config.api_key || process.env.TEST_BEATS_API_KEY;
+}
+
+/**
+ *
+ * @param {import('../index').PublishReport} config
+ */
+function isValid(config) {
+  return config.project && config.run && config.api_key
+}
+
+/**
+ * @param {import('../index').PublishReport} config
  * @param {TestResult} result
  */
 async function publishTestResults(config, result) {
+  console.log("Publishing results to TestBeats");
   try {
     const payload = {
       project: config.project,
@@ -34,7 +56,7 @@ async function publishTestResults(config, result) {
     if (ci) {
       payload.ci_details = [ci];
     }
-    
+
     const response = await request.post({
       url: `${get_base_url()}/api/core/v1/test-runs`,
       headers: {
@@ -63,9 +85,9 @@ function attachTestBeatsReportHyperLink(config, run_id) {
 }
 
 /**
- * 
- * @param {string} run_id 
- * @returns 
+ *
+ * @param {string} run_id
+ * @returns
  */
 function get_test_beats_report_link(run_id) {
   return `${get_base_url()}/reports/${run_id}`;
