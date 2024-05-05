@@ -4,7 +4,7 @@ import { Schedule, User } from 'rosters';
 import { ParseOptions } from 'test-results-parser';
 import TestResult from 'test-results-parser/src/models/TestResult';
 
-export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom';
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom' | 'ai-failure-summary';
 export type Hook = 'start' | 'end' | 'after-summary';
 export type TargetName = 'slack' | 'teams' | 'chat' | 'custom' | 'delay';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
@@ -61,11 +61,15 @@ export interface CIInfoInputs extends ExtensionInputs {
   data?: Metadata[];
 }
 
+export interface AIFailureSummaryInputs extends ExtensionInputs {
+  failure_summary: string;
+}
+
 export interface Extension {
   name: ExtensionName;
   condition?: Condition;
   hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs | AIFailureSummaryInputs;
 }
 
 export interface PercyAnalysisInputs extends ExtensionInputs {
@@ -222,6 +226,7 @@ export interface PublishReport {
   api_key?: string;
   project?: string;
   run?: string;
+  show_failure_summary?: boolean;
   targets?: Target[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }

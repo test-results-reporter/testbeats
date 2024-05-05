@@ -20,6 +20,7 @@ const TARGET = Object.freeze({
 });
 
 const EXTENSION = Object.freeze({
+  AI_FAILURE_SUMMARY: 'ai-failure-summary',
   HYPERLINKS: 'hyperlinks',
   MENTIONS: 'mentions',
   REPORT_PORTAL_ANALYSIS: 'report-portal-analysis',

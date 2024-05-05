@@ -15,3 +15,28 @@ addInteractionHandler('post test results to beats', () => {
     }
   }
 });
+
+addInteractionHandler('get test results from beats', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'GET',
+      path: '/api/core/v1/test-runs/key',
+      queryParams: {
+        "id": "test-run-id"
+      }
+    },
+    response: {
+      status: 200,
+      body: {
+        id: 'test-run-id',
+        "failure_summary_status": "COMPLETED",
+        "execution_metrics": [
+          {
+            "failure_summary": "test failure summary"
+          }
+        ]
+      }
+    }
+  }
+});
