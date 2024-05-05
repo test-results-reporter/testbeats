@@ -1524,3 +1524,54 @@ addInteractionHandler('post test-summary with ci-info to teams', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary with beats to teams with ai failure summary', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "[❌ Default suite](http://localhost:9393/reports/test-run-id)",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES",
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "AI Failure Summary ✨",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "separator": true,
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "test failure summary",
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
