@@ -1,6 +1,7 @@
 const { getSuiteHistory, getLastLaunchByName, getLaunchDetails } = require('../helpers/report-portal');
 const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
 const { HOOK, STATUS } = require('../helpers/constants');
+const logger = require('../utils/logger');
 
 async function getLaunchHistory(extension) {
   const { inputs, outputs } = extension;
@@ -71,8 +72,8 @@ async function run({ extension, target, payload }) {
       }
     }
   } catch (error) {
-    console.log('Failed to get report portal history');
-    console.log(error);
+    logger.error(`Failed to get report portal history: ${error.message}`);
+    logger.debug(`Error: ${error}`);
   }
 }
 

@@ -5,6 +5,7 @@ const prp = require('performance-results-parser');
 const { processData } = require('../helpers/helper');
 const beats = require('../beats');
 const target_manager = require('../targets');
+const logger = require('../utils/logger');
 
 /**
  * @param {import('../index').PublishOptions} opts
@@ -35,6 +36,7 @@ async function run(opts) {
     validateConfig(config);
     await processReport(config);
   }
+  logger.info("Report successfully processed!")
 }
 
 /**
@@ -42,6 +44,7 @@ async function run(opts) {
  * @param {import('../index').PublishReport} report
  */
 async function processReport(report) {
+  logger.debug("processReport: Started")
   const parsed_results = [];
   for (const result_options of report.results) {
     if (result_options.type === 'custom') {
@@ -61,9 +64,10 @@ async function processReport(report) {
         await target_manager.run(target, result);
       }
     } else {
-      console.log('No targets defined, skipping sending results to targets');
+      logger.warn('No targets defined, skipping sending results to targets');
     }
   }
+  logger.debug("processReport: Ended")
 }
 
 /**
@@ -71,11 +75,13 @@ async function processReport(report) {
  * @param {import('../index').PublishReport} config
  */
 function validateConfig(config) {
+  logger.info("Validating publish configuration...")
   if (!config) {
     throw new Error('Missing publish config');
   }
   validateResults(config);
   validateTargets(config);
+  logger.info("Validating publish configuration sucessful")
 }
 
 /**
@@ -83,6 +89,7 @@ function validateConfig(config) {
  * @param {import('../index').PublishReport} config
  */
 function validateResults(config) {
+  logger.debug("Validating results...")
   if (!config.results) {
     throw new Error('Missing results properties in config');
   }
@@ -112,6 +119,7 @@ function validateResults(config) {
       }
     }
   }
+  logger.debug("Validating results - Successful!")
 }
 
 /**
@@ -119,8 +127,9 @@ function validateResults(config) {
  * @param {import('../index').PublishReport} config
  */
 function validateTargets(config) {
+  logger.debug("Validating targets...")
   if (!config.targets) {
-    console.warn('targets are not defined in config');
+    logger.warn('Targets are not defined in config');
     return;
   }
   if (!Array.isArray(config.targets)) {
@@ -150,6 +159,7 @@ function validateTargets(config) {
       }
     }
   }
+  logger.debug("Validating targets - Successful!")
 }
 
 module.exports = {
