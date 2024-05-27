@@ -4,6 +4,14 @@ const { publish } = require("../src");
 
 describe('TestBeats', () => {
 
+  beforeEach(() => {
+    process.env.TEST_BEATS_DELAY = '10';
+  });
+
+  afterEach(() => {
+    mock.clearInteractions();
+  });
+
   it('should send results to beats', async () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('post test-summary with beats to teams');
@@ -64,10 +72,6 @@ describe('TestBeats', () => {
     assert.equal(mock.getInteraction(id1).exercised, true);
     assert.equal(mock.getInteraction(id2).exercised, true);
     assert.equal(mock.getInteraction(id3).exercised, true);
-  });
-
-  afterEach(() => {
-    mock.clearInteractions();
   });
 
 });

@@ -2,6 +2,7 @@ const path = require('path');
 const trp = require('test-results-parser');
 const prp = require('performance-results-parser');
 
+const pkg = require('../../package.json');
 const { processData } = require('../helpers/helper');
 const beats = require('../beats');
 const target_manager = require('../targets');
@@ -11,6 +12,7 @@ const logger = require('../utils/logger');
  * @param {import('../index').PublishOptions} opts
  */
 async function run(opts) {
+  logger.info(`💡 TestBeats v${pkg.version}`);
   if (!opts) {
     throw new Error('Missing publish options');
   }
@@ -36,7 +38,7 @@ async function run(opts) {
     validateConfig(config);
     await processReport(config);
   }
-  logger.info("Report successfully processed!")
+  logger.info('✅ Results published successfully!');
 }
 
 /**
@@ -75,13 +77,12 @@ async function processReport(report) {
  * @param {import('../index').PublishReport} config
  */
 function validateConfig(config) {
-  logger.info("Validating publish configuration...")
+  logger.info("🛠️  Validating configuration...")
   if (!config) {
-    throw new Error('Missing publish config');
+    throw new Error('Missing configuration');
   }
   validateResults(config);
   validateTargets(config);
-  logger.info("Validating publish configuration sucessful")
 }
 
 /**
@@ -129,7 +130,7 @@ function validateResults(config) {
 function validateTargets(config) {
   logger.debug("Validating targets...")
   if (!config.targets) {
-    logger.warn('Targets are not defined in config');
+    logger.warn('⚠️ Targets are not defined in config');
     return;
   }
   if (!Array.isArray(config.targets)) {
