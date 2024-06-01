@@ -2,6 +2,8 @@ const { getCIInformation } = require('../helpers/ci');
 const logger = require('../utils/logger');
 const { BeatsApi } = require('./beats.api');
 const { HOOK } = require('../helpers/constants');
+const TestResult = require('test-results-parser/src/models/TestResult');
+const { BeatsAttachments } = require('./beats.attachments');
 
 class Beats {
 
@@ -22,6 +24,7 @@ class Beats {
     this.#setRunName();
     this.#setApiKey();
     await this.#publishTestResults();
+    await this.#uploadAttachments();
     this.#updateTitleLink();
     await this.#attachFailureSummary();
   }
@@ -67,6 +70,33 @@ class Beats {
       payload.ci_details = [this.ci];
     }
     return payload;
+  }
+
+  async #uploadAttachments() {
+    if (!this.test_run_id) {
+      return;
+    }
+    if (this.result.status !== 'FAIL') {
+      return;
+    }
+    try {
+      const attachments = new BeatsAttachments(this.config, this.result, this.test_run_id);
+      await attachments.upload();
+    } catch (error) {
+      logger.error(`❌ Unable to upload attachments: ${error.message}`, error);
+    }
+  }
+
+  #getAllFailedTestCases() {
+    const test_cases = [];
+    for (const suite of this.result.suites) {
+      for (const test of suite.cases) {
+        if (test.status === 'FAIL') {
+          test_cases.push(test);
+        }
+      }
+    }
+    return test_cases;
   }
 
   #updateTitleLink() {

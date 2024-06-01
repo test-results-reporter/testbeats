@@ -32,6 +32,17 @@ class BeatsApi {
     });
   }
 
+  uploadAttachments(headers, payload) {
+    return request.post({
+      url: `${this.getBaseUrl()}/api/core/v1/test-cases/attachments`,
+      headers: {
+        'x-api-key': this.config.api_key,
+        ...headers
+      },
+      body: payload
+    });
+  }
+
   getBaseUrl() {
     return process.env.TEST_BEATS_URL || "https://app.testbeats.com";
   }

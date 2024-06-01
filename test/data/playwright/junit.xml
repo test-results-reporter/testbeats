@@ -1,0 +1,76 @@
+<testsuites id="" name="" tests="4" failures="2" skipped="0" errors="0" time="10.297842000000001">
+	<testsuite name="example.spec.ts" timestamp="2024-05-21T13:09:23.747Z" hostname="chromium" tests="2" failures="1" skipped="0" time="5.908" errors="0">
+		<testcase name="has title" classname="example.spec.ts" time="0.475"></testcase>
+		<testcase name="get started link" classname="example.spec.ts" time="5.433">
+			<failure message="example.spec.ts:10:5 get started link" type="FAILURE">
+				<![CDATA[  [chromium] › example.spec.ts:10:5 › get started link ─────────────────────────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByRole('heading', { name: 'Installations' })
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - expect.toBeVisible with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Installations' })
+
+
+      15 |
+      16 |   // Expects page to have a heading with the name of Installation.
+    > 17 |   await expect(page.getByRole('heading', { name: 'Installations' })).toBeVisible();
+         |                                                                      ^
+      18 | });
+      19 |
+
+        at /Users/anudeep/Documents/my/repos/test-results-reporter/example-playwright-testbeats/tests/example.spec.ts:17:70
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/example-get-started-link-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+			</failure>
+			<system-out>
+				<![CDATA[
+[[ATTACHMENT|example-get-started-link-chromium/test-failed-1.png]]
+]]>
+			</system-out>
+		</testcase>
+	</testsuite>
+	<testsuite name="example.spec.ts" timestamp="2024-05-21T13:09:23.747Z" hostname="firefox" tests="2" failures="1" skipped="0" time="6.131" errors="0">
+		<testcase name="has title" classname="example.spec.ts" time="0.566"></testcase>
+		<testcase name="get started link" classname="example.spec.ts" time="5.565">
+			<failure message="example.spec.ts:10:5 get started link" type="FAILURE">
+				<![CDATA[  [firefox] › example.spec.ts:10:5 › get started link ──────────────────────────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByRole('heading', { name: 'Installations' })
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - expect.toBeVisible with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Installations' })
+
+
+      15 |
+      16 |   // Expects page to have a heading with the name of Installation.
+    > 17 |   await expect(page.getByRole('heading', { name: 'Installations' })).toBeVisible();
+         |                                                                      ^
+      18 | });
+      19 |
+
+        at /Users/anudeep/Documents/my/repos/test-results-reporter/example-playwright-testbeats/tests/example.spec.ts:17:70
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/example-get-started-link-firefox/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+			</failure>
+			<system-out>
+				<![CDATA[
+[[ATTACHMENT|example-get-started-link-firefox/test-failed-1.png]]
+]]>
+			</system-out>
+		</testcase>
+	</testsuite>
+</testsuites>
