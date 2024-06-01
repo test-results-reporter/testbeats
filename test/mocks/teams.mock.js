@@ -1575,3 +1575,16 @@ addInteractionHandler('post test-summary with beats to teams with ai failure sum
     }
   }
 });
+
+addInteractionHandler('post test-summary to teams with strict as false', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'POST',
+      path: '/message',
+    },
+    response: {
+      status: 200
+    }
+  }
+});

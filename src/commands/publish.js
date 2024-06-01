@@ -12,7 +12,7 @@ const logger = require('../utils/logger');
  * @param {import('../index').PublishOptions} opts
  */
 async function run(opts) {
-  logger.info(`💡 TestBeats v${pkg.version}`);
+  logger.info(`🥁 TestBeats v${pkg.version}`);
   if (!opts) {
     throw new Error('Missing publish options');
   }
@@ -46,7 +46,7 @@ async function run(opts) {
  * @param {import('../index').PublishReport} report
  */
 async function processReport(report) {
-  logger.debug("processReport: Started")
+  logger.info('🧙 Processing results...');
   const parsed_results = [];
   for (const result_options of report.results) {
     if (result_options.type === 'custom') {
@@ -66,10 +66,10 @@ async function processReport(report) {
         await target_manager.run(target, result);
       }
     } else {
-      logger.warn('No targets defined, skipping sending results to targets');
+      logger.warn('⚠️ No targets defined, skipping sending results to targets');
     }
   }
-  logger.debug("processReport: Ended")
+  logger.debug('✔️ Results processed successfully!');
 }
 
 /**
