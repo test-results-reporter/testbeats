@@ -249,7 +249,7 @@ export interface CommandLineOptions {
   config?: string;
   project?: string;
   run?: string;
-  api_key?: string;
+  'api-key'?: string;
   slack?: string;
   teams?: string;
   chat?: string;
