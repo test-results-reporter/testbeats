@@ -60,9 +60,12 @@ async function processReport(report) {
 
   for (let i = 0; i < parsed_results.length; i++) {
     const result = parsed_results[i];
+    const global_extensions = report.extensions || [];
     await beats.run(report, result);
     if (report.targets) {
       for (const target of report.targets) {
+        target.extensions = target.extensions || [];
+        target.extensions = global_extensions.concat(target.extensions);
         await target_manager.run(target, result);
       }
     } else {
