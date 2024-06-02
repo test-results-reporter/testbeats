@@ -228,6 +228,7 @@ export interface PublishReport {
   run?: string;
   show_failure_summary?: boolean;
   targets?: Target[];
+  extensions?: Extension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
 
@@ -236,6 +237,7 @@ export interface PublishConfig {
   project?: string;
   run?: string;
   targets?: Target[];
+  extensions?: Extension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
 
