@@ -1,7 +1,8 @@
-const cmd_publish = require('./commands/publish');
+const { PublishCommand } = require('./commands/publish.command');
 
 function publish(options) {
-  return cmd_publish.run(options);
+  const publish_command = new PublishCommand(options);
+  return publish_command.publish();
 }
 
 function defineConfig(config) {
