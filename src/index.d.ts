@@ -245,5 +245,25 @@ export interface PublishOptions {
   config: string | PublishConfig;
 }
 
+export interface CommandLineOptions {
+  config?: string;
+  project?: string;
+  run?: string;
+  api_key?: string;
+  slack?: string;
+  teams?: string;
+  chat?: string;
+  title?: string;
+  'ci-info'?: boolean;
+  'chart-test-summary'?: boolean;
+  junit?: string;
+  testng?: string;
+  cucumber?: string;
+  mocha?: string;
+  nunit?: string;
+  xunit?: string;
+  mstest?: string;
+}
+
 export function publish(options: PublishOptions): Promise<any>
 export function defineConfig(config: PublishConfig): PublishConfig
