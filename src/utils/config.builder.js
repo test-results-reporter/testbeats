@@ -16,6 +16,7 @@ class ConfigBuilder {
     }
 
     this.#buildConfig();
+    this.#buildBeats();
     this.#buildResults();
     this.#buildTargets();
     this.#buildExtensions();
@@ -26,6 +27,12 @@ class ConfigBuilder {
   #buildConfig() {
     /** @type {import('../index').PublishConfig}  */
     this.config = {};
+  }
+
+  #buildBeats() {
+    this.config.project = this.opts.project || this.config.project;
+    this.config.run = this.opts.run || this.config.run;
+    this.config.api_key = this.opts['api-key'] || this.config.api_key;
   }
 
   #buildResults() {
@@ -79,7 +86,7 @@ class ConfigBuilder {
 
   #addTarget(name, url) {
     this.config.targets = this.config.targets || [];
-    this.config.targets.push({ name, inputs: { url, title: this.opts.title || '' } })
+    this.config.targets.push({ name, inputs: { url, title: this.opts.title || '', only_failures: true } })
   }
 
   #buildExtensions() {
