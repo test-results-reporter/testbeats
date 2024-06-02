@@ -107,3 +107,6 @@ dist
 .idea
 
 .DS_STORE
+
+# test
+results
