@@ -35,5 +35,5 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: results
+        name: results-${{ matrix.os }}-${{ matrix.node-version }}
         path: results/
