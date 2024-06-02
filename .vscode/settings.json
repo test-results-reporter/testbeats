@@ -1,7 +1,10 @@
 {
   "cSpell.words": [
+    "mstest",
+    "nunit",
     "pactum",
     "testbeats",
-    "testng"
+    "testng",
+    "xunit"
   ]
 }

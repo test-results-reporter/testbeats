@@ -11,7 +11,7 @@
     "/src"
   ],
   "scripts": {
-    "test": "c8 mocha test",
+    "test": "c8 mocha test --reporter mocha-multi-reporters --reporter-options configFile=mocha.report.json",
     "build": "pkg --out-path dist ."
   },
   "repository": {
@@ -60,6 +60,8 @@
   "devDependencies": {
     "c8": "^7.12.0",
     "mocha": "^10.1.0",
+    "mocha-junit-reporter": "^2.2.1",
+    "mocha-multi-reporters": "^1.5.1",
     "pactum": "^3.2.3",
     "pkg": "^5.8.0"
   }

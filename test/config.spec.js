@@ -45,6 +45,38 @@ describe('Config', () => {
     assert.equal(e.message, 'Missing results properties in config');
   });
 
+  it('should not alow invalid results', async () => {
+    let e;
+    try {
+      await publish({
+        config: {
+          results: {}
+        }
+      });
+    } catch (err) {
+      e = err;
+    }
+    assert.equal(e.message, `'config.results' must be an array`);
+  });
+
+  it('should not alow custom type results with out result', async () => {
+    let e;
+    try {
+      await publish({
+        config: {
+          results: [
+            {
+              type: 'custom'
+            }
+          ]
+        }
+      });
+    } catch (err) {
+      e = err;
+    }
+    assert.equal(e.message, `custom 'config.results[*].result' is missing`);
+  });
+
   it('should not allow empty results', async () => {
     let e;
     try {
@@ -170,6 +202,57 @@ describe('Config', () => {
       e = err;
     }
     assert.equal(e.message, 'targets must be an array');
+  });
+
+  it('should not allow with missing target name', async () => {
+    let e;
+    try {
+      await publish({
+        config: {
+          targets: [{}],
+          results: [
+            {
+              "type": "testng",
+              "files": [
+                "test/data/testng/single-suite.xml"
+              ]
+            }
+          ]
+        }
+      });
+    } catch (err) {
+      e = err;
+    }
+    assert.equal(e.message, `'config.targets[*].name' is missing`);
+  });
+
+  it('should not allow with missing target url', async () => {
+    let e;
+    try {
+      await publish({
+        config: {
+          targets: [
+            {
+              name: 'slack',
+              inputs: {
+                url: {}
+              }
+            }
+          ],
+          results: [
+            {
+              "type": "testng",
+              "files": [
+                "test/data/testng/single-suite.xml"
+              ]
+            }
+          ]
+        }
+      });
+    } catch (err) {
+      e = err;
+    }
+    assert.equal(e.message, `url in slack target inputs must be a string`);
   });
 
   it('should not allow with invalid target inputs', async () => {
