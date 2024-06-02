@@ -65,6 +65,7 @@ class BeatsAttachments {
         }
         const attachments_subset = this.attachments.slice(i, i + size);
         const form = new FormData();
+        form.append('test_run_id', this.test_run_id);
         const file_images = []
         for (const attachment of attachments_subset) {
           const attachment_path = path.join(result_file_dir, attachment.path);
@@ -73,8 +74,7 @@ class BeatsAttachments {
             logger.warn(`⚠️ Attachment ${attachment.path} is too big (${stats.size} bytes). Allowed size is ${MAX_ATTACHMENT_SIZE} bytes.`);
             continue;
           }
-          form.append('images', fs.readFileSync(attachment_path));
-          form.append('test_run_id', this.test_run_id);
+          form.append('images', fs.readFileSync(attachment_path), { filename: path.basename(attachment_path), filepath: attachment_path });
           file_images.push({
             file_name: attachment.name,
             file_path: attachment.path,
