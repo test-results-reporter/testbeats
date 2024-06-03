@@ -13,6 +13,15 @@ describe('CLI', () => {
     });
   });
 
+  it('publish results with alias config param', (done) => {
+    mock.addInteraction('post test-summary to slack');
+    exec('node src/cli.js publish -c test/data/configs/slack.config.json', (error, stdout, stderr) => {
+      console.log(stdout);
+      assert.match(stdout, /✅ Results published successfully!/);
+      done();
+    });
+  });
+
   it('publish results with config builder', (done) => {
     mock.addInteraction('post test-summary to slack');
     exec('node src/cli.js publish --slack http://localhost:9393/message --testng test/data/testng/single-suite.xml', (error, stdout, stderr) => {
