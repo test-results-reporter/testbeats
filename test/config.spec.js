@@ -20,7 +20,7 @@ describe('Config', () => {
     } catch (err) {
       e = err;
     }
-    assert.equal(e.message, 'Missing publish config');
+    assert.equal(e.message, 'Missing results properties in config');
   });
 
   it('should not allow missing config file', async () => {

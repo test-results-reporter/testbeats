@@ -14,6 +14,9 @@ class ConfigBuilder {
     if (!this.opts) {
       return;
     }
+    if (typeof this.opts.config === 'object') {
+      return
+    }
     if (this.opts.config && typeof this.opts.config === 'string') {
       return;
     }
@@ -25,7 +28,7 @@ class ConfigBuilder {
     this.#buildTargets();
     this.#buildExtensions();
 
-    logger.info(`🛠️ Generated Config: \n${JSON.stringify(this.config, null, 2)}`);
+    logger.debug(`🛠️ Generated Config: \n${JSON.stringify(this.config, null, 2)}`);
 
     this.opts.config = this.config;
   }

@@ -3,6 +3,7 @@ const trp = require('test-results-parser');
 const prp = require('performance-results-parser');
 
 const beats = require('../beats');
+const { ConfigBuilder } = require('../utils/config.builder');
 const target_manager = require('../targets');
 const logger = require('../utils/logger');
 const { processData } = require('../helpers/helper');
@@ -19,6 +20,7 @@ class PublishCommand {
 
   async publish() {
     logger.info(`🥁 TestBeats v${pkg.version}`);
+    this.#buildConfig();
     this.#validateOptions();
     this.#setConfigFromFile();
     this.#processConfig();
@@ -26,6 +28,11 @@ class PublishCommand {
     this.#processResults();
     await this.#publishResults();
     logger.info('✅ Results published successfully!');
+  }
+
+  #buildConfig() {
+    const config_builder = new ConfigBuilder(this.opts);
+    config_builder.build();
   }
 
   #validateOptions() {

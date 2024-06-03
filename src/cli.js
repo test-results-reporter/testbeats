@@ -6,7 +6,6 @@ const sade = require('sade');
 const prog = sade('testbeats');
 const { PublishCommand } = require('./commands/publish.command');
 const logger = require('./utils/logger');
-const { ConfigBuilder } = require('./utils/config.builder');
 
 prog
   .version('2.0.3')
@@ -30,8 +29,6 @@ prog.command('publish')
   .action(async (opts) => {
     try {
       logger.setLevel(opts.logLevel);
-      const config_builder = new ConfigBuilder(opts);
-      config_builder.build();
       const publish_command = new PublishCommand(opts);
       await publish_command.publish();
     } catch (error) {
