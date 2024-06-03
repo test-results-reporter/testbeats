@@ -11,6 +11,7 @@ class ConfigBuilder {
   }
 
   build() {
+    logger.info(this.opts);
     if (!this.opts) {
       return;
     }
@@ -18,13 +19,14 @@ class ConfigBuilder {
       return;
     }
 
+    logger.info('🛠️  Building config...')
     this.#buildConfig();
     this.#buildBeats();
     this.#buildResults();
     this.#buildTargets();
     this.#buildExtensions();
 
-    logger.info(`🛠️ Generated Config: ${JSON.stringify(this.config, null, 2)}`);
+    logger.info(`🛠️ Generated Config: \n${JSON.stringify(this.config, null, 2)}`);
 
     this.opts.config = this.config;
   }
