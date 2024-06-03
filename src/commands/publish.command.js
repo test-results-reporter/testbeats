@@ -3,6 +3,7 @@ const trp = require('test-results-parser');
 const prp = require('performance-results-parser');
 
 const beats = require('../beats');
+const { ConfigBuilder } = require('../utils/config.builder');
 const target_manager = require('../targets');
 const logger = require('../utils/logger');
 const { processData } = require('../helpers/helper');
@@ -19,6 +20,7 @@ class PublishCommand {
 
   async publish() {
     logger.info(`🥁 TestBeats v${pkg.version}`);
+    this.#buildConfig();
     this.#validateOptions();
     this.#setConfigFromFile();
     this.#processConfig();
@@ -26,6 +28,11 @@ class PublishCommand {
     this.#processResults();
     await this.#publishResults();
     logger.info('✅ Results published successfully!');
+  }
+
+  #buildConfig() {
+    const config_builder = new ConfigBuilder(this.opts);
+    config_builder.build();
   }
 
   #validateOptions() {
@@ -42,8 +49,10 @@ class PublishCommand {
       const cwd = process.cwd();
       const file_path = path.join(cwd, this.opts.config);
       try {
-        this.opts.config = require(path.join(cwd, this.opts.config));
+        const config_json = require(path.join(cwd, this.opts.config));
+        this.opts.config = config_json;
       } catch (error) {
+        logger.error({ error }, `Failed to read config file: '${file_path}' with error: '${error.message}'`);
         throw new Error(`Config file not found: ${file_path}`);
       }
     }
@@ -63,7 +72,7 @@ class PublishCommand {
   }
 
   #validateConfig() {
-    logger.info("🛠️  Validating configuration...")
+    logger.info("🛠️ Validating configuration...")
     for (const config of this.configs) {
       this.#validateResults(config);
       this.#validateTargets(config);
