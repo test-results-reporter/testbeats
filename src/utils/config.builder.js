@@ -11,15 +11,14 @@ class ConfigBuilder {
   }
 
   build() {
-    logger.info(this.opts);
     if (!this.opts) {
       return;
     }
-    if (this.opts.config) {
+    if (this.opts.config && typeof this.opts.config === 'string') {
       return;
     }
 
-    logger.info('🛠️  Building config...')
+    logger.info('🏗 Building config...')
     this.#buildConfig();
     this.#buildBeats();
     this.#buildResults();

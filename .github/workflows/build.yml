@@ -27,7 +27,7 @@ jobs:
     - run: npm run test
       env:
         CI: true
-    - run: node src/cli.js publish --slack {SLACK_MVP_URL} --title 'Unit Tests' --ci-info --chart-test-summary --junit 'results/junit.xml'
+    - run: node src/cli.js publish --slack '{SLACK_MVP_URL}' --title 'Unit Tests' --ci-info --chart-test-summary --junit 'results/junit.xml'
       if: always()
       env:
         # TEST_BEATS_API_KEY: ${{ secrets.TEST_BEATS_API_KEY }}

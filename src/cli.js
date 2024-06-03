@@ -10,8 +10,8 @@ const { ConfigBuilder } = require('./utils/config.builder');
 
 prog
   .version('2.0.3')
-  .option('-c, --config', 'path to config file')
-  .option('-l, --logLevel', 'Log Level', "INFO")
+  .option('--config', 'path to config file')
+  .option('--logLevel', 'Log Level', "INFO")
   .option('--slack', 'slack webhook url')
   .option('--teams', 'teams webhook url')
   .option('--chat', 'chat webhook url')
