@@ -1,3 +1,6 @@
+const path = require('path');
+const logger = require('./logger');
+
 class ConfigBuilder {
 
   /**
@@ -20,6 +23,8 @@ class ConfigBuilder {
     this.#buildResults();
     this.#buildTargets();
     this.#buildExtensions();
+
+    logger.info(`🛠️ Generated Config: ${JSON.stringify(this.config, null, 2)}`);
 
     this.opts.config = this.config;
   }
@@ -67,7 +72,7 @@ class ConfigBuilder {
     this.config.results = [
       {
         type,
-        files: [file]
+        files: [path.join(file)]
       }
     ]
   }
