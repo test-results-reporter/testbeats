@@ -8,9 +8,9 @@ const { PublishCommand } = require('./commands/publish.command');
 const logger = require('./utils/logger');
 
 prog
-  .version('2.0.3')
-  .option('--config', 'path to config file')
-  .option('--logLevel', 'Log Level', "INFO")
+  .version('2.0.4')
+  .option('-c, --config', 'path to config file')
+  .option('-l, --logLevel', 'Log Level', "INFO")
   .option('--slack', 'slack webhook url')
   .option('--teams', 'teams webhook url')
   .option('--chat', 'chat webhook url')
