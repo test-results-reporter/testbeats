@@ -42,8 +42,10 @@ class PublishCommand {
       const cwd = process.cwd();
       const file_path = path.join(cwd, this.opts.config);
       try {
-        this.opts.config = require(path.join(cwd, this.opts.config));
+        const config_json = require(path.join(cwd, this.opts.config));
+        this.opts.config = config_json;
       } catch (error) {
+        logger.error({ error }, `Failed to read config file: '${file_path}' with error: '${error.message}'`);
         throw new Error(`Config file not found: ${file_path}`);
       }
     }
