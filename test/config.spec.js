@@ -30,7 +30,7 @@ describe('Config', () => {
     } catch (err) {
       e = err;
     }
-    assert.match(e.message, /Config file not found:/);
+    assert.match(e.message, /Failed to read config file:/);
   });
 
   it('should not allow empty config', async () => {

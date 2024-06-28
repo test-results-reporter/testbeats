@@ -13,6 +13,8 @@
 ![Downloads](https://img.shields.io/npm/dt/test-results-reporter?logo=npm&label=downloads-old)
 ![Downloads](https://img.shields.io/npm/dt/testbeats?logo=npm)
 ![Size](https://img.shields.io/bundlephobia/minzip/testbeats)
+![NodeJs](https://img.shields.io/badge/NodeJS-%3E%3D14.0.0-brightgreen?logo=node.js)
+
 
 [![Stars](https://img.shields.io/github/stars/test-results-reporter/testbeats?style=social)](https://github.com/test-results-reporter/testbeats/stargazers)
 ![Downloads](https://img.shields.io/github/downloads/test-results-reporter/testbeats/total?logo=github)
