@@ -8,6 +8,7 @@ const target_manager = require('../targets');
 const logger = require('../utils/logger');
 const { processData } = require('../helpers/helper');
 const pkg = require('../../package.json');
+const {checkEnvDetails} = require('../helpers/helper');
 
 class PublishCommand {
 
@@ -20,6 +21,11 @@ class PublishCommand {
 
   async publish() {
     logger.info(`🥁 TestBeats v${pkg.version}`);
+
+    const envDetails = checkEnvDetails();
+    // Check OS and NodeJS version
+    logger.info(`💻 ${envDetails}`);
+
     this.#buildConfig();
     this.#validateOptions();
     this.#setConfigFromFile();
@@ -52,8 +58,7 @@ class PublishCommand {
         const config_json = require(path.join(cwd, this.opts.config));
         this.opts.config = config_json;
       } catch (error) {
-        logger.error({ error }, `Failed to read config file: '${file_path}' with error: '${error.message}'`);
-        throw new Error(`Config file not found: ${file_path}`);
+        throw new Error(`Failed to read config file: '${file_path}' with error: '${error.message}'`);
       }
     }
   }
@@ -72,7 +77,7 @@ class PublishCommand {
   }
 
   #validateConfig() {
-    logger.info("🛠️ Validating configuration...")
+    logger.info("🛠️  Validating configuration...")
     for (const config of this.configs) {
       this.#validateResults(config);
       this.#validateTargets(config);

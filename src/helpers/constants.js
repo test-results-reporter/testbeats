@@ -37,10 +37,13 @@ const URLS = Object.freeze({
   QUICK_CHART: 'https://quickchart.io'
 });
 
+const MIN_NODE_VERSION = '14.0.0'
+
 module.exports = Object.freeze({
   STATUS,
   HOOK,
   TARGET,
   EXTENSION,
-  URLS
+  URLS,
+  MIN_NODE_VERSION
 });

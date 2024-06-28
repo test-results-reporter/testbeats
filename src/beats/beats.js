@@ -47,7 +47,7 @@ class Beats {
 
   async #publishTestResults() {
     if (!this.config.api_key) {
-      logger.warn('😿 No API key provided, skipping publishing results to TestBeats Portal');
+      logger.warn('😿 No API key provided, skipping publishing results to TestBeats Portal...');
       return;
     }
     logger.info("🚀 Publishing results to TestBeats Portal...");
