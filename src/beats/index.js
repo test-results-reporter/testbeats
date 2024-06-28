@@ -1,6 +1,5 @@
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { Beats } = require('./beats');
-const logger = require('../utils/logger');
 
 /**
  * @param {import('../index').PublishReport} config
