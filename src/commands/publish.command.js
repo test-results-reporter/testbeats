@@ -77,7 +77,7 @@ class PublishCommand {
   }
 
   #validateConfig() {
-    logger.info("🛠️  Validating configuration...")
+    logger.info("🛠️ Validating configuration...")
     for (const config of this.configs) {
       this.#validateResults(config);
       this.#validateTargets(config);
