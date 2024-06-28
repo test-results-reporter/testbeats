@@ -63,7 +63,7 @@ class PublishCommand {
     /**@type {import('../index').PublishConfig[]} */
     this.configs = [];
     if (processed_config.reports) {
-      for (const report of config.reports) {
+      for (const report of processed_config.reports) {
         this.configs.push(report);
       }
     } else {
