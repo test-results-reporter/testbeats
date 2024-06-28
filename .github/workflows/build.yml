@@ -6,11 +6,6 @@ on:
      - 'README.md'
     branches:
       - main
-  push:
-    paths-ignore:
-     - 'README.md'
-    branches:
-      - main
 
 jobs:
   build:
@@ -20,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        node-version: [18.x, 20.x]
+        node-version: [20.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -32,3 +27,13 @@ jobs:
     - run: npm run test
       env:
         CI: true
+    - run: node src/cli.js publish --slack '{SLACK_MVP_URL}' --title 'Unit Tests' --ci-info --chart-test-summary --junit 'results/junit.xml'
+      if: always()
+      env:
+        TEST_BEATS_API_KEY: ${{ secrets.TEST_BEATS_API_KEY }}
+        SLACK_MVP_URL: ${{ secrets.SLACK_MVP_URL }}
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: results-${{ matrix.os }}-${{ matrix.node-version }}
+        path: results/

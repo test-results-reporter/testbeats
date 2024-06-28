@@ -228,6 +228,7 @@ export interface PublishReport {
   run?: string;
   show_failure_summary?: boolean;
   targets?: Target[];
+  extensions?: Extension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
 
@@ -236,11 +237,32 @@ export interface PublishConfig {
   project?: string;
   run?: string;
   targets?: Target[];
+  extensions?: Extension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
 
 export interface PublishOptions {
   config: string | PublishConfig;
+}
+
+export interface CommandLineOptions {
+  config?: string;
+  project?: string;
+  run?: string;
+  'api-key'?: string;
+  slack?: string;
+  teams?: string;
+  chat?: string;
+  title?: string;
+  'ci-info'?: boolean;
+  'chart-test-summary'?: boolean;
+  junit?: string;
+  testng?: string;
+  cucumber?: string;
+  mocha?: string;
+  nunit?: string;
+  xunit?: string;
+  mstest?: string;
 }
 
 export function publish(options: PublishOptions): Promise<any>

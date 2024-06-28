@@ -1,4 +1,4 @@
-> !IMPORTANT - This npm package has been renamed from [test-results-reporter](https://www.npmjs.com/package/test-results-reporter) to [testbeats](https://www.npmjs.com/package/testbeats). test-results-reporter will soon be phased out, and users are encouraged to transition to testbeats.
+> This npm package has been renamed from [test-results-reporter](https://www.npmjs.com/package/test-results-reporter) to [testbeats](https://www.npmjs.com/package/testbeats). test-results-reporter will soon be phased out, and users are encouraged to transition to testbeats.
 
 <span align="center">
 
@@ -19,35 +19,23 @@
 
 <hr>
 
-### Targets
-
-<img height="48" style="margin: 6px;" src="./assets/slack.png" alt="slack" /> <img height="48" style="margin: 6px;"  src="./assets/teams.png" alt="teams" /> <img height="48" style="margin: 6px;"  src="./assets/chat.png" alt="chat" />
-
-### Extensions
-
-<img height="48" style="margin: 6px;" src="./assets/reportportal.jpeg" alt="reportportal" /> <img height="48" style="margin: 6px;"  src="./assets/quickchart.png" alt="quickchart" /> <img height="48" style="margin: 6px;"  src="./assets/hyperlink.png" alt="hyperlink" /> <img height="48" style="margin: 6px;"  src="./assets/mentions.png" alt="mentions" />
-
-### Test Results
-
-<img height="48" style="margin: 6px;" src="./assets/testng.png" alt="testng" /> <img height="48" style="margin: 6px;"  src="./assets/junit.png" alt="junit" /> <img height="48" style="margin: 6px;"  src="./assets/cucumber.png" alt="cucumber" /> <img height="48" style="margin: 6px;"  src="./assets/mocha.png" alt="mocha" /> <img height="48" style="margin: 6px;"  src="./assets/xunit.png" alt="xunit" /> <img height="48" style="margin: 6px;"  src="./assets/jmeter.png" alt="jmeter" />
-
-<hr>
-
-## Sample Reports
-
-<br>
-
-![teams-summary-report](https://github.com/test-results-reporter/testbeats/raw/main/assets/teams-qc.png)
-
-![slack-summary-report](https://github.com/test-results-reporter/testbeats/raw/main/assets/slack-report-portal-analysis.png)
-
-<br />
-
-<hr >
-
-# [Documentation](https://test-results-reporter.github.io/)
-
 </span>
+
+### Get Started
+
+TestBeats is a tool designed to streamline the process of publishing test results from various automation testing frameworks to communication platforms like **slack**, **teams** and more for easy access and collaboration. It unifies your test reporting to build quality insights and make faster decisions.
+
+Read more about the project at [https://testbeats.com](https://testbeats.com)
+
+### Sample Reports
+
+#### Alerts in Slack
+
+![testbeats-failure-summary](./assets/testbeats-slack-failure-summary.png)
+
+#### Results in Portal
+
+![testbeats-failure-summary](./assets/testbeats-failure-summary.png)
 
 <br />
 

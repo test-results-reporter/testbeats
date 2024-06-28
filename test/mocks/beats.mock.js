@@ -1,4 +1,5 @@
 const { addInteractionHandler } = require('pactum').handler;
+const { like, includes } = require('pactum-matchers');
 
 addInteractionHandler('post test results to beats', () => {
   return {
@@ -40,3 +41,16 @@ addInteractionHandler('get test results from beats', () => {
     }
   }
 });
+
+addInteractionHandler('upload attachments', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'POST',
+      path: '/api/core/v1/test-cases/attachments',
+    },
+    response: {
+      status: 200,
+    }
+  }
+})
