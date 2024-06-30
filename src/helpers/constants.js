@@ -21,6 +21,7 @@ const TARGET = Object.freeze({
 
 const EXTENSION = Object.freeze({
   AI_FAILURE_SUMMARY: 'ai-failure-summary',
+  SMART_ANALYSIS: 'smart-analysis',
   HYPERLINKS: 'hyperlinks',
   MENTIONS: 'mentions',
   REPORT_PORTAL_ANALYSIS: 'report-portal-analysis',
@@ -37,7 +38,7 @@ const URLS = Object.freeze({
   QUICK_CHART: 'https://quickchart.io'
 });
 
-const MIN_NODE_VERSION = '14.0.0'
+const MIN_NODE_VERSION = 14;
 
 module.exports = Object.freeze({
   STATUS,

@@ -16,6 +16,7 @@ class Beats {
     this.result = result;
     this.api = new BeatsApi(config);
     this.test_run_id = '';
+    this.test_run = null;
   }
 
   async publish() {
@@ -27,6 +28,7 @@ class Beats {
     await this.#uploadAttachments();
     this.#updateTitleLink();
     await this.#attachFailureSummary();
+    await this.#attachSmartAnalysis();
   }
 
   #setCIInfo() {
@@ -125,38 +127,44 @@ class Beats {
     if (this.config.show_failure_summary === false) {
       return;
     }
-    const text = await this.#getFailureSummary();
-    if (!text) {
-      return;
-    }
-    const extension = this.#getAIFailureSummaryExtension(text);
-    for (const target of this.config.targets) {
-      target.extensions = target.extensions || [];
-      target.extensions.push(extension);
+    try {
+      logger.info('✨ Fetching AI Failure Summary...');
+      await this.#setTestRun(' AI Failure Summary', 'failure_summary_status');
+      this.config.extensions.push({
+        name: 'ai-failure-summary',
+        hook: HOOK.AFTER_SUMMARY,
+        inputs: {
+          data: this.test_run
+        }
+      });
+    } catch (error) {
+      logger.error(`❌ Unable to attach failure summary: ${error.message}`, error);
     }
   }
 
-  async #getFailureSummary() {
-    logger.info('✨ Fetching AI Failure Summary...');
-    let retry = 3;
-    while (retry >= 0) {
-      retry = retry - 1;
-      await new Promise(resolve => setTimeout(resolve, this.#getDelay()));
-      const test_run = await this.api.getTestRun(this.test_run_id);
-      const status = test_run && test_run.failure_summary_status;
-      switch (status) {
-        case 'COMPLETED':
-          return test_run.execution_metrics[0].failure_summary;
-        case 'FAILED':
-          logger.error(`❌ Failed to generate AI Failure Summary`);
-          return;
-        case 'SKIPPED':
-          logger.warn(`❗ Skipped generating AI Failure Summary`);
-          return;
-      }
-      logger.info(`🔄 AI Failure Summary not generated, retrying...`);
+  async #attachSmartAnalysis() {
+    if (!this.test_run_id) {
+      return;
     }
-    logger.warn(`🙈 AI Failure Summary not generated in given time`);
+    if (!this.config.targets) {
+      return;
+    }
+    if (this.config.show_smart_analysis === false) {
+      return;
+    }
+    try {
+      logger.info('🤓 Fetching Smart Analysis...');
+      await this.#setTestRun('Smart Analysis', 'smart_analysis_status');
+      this.config.extensions.push({
+        name: 'smart-analysis',
+        hook: HOOK.AFTER_SUMMARY,
+        inputs: {
+          data: this.test_run
+        }
+      });
+    } catch (error) {
+      logger.error(`❌ Unable to attach smart analysis: ${error.message}`, error);
+    }
   }
 
   #getDelay() {
@@ -166,14 +174,30 @@ class Beats {
     return 3000;
   }
 
-  #getAIFailureSummaryExtension(text) {
-    return {
-      name: 'ai-failure-summary',
-      hook: HOOK.AFTER_SUMMARY,
-      inputs: {
-        failure_summary: text
+  async #setTestRun(text, wait_for = 'smart_analysis_status') {
+    if (this.test_run && this.test_run[wait_for] === 'COMPLETED') {
+      return;
+    }
+    let retry = 3;
+    while (retry >= 0) {
+      retry = retry - 1;
+      await new Promise(resolve => setTimeout(resolve, this.#getDelay()));
+      this.test_run = await this.api.getTestRun(this.test_run_id);
+      const status = this.test_run && this.test_run[wait_for];
+      switch (status) {
+        case 'COMPLETED':
+          logger.debug(`☑️ ${text} generated successfully`);
+          return;
+        case 'FAILED':
+          logger.error(`❌ Failed to generate ${text}`);
+          return;
+        case 'SKIPPED':
+          logger.warn(`❗ Skipped generating ${text}`);
+          return;
       }
-    };
+      logger.info(`🔄 ${text} not generated, retrying...`);
+    }
+    logger.warn(`🙈 ${text} not generated in given time`);
   }
 
 }

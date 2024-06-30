@@ -1,6 +1,7 @@
 const path = require('path');
 const trp = require('test-results-parser');
 const prp = require('performance-results-parser');
+const os = require('os');
 
 const beats = require('../beats');
 const { ConfigBuilder } = require('../utils/config.builder');
@@ -8,7 +9,7 @@ const target_manager = require('../targets');
 const logger = require('../utils/logger');
 const { processData } = require('../helpers/helper');
 const pkg = require('../../package.json');
-const {checkEnvDetails} = require('../helpers/helper');
+const { MIN_NODE_VERSION } = require('../helpers/constants');
 
 class PublishCommand {
 
@@ -22,10 +23,7 @@ class PublishCommand {
   async publish() {
     logger.info(`🥁 TestBeats v${pkg.version}`);
 
-    const envDetails = checkEnvDetails();
-    // Check OS and NodeJS version
-    logger.info(`💻 ${envDetails}`);
-
+    this.#validateEnvDetails();
     this.#buildConfig();
     this.#validateOptions();
     this.#setConfigFromFile();
@@ -34,6 +32,20 @@ class PublishCommand {
     this.#processResults();
     await this.#publishResults();
     logger.info('✅ Results published successfully!');
+  }
+
+  #validateEnvDetails() {
+    try {
+      const current_major_version = parseInt(process.version.split('.')[0].replace('v', ''));
+      if (current_major_version >= MIN_NODE_VERSION) {
+        logger.info(`💻 NodeJS: ${process.version}, OS: ${os.platform()}, Version: ${os.release()}, Arch: ${os.machine()}`);
+        return;
+      }
+    } catch (error) {
+      logger.warn(`⚠️ Unable to verify NodeJS version: ${error.message}`);
+      return;
+    }
+    throw new Error(`❌ Supported NodeJS version is >= v${MIN_NODE_VERSION}. Current version is ${process.version}`)
   }
 
   #buildConfig() {
@@ -77,7 +89,7 @@ class PublishCommand {
   }
 
   #validateConfig() {
-    logger.info("🛠️ Validating configuration...")
+    logger.info("🚓 Validating configuration...")
     for (const config of this.configs) {
       this.#validateResults(config);
       this.#validateTargets(config);
@@ -182,12 +194,12 @@ class PublishCommand {
     for (const config of this.configs) {
       for (let i = 0; i < this.results.length; i++) {
         const result = this.results[i];
-        const global_extensions = config.extensions || [];
+        config.extensions = config.extensions || [];
         await beats.run(config, result);
         if (config.targets) {
           for (const target of config.targets) {
             target.extensions = target.extensions || [];
-            target.extensions = global_extensions.concat(target.extensions);
+            target.extensions = config.extensions.concat(target.extensions);
             await target_manager.run(target, result);
           }
         } else {

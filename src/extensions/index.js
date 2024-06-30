@@ -7,7 +7,8 @@ const percy_analysis = require('./percy-analysis');
 const custom = require('./custom');
 const metadata = require('./metadata');
 const ci_info = require('./ci-info');
-const ai_failure_summary = require('./ai-failure-summary');
+const { AIFailureSummaryExtension } = require('./ai-failure-summary.extension');
+const { SmartAnalysisExtension } = require('./smart-analysis.extension');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 const logger = require('../utils/logger');
@@ -17,7 +18,7 @@ async function run(options) {
   const extensions = target.extensions || [];
   for (let i = 0; i < extensions.length; i++) {
     const extension = extensions[i];
-    const extension_runner = getExtensionRunner(extension);
+    const extension_runner = getExtensionRunner(extension, options);
     const extension_options = Object.assign({}, extension_runner.default_options, extension);
     if (extension_options.hook === hook) {
       if (await checkCondition({ condition: extension_options.condition, result, target, extension })) {
@@ -35,7 +36,7 @@ async function run(options) {
   }
 }
 
-function getExtensionRunner(extension) {
+function getExtensionRunner(extension, options) {
   switch (extension.name) {
     case EXTENSION.HYPERLINKS:
       return hyperlinks;
@@ -56,7 +57,9 @@ function getExtensionRunner(extension) {
     case EXTENSION.CI_INFO:
       return ci_info;
     case EXTENSION.AI_FAILURE_SUMMARY:
-      return ai_failure_summary;
+      return new AIFailureSummaryExtension(options.target, extension, options.result, options.payload, options.root_payload);
+    case EXTENSION.SMART_ANALYSIS:
+      return new SmartAnalysisExtension(options.target, extension, options.result, options.payload, options.root_payload);
     default:
       return require(extension.name);
   }
