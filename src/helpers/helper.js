@@ -1,7 +1,4 @@
 const pretty_ms = require('pretty-ms');
-const os = require('os');
-const semver = require('semver');
-const {MIN_NODE_VERSION } = require('./constants');
 
 const DATA_REF_PATTERN = /(\{[^\}]+\})/g;
 const ALLOWED_CONDITIONS = new Set(['pass', 'fail', 'passorfail']);
@@ -34,7 +31,7 @@ function processText(raw) {
   return raw;
 }
 
-/** 
+/**
  * @returns {import('../index').PublishConfig }
  */
 function processData(data) {
@@ -75,21 +72,9 @@ function getResultText({ result }) {
 }
 
 /**
- * Checks Environment/System details
- * OS Version, NodeJS Version
- */
-function checkEnvDetails() {
-  if (!semver.gte(process.version, MIN_NODE_VERSION)) {
-    throw new Error(`❌ Supported NodeJS version is >= v${MIN_NODE_VERSION}. Current version is ${process.version}`)
-  }
-  
-  return `Environment Details - NodeJS ${process.version}, OS: ${os.platform()}, Version: ${os.release()}, arch: ${os.machine()}`
-}
-
-/**
- * 
+ *
  * @param {object} param0
- * @param {string | Function} param0.condition 
+ * @param {string | Function} param0.condition
  */
 async function checkCondition({ condition, result, target, extension }) {
   if (typeof condition === 'function') {
@@ -114,5 +99,4 @@ module.exports = {
   getTitleText,
   getResultText,
   checkCondition,
-  checkEnvDetails,
 }
