@@ -42,6 +42,7 @@ describe('CLI', () => {
 
   it('publish results to beats',  (done) => {
     mock.addInteraction('post test results to beats');
+    // mock.addInteraction('get test results from beats');
     mock.addInteraction('post test-summary with beats to teams');
     exec('node src/cli.js publish --api-key api-key --project project-name --run build-name --teams http://localhost:9393/message --testng test/data/testng/single-suite.xml', (error, stdout, stderr) => {
       console.log(stdout);

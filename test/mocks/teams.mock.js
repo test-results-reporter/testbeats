@@ -1576,6 +1576,57 @@ addInteractionHandler('post test-summary with beats to teams with ai failure sum
   }
 });
 
+addInteractionHandler('post test-summary with beats to teams with ai failure summary and smart analysis', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "[❌ Default suite](http://localhost:9393/reports/test-run-id)",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES",
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Smart Analysis",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "separator": true,
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "🚫 AF: 1 ｜ ⭕ NF: 1 ｜ ❄️ FL: 1 ｜ 🟢 RC: 1",
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post test-summary to teams with strict as false', () => {
   return {
     strict: false,

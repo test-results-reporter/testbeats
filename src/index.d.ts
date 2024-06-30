@@ -25,6 +25,7 @@ export interface ExtensionInputs {
   title?: string;
   title_link?: string;
   separator?: boolean;
+  data?: any;
 }
 
 export interface ReportPortalAnalysisInputs extends ExtensionInputs {
@@ -227,6 +228,7 @@ export interface PublishReport {
   project?: string;
   run?: string;
   show_failure_summary?: boolean;
+  show_smart_analysis?: boolean;
   targets?: Target[];
   extensions?: Extension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
@@ -263,6 +265,11 @@ export interface CommandLineOptions {
   nunit?: string;
   xunit?: string;
   mstest?: string;
+}
+
+export type IExtensionDefaultOptions = {
+  hook: Hook
+  condition: Condition
 }
 
 export function publish(options: PublishOptions): Promise<any>

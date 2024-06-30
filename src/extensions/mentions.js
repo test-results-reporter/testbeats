@@ -87,7 +87,7 @@ function setPayloadWithMSTeamsEntities(payload) {
 }
 
 const default_options = {
-  hook: HOOK.END,
+  hook: HOOK.AFTER_SUMMARY,
   condition: STATUS.FAIL
 }
 

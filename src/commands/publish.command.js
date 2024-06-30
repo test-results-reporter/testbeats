@@ -194,12 +194,12 @@ class PublishCommand {
     for (const config of this.configs) {
       for (let i = 0; i < this.results.length; i++) {
         const result = this.results[i];
-        const global_extensions = config.extensions || [];
+        config.extensions = config.extensions || [];
         await beats.run(config, result);
         if (config.targets) {
           for (const target of config.targets) {
             target.extensions = target.extensions || [];
-            target.extensions = global_extensions.concat(target.extensions);
+            target.extensions = config.extensions.concat(target.extensions);
             await target_manager.run(target, result);
           }
         } else {
