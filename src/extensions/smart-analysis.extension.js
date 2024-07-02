@@ -39,13 +39,13 @@ class SmartAnalysisExtension extends BaseExtension {
 
     const smart_analysis = [];
     if (execution_metrics.always_failing) {
-      smart_analysis.push(`🚫 AF: ${execution_metrics.always_failing}`);
+      smart_analysis.push(`🔴 AF: ${execution_metrics.always_failing}`);
     }
     if (execution_metrics.newly_failed) {
       smart_analysis.push(`⭕ NF: ${execution_metrics.newly_failed}`);
     }
     if (execution_metrics.flaky) {
-      smart_analysis.push(`❄️ FL: ${execution_metrics.flaky}`);
+      smart_analysis.push(`🟡 FL: ${execution_metrics.flaky}`);
     }
     if (execution_metrics.recovered) {
       smart_analysis.push(`🟢 RC: ${execution_metrics.recovered}`);
