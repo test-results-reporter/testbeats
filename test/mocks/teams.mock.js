@@ -1611,7 +1611,7 @@ addInteractionHandler('post test-summary with beats to teams with ai failure sum
                 },
                 {
                   "type": "TextBlock",
-                  "text": "🚫 AF: 1 ｜ ⭕ NF: 1 ｜ ❄️ FL: 1 ｜ 🟢 RC: 1",
+                  "text": "🔴 AF: 1 ｜ ⭕ NF: 1 ｜ 🟡 FL: 1 ｜ 🟢 RC: 1",
                   "wrap": true
                 }
               ],
