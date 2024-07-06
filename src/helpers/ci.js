@@ -1,5 +1,8 @@
 const ENV = process.env;
 
+/**
+ * @returns {import('../extensions/extensions').ICIInfo}
+ */
 function getCIInformation() {
   if (ENV.GITHUB_ACTIONS) {
     return getGitHubActionsInformation();

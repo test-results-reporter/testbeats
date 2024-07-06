@@ -6,9 +6,9 @@ const qc_test_summary = require('./quick-chart-test-summary');
 const percy_analysis = require('./percy-analysis');
 const custom = require('./custom');
 const metadata = require('./metadata');
-const ci_info = require('./ci-info');
 const { AIFailureSummaryExtension } = require('./ai-failure-summary.extension');
 const { SmartAnalysisExtension } = require('./smart-analysis.extension');
+const { CIInfoExtension } = require('./ci-info.extension');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 const logger = require('../utils/logger');
@@ -55,7 +55,7 @@ function getExtensionRunner(extension, options) {
     case EXTENSION.METADATA:
       return metadata;
     case EXTENSION.CI_INFO:
-      return ci_info;
+      return new CIInfoExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.AI_FAILURE_SUMMARY:
       return new AIFailureSummaryExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.SMART_ANALYSIS:

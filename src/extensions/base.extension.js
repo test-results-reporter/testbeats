@@ -50,7 +50,7 @@ class BaseExtension {
 
   attach() {
     if (!this.text) {
-      logger.warn(`⚠️ Extension '${this.extension.name}' has no text. Skipping.`);
+      logger.debug(`⚠️ Extension '${this.extension.name}' has no text. Skipping.`);
       return;
     }
 
@@ -64,6 +64,23 @@ class BaseExtension {
       case 'chat':
         addChatExtension({ payload: this.payload, extension: this.extension, text: this.text });
         break;
+      default:
+        break;
+    }
+  }
+
+  /**
+   * @param {string[]} texts
+   */
+  mergeTexts(texts) {
+    const _texts = texts.filter(text => !!text);
+    switch (this.target.name) {
+      case 'teams':
+        return _texts.join('\n\n');
+      case 'slack':
+        return _texts.join('\n');
+      case 'chat':
+        return _texts.join('<br>');
       default:
         break;
     }

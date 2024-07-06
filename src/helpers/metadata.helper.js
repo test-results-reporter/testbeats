@@ -1,4 +1,17 @@
-const { checkCondition } = require('./helper')
+const { checkCondition } = require('./helper');
+
+function getMetaDataText(params) {
+  switch (params.target.name) {
+    case 'teams':
+      return getTeamsMetaDataText(params);
+    case 'slack':
+      return getSlackMetaDataText(params);
+    case 'chat':
+      return getChatMetaDataText(params);
+    default:
+      return '';
+  }
+}
 
 /**
  * Asynchronously generates metadata text for slack.
@@ -109,6 +122,7 @@ function get_url({ url, target, extension, result}) {
 }
 
 module.exports = {
+  getMetaDataText,
   getSlackMetaDataText,
   getTeamsMetaDataText,
   getChatMetaDataText
