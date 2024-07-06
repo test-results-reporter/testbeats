@@ -4,6 +4,7 @@ export type IBeatExecutionMetric = {
   updated_at: string
   newly_failed: number
   always_failing: number
+  recurring_failures: number
   recovered: number
   added: number
   removed: number
