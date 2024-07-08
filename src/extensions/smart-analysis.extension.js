@@ -38,14 +38,14 @@ class SmartAnalysisExtension extends BaseExtension {
     const execution_metrics = data.execution_metrics[0];
 
     const smart_analysis = [];
-    if (execution_metrics.always_failing) {
-      smart_analysis.push(`🔴 AF: ${execution_metrics.always_failing}`);
-    }
     if (execution_metrics.newly_failed) {
       smart_analysis.push(`⭕ NF: ${execution_metrics.newly_failed}`);
     }
+    if (execution_metrics.always_failing) {
+      smart_analysis.push(`🔴 AF: ${execution_metrics.always_failing}`);
+    }
     if (execution_metrics.recurring_failures) {
-      smart_analysis.push(`🔺 RF: ${execution_metrics.recurring_failures}`);
+      smart_analysis.push(`🟠 RF: ${execution_metrics.recurring_failures}`);
     }
     if (execution_metrics.flaky) {
       smart_analysis.push(`🟡 FL: ${execution_metrics.flaky}`);
