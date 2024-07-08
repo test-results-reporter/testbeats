@@ -7,6 +7,9 @@ function getCIInformation() {
   if (ENV.GITHUB_ACTIONS) {
     return getGitHubActionsInformation();
   }
+  if (ENV.GITLAB_CI) {
+    return getGitLabInformation();
+  }
   if (ENV.JENKINS_URL) {
     return getJenkinsInformation();
   }
@@ -57,6 +60,21 @@ function getJenkinsInformation() {
     build_number: ENV.BUILD_NUMBER,
     build_name: ENV.JOB_NAME,
     user: ENV.USER || ENV.USERNAME
+  }
+}
+
+function getGitLabInformation() {
+  return {
+    ci: 'GITLAB',
+    git: 'GITLAB',
+    repository_url: ENV.CI_PROJECT_URL,
+    repository_name: ENV.CI_PROJECT_NAME,
+    repository_ref: ENV.CI_MERGE_REQUEST_SOURCE_BRANCH_NAME || ENV.CI_COMMIT_REF_NAME,
+    repository_commit_sha:ENV.CI_MERGE_REQUEST_SOURCE_BRANCH_SHA || ENV.CI_COMMIT_SHA,
+    build_url: ENV.CI_JOB_URL,
+    build_number: ENV.CI_JOB_ID,
+    build_name: ENV.CI_JOB_NAME,
+    user: ENV.GITLAB_USER_LOGIN || ENV.CI_COMMIT_AUTHOR
   }
 }
 
