@@ -44,8 +44,8 @@ class SmartAnalysisExtension extends BaseExtension {
     if (execution_metrics.always_failing) {
       smart_analysis.push(`🔴 AF: ${execution_metrics.always_failing}`);
     }
-    if (execution_metrics.recurring_failures) {
-      smart_analysis.push(`🟠 RF: ${execution_metrics.recurring_failures}`);
+    if (execution_metrics.recurring_errors) {
+      smart_analysis.push(`🟠 RE: ${execution_metrics.recurring_errors}`);
     }
     if (execution_metrics.flaky) {
       smart_analysis.push(`🟡 FL: ${execution_metrics.flaky}`);
