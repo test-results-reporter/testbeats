@@ -52,7 +52,8 @@ addInteractionHandler('post test-summary to slack', () => {
               {
                 "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -82,7 +83,8 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
               {
                 "@DATA:TEMPLATE@": "SLACK_SUITE_IOS"
               }
-            ]
+            ],
+            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -106,7 +108,8 @@ addInteractionHandler('post test-summary-slim to slack with multiple suites', ()
               {
                 "@DATA:TEMPLATE@": "SLACK_ROOT_MULTIPLE_SUITES"
               }
-            ]
+            ],
+            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -150,7 +153,8 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
                   "text": "*Test*: GU\n*Error*: expected [A] but found [948474]\n\n*Test*: SBP_WA\n*Error*: Appium error: An unknown sr='Search...']}\n\n*Test*: CB\n*Error*: A script did not complete \n\n"
                 }
               }
-            ]
+            ],
+            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -181,7 +185,8 @@ addInteractionHandler('post failure-details to slack with single suite', () => {
                   "text": "*Test*: c4\n*Error*: expected [true] but found [false]\n\n"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -214,7 +219,8 @@ addInteractionHandler('post test-summary with hyperlinks to slack - pass status'
                   }
                 ]
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -247,7 +253,8 @@ addInteractionHandler('post test-summary with hyperlinks to slack - fail status'
                   }
                 ]
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -278,7 +285,8 @@ addInteractionHandler('post test-summary to slack with report portal analysis', 
                   "text": "*<http://localhost:9393/ui/#project-name/launches/all/uuid|Report Portal Analysis>*\n\n🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ *🟠 TI - 4*"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -309,7 +317,8 @@ addInteractionHandler('post test-summary to slack with report portal analysis wi
                   "text": "*<http://localhost:9393|Report Portal Analysis>*\n\n🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ *🟠 TI - 4*"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -343,7 +352,8 @@ addInteractionHandler('post test-summary to slack with report portal analysis wi
                   "text": "🔴 PB - 0 ｜ 🟡 AB - 0 ｜ 🔵 SI - 0 ｜ ◯ ND - 0 ｜ *🟠 TI - 4*"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -374,7 +384,8 @@ addInteractionHandler('post test-summary with mentions to slack', () => {
                   "text": "<@ULA15K66M> ｜ <@ULA15K66N>"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -406,7 +417,8 @@ addInteractionHandler('post test-summary with mentions group name to slack', () 
                   "text": "<!subteam^ULA15K66M>"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -437,7 +449,8 @@ addInteractionHandler('post test-summary with mentions special group name to sla
                   "text": "<!here>"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -468,7 +481,8 @@ addInteractionHandler('post test-summary to slack with qc-test-summary', (ctx) =
                   }
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -499,7 +513,8 @@ addInteractionHandler('post test-summary to slack with report portal history', (
                   "text": "*Last 3 Runs*\n\n<http://localhost:9393/ui/#project-name/launches/all/uuid|❌> <http://localhost:9393/ui/#project-name/launches/all/uuid|✅> <http://localhost:9393/ui/#project-name/launches/all/uuid|⚠️>"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -530,7 +545,8 @@ addInteractionHandler('post test-summary to slack with percy analysis', () => {
                   "text": "*<https://percy.io/org-uid/project-name/builds/build-id|Percy Analysis>*\n\n*✔ AP - 1* ｜ 🔎 UR - 0 ｜ 🗑 RM - 0"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -558,7 +574,8 @@ addInteractionHandler('post test-summary to slack with title_link', () => {
                   "text": "*<some-url|Default suite>*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 2s"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -600,7 +617,8 @@ addInteractionHandler('post test-summary to slack for JMeter', () => {
                   "text": "*S01_T02_Application_Login*\n\n*Samples*: 9 0.1461/s\n*Duration*: avg=4.3s ｜ p95=10.7s"
                 }
               }
-            ]
+            ],
+            "fallback": "TOTAL\nResults: 2 / 2 Passed (100%)"
           }
         ]
       }
@@ -635,7 +653,8 @@ addInteractionHandler('post test-summary with failures to slack for failed JMete
                   "text": "*S01_T02_Application_Login 1.2.3*\n\n*Samples*: 🔻 9 (-1) 0.1461/s\n*Duration*: 🔺 avg=4.3s (+855ms) ｜ p95=10.7s"
                 }
               }
-            ]
+            ],
+            "fallback": "TOTAL 1.2.3\nResults: 1 / 2 Passed (50%)"
           }
         ]
       }
@@ -666,7 +685,8 @@ addInteractionHandler('post test-summary with metadata to slack', () => {
                   "text": "*Browser:* Chrome ｜ 1920*1080 ｜ <some-url|Pipeline>"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -697,7 +717,8 @@ addInteractionHandler('post test-summary with ci-info to slack', () => {
                   "text": "*Repository:* <https://github.com/test/test|test/test> ｜ *Pull Request:* <https://github.com/test/test/pull/123/merge|123>\n*Build:* <https://dev.azure.com/test/_build/results?buildId=id-123|Build #number-123>"
                 }
               }
-            ]
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -734,7 +755,8 @@ addInteractionHandler('post test-summary with multiple suites and ci-info to to 
               {
                 "@DATA:TEMPLATE@": "SLACK_SUITE_IOS"
               }
-            ]
+            ],
+            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -761,7 +783,8 @@ addInteractionHandler('post test-summary to slack with max suites as 1', () => {
               {
                 "@DATA:TEMPLATE@": "SLACK_SUITE_CHROME"
               }
-            ]
+            ],
+            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
