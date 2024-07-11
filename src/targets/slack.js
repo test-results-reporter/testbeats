@@ -22,7 +22,7 @@ async function run({ result, target }) {
   } else {
     await setFunctionalPayload({ result, target, payload });
   }
-  const message = getRootPayload({ result, payload });
+  const message = getRootPayload({ result, target, payload });
   return request.post({
     url: target.inputs.url,
     body: message
@@ -66,12 +66,12 @@ function setMainBlock({ result, target, payload }) {
   });
 }
 
-function getTitleText(result, target) {
+function getTitleText(result, target, {allowTitleLink = true} = {}) {
   let text = target.inputs.title ? target.inputs.title : result.name;
   if (target.inputs.title_suffix) {
     text = `${text} ${target.inputs.title_suffix}`;
   }
-  if (target.inputs.title_link) {
+  if (allowTitleLink && target.inputs.title_link) {
     text = `<${target.inputs.title_link}|${text}>`;
   }
   return text;
@@ -147,7 +147,7 @@ function getFailureDetails(suite) {
  * @param {PerformanceTestResult | TestResult} param0.result 
  * @returns 
  */
-function getRootPayload({ result, payload }) {
+function getRootPayload({ result, target, payload }) {
   let color = COLORS.GOOD;
   if (result.status !== 'PASS') {
     let somePassed = true;
@@ -166,7 +166,8 @@ function getRootPayload({ result, payload }) {
     "attachments": [
       {
         "color": color,
-        "blocks": payload.blocks
+        "blocks": payload.blocks,
+        "fallback": `${getTitleText(result, target, {allowTitleLink: false})}\nResults: ${getResultText(result)}`,
       }
     ]
   };
