@@ -183,7 +183,7 @@ function getFailureDetailsFactSets(suite) {
           },
           {
             "title": "Error:",
-            "value": truncate(test_case.failure, 150)
+            "value": truncate(test_case.failure ?? 'N/A', 150)
           }
         ]
       });

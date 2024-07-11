@@ -129,7 +129,7 @@ function getFailureDetails(suite) {
   for (let i = 0; i < cases.length; i++) {
     const test_case = cases[i];
     if (test_case.status === 'FAIL') {
-      text += `*Test*: ${test_case.name}\n*Error*: ${truncate(test_case.failure, 150)}\n\n`;
+      text += `*Test*: ${test_case.name}\n*Error*: ${truncate(test_case.failure ?? 'N/A', 150)}\n\n`;
     }
   }
   return {
