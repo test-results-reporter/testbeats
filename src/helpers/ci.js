@@ -29,6 +29,7 @@ function getGitHubActionsInformation() {
     build_url: ENV.GITHUB_SERVER_URL + '/' + ENV.GITHUB_REPOSITORY + '/actions/runs/' + ENV.GITHUB_RUN_ID,
     build_number: ENV.GITHUB_RUN_NUMBER,
     build_name: ENV.GITHUB_WORKFLOW,
+    build_reason: ENV.GITHUB_EVENT_NAME,
     user: ENV.GITHUB_ACTOR,
   }
 }
@@ -44,6 +45,7 @@ function getAzureDevOpsInformation() {
     build_url: ENV.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI + ENV.SYSTEM_TEAMPROJECT + '/_build/results?buildId=' + ENV.BUILD_BUILDID,
     build_number: ENV.BUILD_BUILDNUMBER,
     build_name: ENV.BUILD_DEFINITIONNAME,
+    build_reason: ENV.BUILD_REASON,
     user: ENV.BUILD_REQUESTEDFOR
   }
 }
@@ -59,6 +61,7 @@ function getJenkinsInformation() {
     build_url: ENV.BUILD_URL,
     build_number: ENV.BUILD_NUMBER,
     build_name: ENV.JOB_NAME,
+    build_reason: ENV.BUILD_CAUSE,
     user: ENV.USER || ENV.USERNAME
   }
 }
@@ -74,6 +77,7 @@ function getGitLabInformation() {
     build_url: ENV.CI_JOB_URL,
     build_number: ENV.CI_JOB_ID,
     build_name: ENV.CI_JOB_NAME,
+    build_reason: ENV.CI_PIPELINE_SOURCE,
     user: ENV.GITLAB_USER_LOGIN || ENV.CI_COMMIT_AUTHOR
   }
 }
