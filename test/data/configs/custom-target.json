@@ -3,7 +3,7 @@
     {
       "name": "custom",
       "inputs": {
-        "load": "test/data/custom/custom-runner.js"
+        "load": "test/data/custom/custom-target-runner.js"
       }
     }
   ],
