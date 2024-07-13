@@ -4,11 +4,11 @@ const rp_analysis = require('./report-portal-analysis');
 const rp_history = require('./report-portal-history');
 const qc_test_summary = require('./quick-chart-test-summary');
 const percy_analysis = require('./percy-analysis');
-const custom = require('./custom');
 const metadata = require('./metadata');
 const { AIFailureSummaryExtension } = require('./ai-failure-summary.extension');
 const { SmartAnalysisExtension } = require('./smart-analysis.extension');
 const { CIInfoExtension } = require('./ci-info.extension');
+const { CustomExtension } = require('./custom.extension');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 const logger = require('../utils/logger');
@@ -51,7 +51,7 @@ function getExtensionRunner(extension, options) {
     case EXTENSION.PERCY_ANALYSIS:
       return percy_analysis;
     case EXTENSION.CUSTOM:
-      return custom;
+      return new CustomExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.METADATA:
       return metadata;
     case EXTENSION.CI_INFO:
