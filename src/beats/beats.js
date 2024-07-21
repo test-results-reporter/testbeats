@@ -20,10 +20,14 @@ class Beats {
   }
 
   async publish() {
+    this.#setApiKey();
+    if (!this.config.api_key) {
+      logger.warn('😿 No API key provided, skipping publishing results to TestBeats Portal...');
+      return;
+    }
     this.#setCIInfo();
     this.#setProjectName();
     this.#setRunName();
-    this.#setApiKey();
     await this.#publishTestResults();
     await this.#uploadAttachments();
     this.#updateTitleLink();
@@ -45,13 +49,10 @@ class Beats {
 
   #setRunName() {
     this.config.run = this.config.run || process.env.TEST_BEATS_RUN || (this.ci && this.ci.build_name) || 'demo-run';
+    this.result.name = this.config.run;
   }
 
   async #publishTestResults() {
-    if (!this.config.api_key) {
-      logger.warn('😿 No API key provided, skipping publishing results to TestBeats Portal...');
-      return;
-    }
     logger.info("🚀 Publishing results to TestBeats Portal...");
     try {
       const payload = this.#getPayload();
@@ -87,18 +88,6 @@ class Beats {
     } catch (error) {
       logger.error(`❌ Unable to upload attachments: ${error.message}`, error);
     }
-  }
-
-  #getAllFailedTestCases() {
-    const test_cases = [];
-    for (const suite of this.result.suites) {
-      for (const test of suite.cases) {
-        if (test.status === 'FAIL') {
-          test_cases.push(test);
-        }
-      }
-    }
-    return test_cases;
   }
 
   #updateTitleLink() {

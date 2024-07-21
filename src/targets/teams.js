@@ -3,14 +3,15 @@ const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helpe
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const extension_manager = require('../extensions');
 const { HOOK, STATUS } = require('../helpers/constants');
+const logger = require('../utils/logger');
 
 const TestResult = require('test-results-parser/src/models/TestResult');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 
 /**
- * @param {object} param0 
- * @param {PerformanceTestResult | TestResult} param0.result 
- * @returns 
+ * @param {object} param0
+ * @param {PerformanceTestResult | TestResult} param0.result
+ * @returns
  */
 async function run({ result, target }) {
   setTargetInputs(target);
@@ -22,6 +23,7 @@ async function run({ result, target }) {
     await setFunctionalPayload({ result, target, payload, root_payload });
   }
   setRootPayload(root_payload, payload);
+  logger.info(`🔔 Publishing results to Teams...`);
   return request.post({
     url: target.inputs.url,
     body: root_payload
@@ -209,8 +211,8 @@ function setRootPayload(root_payload, payload) {
 }
 
 /**
- * @param {object} param0 
- * @param {PerformanceTestResult} param0.result 
+ * @param {object} param0
+ * @param {PerformanceTestResult} param0.result
  */
 async function setMainBlockForPerformance({ result, target, payload }) {
   const total = result.transactions.length;
@@ -245,8 +247,8 @@ async function getFactMetrics({ metrics, target, result }) {
 }
 
 /**
- * @param {object} param0 
- * @param {PerformanceTestResult} param0.result 
+ * @param {object} param0
+ * @param {PerformanceTestResult} param0.result
  */
 async function setTransactionBlock({ result, target, payload }) {
   if (target.inputs.include_suites) {
