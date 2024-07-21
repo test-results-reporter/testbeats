@@ -54,6 +54,45 @@ describe('extensions - ci-info', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary with build details when branch is a common branch', async () => {
+    process.env.GITHUB_ACTIONS = 'GITHUB_ACTIONS';
+    process.env.GITHUB_SERVER_URL = 'https://github.com';
+    process.env.GITHUB_REPOSITORY = 'test/test';
+    process.env.GITHUB_REF = 'refs/heads/master';
+    process.env.GITHUB_SHA = 'sha';
+    process.env.GITHUB_RUN_ID = 'id-123';
+    process.env.GITHUB_RUN_NUMBER = 'number-123';
+    process.env.GITHUB_WORKFLOW = 'Build';
+
+    const id = mock.addInteraction('post test-summary with only build ci-info to teams');
+    await publish({
+      config: {
+        targets: [
+          {
+            name: 'teams',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            },
+            extensions: [
+              {
+                name: 'ci-info'
+              }
+            ]
+          }
+        ],
+        results: [
+          {
+            type: 'testng',
+            files: [
+              'test/data/testng/single-suite.xml'
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   it('should send test-summary with github ci information to teams', async () => {
     process.env.GITHUB_ACTIONS = 'GITHUB_ACTIONS';
     process.env.GITHUB_SERVER_URL = 'https://github.com';

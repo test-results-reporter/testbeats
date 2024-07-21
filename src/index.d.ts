@@ -56,6 +56,7 @@ export interface MentionInputs extends ExtensionInputs {
 }
 
 export interface CIInfoInputs extends ExtensionInputs {
+  show_repository_non_common?: boolean;
   show_repository?: boolean;
   show_repository_branch?: boolean;
   show_build?: boolean;
