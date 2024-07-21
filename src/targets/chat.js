@@ -4,6 +4,7 @@ const extension_manager = require('../extensions');
 const { HOOK, STATUS } = require('../helpers/constants');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
+const logger = require('../utils/logger');
 
 async function run({ result, target }) {
   setTargetInputs(target);
@@ -14,6 +15,7 @@ async function run({ result, target }) {
   } else {
     await setFunctionalPayload({ result, target, payload, root_payload });
   }
+  logger.info(`🔔 Publishing results to Chat...`);
   return request.post({
     url: target.inputs.url,
     body: root_payload
@@ -144,9 +146,9 @@ async function setPerformancePayload({ result, target, payload, root_payload }) 
 }
 
 /**
- * 
+ *
  * @param {object} param0
- * @param {PerformanceTestResult} param0.result 
+ * @param {PerformanceTestResult} param0.result
  */
 async function setPerformanceMainBlock({ result, target, payload }) {
   const title_text_with_emoji = getTitleTextWithEmoji({ result, target });
@@ -169,9 +171,9 @@ async function setPerformanceMainBlock({ result, target, payload }) {
 }
 
 /**
- * 
+ *
  * @param {object} param0
- * @param {PerformanceTestResult} param0.result 
+ * @param {PerformanceTestResult} param0.result
  */
 async function setTransactionBlock({ result, target, payload }) {
   if (target.inputs.include_suites) {

@@ -1464,7 +1464,7 @@ addInteractionHandler('post test-summary with beats to teams', () => {
               "body": [
                 {
                   "type": "TextBlock",
-                  "text": "[✅ Default suite](http://localhost:9393/reports/test-run-id)",
+                  "text": "[✅ build-name](http://localhost:9393/reports/test-run-id)",
                   "size": "medium",
                   "weight": "bolder",
                   "wrap": true
@@ -1542,7 +1542,7 @@ addInteractionHandler('post test-summary with beats to teams with ai failure sum
               "body": [
                 {
                   "type": "TextBlock",
-                  "text": "[❌ Default suite](http://localhost:9393/reports/test-run-id)",
+                  "text": "[❌ build-name](http://localhost:9393/reports/test-run-id)",
                   "size": "medium",
                   "weight": "bolder",
                   "wrap": true
@@ -1593,7 +1593,7 @@ addInteractionHandler('post test-summary with beats to teams with ai failure sum
               "body": [
                 {
                   "type": "TextBlock",
-                  "text": "[❌ Default suite](http://localhost:9393/reports/test-run-id)",
+                  "text": "[❌ build-name](http://localhost:9393/reports/test-run-id)",
                   "size": "medium",
                   "weight": "bolder",
                   "wrap": true

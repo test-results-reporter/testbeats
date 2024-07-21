@@ -2,10 +2,12 @@ const request = require('phin-retry');
 const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
 const { HOOK, STATUS } = require('../helpers/constants');
+const logger = require('../utils/logger');
 
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const TestResult = require('test-results-parser/src/models/TestResult');
+
 
 
 const COLORS = {
@@ -23,6 +25,7 @@ async function run({ result, target }) {
     await setFunctionalPayload({ result, target, payload });
   }
   const message = getRootPayload({ result, target, payload });
+  logger.info(`🔔 Publishing results to Slack...`);
   return request.post({
     url: target.inputs.url,
     body: message
@@ -142,10 +145,10 @@ function getFailureDetails(suite) {
 }
 
 /**
- * 
- * @param {object} param0 
- * @param {PerformanceTestResult | TestResult} param0.result 
- * @returns 
+ *
+ * @param {object} param0
+ * @param {PerformanceTestResult | TestResult} param0.result
+ * @returns
  */
 function getRootPayload({ result, target, payload }) {
   let color = COLORS.GOOD;
@@ -182,9 +185,9 @@ async function setPerformancePayload({ result, target, payload }) {
 }
 
 /**
- * 
- * @param {object} param0 
- * @param {PerformanceTestResult} param0.result 
+ *
+ * @param {object} param0
+ * @param {PerformanceTestResult} param0.result
  */
 async function setPerformanceMainBlock({ result, target, payload }) {
   let text = `*${getTitleText(result, target)}*\n`;
@@ -206,9 +209,9 @@ async function setPerformanceMainBlock({ result, target, payload }) {
 }
 
 /**
- * 
- * @param {object} param0 
- * @param {PerformanceTestResult} param0.result 
+ *
+ * @param {object} param0
+ * @param {PerformanceTestResult} param0.result
  */
 async function setTransactionBlock({ result, target, payload }) {
   if (target.inputs.include_suites) {
