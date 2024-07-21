@@ -19,8 +19,8 @@ class CIInfoExtension extends BaseExtension {
   }
 
   #setDefaultOptions() {
-    this.default_options.hook = HOOK.AFTER_SUMMARY,
-      this.default_options.condition = STATUS.PASS_OR_FAIL;
+    this.default_options.hook = HOOK.AFTER_SUMMARY;
+    this.default_options.condition = STATUS.PASS_OR_FAIL;
   }
 
   #setDefaultInputs() {
