@@ -1,5 +1,6 @@
 const { BaseExtension } = require('./base.extension');
 const { STATUS, HOOK } = require("../helpers/constants");
+const logger = require('../utils/logger');
 
 class SmartAnalysisExtension extends BaseExtension {
 
@@ -21,7 +22,7 @@ class SmartAnalysisExtension extends BaseExtension {
   }
 
   #setDefaultInputs() {
-    this.default_inputs.title = 'Smart Analysis';
+    this.default_inputs.title = '';
     this.default_inputs.title_link = '';
   }
 
@@ -36,6 +37,11 @@ class SmartAnalysisExtension extends BaseExtension {
      * @type {import('../beats/beats.types').IBeatExecutionMetric}
      */
     const execution_metrics = data.execution_metrics[0];
+
+    if (!execution_metrics) {
+      logger.warn('⚠️ No execution metrics found. Skipping.');
+      return;
+    }
 
     const smart_analysis = [];
     if (execution_metrics.newly_failed) {
@@ -54,7 +60,21 @@ class SmartAnalysisExtension extends BaseExtension {
       smart_analysis.push(`🟢 Recovered: ${execution_metrics.recovered}`);
     }
 
-    this.text = smart_analysis.join(' ｜ ');
+    const texts = [];
+    const rows = [];
+    for (const item of smart_analysis) {
+      rows.push(item);
+      if (rows.length === 3) {
+        texts.push(rows.join(' ｜ '));
+        rows.length = 0;
+      }
+    }
+
+    if (rows.length > 0) {
+      texts.push(rows.join(' ｜ '));
+    }
+
+    this.text = this.mergeTexts(texts);
   }
 
 }
