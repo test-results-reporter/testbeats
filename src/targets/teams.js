@@ -300,7 +300,40 @@ const default_inputs = {
   ]
 }
 
+async function handleErrors({ target, errors }) {
+  let title = 'Error: Reporting Test Results';
+  title = target.inputs.title ? title + ' - ' + target.inputs.title : title;
+
+  const root_payload = getRootPayload();
+  const payload = getMainPayload(target);
+
+  payload.body.push({
+    "type": "TextBlock",
+    "text": title,
+    "size": "medium",
+    "weight": "bolder",
+    "wrap": true
+  });
+
+  payload.body.push({
+    "type": "TextBlock",
+    "text": errors.join('\n'),
+    "size": "medium",
+    "weight": "bolder",
+    "wrap": true
+  });
+
+  setRootPayload(root_payload, payload);
+
+
+  return request.post({
+    url: target.inputs.url,
+    body: root_payload
+  });
+}
+
 module.exports = {
   run,
+  handleErrors,
   default_options
 }

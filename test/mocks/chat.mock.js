@@ -1,5 +1,6 @@
 const { addInteractionHandler } = require('pactum').handler;
 const { addDataTemplate } = require('pactum').stash;
+const { includes } = require('pactum-matchers');
 
 addDataTemplate({
   'CHAT_RESULT_SINGLE_SUITE': {
@@ -567,6 +568,36 @@ addInteractionHandler('post test-summary with ci-info to chat', () => {
                   {
                     "textParagraph": {
                       "text": "<b>Repository:</b> <a href=\"https://github.com/org/repo\">org/repo</a> ｜ <b>Branch:</b> <a href=\"https://github.com/org/repo/tree/feature-test\">feature-test</a><br><b>Build:</b> <a href=\"https://github.com/org/repo/actions/runs/id-123\">Build #number-123</a> ｜ <a href=\"LOGS_URL\">Download Logs</a>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post errors to chat', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": includes('invalid.xml')
                     }
                   }
                 ]

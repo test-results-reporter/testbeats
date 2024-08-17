@@ -264,7 +264,45 @@ const default_inputs = {
   ]
 }
 
+async function handleErrors({ target, errors }) {
+  let title = 'Error: Reporting Test Results';
+  title = target.inputs.title ? title + ' - ' + target.inputs.title : title;
+
+  const blocks = [];
+
+  blocks.push({
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": title
+    }
+  });
+  blocks.push({
+    "type": "section",
+    "text": {
+      "type": "mrkdwn",
+      "text": errors.join('\n\n')
+    }
+  });
+
+  const payload = {
+    "attachments": [
+      {
+        "color": COLORS.DANGER,
+        "blocks": blocks,
+        "fallback": title,
+      }
+    ]
+  };
+
+  return request.post({
+    url: target.inputs.url,
+    body: payload
+  });
+}
+
 module.exports = {
   run,
+  handleErrors,
   default_options
 }

@@ -34,6 +34,14 @@ async function run(target, result) {
   }
 }
 
+async function handleErrors({ target, errors }) {
+  const target_runner = getTargetRunner(target);
+  if (target_runner.handleErrors) {
+    await target_runner.handleErrors({ target, errors });
+  }
+}
+
 module.exports = {
-  run
+  run,
+  handleErrors
 }

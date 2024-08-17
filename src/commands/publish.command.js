@@ -18,6 +18,7 @@ class PublishCommand {
    */
   constructor(opts) {
     this.opts = opts;
+    this.errors = [];
   }
 
   async publish() {
@@ -31,7 +32,7 @@ class PublishCommand {
     this.#validateConfig();
     this.#processResults();
     await this.#publishResults();
-    logger.info('✅ Results published successfully!');
+    await this.#publishErrors();
   }
 
   #validateEnvDetails() {
@@ -184,13 +185,24 @@ class PublishCommand {
         } else if (result_options.type === 'jmeter') {
           this.results.push(prp.parse(result_options));
         } else {
-          this.results.push(trp.parse(result_options));
+          const { result, errors } = trp.parseV2(result_options);
+          if (result) {
+            this.results.push(result);
+          }
+          if (errors) {
+            this.errors = this.errors.concat(errors);
+          }
         }
       }
     }
   }
 
   async #publishResults() {
+    if (!this.results.length) {
+      logger.warn('⚠️ No results to publish');
+      return;
+    }
+
     for (const config of this.configs) {
       for (let i = 0; i < this.results.length; i++) {
         const result = this.results[i];
@@ -207,6 +219,23 @@ class PublishCommand {
         }
       }
     }
+    logger.info('✅ Results published successfully!');
+  }
+
+  async #publishErrors() {
+    if (!this.errors.length) {
+      logger.debug('⚠️ No errors to publish');
+      return;
+    }
+    logger.info('🛑 Publishing errors...');
+    for (const config of this.configs) {
+      if (config.targets) {
+        for (const target of config.targets) {
+          await target_manager.handleErrors({ target, errors: this.errors });
+        }
+      }
+    }
+    throw new Error(this.errors.join('\n'));
   }
 
 }
