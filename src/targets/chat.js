@@ -238,7 +238,31 @@ const default_inputs = {
   ]
 };
 
+async function handleErrors({ target, errors }) {
+  let title = 'Error: Reporting Test Results';
+  title = target.inputs.title ? title + ' - ' + target.inputs.title : title;
+
+  const root_payload = getRootPayload();
+  const payload = root_payload.cards[0];
+
+  payload.sections.push({
+    "widgets": [
+      {
+        "textParagraph": {
+          text: `<b>${title}</b><br><br><b>Errors</b>: <br>${errors.join('<br>')}`
+        }
+      }
+    ]
+  });
+
+  return request.post({
+    url: target.inputs.url,
+    body: root_payload
+  });
+}
+
 module.exports = {
   run,
+  handleErrors,
   default_options
 }

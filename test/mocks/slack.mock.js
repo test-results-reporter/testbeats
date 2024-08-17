@@ -1,5 +1,6 @@
 const { addInteractionHandler } = require('pactum').handler;
 const { addDataTemplate } = require('pactum').stash;
+const { includes } = require('pactum-matchers');
 
 addDataTemplate({
   'SLACK_ROOT_SINGLE_SUITE': {
@@ -396,7 +397,6 @@ addInteractionHandler('post test-summary with mentions to slack', () => {
   }
 });
 
-
 addInteractionHandler('post test-summary with mentions group name to slack', () => {
   return {
     request: {
@@ -785,6 +785,43 @@ addInteractionHandler('post test-summary to slack with max suites as 1', () => {
               }
             ],
             "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post errors to slack', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "Error: Reporting Test Results"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": includes('invalid.xml')
+                }
+              }
+            ],
+            "fallback": "Error: Reporting Test Results"
           }
         ]
       }

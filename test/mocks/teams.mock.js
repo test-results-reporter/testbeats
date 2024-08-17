@@ -1,5 +1,6 @@
 const { addInteractionHandler } = require('pactum').handler;
 const { addDataTemplate } = require('pactum').stash;
+const { includes } = require('pactum-matchers');
 
 addDataTemplate({
   'TEAMS_ROOT_TITLE_SINGLE_SUITE': {
@@ -1711,6 +1712,49 @@ addInteractionHandler('post test-summary with metadata and hyperlinks to teams',
                   "type": "TextBlock",
                   "text": "[Pipeline](some-url) ｜ [Video](some-url)",
                   "separator": true,
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post errors to teams', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "Error: Reporting Test Results",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": includes('invalid.xml'),
+                  "size": "medium",
+                  "weight": "bolder",
                   "wrap": true
                 }
               ],
