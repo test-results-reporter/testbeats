@@ -1642,18 +1642,19 @@ addInteractionHandler('post test-summary with beats to teams with ai failure sum
                 {
                   "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES",
                 },
+                // {
+                //   "type": "TextBlock",
+                //   "text": "Smart Analysis",
+                //   "isSubtle": true,
+                //   "weight": "bolder",
+                //   "separator": true,
+                //   "wrap": true
+                // },
                 {
                   "type": "TextBlock",
-                  "text": "Smart Analysis",
-                  "isSubtle": true,
-                  "weight": "bolder",
+                  "text": "⭕ Newly Failed: 1 ｜ 🔴 Always Failing: 1 ｜ 🟡 Flaky: 1\n\n🟢 Recovered: 1",
+                  "wrap": true,
                   "separator": true,
-                  "wrap": true
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "⭕ Newly Failed: 1 ｜ 🔴 Always Failing: 1 ｜ 🟡 Flaky: 1 ｜ 🟢 Recovered: 1",
-                  "wrap": true
                 }
               ],
               "actions": []
