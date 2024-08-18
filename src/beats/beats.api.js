@@ -25,7 +25,7 @@ class BeatsApi {
   */
   getTestRun(run_id) {
     return request.get({
-      url: `${this.getBaseUrl()}/api/core/v1/test-runs/key?id=${run_id}`,
+      url: `${this.getBaseUrl()}/api/core/v1/test-runs/${run_id}`,
       headers: {
         'x-api-key': this.config.api_key
       }

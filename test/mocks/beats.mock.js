@@ -22,10 +22,7 @@ addInteractionHandler('get test results from beats', () => {
     strict: false,
     request: {
       method: 'GET',
-      path: '/api/core/v1/test-runs/key',
-      queryParams: {
-        "id": "test-run-id"
-      }
+      path: '/api/core/v1/test-runs/test-run-id',
     },
     response: {
       status: 200,
@@ -48,10 +45,7 @@ addInteractionHandler('get test results with smart analysis from beats', () => {
     strict: false,
     request: {
       method: 'GET',
-      path: '/api/core/v1/test-runs/key',
-      queryParams: {
-        "id": "test-run-id"
-      }
+      path: '/api/core/v1/test-runs/test-run-id'
     },
     response: {
       status: 200,
