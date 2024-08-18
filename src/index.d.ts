@@ -230,6 +230,7 @@ export interface PublishReport {
   run?: string;
   show_failure_summary?: boolean;
   show_smart_analysis?: boolean;
+  show_error_clusters?: boolean;
   targets?: Target[];
   extensions?: Extension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
