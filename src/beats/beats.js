@@ -33,6 +33,7 @@ class Beats {
     this.#updateTitleLink();
     await this.#attachFailureSummary();
     await this.#attachSmartAnalysis();
+    await this.#attachErrorClusters();
   }
 
   #setCIInfo() {
@@ -187,6 +188,34 @@ class Beats {
       logger.info(`🔄 ${text} not generated, retrying...`);
     }
     logger.warn(`🙈 ${text} not generated in given time`);
+  }
+
+  async #attachErrorClusters() {
+    if (!this.test_run_id) {
+      return;
+    }
+    if (!this.config.targets) {
+      return;
+    }
+    if (this.result.status !== 'FAIL') {
+      return;
+    }
+    if (this.config.show_error_clusters === false) {
+      return;
+    }
+    try {
+      logger.info('🧮 Fetching Error Clusters...');
+      const res = await this.api.getErrorClusters(this.test_run_id, 3);
+      this.config.extensions.push({
+        name: 'error-clusters',
+        hook: HOOK.AFTER_SUMMARY,
+        inputs: {
+          data: res.values
+        }
+      });
+    } catch (error) {
+      logger.error(`❌ Unable to attach error clusters: ${error.message}`, error);
+    }
   }
 
 }

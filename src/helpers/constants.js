@@ -22,6 +22,7 @@ const TARGET = Object.freeze({
 const EXTENSION = Object.freeze({
   AI_FAILURE_SUMMARY: 'ai-failure-summary',
   SMART_ANALYSIS: 'smart-analysis',
+  ERROR_CLUSTERS: 'error-clusters',
   HYPERLINKS: 'hyperlinks',
   MENTIONS: 'mentions',
   REPORT_PORTAL_ANALYSIS: 'report-portal-analysis',

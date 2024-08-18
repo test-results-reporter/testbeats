@@ -86,6 +86,22 @@ class BaseExtension {
     }
   }
 
+  /**
+   * @param {string|number} text
+   */
+  bold(text) {
+    switch (this.target.name) {
+      case 'teams':
+        return `**${text}**`;
+      case 'slack':
+        return `*${text}*`;
+      case 'chat':
+        return `<b>${text}</b>`;
+      default:
+        break;
+    }
+  }
+
 }
 
 module.exports = { BaseExtension }

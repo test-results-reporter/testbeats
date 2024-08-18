@@ -46,6 +46,21 @@ class BeatsApi {
   getBaseUrl() {
     return process.env.TEST_BEATS_URL || "https://app.testbeats.com";
   }
+
+  /**
+   *
+   * @param {string} run_id
+   * @param {number} limit
+   * @returns {import('./beats.types').IErrorClustersResponse}
+   */
+  getErrorClusters(run_id, limit = 3) {
+    return request.get({
+      url: `${this.getBaseUrl()}/api/core/v1/test-runs/${run_id}/error-clusters?limit=${limit}`,
+      headers: {
+        'x-api-key': this.config.api_key
+      }
+    });
+  }
 }
 
 module.exports = { BeatsApi }

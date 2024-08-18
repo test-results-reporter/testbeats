@@ -75,6 +75,55 @@ addInteractionHandler('get test results with smart analysis from beats', () => {
   }
 });
 
+addInteractionHandler('get error clusters from beats', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'GET',
+      path: '/api/core/v1/test-runs/test-run-id/error-clusters',
+      queryParams: {
+        "limit": 3
+      }
+    },
+    response: {
+      status: 200,
+      body: {
+        values: [
+          {
+            test_failure_id: 'test-failure-id',
+            failure: 'failure two',
+            count: 2
+          },
+          {
+            test_failure_id: 'test-failure-id',
+            failure: 'failure one',
+            count: 1
+          }
+        ]
+      }
+    }
+  }
+});
+
+addInteractionHandler('get empty error clusters from beats', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'GET',
+      path: '/api/core/v1/test-runs/test-run-id/error-clusters',
+      queryParams: {
+        "limit": 3
+      }
+    },
+    response: {
+      status: 200,
+      body: {
+        values: []
+      }
+    }
+  }
+});
+
 addInteractionHandler('upload attachments', () => {
   return {
     strict: false,

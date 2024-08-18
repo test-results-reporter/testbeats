@@ -12,6 +12,7 @@ const { CustomExtension } = require('./custom.extension');
 const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 const logger = require('../utils/logger');
+const { ErrorClustersExtension } = require('./error-clusters.extension');
 
 async function run(options) {
   const { target, result, hook } = options;
@@ -60,6 +61,8 @@ function getExtensionRunner(extension, options) {
       return new AIFailureSummaryExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.SMART_ANALYSIS:
       return new SmartAnalysisExtension(options.target, extension, options.result, options.payload, options.root_payload);
+    case EXTENSION.ERROR_CLUSTERS:
+      return new ErrorClustersExtension(options.target, extension, options.result, options.payload, options.root_payload);
     default:
       return require(extension.name);
   }
