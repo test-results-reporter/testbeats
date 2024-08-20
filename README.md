@@ -9,11 +9,9 @@
 
 <br />
 
-![Build](https://github.com/test-results-reporter/testbeats/workflows/Build/badge.svg?branch=main)
-![Downloads](https://img.shields.io/npm/dt/test-results-reporter?logo=npm&label=downloads-old)
-![Downloads](https://img.shields.io/npm/dt/testbeats?logo=npm)
-![Size](https://img.shields.io/bundlephobia/minzip/testbeats)
-![NodeJs](https://img.shields.io/badge/NodeJS-%3E%3D14.0.0-brightgreen?logo=node.js)
+[![Build](https://github.com/test-results-reporter/testbeats/actions/workflows/build.yml/badge.svg)](https://github.com/test-results-reporter/testbeats/actions/workflows/build.yml)
+[![Downloads](https://img.shields.io/npm/dt/test-results-parser?logo=npm&label=downloads)](https://www.npmjs.com/package/test-results-parser)
+[![Size](https://img.shields.io/bundlephobia/minzip/testbeats)](https://bundlephobia.com/result?p=testbeats)
 
 
 [![Stars](https://img.shields.io/github/stars/test-results-reporter/testbeats?style=social)](https://github.com/test-results-reporter/testbeats/stargazers)
@@ -23,9 +21,11 @@
 
 </span>
 
-### Get Started
+<br />
 
-TestBeats is a tool designed to streamline the process of publishing test results from various automation testing frameworks to communication platforms like **slack**, **teams** and more for easy access and collaboration. It unifies your test reporting to build quality insights and make faster decisions.
+**TestBeats** is a tool designed to streamline the process of publishing test results from various automation testing frameworks to communication platforms like **slack**, **teams** and more for easy access and collaboration. It unifies your test reporting to build quality insights and make faster decisions.
+
+It supports all major automation testing frameworks and tools.
 
 Read more about the project at [https://testbeats.com](https://testbeats.com)
 
@@ -48,3 +48,7 @@ We use [Github Discussions](https://github.com/test-results-reporter/testbeats/d
 ## Support Us
 
 Like this project! Star it on [Github](https://github.com/test-results-reporter/testbeats) ⭐. Your support means a lot to us.
+
+<br />
+
+> Read more about the project at [https://testbeats.com](https://testbeats.com)
