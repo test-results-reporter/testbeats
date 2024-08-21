@@ -33,11 +33,9 @@ class ErrorClustersExtension extends BaseExtension {
 
     const clusters = data;
 
-    this.extension.inputs.title = `Top ${clusters.length} Errors`;
-
     const texts = [];
     for (const cluster of clusters) {
-      texts.push(`${this.bold(`(${cluster.count})`)} - ${cluster.failure}`);
+      texts.push(`${cluster.failure} - ${this.bold(`(x${cluster.count})`)}`);
     }
     this.text = this.mergeTexts(texts);
   }

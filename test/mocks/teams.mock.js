@@ -1709,7 +1709,7 @@ addInteractionHandler('post test-summary with beats to teams with error clusters
                 },
                 {
                   "type": "TextBlock",
-                  "text": "Top 2 Errors",
+                  "text": "Top Errors",
                   "isSubtle": true,
                   "weight": "bolder",
                   "separator": true,
@@ -1717,7 +1717,7 @@ addInteractionHandler('post test-summary with beats to teams with error clusters
                 },
                 {
                   "type": "TextBlock",
-                  "text": "**(2)** - failure two\n\n**(1)** - failure one",
+                  "text": "failure two - **(x2)**\n\nfailure one - **(x1)**",
                   "wrap": true
                 }
               ],
