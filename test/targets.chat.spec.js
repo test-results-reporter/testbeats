@@ -174,7 +174,8 @@ describe('targets - chat - performance', () => {
           {
             "name": "chat",
             "inputs": {
-              "url": "http://localhost:9393/message"
+              "url": "http://localhost:9393/message",
+              "only_failures": false
             }
           }
         ],

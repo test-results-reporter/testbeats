@@ -223,7 +223,7 @@ const default_inputs = {
   publish: 'test-summary',
   include_suites: true,
   max_suites: 10,
-  only_failures: false,
+  only_failures: true,
   include_failure_details: false,
   duration: '',
   metrics: [

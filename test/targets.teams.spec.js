@@ -257,7 +257,8 @@ describe('targets - teams - performance', () => {
           {
             "name": "teams",
             "inputs": {
-              "url": "http://localhost:9393/message"
+              "url": "http://localhost:9393/message",
+              "only_failures": false
             }
           }
         ],
@@ -282,7 +283,8 @@ describe('targets - teams - performance', () => {
           {
             "name": "teams",
             "inputs": {
-              "url": "http://localhost:9393/message"
+              "url": "http://localhost:9393/message",
+              "only_failures": false
             }
           }
         ],
@@ -382,6 +384,7 @@ describe('targets - teams - performance', () => {
             "name": "teams",
             "inputs": {
               "url": "http://localhost:9393/message",
+              "only_failures": false,
               "metrics": [
                 {
                   "name": "Samples",
