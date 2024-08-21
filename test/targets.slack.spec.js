@@ -200,7 +200,8 @@ describe('targets - slack - performance', () => {
           {
             "name": "slack",
             "inputs": {
-              "url": "http://localhost:9393/message"
+              "url": "http://localhost:9393/message",
+              "only_failures": false
             }
           }
         ],
