@@ -1,12 +1,13 @@
 const request = require('phin-retry');
 const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
-const { HOOK, STATUS } = require('../helpers/constants');
+const { HOOK, STATUS, TARGET } = require('../helpers/constants');
 const logger = require('../utils/logger');
 
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const TestResult = require('test-results-parser/src/models/TestResult');
+const { getPlatform } = require('../platforms');
 
 
 
@@ -109,9 +110,8 @@ function setSuiteBlock({ result, target, payload }) {
 }
 
 function getSuiteSummary({ target, suite }) {
-  let text = `*${getSuiteTitle(suite)}*\n`;
-  text += `\n*Results*: ${getResultText(suite)}`;
-  text += `\n*Duration*: ${getPrettyDuration(suite.duration, target.inputs.duration)}`;
+  const platform = getPlatform(TARGET.SLACK);
+  const text = platform.getSuiteSummaryText(target, suite);
   return {
     "type": "section",
     "text": {
@@ -119,11 +119,6 @@ function getSuiteSummary({ target, suite }) {
       "text": text
     }
   };
-}
-
-function getSuiteTitle(suite) {
-  const emoji = suite.status === 'PASS' ? '✅' : suite.total === suite.skipped ? '⏭️' : '❌';
-  return `${emoji} ${suite.name}`;
 }
 
 function getFailureDetails(suite) {

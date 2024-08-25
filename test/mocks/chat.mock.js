@@ -583,6 +583,44 @@ addInteractionHandler('post test-summary with ci-info to chat', () => {
   }
 });
 
+addInteractionHandler('post test-summary with suite metadata to chat', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>Cucumber Test Result</b><br><br><b>Results</b>: 2 / 2 Passed (100%)<br><b>Duration</b>: 3ms"
+                    }
+                  }
+                ]
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>✅ Addition</b><br><br><b>Results</b>: 1 / 1 Passed (100%)<br><b>Duration</b>: 1ms<br><br>Windows 11 • firefox 129.0<br><br><b>✅ Addition</b><br><br><b>Results</b>: 1 / 1 Passed (100%)<br><b>Duration</b>: 1ms<br><br>Windows 11 • chrome 129.0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post errors to chat', () => {
   return {
     strict: false,

@@ -1,0 +1,186 @@
+[
+  {
+    "description": "Verify calculator functionalities",
+    "elements": [
+      {
+        "description": "",
+        "id": "addition;addition-of-two-numbers",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Addition of two numbers",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "I have number 6 in calculator",
+            "match": {
+              "location": "features\\support\\steps.js:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1211400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "I entered number 7",
+            "match": {
+              "location": "features\\support\\steps.js:9"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 136500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "I should see result 13",
+            "match": {
+              "location": "features\\support\\steps.js:13"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 244700
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@green",
+            "line": 4
+          },
+          {
+            "name": "@fast",
+            "line": 4
+          },
+          {
+            "name": "@testCase=1234",
+            "line": 4
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "addition",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Addition",
+    "tags": [
+      {
+        "name": "@blue",
+        "line": 4
+      },
+      {
+        "name": "@slow",
+        "line": 4
+      },
+      {
+        "name": "@suite=1234",
+        "line": 4
+      }
+    ],
+    "uri": "features\\sample.feature",
+    "metadata": {
+      "browser": { "name": "firefox", "version": "129.0" },
+      "device": "Desktop",
+      "platform": { "name": "Windows", "version": "11" }
+    }
+  },
+  {
+    "description": "Verify calculator functionalities",
+    "elements": [
+      {
+        "description": "",
+        "id": "addition;addition-of-two-numbers",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Addition of two numbers",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "I have number 6 in calculator",
+            "match": {
+              "location": "features\\support\\steps.js:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1211400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "I entered number 7",
+            "match": {
+              "location": "features\\support\\steps.js:9"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 136500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "I should see result 13",
+            "match": {
+              "location": "features\\support\\steps.js:13"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 244700
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@green",
+            "line": 4
+          },
+          {
+            "name": "@fast",
+            "line": 4
+          },
+          {
+            "name": "@testCase=1234",
+            "line": 4
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "addition",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Addition",
+    "tags": [
+      {
+        "name": "@blue",
+        "line": 4
+      },
+      {
+        "name": "@slow",
+        "line": 4
+      },
+      {
+        "name": "@suite=1234",
+        "line": 4
+      }
+    ],
+    "uri": "features\\sample.feature",
+    "metadata": {
+      "browser": { "name": "chrome", "version": "129.0" },
+      "device": "Desktop",
+      "platform": { "name": "Windows", "version": "11" }
+    }
+  }
+]

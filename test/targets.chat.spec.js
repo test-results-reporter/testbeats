@@ -158,6 +158,33 @@ describe('targets - google chat - functional', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send with suite metadata', async () => {
+    const id = mock.addInteraction('post test-summary with suite metadata to chat');
+    await publish({
+      config: {
+        "targets": [
+          {
+            "name": "chat",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "title": "Cucumber Test Result",
+              "only_failures": false
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "cucumber",
+            "files": [
+              "test/data/cucumber/suites-with-metadata.json"
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

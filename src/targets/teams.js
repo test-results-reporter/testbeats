@@ -2,11 +2,12 @@ const request = require('phin-retry');
 const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const extension_manager = require('../extensions');
-const { HOOK, STATUS } = require('../helpers/constants');
+const { HOOK, STATUS, TARGET } = require('../helpers/constants');
 const logger = require('../utils/logger');
 
 const TestResult = require('test-results-parser/src/models/TestResult');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
+const { getPlatform } = require('../platforms');
 
 /**
  * @param {object} param0
@@ -144,12 +145,16 @@ function setSuiteBlock({ result, target, payload }) {
 }
 
 function getSuiteSummary({ suite, target }) {
-  const percentage = getPercentage(suite.passed, suite.total);
-  const emoji = suite.status === 'PASS' ? '✅' : '❌';
-  return [
+
+  const platform = getPlatform(TARGET.TEAMS);
+  const suite_title = platform.getSuiteTitle(suite);
+  const suite_results = platform.getSuiteResults(suite);
+  const duration = platform.getSuiteDuration(target, suite);
+
+  const blocks = [
     {
       "type": "TextBlock",
-      "text": `${emoji} ${suite.name}`,
+      "text": suite_title,
       "isSubtle": true,
       "weight": "bolder",
       "wrap": true
@@ -159,15 +164,26 @@ function getSuiteSummary({ suite, target }) {
       "facts": [
         {
           "title": "Results:",
-          "value": `${suite.passed} / ${suite.total} Passed (${percentage}%)`
+          "value": suite_results
         },
         {
           "title": "Duration:",
-          "value": `${getPrettyDuration(suite.duration, target.inputs.duration)}`
+          "value": duration
         }
       ]
     }
-  ]
+  ];
+
+  const suite_metadata_text = platform.getSuiteMetaDataText(suite);
+  if (suite_metadata_text) {
+    blocks.push({
+      "type": "TextBlock",
+      "text": suite_metadata_text,
+      "wrap": true
+    });
+  }
+
+  return blocks;
 }
 
 function getFailureDetailsFactSets(suite) {

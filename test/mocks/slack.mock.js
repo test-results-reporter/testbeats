@@ -831,3 +831,46 @@ addInteractionHandler('post errors to slack', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary to slack with suite metadata', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Cucumber Test Result*\n\n*Results*: 2 / 2 Passed (100%)\n*Duration*: 3ms"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*✅ Addition*\n\n*Results*: 1 / 1 Passed (100%)\n*Duration*: 1ms\n\nWindows 11 • firefox 129.0"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*✅ Addition*\n\n*Results*: 1 / 1 Passed (100%)\n*Duration*: 1ms\n\nWindows 11 • chrome 129.0"
+                }
+              }
+            ],
+            "fallback": "Cucumber Test Result\nResults: 2 / 2 Passed (100%)"
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
