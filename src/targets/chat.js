@@ -1,10 +1,11 @@
 const request = require('phin-retry');
 const { getTitleText, getResultText, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
-const { HOOK, STATUS } = require('../helpers/constants');
+const { HOOK, STATUS, TARGET } = require('../helpers/constants');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const logger = require('../utils/logger');
+const { getPlatform } = require('../platforms');
 
 async function run({ result, target }) {
   setTargetInputs(target);
@@ -100,11 +101,9 @@ function setSuiteBlock({ result, target, payload }) {
 }
 
 function getSuiteSummary({ target, suite }) {
-  const emoji = suite.status === 'PASS' ? '✅' : '❌';
-  const suite_title = `${emoji} ${suite.name}`;
-  const result_text = getResultText({ result: suite });
-  const duration_text = getPrettyDuration(suite.duration, target.inputs.duration);
-  return `<b>${suite_title}</b><br><br><b>Results</b>: ${result_text}<br><b>Duration</b>: ${duration_text}`;
+  const platform = getPlatform(TARGET.CHAT);
+  const text = platform.getSuiteSummaryText(target, suite);
+  return text;
 }
 
 function getFailureDetails(suite) {

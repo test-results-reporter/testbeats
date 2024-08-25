@@ -1792,6 +1792,104 @@ addInteractionHandler('post test-summary with metadata and hyperlinks to teams',
   }
 });
 
+addInteractionHandler('post test-summary with suite metadata to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "Cucumber Test Result",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "2 / 2 Passed (100%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "3ms"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✅ Addition",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "1 / 1 Passed (100%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "1ms"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Windows 11 • firefox 129.0",
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "✅ Addition",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "type": "FactSet",
+                  "facts": [
+                    {
+                      "title": "Results:",
+                      "value": "1 / 1 Passed (100%)"
+                    },
+                    {
+                      "title": "Duration:",
+                      "value": "1ms"
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Windows 11 • chrome 129.0",
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post errors to teams', () => {
   return {
     strict: false,
