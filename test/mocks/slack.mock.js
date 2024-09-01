@@ -853,14 +853,14 @@ addInteractionHandler('post test-summary to slack with suite metadata', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*✅ Addition*\n\n*Results*: 1 / 1 Passed (100%)\n*Duration*: 1ms\n\nWindows 11 • firefox 129.0"
+                  "text": "*✅ Addition*\n\n*Results*: 1 / 1 Passed (100%)\n*Duration*: 1ms\n\nDesktop • Windows 11 • firefox 129.0"
                 }
               },
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*✅ Addition*\n\n*Results*: 1 / 1 Passed (100%)\n*Duration*: 1ms\n\nWindows 11 • chrome 129.0"
+                  "text": "*✅ Addition*\n\n*Results*: 1 / 1 Passed (100%)\n*Duration*: 1ms\n\nDesktop • Windows 11 • chrome 129.0"
                 }
               }
             ],

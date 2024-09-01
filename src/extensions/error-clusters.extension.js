@@ -1,5 +1,6 @@
 const { BaseExtension } = require('./base.extension');
 const { STATUS, HOOK } = require("../helpers/constants");
+const { truncate } = require('../helpers/helper');
 
 class ErrorClustersExtension extends BaseExtension {
 
@@ -35,7 +36,7 @@ class ErrorClustersExtension extends BaseExtension {
 
     const texts = [];
     for (const cluster of clusters) {
-      texts.push(`${cluster.failure} - ${this.bold(`(x${cluster.count})`)}`);
+      texts.push(`${truncate(cluster.failure, 150)} - ${this.bold(`(x${cluster.count})`)}`);
     }
     this.text = this.mergeTexts(texts);
   }

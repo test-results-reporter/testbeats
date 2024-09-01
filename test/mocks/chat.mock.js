@@ -605,7 +605,7 @@ addInteractionHandler('post test-summary with suite metadata to chat', () => {
                 "widgets": [
                   {
                     "textParagraph": {
-                      "text": "<b>✅ Addition</b><br><br><b>Results</b>: 1 / 1 Passed (100%)<br><b>Duration</b>: 1ms<br><br>Windows 11 • firefox 129.0<br><br><b>✅ Addition</b><br><br><b>Results</b>: 1 / 1 Passed (100%)<br><b>Duration</b>: 1ms<br><br>Windows 11 • chrome 129.0"
+                      "text": "<b>✅ Addition</b><br><br><b>Results</b>: 1 / 1 Passed (100%)<br><b>Duration</b>: 1ms<br><br>Desktop • Windows 11 • firefox 129.0<br><br><b>✅ Addition</b><br><br><b>Results</b>: 1 / 1 Passed (100%)<br><b>Duration</b>: 1ms<br><br>Desktop • Windows 11 • chrome 129.0"
                     }
                   }
                 ]
