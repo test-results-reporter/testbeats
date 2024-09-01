@@ -114,6 +114,34 @@ describe('TestBeats', () => {
     assert.equal(mock.getInteraction(id5).exercised, true);
   });
 
+  it('should send results with attachments from cucumber to beats', async () => {
+    const id1 = mock.addInteraction('post test results to beats');
+    const id2 = mock.addInteraction('get test results from beats');
+    const id3 = mock.addInteraction('upload attachments');
+    const id4 = mock.addInteraction('get empty error clusters from beats');
+    await publish({
+      config: {
+        api_key: 'api-key',
+        project: 'project-name',
+        run: 'build-name',
+        targets: [
+        ],
+        results: [
+          {
+            type: 'cucumber',
+            files: [
+              'test/data/cucumber/failed-tests-with-attachments.json'
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
+    assert.equal(mock.getInteraction(id4).exercised, true);
+  });
+
   it('should send results to beats without targets', async () => {
     const id1 = mock.addInteraction('post test results to beats');
     await publish({

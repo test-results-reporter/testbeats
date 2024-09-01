@@ -114,3 +114,5 @@ results
 
 # ignore test/override config files
 override-config*.json
+
+.testbeats

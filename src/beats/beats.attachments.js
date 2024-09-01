@@ -4,10 +4,11 @@ const FormData = require('form-data-lite');
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { BeatsApi } = require('./beats.api');
 const logger = require('../utils/logger');
+const TestAttachment = require('test-results-parser/src/models/TestAttachment');
 
 const MAX_ATTACHMENTS_PER_REQUEST = 5;
 const MAX_ATTACHMENTS_PER_RUN = 20;
-const MAX_ATTACHMENT_SIZE = 1024 * 1024;
+const MAX_ATTACHMENT_SIZE = 2 * 1024 * 1024;
 
 class BeatsAttachments {
 
@@ -53,8 +54,6 @@ class BeatsAttachments {
       return;
     }
     logger.info(`⏳ Uploading ${this.attachments.length} attachments...`);
-    const result_file = this.config.results[0].files[0];
-    const result_file_dir = path.dirname(result_file);
     try {
       let count = 0;
       const size = MAX_ATTACHMENTS_PER_REQUEST;
@@ -68,7 +67,11 @@ class BeatsAttachments {
         form.append('test_run_id', this.test_run_id);
         const file_images = []
         for (const attachment of attachments_subset) {
-          const attachment_path = path.join(result_file_dir, attachment.path);
+          const attachment_path = this.#getAttachmentFilePath(attachment);
+          if (!attachment_path) {
+            logger.warn(`⚠️ Unable to find attachment ${attachment.path}`);
+            continue;
+          }
           const stats = fs.statSync(attachment_path);
           if (stats.size > MAX_ATTACHMENT_SIZE) {
             logger.warn(`⚠️ Attachment ${attachment.path} is too big (${stats.size} bytes). Allowed size is ${MAX_ATTACHMENT_SIZE} bytes.`);
@@ -91,6 +94,33 @@ class BeatsAttachments {
     } catch (error) {
       logger.error(`❌ Unable to upload attachments: ${error.message}`, error);
     }
+  }
+
+  /**
+   *
+   * @param {TestAttachment} attachment
+   */
+  #getAttachmentFilePath(attachment) {
+    const result_file = this.config.results[0].files[0];
+    const result_file_dir = path.dirname(result_file);
+    const relative_attachment_path = path.join(result_file_dir, attachment.path);
+    const raw_attachment_path = attachment.path;
+
+    try {
+      fs.statSync(relative_attachment_path);
+      return relative_attachment_path;
+    } catch {
+      // nothing
+    }
+
+    try {
+      fs.statSync(raw_attachment_path);
+      return raw_attachment_path;
+    } catch {
+      // nothing
+    }
+
+    return null;
   }
 
 

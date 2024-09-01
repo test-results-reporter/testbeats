@@ -1,0 +1,109 @@
+[
+  {
+    "description": "  In order to keep Regres api stable\n  As a tester\n  I want to make sure that everything works as expected",
+    "elements": [
+      {
+        "description": "",
+        "id": "regres;create-a-new-user",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Create a new user",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 364790
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I create a new user",
+            "match": {
+              "location": "features/support/steps.js:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 560481458
+            },
+            "embeddings": [
+              {
+                "data": "eyJyZXEiOnsidXJsIjoiaHR0cHM6Ly9yZXFyZXMuaW4vYXBpL3VzZXJzIiwibWV0aG9kIjoiUE9TVCIsImJvZHkiOnsibmFtZSI6Im1vcnBoZXVzIiwiam9iIjoibGVhZGVyIn19LCJyZXMiOnsic3RhdHVzIjoyMDEsImJvZHkiOnsibmFtZSI6Im1vcnBoZXVzIiwiam9iIjoibGVhZGVyIiwiaWQiOiI2NzciLCJjcmVhdGVkQXQiOiIyMDI0LTA5LTAxVDEzOjA2OjI4LjQ1MVoifSwiaGVhZGVycyI6eyJkYXRlIjoiU3VuLCAwMSBTZXAgMjAyNCAxMzowNjoyOCBHTVQiLCJjb250ZW50LXR5cGUiOiJhcHBsaWNhdGlvbi9qc29uOyBjaGFyc2V0PXV0Zi04IiwiY29udGVudC1sZW5ndGgiOiI4NCIsImNvbm5lY3Rpb24iOiJrZWVwLWFsaXZlIiwicmVwb3J0LXRvIjoie1wiZ3JvdXBcIjpcImhlcm9rdS1uZWxcIixcIm1heF9hZ2VcIjozNjAwLFwiZW5kcG9pbnRzXCI6W3tcInVybFwiOlwiaHR0cHM6Ly9uZWwuaGVyb2t1LmNvbS9yZXBvcnRzP3RzPTE3MjUxOTU5ODgmc2lkPWM0Yzk3MjVmLTFhYjAtNDRkOC04MjBmLTQzMGRmMjcxOGUxMSZzPUVYZVg3S0d4SnQ1WTElMkZwVU8lMkI4bTE4R2RwUEFiTWtMcENqdzhSYlFoJTJCZk0lM0RcIn1dfSIsInJlcG9ydGluZy1lbmRwb2ludHMiOiJoZXJva3UtbmVsPWh0dHBzOi8vbmVsLmhlcm9rdS5jb20vcmVwb3J0cz90cz0xNzI1MTk1OTg4JnNpZD1jNGM5NzI1Zi0xYWIwLTQ0ZDgtODIwZi00MzBkZjI3MThlMTEmcz1FWGVYN0tHeEp0NVkxJTJGcFVPJTJCOG0xOEdkcFBBYk1rTHBDanc4UmJRaCUyQmZNJTNEIiwibmVsIjoie1wicmVwb3J0X3RvXCI6XCJoZXJva3UtbmVsXCIsXCJtYXhfYWdlXCI6MzYwMCxcInN1Y2Nlc3NfZnJhY3Rpb25cIjowLjAwNSxcImZhaWx1cmVfZnJhY3Rpb25cIjowLjA1LFwicmVzcG9uc2VfaGVhZGVyc1wiOltcIlZpYVwiXX0iLCJ4LXBvd2VyZWQtYnkiOiJFeHByZXNzIiwiYWNjZXNzLWNvbnRyb2wtYWxsb3ctb3JpZ2luIjoiKiIsImV0YWciOiJXL1wiNTQtNFQ0WGFhS3JjTjdEbzE5eHlCZWdIcWp3amU4XCIiLCJ2aWEiOiIxLjEgdmVndXIiLCJjZi1jYWNoZS1zdGF0dXMiOiJEWU5BTUlDIiwic2VydmVyIjoiY2xvdWRmbGFyZSIsImNmLXJheSI6IjhiYzU3YTRkMmMyNjJlODUtSFlEIn19fQ==",
+                "mime_type": "application/json"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "I fetch user by id",
+            "match": {
+              "location": "features/support/steps.js:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12466915
+            },
+            "embeddings": [
+              {
+                "data": "eyJyZXEiOnsidXJsIjoiaHR0cHM6Ly9yZXFyZXMuaW4vYXBpL3VzZXJzLzIiLCJtZXRob2QiOiJHRVQifSwicmVzIjp7InN0YXR1cyI6MjAwLCJib2R5Ijp7ImRhdGEiOnsiaWQiOjIsImVtYWlsIjoiamFuZXQud2VhdmVyQHJlcXJlcy5pbiIsImZpcnN0X25hbWUiOiJKYW5ldCIsImxhc3RfbmFtZSI6IldlYXZlciIsImF2YXRhciI6Imh0dHBzOi8vcmVxcmVzLmluL2ltZy9mYWNlcy8yLWltYWdlLmpwZyJ9LCJzdXBwb3J0Ijp7InVybCI6Imh0dHBzOi8vcmVxcmVzLmluLyNzdXBwb3J0LWhlYWRpbmciLCJ0ZXh0IjoiVG8ga2VlcCBSZXFSZXMgZnJlZSwgY29udHJpYnV0aW9ucyB0b3dhcmRzIHNlcnZlciBjb3N0cyBhcmUgYXBwcmVjaWF0ZWQhIn19LCJoZWFkZXJzIjp7ImRhdGUiOiJTdW4sIDAxIFNlcCAyMDI0IDEzOjA2OjI4IEdNVCIsImNvbnRlbnQtdHlwZSI6ImFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLTgiLCJjb250ZW50LWxlbmd0aCI6IjI4MCIsImNvbm5lY3Rpb24iOiJrZWVwLWFsaXZlIiwicmVwb3J0LXRvIjoie1wiZ3JvdXBcIjpcImhlcm9rdS1uZWxcIixcIm1heF9hZ2VcIjozNjAwLFwiZW5kcG9pbnRzXCI6W3tcInVybFwiOlwiaHR0cHM6Ly9uZWwuaGVyb2t1LmNvbS9yZXBvcnRzP3RzPTE3MjQ3NjE2OTImc2lkPWM0Yzk3MjVmLTFhYjAtNDRkOC04MjBmLTQzMGRmMjcxOGUxMSZzPWVJaFJsSEpYUHpvajR6cUtwMHZHS2slMkJLMjNXR2xIRnR6eiUyRkE4SlAyM284JTNEXCJ9XX0iLCJyZXBvcnRpbmctZW5kcG9pbnRzIjoiaGVyb2t1LW5lbD1odHRwczovL25lbC5oZXJva3UuY29tL3JlcG9ydHM/dHM9MTcyNDc2MTY5MiZzaWQ9YzRjOTcyNWYtMWFiMC00NGQ4LTgyMGYtNDMwZGYyNzE4ZTExJnM9ZUloUmxISlhQem9qNHpxS3AwdkdLayUyQksyM1dHbEhGdHp6JTJGQThKUDIzbzglM0QiLCJuZWwiOiJ7XCJyZXBvcnRfdG9cIjpcImhlcm9rdS1uZWxcIixcIm1heF9hZ2VcIjozNjAwLFwic3VjY2Vzc19mcmFjdGlvblwiOjAuMDA1LFwiZmFpbHVyZV9mcmFjdGlvblwiOjAuMDUsXCJyZXNwb25zZV9oZWFkZXJzXCI6W1wiVmlhXCJdfSIsIngtcG93ZXJlZC1ieSI6IkV4cHJlc3MiLCJhY2Nlc3MtY29udHJvbC1hbGxvdy1vcmlnaW4iOiIqIiwiZXRhZyI6IlcvXCIxMTgtcGJkd3dGbzlTS05oRDNMeDVpSEp5bmdwcTAwXCIiLCJ2aWEiOiIxLjEgdmVndXIiLCJjYWNoZS1jb250cm9sIjoibWF4LWFnZT0xNDQwMCIsImNmLWNhY2hlLXN0YXR1cyI6IkhJVCIsImFnZSI6IjE1MDUiLCJhY2NlcHQtcmFuZ2VzIjoiYnl0ZXMiLCJzZXJ2ZXIiOiJjbG91ZGZsYXJlIiwiY2YtcmF5IjoiOGJjNTdhNTA3ZDg4MmU4NS1IWUQifX19",
+                "mime_type": "application/json"
+              }
+            ]
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "regres;fetch-all-users",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Fetch All Users",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 46000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "I fetch all users",
+            "match": {
+              "location": "features/support/steps.js:37"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 16268958,
+              "error_message": "AssertionError [ERR_ASSERTION]: Json doesn't have type 'object' at '$.data' but found 'array'\n    at Expect.fail (/Users/anudeep/Documents/my/repos/test-results-reporter/example-pactum-cucumber-testbeats/node_modules/pactum/src/models/expect.js:461:12)\n    at Expect._validateJsonLike (/Users/anudeep/Documents/my/repos/test-results-reporter/example-pactum-cucumber-testbeats/node_modules/pactum/src/models/expect.js:229:21)\n    at Expect.validate (/Users/anudeep/Documents/my/repos/test-results-reporter/example-pactum-cucumber-testbeats/node_modules/pactum/src/models/expect.js:55:10)\n    at Tosser.validateResponse (/Users/anudeep/Documents/my/repos/test-results-reporter/example-pactum-cucumber-testbeats/node_modules/pactum/src/models/Tosser.js:243:23)\n    at Tosser.validate (/Users/anudeep/Documents/my/repos/test-results-reporter/example-pactum-cucumber-testbeats/node_modules/pactum/src/models/Tosser.js:210:18)\n    at Tosser.toss (/Users/anudeep/Documents/my/repos/test-results-reporter/example-pactum-cucumber-testbeats/node_modules/pactum/src/models/Tosser.js:46:18)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+            },
+            "embeddings": [
+              {
+                "data": "eyJyZXEiOnsidXJsIjoiaHR0cHM6Ly9yZXFyZXMuaW4vYXBpL3VzZXJzIiwibWV0aG9kIjoiR0VUIn0sInJlcyI6eyJzdGF0dXMiOjIwMCwiYm9keSI6eyJwYWdlIjoxLCJwZXJfcGFnZSI6NiwidG90YWwiOjEyLCJ0b3RhbF9wYWdlcyI6MiwiZGF0YSI6W3siaWQiOjEsImVtYWlsIjoiZ2VvcmdlLmJsdXRoQHJlcXJlcy5pbiIsImZpcnN0X25hbWUiOiJHZW9yZ2UiLCJsYXN0X25hbWUiOiJCbHV0aCIsImF2YXRhciI6Imh0dHBzOi8vcmVxcmVzLmluL2ltZy9mYWNlcy8xLWltYWdlLmpwZyJ9LHsiaWQiOjIsImVtYWlsIjoiamFuZXQud2VhdmVyQHJlcXJlcy5pbiIsImZpcnN0X25hbWUiOiJKYW5ldCIsImxhc3RfbmFtZSI6IldlYXZlciIsImF2YXRhciI6Imh0dHBzOi8vcmVxcmVzLmluL2ltZy9mYWNlcy8yLWltYWdlLmpwZyJ9LHsiaWQiOjMsImVtYWlsIjoiZW1tYS53b25nQHJlcXJlcy5pbiIsImZpcnN0X25hbWUiOiJFbW1hIiwibGFzdF9uYW1lIjoiV29uZyIsImF2YXRhciI6Imh0dHBzOi8vcmVxcmVzLmluL2ltZy9mYWNlcy8zLWltYWdlLmpwZyJ9LHsiaWQiOjQsImVtYWlsIjoiZXZlLmhvbHRAcmVxcmVzLmluIiwiZmlyc3RfbmFtZSI6IkV2ZSIsImxhc3RfbmFtZSI6IkhvbHQiLCJhdmF0YXIiOiJodHRwczovL3JlcXJlcy5pbi9pbWcvZmFjZXMvNC1pbWFnZS5qcGcifSx7ImlkIjo1LCJlbWFpbCI6ImNoYXJsZXMubW9ycmlzQHJlcXJlcy5pbiIsImZpcnN0X25hbWUiOiJDaGFybGVzIiwibGFzdF9uYW1lIjoiTW9ycmlzIiwiYXZhdGFyIjoiaHR0cHM6Ly9yZXFyZXMuaW4vaW1nL2ZhY2VzLzUtaW1hZ2UuanBnIn0seyJpZCI6NiwiZW1haWwiOiJ0cmFjZXkucmFtb3NAcmVxcmVzLmluIiwiZmlyc3RfbmFtZSI6IlRyYWNleSIsImxhc3RfbmFtZSI6IlJhbW9zIiwiYXZhdGFyIjoiaHR0cHM6Ly9yZXFyZXMuaW4vaW1nL2ZhY2VzLzYtaW1hZ2UuanBnIn1dLCJzdXBwb3J0Ijp7InVybCI6Imh0dHBzOi8vcmVxcmVzLmluLyNzdXBwb3J0LWhlYWRpbmciLCJ0ZXh0IjoiVG8ga2VlcCBSZXFSZXMgZnJlZSwgY29udHJpYnV0aW9ucyB0b3dhcmRzIHNlcnZlciBjb3N0cyBhcmUgYXBwcmVjaWF0ZWQhIn19LCJoZWFkZXJzIjp7ImRhdGUiOiJTdW4sIDAxIFNlcCAyMDI0IDEzOjA2OjI4IEdNVCIsImNvbnRlbnQtdHlwZSI6ImFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLTgiLCJjb250ZW50LWxlbmd0aCI6Ijk5NiIsImNvbm5lY3Rpb24iOiJrZWVwLWFsaXZlIiwicmVwb3J0LXRvIjoie1wiZ3JvdXBcIjpcImhlcm9rdS1uZWxcIixcIm1heF9hZ2VcIjozNjAwLFwiZW5kcG9pbnRzXCI6W3tcInVybFwiOlwiaHR0cHM6Ly9uZWwuaGVyb2t1LmNvbS9yZXBvcnRzP3RzPTE3MjQ2ODA2NDImc2lkPWM0Yzk3MjVmLTFhYjAtNDRkOC04MjBmLTQzMGRmMjcxOGUxMSZzPWJIR2RiVXoxc3ZkUUtqaFFHeHpRc2FqZElET0FlR2xGNFlJTUJlQno4JTJGRSUzRFwifV19IiwicmVwb3J0aW5nLWVuZHBvaW50cyI6Imhlcm9rdS1uZWw9aHR0cHM6Ly9uZWwuaGVyb2t1LmNvbS9yZXBvcnRzP3RzPTE3MjQ2ODA2NDImc2lkPWM0Yzk3MjVmLTFhYjAtNDRkOC04MjBmLTQzMGRmMjcxOGUxMSZzPWJIR2RiVXoxc3ZkUUtqaFFHeHpRc2FqZElET0FlR2xGNFlJTUJlQno4JTJGRSUzRCIsIm5lbCI6IntcInJlcG9ydF90b1wiOlwiaGVyb2t1LW5lbFwiLFwibWF4X2FnZVwiOjM2MDAsXCJzdWNjZXNzX2ZyYWN0aW9uXCI6MC4wMDUsXCJmYWlsdXJlX2ZyYWN0aW9uXCI6MC4wNSxcInJlc3BvbnNlX2hlYWRlcnNcIjpbXCJWaWFcIl19IiwieC1wb3dlcmVkLWJ5IjoiRXhwcmVzcyIsImFjY2Vzcy1jb250cm9sLWFsbG93LW9yaWdpbiI6IioiLCJldGFnIjoiVy9cIjNlNC0yUkxYdnI1d1RnOVlRNmFIOTVDa1lvRk51TzhcIiIsInZpYSI6IjEuMSB2ZWd1ciIsImNhY2hlLWNvbnRyb2wiOiJtYXgtYWdlPTE0NDAwIiwiY2YtY2FjaGUtc3RhdHVzIjoiSElUIiwiYWdlIjoiNTAxIiwiYWNjZXB0LXJhbmdlcyI6ImJ5dGVzIiwic2VydmVyIjoiY2xvdWRmbGFyZSIsImNmLXJheSI6IjhiYzU3YTUwOGQ4ZDJlODUtSFlEIn19fQ==",
+                "mime_type": "application/json"
+              }
+            ]
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "regres",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Regres",
+    "tags": [],
+    "uri": "features/sample.feature"
+  }
+]
