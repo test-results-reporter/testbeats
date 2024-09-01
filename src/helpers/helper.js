@@ -46,9 +46,15 @@ function processData(data) {
   return data;
 }
 
+/**
+ *
+ * @param {string} text
+ * @param {number} length
+ * @returns
+ */
 function truncate(text, length) {
   if (text && text.length > length) {
-    return text.slice(0, length) + "...";
+    return text.slice(0, length).trim() + "...";
   } else {
     return text;
   }

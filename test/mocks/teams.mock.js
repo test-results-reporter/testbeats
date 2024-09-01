@@ -1849,7 +1849,7 @@ addInteractionHandler('post test-summary with suite metadata to teams', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "Windows 11 • firefox 129.0",
+                  "text": "Desktop • Windows 11 • firefox 129.0",
                   "wrap": true
                 },
                 {
@@ -1874,7 +1874,7 @@ addInteractionHandler('post test-summary with suite metadata to teams', () => {
                 },
                 {
                   "type": "TextBlock",
-                  "text": "Windows 11 • chrome 129.0",
+                  "text": "Desktop • Windows 11 • chrome 129.0",
                   "wrap": true
                 }
               ],

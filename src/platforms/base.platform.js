@@ -103,12 +103,22 @@ class BasePlatform {
 
     const texts = [];
 
+    // webdriver io
+    if (suite.metadata.device && typeof suite.metadata.device === 'string') {
+      texts.push(`${suite.metadata.device}`);
+    }
+
     if (suite.metadata.platform && suite.metadata.platform.name && suite.metadata.platform.version) {
-      texts.push(`${suite.metadata.platform.name} ${suite.metadata.platform.version}`)
+      texts.push(`${suite.metadata.platform.name} ${suite.metadata.platform.version}`);
     }
 
     if (suite.metadata.browser && suite.metadata.browser.name && suite.metadata.browser.version) {
-      texts.push(`${suite.metadata.browser.name} ${suite.metadata.browser.version}`)
+      texts.push(`${suite.metadata.browser.name} ${suite.metadata.browser.version}`);
+    }
+
+    // playwright
+    if (suite.metadata.hostname && typeof suite.metadata.hostname === 'string') {
+      texts.push(`${suite.metadata.hostname}`);
     }
 
     return texts.join(' • ');
