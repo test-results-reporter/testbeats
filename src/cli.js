@@ -6,9 +6,10 @@ const sade = require('sade');
 const prog = sade('testbeats');
 const { PublishCommand } = require('./commands/publish.command');
 const logger = require('./utils/logger');
+const pkg = require('../package.json');
 
 prog
-  .version('2.0.4')
+  .version(pkg.version)
   .option('-c, --config', 'path to config file')
   .option('-l, --logLevel', 'Log Level', "INFO")
   .option('--api-key', 'api key')
