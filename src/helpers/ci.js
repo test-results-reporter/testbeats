@@ -1,9 +1,21 @@
+const os = require('os');
+const pkg = require('../../package.json');
+
 const ENV = process.env;
 
 /**
  * @returns {import('../extensions/extensions').ICIInfo}
  */
 function getCIInformation() {
+  const ci_info = getBaseCIInfo();
+  const system_info = getSystemInfo();
+  return {
+    ...ci_info,
+    ...system_info
+  }
+}
+
+function getBaseCIInfo() {
   if (ENV.GITHUB_ACTIONS) {
     return getGitHubActionsInformation();
   }
@@ -16,6 +28,7 @@ function getCIInformation() {
   if (ENV.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
     return getAzureDevOpsInformation();
   }
+  return getDefaultInformation();
 }
 
 function getGitHubActionsInformation() {
@@ -79,6 +92,46 @@ function getGitLabInformation() {
     build_name: ENV.CI_JOB_NAME,
     build_reason: ENV.CI_PIPELINE_SOURCE,
     user: ENV.GITLAB_USER_LOGIN || ENV.CI_COMMIT_AUTHOR
+  }
+}
+
+function getDefaultInformation() {
+  return {
+    ci: ENV.TEST_BEATS_CI_NAME,
+    git: ENV.TEST_BEATS_CI_GIT,
+    repository_url: ENV.TEST_BEATS_CI_REPOSITORY_URL,
+    repository_name: ENV.TEST_BEATS_CI_REPOSITORY_NAME,
+    repository_ref: ENV.TEST_BEATS_CI_REPOSITORY_REF,
+    repository_commit_sha: ENV.TEST_BEATS_CI_REPOSITORY_COMMIT_SHA,
+    build_url: ENV.TEST_BEATS_CI_BUILD_URL,
+    build_number: ENV.TEST_BEATS_CI_BUILD_NUMBER,
+    build_name: ENV.TEST_BEATS_CI_BUILD_NAME,
+    build_reason: ENV.TEST_BEATS_CI_BUILD_REASON,
+    user: ENV.TEST_BEATS_CI_USER || os.userInfo().username
+  }
+}
+
+function getSystemInfo() {
+  function getRuntimeInfo() {
+    if (typeof process !== 'undefined' && process.versions && process.versions.node) {
+      return { name: 'node', version: process.versions.node };
+    } else if (typeof Deno !== 'undefined') {
+      return { name: 'deno', version: Deno.version.deno };
+    } else if (typeof Bun !== 'undefined') {
+      return { name: 'bun', version: Bun.version };
+    } else {
+      return { name: 'unknown', version: 'unknown' };
+    }
+  }
+
+  const runtime = getRuntimeInfo();
+
+  return {
+    runtime: runtime.name,
+    runtime_version: runtime.version,
+    os: os.platform(),
+    os_version: os.release(),
+    testbeats_version: pkg.version
   }
 }
 
