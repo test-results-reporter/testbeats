@@ -13,6 +13,7 @@ const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 const logger = require('../utils/logger');
 const { ErrorClustersExtension } = require('./error-clusters.extension');
+const { FailureAnalysisExtension } = require('./failure-analysis.extension');
 
 async function run(options) {
   const { target, result, hook } = options;
@@ -59,6 +60,8 @@ function getExtensionRunner(extension, options) {
       return new CIInfoExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.AI_FAILURE_SUMMARY:
       return new AIFailureSummaryExtension(options.target, extension, options.result, options.payload, options.root_payload);
+    case EXTENSION.FAILURE_ANALYSIS:
+      return new FailureAnalysisExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.SMART_ANALYSIS:
       return new SmartAnalysisExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.ERROR_CLUSTERS:

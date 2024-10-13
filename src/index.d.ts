@@ -229,6 +229,7 @@ export interface PublishReport {
   project?: string;
   run?: string;
   show_failure_summary?: boolean;
+  show_failure_analysis?: boolean;
   show_smart_analysis?: boolean;
   show_error_clusters?: boolean;
   targets?: Target[];
