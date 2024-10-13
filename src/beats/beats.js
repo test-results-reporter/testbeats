@@ -1,7 +1,7 @@
 const { getCIInformation } = require('../helpers/ci');
 const logger = require('../utils/logger');
 const { BeatsApi } = require('./beats.api');
-const { HOOK } = require('../helpers/constants');
+const { HOOK, PROCESS_STATUS } = require('../helpers/constants');
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { BeatsAttachments } = require('./beats.attachments');
 
@@ -31,9 +31,7 @@ class Beats {
     await this.#publishTestResults();
     await this.#uploadAttachments();
     this.#updateTitleLink();
-    await this.#attachFailureSummary();
-    await this.#attachSmartAnalysis();
-    await this.#attachErrorClusters();
+    await this.#attachExtensions();
   }
 
   #setCIInfo() {
@@ -104,13 +102,20 @@ class Beats {
     }
   }
 
-  async #attachFailureSummary() {
+  async #attachExtensions() {
     if (!this.test_run_id) {
       return;
     }
     if (!this.config.targets) {
       return;
     }
+    await this.#attachFailureSummary();
+    await this.#attachFailureAnalysis();
+    await this.#attachSmartAnalysis();
+    await this.#attachErrorClusters();
+  }
+
+  async #attachFailureSummary() {
     if (this.result.status !== 'FAIL') {
       return;
     }
@@ -132,13 +137,29 @@ class Beats {
     }
   }
 
+  async #attachFailureAnalysis() {
+    if (this.result.status !== 'FAIL') {
+      return;
+    }
+    if (this.config.show_failure_analysis === false) {
+      return;
+    }
+    try {
+      logger.info('🪄 Fetching Failure Analysis...');
+      await this.#setTestRun('Failure Analysis Status', 'failure_analysis_status');
+      this.config.extensions.push({
+        name: 'failure-analysis',
+        hook: HOOK.AFTER_SUMMARY,
+        inputs: {
+          data: this.test_run
+        }
+      });
+    } catch (error) {
+      logger.error(`❌ Unable to attach failure analysis: ${error.message}`, error);
+    }
+  }
+
   async #attachSmartAnalysis() {
-    if (!this.test_run_id) {
-      return;
-    }
-    if (!this.config.targets) {
-      return;
-    }
     if (this.config.show_smart_analysis === false) {
       return;
     }
@@ -165,7 +186,7 @@ class Beats {
   }
 
   async #setTestRun(text, wait_for = 'smart_analysis_status') {
-    if (this.test_run && this.test_run[wait_for] === 'COMPLETED') {
+    if (this.test_run && this.test_run[wait_for] === PROCESS_STATUS.COMPLETED) {
       return;
     }
     let retry = 3;
@@ -175,13 +196,13 @@ class Beats {
       this.test_run = await this.api.getTestRun(this.test_run_id);
       const status = this.test_run && this.test_run[wait_for];
       switch (status) {
-        case 'COMPLETED':
+        case PROCESS_STATUS.COMPLETED:
           logger.debug(`☑️ ${text} generated successfully`);
           return;
-        case 'FAILED':
+        case PROCESS_STATUS.FAILED:
           logger.error(`❌ Failed to generate ${text}`);
           return;
-        case 'SKIPPED':
+        case PROCESS_STATUS.SKIPPED:
           logger.warn(`❗ Skipped generating ${text}`);
           return;
       }
@@ -191,12 +212,6 @@ class Beats {
   }
 
   async #attachErrorClusters() {
-    if (!this.test_run_id) {
-      return;
-    }
-    if (!this.config.targets) {
-      return;
-    }
     if (this.result.status !== 'FAIL') {
       return;
     }

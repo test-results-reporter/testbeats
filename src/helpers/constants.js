@@ -21,6 +21,7 @@ const TARGET = Object.freeze({
 
 const EXTENSION = Object.freeze({
   AI_FAILURE_SUMMARY: 'ai-failure-summary',
+  FAILURE_ANALYSIS: 'failure-analysis',
   SMART_ANALYSIS: 'smart-analysis',
   ERROR_CLUSTERS: 'error-clusters',
   HYPERLINKS: 'hyperlinks',
@@ -39,6 +40,13 @@ const URLS = Object.freeze({
   QUICK_CHART: 'https://quickchart.io'
 });
 
+const PROCESS_STATUS = Object.freeze({
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  SKIPPED: 'SKIPPED',
+});
+
 const MIN_NODE_VERSION = 14;
 
 module.exports = Object.freeze({
@@ -47,5 +55,6 @@ module.exports = Object.freeze({
   TARGET,
   EXTENSION,
   URLS,
+  PROCESS_STATUS,
   MIN_NODE_VERSION
 });
