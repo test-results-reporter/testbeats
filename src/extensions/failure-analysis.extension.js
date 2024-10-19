@@ -26,31 +26,32 @@ class FailureAnalysisExtension extends BaseExtension {
   }
 
   #setText() {
-    const data = this.extension.inputs.data;
-    if (!data) {
-      return;
-    }
-
     /**
-     * @type {import('../beats/beats.types').IBeatExecutionMetric}
+     * @type {import('../beats/beats.types').IFailureAnalysisMetric[]}
      */
-    const execution_metrics = data.execution_metrics[0];
-
-    if (!execution_metrics) {
-      logger.warn('⚠️ No execution metrics found. Skipping.');
+    const metrics = this.extension.inputs.data;
+    if (!metrics || metrics.length === 0) {
+      logger.warn('⚠️ No failure analysis metrics found. Skipping.');
       return;
     }
+
+    const to_investigate = metrics.find(metric => metric.name === 'To Investigate');
+    const auto_analysed = metrics.find(metric => metric.name === 'Auto Analysed');
 
     const failure_analysis = [];
 
-    if (execution_metrics.to_investigate) {
-      failure_analysis.push(`🔎 To Investigate: ${execution_metrics.to_investigate}`);
+    if (to_investigate && to_investigate.count > 0) {
+      failure_analysis.push(`🔎 To Investigate: ${to_investigate.count}`);
     }
-    if (execution_metrics.auto_analysed) {
-      failure_analysis.push(`🪄 Auto Analysed: ${execution_metrics.auto_analysed}`);
+    if (auto_analysed && auto_analysed.count > 0) {
+      failure_analysis.push(`🪄 Auto Analysed: ${auto_analysed.count}`);
     }
 
-    this.text = failure_analysis.join('  •  ');
+    if (failure_analysis.length === 0) {
+      return;
+    }
+
+    this.text = failure_analysis.join('    ');
   }
 
 }

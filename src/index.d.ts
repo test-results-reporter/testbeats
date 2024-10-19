@@ -251,7 +251,7 @@ export interface PublishOptions {
 }
 
 export interface CommandLineOptions {
-  config?: string;
+  config?: string | PublishConfig;
   project?: string;
   run?: string;
   'api-key'?: string;

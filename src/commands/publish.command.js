@@ -14,7 +14,7 @@ const { MIN_NODE_VERSION } = require('../helpers/constants');
 class PublishCommand {
 
   /**
-   * @param {import('../index').PublishOptions} opts
+   * @param {import('../index').CommandLineOptions} opts
    */
   constructor(opts) {
     this.opts = opts;
@@ -28,6 +28,7 @@ class PublishCommand {
     this.#buildConfig();
     this.#validateOptions();
     this.#setConfigFromFile();
+    this.#mergeConfigOptions();
     this.#processConfig();
     this.#validateConfig();
     this.#processResults();
@@ -73,6 +74,14 @@ class PublishCommand {
       } catch (error) {
         throw new Error(`Failed to read config file: '${file_path}' with error: '${error.message}'`);
       }
+    }
+  }
+
+  #mergeConfigOptions() {
+    if (this.opts.config && typeof this.opts.config === 'object') {
+      this.opts.config.project = this.opts.project || this.opts.config.project;
+      this.opts.config.run = this.opts.run || this.opts.config.run;
+      this.opts.config.api_key = this.opts['api-key'] || this.opts.config.api_key;
     }
   }
 

@@ -61,6 +61,20 @@ class BeatsApi {
       }
     });
   }
+
+  /**
+   *
+   * @param {string} run_id
+   * @returns {import('./beats.types').IFailureAnalysisMetric[]}
+   */
+  getFailureAnalysis(run_id) {
+    return request.get({
+      url: `${this.getBaseUrl()}/api/core/v1/test-runs/${run_id}/failure-analysis`,
+      headers: {
+        'x-api-key': this.config.api_key
+      }
+    });
+  }
 }
 
 module.exports = { BeatsApi }

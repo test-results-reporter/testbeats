@@ -1,5 +1,4 @@
 const { addInteractionHandler } = require('pactum').handler;
-const { like, includes } = require('pactum-matchers');
 
 addInteractionHandler('post test results to beats', () => {
   return {
@@ -151,6 +150,29 @@ addInteractionHandler('get empty error clusters from beats', () => {
       body: {
         values: []
       }
+    }
+  }
+});
+
+addInteractionHandler('get failure analysis from beats', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'GET',
+      path: '/api/core/v1/test-runs/test-run-id/failure-analysis'
+    },
+    response: {
+      status: 200,
+      body: [
+        {
+          name: 'To Investigate',
+          count: 1
+        },
+        {
+          name: 'Auto Analysed',
+          count: 1
+        }
+      ]
     }
   }
 });

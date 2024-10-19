@@ -65,13 +65,13 @@ class SmartAnalysisExtension extends BaseExtension {
     for (const item of smart_analysis) {
       rows.push(item);
       if (rows.length === 3) {
-        texts.push(rows.join('  •  '));
+        texts.push(rows.join('    '));
         rows.length = 0;
       }
     }
 
     if (rows.length > 0) {
-      texts.push(rows.join('  •  '));
+      texts.push(rows.join('    '));
     }
 
     this.text = this.mergeTexts(texts);
