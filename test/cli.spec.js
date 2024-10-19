@@ -52,4 +52,16 @@ describe('CLI', () => {
     });
   });
 
+  it('publish results with config file and cli options', (done) => {
+    mock.addInteraction('post test results to beats');
+    mock.addInteraction('get test results from beats');
+    mock.addInteraction('post test-summary with beats to teams');
+    exec('node src/cli.js publish --api-key api-key --project project-name --run build-name --config test/data/configs/teams.config.json', (error, stdout, stderr) => {
+      console.log(stdout);
+      assert.match(stdout, /🚀 Publishing results to TestBeats Portal/);
+      assert.match(stdout, /✅ Results published successfully!/);
+      done();
+    });
+  });
+
 });;
