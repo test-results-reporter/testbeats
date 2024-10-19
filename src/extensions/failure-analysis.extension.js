@@ -50,7 +50,7 @@ class FailureAnalysisExtension extends BaseExtension {
       failure_analysis.push(`🪄 Auto Analysed: ${execution_metrics.auto_analysed}`);
     }
 
-    this.text = failure_analysis.join('  •  ');
+    this.text = failure_analysis.join('    ');
   }
 
 }

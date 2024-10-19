@@ -1644,7 +1644,7 @@ addInteractionHandler('post test-summary with beats to teams with ai failure sum
                 },
                 {
                   "type": "TextBlock",
-                  "text": "⭕ Newly Failed: 1  •  🔴 Always Failing: 1  •  🟡 Flaky: 1\n\n🟢 Recovered: 1",
+                  "text": "⭕ Newly Failed: 1    🔴 Always Failing: 1    🟡 Flaky: 1\n\n🟢 Recovered: 1",
                   "wrap": true,
                   "separator": true,
                 }
@@ -1688,13 +1688,13 @@ addInteractionHandler('post test-summary with beats to teams with ai failure sum
                 },
                 {
                   "type": "TextBlock",
-                  "text": "🔎 To Investigate: 1  •  🪄 Auto Analysed: 1",
+                  "text": "🔎 To Investigate: 1    🪄 Auto Analysed: 1",
                   "wrap": true,
                   "separator": true,
                 },
                 {
                   "type": "TextBlock",
-                  "text": "⭕ Newly Failed: 1  •  🔴 Always Failing: 1  •  🟡 Flaky: 1\n\n🟢 Recovered: 1",
+                  "text": "⭕ Newly Failed: 1    🔴 Always Failing: 1    🟡 Flaky: 1\n\n🟢 Recovered: 1",
                   "wrap": true,
                   "separator": true,
                 }
