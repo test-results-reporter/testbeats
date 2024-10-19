@@ -147,11 +147,12 @@ class Beats {
     try {
       logger.info('🪄 Fetching Failure Analysis...');
       await this.#setTestRun('Failure Analysis Status', 'failure_analysis_status');
+      const metrics = await this.api.getFailureAnalysis(this.test_run_id);
       this.config.extensions.push({
         name: 'failure-analysis',
         hook: HOOK.AFTER_SUMMARY,
         inputs: {
-          data: this.test_run
+          data: metrics
         }
       });
     } catch (error) {

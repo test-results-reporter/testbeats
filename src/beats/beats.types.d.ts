@@ -9,12 +9,6 @@ export type IBeatExecutionMetric = {
   added: number
   removed: number
   flaky: number
-  product_bugs: number
-  environment_issues: number
-  automation_bugs: number
-  not_a_defects: number
-  to_investigate: number
-  auto_analysed: number
   failure_summary: any
   failure_summary_provider: any
   failure_summary_model: any
@@ -36,5 +30,11 @@ export type IErrorClustersResponse = {} & IPaginatedAPIResponse<IErrorCluster>;
 export type IErrorCluster = {
   test_failure_id: string
   failure: string
+  count: number
+}
+
+export type IFailureAnalysisMetric = {
+  id: string
+  name: string
   count: number
 }
