@@ -17,9 +17,15 @@ const { FailureAnalysisExtension } = require('./failure-analysis.extension');
 
 async function run(options) {
   const { target, result, hook } = options;
+  /**
+   * @type {import("..").IExtension[]}
+   */
   const extensions = target.extensions || [];
   for (let i = 0; i < extensions.length; i++) {
     const extension = extensions[i];
+    if (extension.enable === false || extension.enable === 'false') {
+      continue;
+    }
     const extension_runner = getExtensionRunner(extension, options);
     const extension_options = Object.assign({}, extension_runner.default_options, extension);
     if (extension_options.hook === hook) {

@@ -15,7 +15,7 @@ class BasePlatform {
 
   /**
    *
-   * @param {import('..').Target} target
+   * @param {import('..').ITarget} target
    * @param {import('test-results-parser').ITestSuite} suite
    */
   getSuiteSummaryText(target, suite) {
@@ -74,7 +74,7 @@ class BasePlatform {
 
   /**
    *
-   * @param {import('..').Target} target
+   * @param {import('..').ITarget} target
    * @param {import('test-results-parser').ITestSuite} suite
    */
   #getSuiteDurationText(target, suite) {
@@ -84,7 +84,7 @@ class BasePlatform {
 
   /**
    *
-   * @param {import('..').Target} target
+   * @param {import('..').ITarget} target
    * @param {import('test-results-parser').ITestSuite} suite
    */
   getSuiteDuration(target, suite) {
