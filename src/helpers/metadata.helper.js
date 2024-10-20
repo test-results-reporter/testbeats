@@ -18,8 +18,8 @@ function getMetaDataText(params) {
  *
  * @param {object} param0 - the payload object
  * @param {Object} param0.elements - The elements to generate metadata text from
- * @param {import('..').Target} param0.target - The result object
- * @param {import('..').Extension} param0.extension - The result object
+ * @param {import('..').ITarget} param0.target - The result object
+ * @param {import('..').IExtension} param0.extension - The result object
  * @param {Object} param0.result - The result object
  * @param {string} param0.default_condition - The default condition object
  * @return {string} The generated metadata text
@@ -50,8 +50,8 @@ async function getSlackMetaDataText({ elements, target, extension, result, defau
  *
  * @param {object} param0 - the payload object
  * @param {Object} param0.elements - The elements to generate metadata text from
- * @param {import('..').Target} param0.target - The result object
- * @param {import('..').Extension} param0.extension - The result object
+ * @param {import('..').ITarget} param0.target - The result object
+ * @param {import('..').IExtension} param0.extension - The result object
  * @param {Object} param0.result - The result object
  * @param {string} param0.default_condition - The default condition object
  * @return {string} The generated metadata text
@@ -82,8 +82,8 @@ async function getTeamsMetaDataText({ elements, target, extension, result, defau
  *
  * @param {object} param0 - the payload object
  * @param {Object} param0.elements - The elements to generate metadata text from
- * @param {import('..').Target} param0.target - The result object
- * @param {import('..').Extension} param0.extension - The result object
+ * @param {import('..').ITarget} param0.target - The result object
+ * @param {import('..').IExtension} param0.extension - The result object
  * @param {Object} param0.result - The result object
  * @param {string} param0.default_condition - The default condition object
  * @return {string} The generated metadata text

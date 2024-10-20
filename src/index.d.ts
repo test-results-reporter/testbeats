@@ -4,14 +4,30 @@ import { Schedule, User } from 'rosters';
 import { ParseOptions } from 'test-results-parser';
 import TestResult from 'test-results-parser/src/models/TestResult';
 
+export interface ITarget {
+  name: TargetName;
+  enable?: string | boolean;
+  condition?: Condition;
+  inputs?: SlackInputs | TeamsInputs | ChatInputs | CustomTargetInputs | InfluxDBTargetInputs;
+  extensions?: IExtension[];
+}
+
+export interface IExtension {
+  name: ExtensionName;
+  enable?: string | boolean;
+  condition?: Condition;
+  hook?: Hook;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs | AIFailureSummaryInputs;
+}
+
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom' | 'ai-failure-summary';
 export type Hook = 'start' | 'end' | 'after-summary';
 export type TargetName = 'slack' | 'teams' | 'chat' | 'custom' | 'delay';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
 
 export interface ConditionFunctionContext {
-  target: Target;
-  extension?: Extension,
+  target: ITarget;
+  extension?: IExtension,
   result: TestResult;
 }
 export type ConditionFunction = (ctx: ConditionFunctionContext) => boolean | Promise<boolean>;
@@ -67,12 +83,7 @@ export interface AIFailureSummaryInputs extends ExtensionInputs {
   failure_summary: string;
 }
 
-export interface Extension {
-  name: ExtensionName;
-  condition?: Condition;
-  hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs | AIFailureSummaryInputs;
-}
+
 
 export interface PercyAnalysisInputs extends ExtensionInputs {
   url?: string;
@@ -90,14 +101,14 @@ export interface PercyAnalysisOutputs {
   project?: object;
 }
 
-export interface PercyAnalysisExtension extends Extension {
+export interface PercyAnalysisExtension extends IExtension {
   inputs?: PercyAnalysisInputs;
   outputs?: PercyAnalysisOutputs;
 }
 
 export interface CustomExtensionFunctionContext {
-  target: Target;
-  extension: Extension,
+  target: ITarget;
+  extension: IExtension,
   result: TestResult;
   payload: any;
   root_payload: any;
@@ -109,13 +120,13 @@ export interface CustomExtensionInputs extends ExtensionInputs {
   load: string | CustomExtensionFunction;
 }
 
-export interface CustomExtension extends Extension {
+export interface CustomExtension extends IExtension {
   inputs?: CustomExtensionInputs;
   outputs?: any;
 }
 
 export interface LinkUrlFunctionContext {
-  target: Target;
+  target: ITarget;
   extension: HyperlinksExtension,
   result: TestResult;
 }
@@ -132,7 +143,7 @@ export interface HyperlinkInputs extends ExtensionInputs {
   links: Link[];
 }
 
-export interface HyperlinksExtension extends Extension {
+export interface HyperlinksExtension extends IExtension {
   inputs?: HyperlinkInputs;
 }
 
@@ -148,7 +159,7 @@ export interface MetadataInputs extends ExtensionInputs {
   data?: Metadata[];
 }
 
-export interface MetadataExtension extends Extension {
+export interface MetadataExtension extends IExtension {
   inputs?: MetadataInputs;
 }
 
@@ -202,7 +213,7 @@ export interface InfluxDBTargetInputs {
 }
 
 export interface CustomTargetFunctionContext {
-  target: Target;
+  target: ITarget;
   result: TestResult;
 }
 
@@ -212,12 +223,7 @@ export interface CustomTargetInputs {
   load: string | CustomTargetFunction;
 }
 
-export interface Target {
-  name: TargetName;
-  condition?: Condition;
-  inputs?: SlackInputs | TeamsInputs | ChatInputs | CustomTargetInputs | InfluxDBTargetInputs;
-  extensions?: Extension[];
-}
+
 
 export interface CustomResultOptions {
   type: string;
@@ -232,8 +238,8 @@ export interface PublishReport {
   show_failure_analysis?: boolean;
   show_smart_analysis?: boolean;
   show_error_clusters?: boolean;
-  targets?: Target[];
-  extensions?: Extension[];
+  targets?: ITarget[];
+  extensions?: IExtension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
 
@@ -241,8 +247,8 @@ export interface PublishConfig {
   api_key?: string;
   project?: string;
   run?: string;
-  targets?: Target[];
-  extensions?: Extension[];
+  targets?: ITarget[];
+  extensions?: IExtension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];
 }
 

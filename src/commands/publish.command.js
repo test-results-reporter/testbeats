@@ -158,6 +158,9 @@ class PublishCommand {
       throw new Error('targets must be an array');
     }
     for (const target of config.targets) {
+      if (target.enable === false || target.enable === 'false') {
+        continue;
+      }
       if (!target.name) {
         throw new Error(`'config.targets[*].name' is missing`);
       }
@@ -219,6 +222,9 @@ class PublishCommand {
         await beats.run(config, result);
         if (config.targets) {
           for (const target of config.targets) {
+            if (target.enable === false || target.enable === 'false') {
+              continue;
+            }
             target.extensions = target.extensions || [];
             target.extensions = config.extensions.concat(target.extensions);
             await target_manager.run(target, result);

@@ -10,10 +10,10 @@ const TestSuite = require('test-results-parser/src/models/TestSuite');
 const { STATUS } = require('../helpers/constants');
 
 /**
- * 
- * @param {object} param0 
+ *
+ * @param {object} param0
  * @param {PerformanceTestResult | TestResult} param0.result
- * @param {import('..').Target} param0.target
+ * @param {import('..').ITarget} param0.target
  */
 async function run({ result, target }) {
   target.inputs = Object.assign({}, default_inputs, target.inputs);
@@ -34,10 +34,10 @@ async function run({ result, target }) {
 }
 
 /**
- * 
- * @param {object} param0 
+ *
+ * @param {object} param0
  * @param {PerformanceTestResult | TestResult} param0.result
- * @param {import('..').Target} param0.target
+ * @param {import('..').ITarget} param0.target
  */
 function getMetrics({ result, target }) {
   const influx_metrics = [];
@@ -60,10 +60,10 @@ function getMetrics({ result, target }) {
 }
 
 /**
- * @param {object} param0 
+ * @param {object} param0
  * @param {PerformanceTestResult} param0.result
- * @param {import('..').Target} param0.target
- * @returns 
+ * @param {import('..').ITarget} param0.target
+ * @returns
  */
 function getPerfRunInfluxMetric({ result, target }) {
   const tags = Object.assign({}, target.inputs.tags);
@@ -88,8 +88,8 @@ function getPerfRunInfluxMetric({ result, target }) {
 }
 
 /**
- * 
- * @param {Metric} metric 
+ *
+ * @param {Metric} metric
  */
 function setPerfInfluxMetricFields(metric, fields) {
   let name = metric.name;
@@ -110,8 +110,8 @@ function setPerfInfluxMetricFields(metric, fields) {
 }
 
 /**
- * 
- * @param {Transaction} transaction 
+ *
+ * @param {Transaction} transaction
  */
 function getTransactionInfluxMetric(transaction, target) {
   const tags = Object.assign({}, target.inputs.tags);
@@ -133,10 +133,10 @@ function getTransactionInfluxMetric(transaction, target) {
 }
 
 /**
- * @param {object} param0 
+ * @param {object} param0
  * @param {TestResult | TestSuite} param0.result
- * @param {import('..').Target} param0.target
- * @returns 
+ * @param {import('..').ITarget} param0.target
+ * @returns
  */
 function getTestInfluxMetric({ result, target }, measurement) {
   const tags = Object.assign({}, target.inputs.tags);
@@ -158,10 +158,10 @@ function getTestInfluxMetric({ result, target }, measurement) {
 }
 
 /**
- * @param {object} param0 
+ * @param {object} param0
  * @param {TestCase} param0.result
- * @param {import('..').Target} param0.target
- * @returns 
+ * @param {import('..').ITarget} param0.target
+ * @returns
  */
 function getTestCaseInfluxMetric({ result, target }) {
   const tags = Object.assign({}, target.inputs.tags);

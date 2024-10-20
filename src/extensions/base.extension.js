@@ -5,8 +5,8 @@ class BaseExtension {
 
   /**
    *
-   * @param {import('..').Target} target
-   * @param {import('..').Extension} extension
+   * @param {import('..').ITarget} target
+   * @param {import('..').IExtension} extension
    * @param {import('..').TestResult} result
    * @param {any} payload
    * @param {any} root_payload

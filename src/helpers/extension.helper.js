@@ -3,9 +3,9 @@
  *
  * @param {object} param0 - the payload object
  * @param {object} param0.payload - the payload object
- * @param {import("..").Extension} param0.extension - the extension to add
+ * @param {import("..").IExtension} param0.extension - the extension to add
  * @param {string} param0.text - the text to include
- * @return {void} 
+ * @return {void}
  */
 function addSlackExtension({ payload, extension, text }) {
   if (extension.inputs.separator) {
@@ -44,9 +44,9 @@ function addSlackExtension({ payload, extension, text }) {
  *
  * @param {object} param0 - the payload object
  * @param {object} param0.payload - the payload object
- * @param {import("..").Extension} param0.extension - the extension to add
+ * @param {import("..").IExtension} param0.extension - the extension to add
  * @param {string} param0.text - the text to include
- * @return {void} 
+ * @return {void}
  */
 function addTeamsExtension({ payload, extension, text }) {
   if (extension.inputs.title) {
@@ -79,9 +79,9 @@ function addTeamsExtension({ payload, extension, text }) {
  *
  * @param {object} param0 - the payload object
  * @param {object} param0.payload - the payload object
- * @param {import("..").Extension} param0.extension - the extension to add
+ * @param {import("..").IExtension} param0.extension - the extension to add
  * @param {string} param0.text - the text to include
- * @return {void} 
+ * @return {void}
  */
 function addChatExtension({ payload, extension, text }) {
   let updated_text = text;

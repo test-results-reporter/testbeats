@@ -2,9 +2,9 @@ const path = require('path');
 const { STATUS } = require('../helpers/constants');
 
 /**
- * 
- * @param {object} param0 
- * @param {import('../index').Target} param0.target 
+ *
+ * @param {object} param0
+ * @param {import('../index').ITarget} param0.target
  */
 async function run({result, target}) {
   if (typeof target.inputs.load === 'string') {

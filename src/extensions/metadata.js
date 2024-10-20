@@ -4,7 +4,7 @@ const { getTeamsMetaDataText, getSlackMetaDataText, getChatMetaDataText } = requ
 
 /**
  * @param {object} param0
- * @param {import('..').Target} param0.target
+ * @param {import('..').ITarget} param0.target
  * @param {import('..').MetadataExtension} param0.extension
  */
 async function run({ target, extension, result, payload, root_payload }) {
