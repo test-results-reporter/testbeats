@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const zlib = require('zlib');
+const stream = require('stream');
 const FormData = require('form-data-lite');
+const ml = require('mime-lite')
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { BeatsApi } = require('./beats.api');
 const logger = require('../utils/logger');
@@ -23,12 +26,14 @@ class BeatsAttachments {
     this.test_run_id = test_run_id;
     this.failed_test_cases = [];
     this.attachments = [];
+    this.compressed_attachment_paths = [];
   }
 
   async upload() {
     this.#setAllFailedTestCases();
     this.#setAttachments();
     await this.#uploadAttachments();
+    this.#deleteCompressedAttachments();
   }
 
   #setAllFailedTestCases() {
@@ -67,17 +72,22 @@ class BeatsAttachments {
         form.append('test_run_id', this.test_run_id);
         const file_images = []
         for (const attachment of attachments_subset) {
-          const attachment_path = this.#getAttachmentFilePath(attachment);
+          let attachment_path = this.#getAttachmentFilePath(attachment);
           if (!attachment_path) {
             logger.warn(`⚠️ Unable to find attachment ${attachment.path}`);
             continue;
           }
+          attachment_path = await this.#compressAttachment(attachment_path);
           const stats = fs.statSync(attachment_path);
           if (stats.size > MAX_ATTACHMENT_SIZE) {
             logger.warn(`⚠️ Attachment ${attachment.path} is too big (${stats.size} bytes). Allowed size is ${MAX_ATTACHMENT_SIZE} bytes.`);
             continue;
           }
-          form.append('images', fs.readFileSync(attachment_path), { filename: path.basename(attachment_path), filepath: attachment_path });
+          form.append('images', fs.readFileSync(attachment_path), {
+            filename: path.basename(attachment_path),
+            filepath: attachment_path,
+            contentType: ml.getType(attachment.path),
+          });
           file_images.push({
             file_name: attachment.name,
             file_path: attachment.path,
@@ -123,7 +133,39 @@ class BeatsAttachments {
     return null;
   }
 
+  /**
+   *
+   * @param {string} attachment_path
+   */
+  #compressAttachment(attachment_path) {
+    return new Promise((resolve, _) => {
+      console.log(attachment_path)
+      if (attachment_path.endsWith('.br') || attachment_path.endsWith('.gz') || attachment_path.endsWith('.zst') || attachment_path.endsWith('.zip') || attachment_path.endsWith('.7z') || attachment_path.endsWith('.png') || attachment_path.endsWith('.jpg') || attachment_path.endsWith('.jpeg') || attachment_path.endsWith('.svg') || attachment_path.endsWith('.gif') || attachment_path.endsWith('.webp')) {
+        resolve(attachment_path);
+        return;
+      }
+      const read_stream = fs.createReadStream(attachment_path);
+      const br = zlib.createBrotliCompress();
 
+      const compressed_file_path = attachment_path + '.br';
+      const write_stream = fs.createWriteStream(compressed_file_path);
+      stream.pipeline(read_stream, br, write_stream, (err) => {
+        if (err) {
+          resolve(attachment_path);
+          return;
+        }
+        this.compressed_attachment_paths.push(compressed_file_path);
+        resolve(compressed_file_path);
+        return;
+      });
+    });
+  }
+
+  #deleteCompressedAttachments() {
+    for (const attachment_path of this.compressed_attachment_paths) {
+      fs.unlinkSync(attachment_path);
+    }
+  }
 
 }
 
