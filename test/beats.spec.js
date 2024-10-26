@@ -78,7 +78,7 @@ describe('TestBeats', () => {
     assert.equal(mock.getInteraction(id4).exercised, true);
   });
 
-  it('should send results with attachments to beats', async () => {
+  it('should send results with image attachments to beats', async () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('get test results from beats');
     const id3 = mock.addInteraction('upload attachments');
@@ -114,7 +114,7 @@ describe('TestBeats', () => {
     assert.equal(mock.getInteraction(id5).exercised, true);
   });
 
-  it('should send results with attachments from cucumber to beats', async () => {
+  it('should send results with file attachments from cucumber to beats', async () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('get test results from beats');
     const id3 = mock.addInteraction('upload attachments');
