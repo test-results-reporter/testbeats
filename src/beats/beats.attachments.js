@@ -139,7 +139,6 @@ class BeatsAttachments {
    */
   #compressAttachment(attachment_path) {
     return new Promise((resolve, _) => {
-      console.log(attachment_path)
       if (attachment_path.endsWith('.br') || attachment_path.endsWith('.gz') || attachment_path.endsWith('.zst') || attachment_path.endsWith('.zip') || attachment_path.endsWith('.7z') || attachment_path.endsWith('.png') || attachment_path.endsWith('.jpg') || attachment_path.endsWith('.jpeg') || attachment_path.endsWith('.svg') || attachment_path.endsWith('.gif') || attachment_path.endsWith('.webp')) {
         resolve(attachment_path);
         return;
