@@ -116,3 +116,4 @@ results
 override-config*.json
 
 .testbeats
+.testbeats.json
