@@ -2,7 +2,6 @@
 require('dotenv').config();
 
 const sade = require('sade');
-const { ExitPromptError } = require('@inquirer/prompts');
 
 const prog = sade('testbeats');
 const { PublishCommand } = require('./commands/publish.command');

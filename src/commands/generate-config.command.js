@@ -1,4 +1,4 @@
-const { input, confirm, checkbox } = require('@inquirer/prompts');
+const prompts = require('prompts');
 const fs = require('fs/promises');
 const logger = require('../utils/logger');
 
@@ -37,87 +37,114 @@ class GenerateConfigCommand {
         const targetExtensions = {};
         const globalExtensions = [];
         const extensionsList = [
-            { name: 'Quick Chart Test Summary', value: 'quick-chart-test-summary' },
-            { name: 'CI Information', value: 'ci-info' },
-            { name: 'Hyperlinks', value: 'hyperlinks' },
-            { name: 'Mentions', value: 'mentions' },
-            { name: 'Report Portal Analysis', value: 'report-portal-analysis' },
-            { name: 'Report Portal History', value: 'report-portal-history' },
-            { name: 'Percy Analysis', value: 'percy-analysis' },
-            { name: 'Metadata', value: 'metadata' },
-            { name: 'AI Failure Summary', value: 'ai-failure-summary' },
-            { name: 'Smart Analysis', value: 'smart-analysis' },
-            { name: 'Error Clusters', value: 'error-clusters' }
+            { title: 'Quick Chart Test Summary', value: 'quick-chart-test-summary' },
+            { title: 'CI Information', value: 'ci-info' },
+            { title: 'Hyperlinks', value: 'hyperlinks' },
+            { title: 'Mentions', value: 'mentions' },
+            { title: 'Report Portal Analysis', value: 'report-portal-analysis' },
+            { title: 'Report Portal History', value: 'report-portal-history' },
+            { title: 'Percy Analysis', value: 'percy-analysis' },
+            { title: 'Metadata', value: 'metadata' },
+            { title: 'AI Failure Summary', value: 'ai-failure-summary' },
+            { title: 'Smart Analysis', value: 'smart-analysis' },
+            { title: 'Error Clusters', value: 'error-clusters' }
         ];
 
         // Get initial answers
-        const configPath = await input({
+        const { configPath, includeResults } = await prompts([{
+            type: 'text',
+            name: 'configPath',
             message: 'Enter path for configuration file :',
-            default: '.testbeats.json'
-        });
-
-        const includeResults = await confirm({
+            initial: '.testbeats.json'
+        },
+        {
+            type: 'toggle',
+            name: 'includeResults',
             message: 'Do you want to configure test results?',
-            default: true
-        });
+            initial: true,
+            active: 'Yes',
+            inactive: 'No'
+        }]);
 
         if (includeResults) {
-            testResults = await checkbox({
+            const response = await prompts({
+                type: 'multiselect',
+                name: 'testResults',
                 message: 'Select test result types to include:',
                 choices: [
-                    { name: 'Mocha', value: 'mocha' , checked: true},
-                    { name: 'JUnit', value: 'junit' },
-                    { name: 'TestNG', value: 'testng' },
-                    { name: 'Cucumber', value: 'cucumber' },
-                    { name: 'NUnit', value: 'nunit' },
-                    { name: 'xUnit', value: 'xunit' },
-                    { name: 'MSTest', value: 'mstest' }
+                    { title: 'Mocha', value: 'mocha', selected: true },
+                    { title: 'JUnit', value: 'junit' },
+                    { title: 'TestNG', value: 'testng' },
+                    { title: 'Cucumber', value: 'cucumber' },
+                    { title: 'NUnit', value: 'nunit' },
+                    { title: 'xUnit', value: 'xunit' },
+                    { title: 'MSTest', value: 'mstest' }
                 ],
-                required: true
+                min: 1
             });
+            testResults = response.testResults;
         }
 
-        const includeTargets = await confirm({
+        const { includeTargets } = await prompts({
+            type: 'toggle',
+            name: 'includeTargets',
             message: 'Do you want to configure notification targets (slack, teams, chat etc)?',
-            default: true
+            initial: true,
+            active: 'Yes',
+            inactive: 'No'
         });
 
         if (includeTargets) {
-            targets = await checkbox({
+            const response = await prompts({
+                type: 'multiselect',
+                name: 'targets',
                 message: 'Select notification targets:',
                 choices: [
-                    { name: 'Slack', value: 'slack' },
-                    { name: 'Microsoft Teams', value: 'teams' },
-                    { name: 'Google Chat', value: 'chat' }
+                    { title: 'Slack', value: 'slack' },
+                    { title: 'Microsoft Teams', value: 'teams' },
+                    { title: 'Google Chat', value: 'chat' }
                 ],
-                required: true
+                min: 1
             });
+            targets = response.targets;
 
             if (targets.length > 0) {
-
-                title = await input({
+                const { titleInput } = await prompts({
+                    type: 'text',
+                    name: 'titleInput',
                     message: 'Enter notification title (optional):'
                 });
+                title = titleInput;
 
                 // For each target, ask about target-specific extensions
                 for (const target of targets) {
-                    webhookEnvVars[target] = await input({
+                    const { webhookEnvVar } = await prompts({
+                        type: 'text',
+                        name: 'webhookEnvVar',
                         message: `Enter environment variable name for ${target} webhook URL:`,
-                        default: `${target.toUpperCase()}_WEBHOOK_URL`
+                        initial: `${target.toUpperCase()}_WEBHOOK_URL`
                     });
+                    webhookEnvVars[target] = webhookEnvVar;
 
-                    const useExtensions = await confirm({
+                    const { useExtensions } = await prompts({
+                        type: 'toggle',
+                        name: 'useExtensions',
                         message: `Do you want to configure extensions for ${target}?`,
-                        default: true
+                        initial: true,
+                        active: 'Yes',
+                        inactive: 'No'
                     });
 
                     if (useExtensions) {
                         targetExtensions[`${target}Extensions`] = true;
-                        targetExtensions[`${target}ExtensionsList`] = await checkbox({
+                        const { selectedExtensions } = await prompts({
+                            type: 'multiselect',
+                            name: 'selectedExtensions',
                             message: `Select extensions for ${target}:`,
                             choices: extensionsList,
-                            required: true
+                            min: 1
                         });
+                        targetExtensions[`${target}ExtensionsList`] = selectedExtensions;
 
                         // Configure extension-specific inputs
                         for (const ext of targetExtensions[`${target}ExtensionsList`]) {
@@ -128,16 +155,23 @@ class GenerateConfigCommand {
             }
         }
 
-        const includeGlobalExtensions = await confirm({
+        const { includeGlobalExtensions } = await prompts({
+            type: 'toggle',
+            name: 'includeGlobalExtensions',
             message: 'Do you want to configure global extensions?',
-            default: false
+            initial: false,
+            active: 'Yes',
+            inactive: 'No'
         });
 
         if (includeGlobalExtensions) {
-            const globalExtensionsSelected = await checkbox({
+            const { globalExtensionsSelected } = await prompts({
+                type: 'multiselect',
+                name: 'globalExtensionsSelected',
                 message: 'Select global extensions to enable:',
                 choices: extensionsList
             });
+
             // Configure extension-specific inputs
             for (const ext of globalExtensionsSelected) {
                 const extDetails = await this.#promptExtensionConfig(ext, null);
@@ -149,26 +183,37 @@ class GenerateConfigCommand {
         const resultPaths = {};
         if (testResults.length > 0) {
             for (const resultType of testResults) {
-                resultPaths[`${resultType}Path`] = await input({
+                const { path } = await prompts({
+                    type: 'text',
+                    name: 'path',
                     message: `Enter file path for ${resultType} results (.json, .xml etc):`,
-                    default: "",
+                    initial: ""
                 });
+                resultPaths[`${resultType}Path`] = path;
             }
         }
 
         // TestBeats configuration
-        const includeTestBeats = await confirm({
+        const { includeTestBeats } = await prompts({
+            type: 'toggle',
+            name: 'includeTestBeats',
             message: 'Do you want to configure TestBeats API key (optional)?',
-            default: false
+            initial: false,
+            active: 'Yes',
+            inactive: 'No'
         });
 
         if (includeTestBeats) {
-            const apiKey = await input({
+            const { apiKey } = await prompts({
+                type: 'text',
+                name: 'apiKey',
                 message: 'Enter environment variable name for API key (optional):',
-                default: '{TEST_RESULTS_API_KEY}'
+                initial: '{TEST_RESULTS_API_KEY}'
             });
 
-            const project = await input({
+            const { project } = await prompts({
+                type: 'text',
+                name: 'project',
                 message: 'Enter project name (optional):'
             });
 
@@ -203,24 +248,44 @@ class GenerateConfigCommand {
         switch (extension) {
             case 'hyperlinks':
                 const links = [];
-                const addLink = await confirm({
+                const { addLink } = await prompts({
+                    type: 'toggle',
+                    name: 'addLink',
                     message: 'Do you want to add a hyperlink?',
-                    default: true
+                    initial: true,
+                    active: 'Yes',
+                    inactive: 'No'
                 });
                 
                 while (addLink) {
-                    links.push({
-                        text: await input({ message: 'Enter link text:' }),
-                        url: await input({ message: 'Enter link URL:' }),
-                        condition: await input({
+                    const { text, url, condition } = await prompts([
+                        {
+                            type: 'text',
+                            name: 'text',
+                            message: 'Enter link text:'
+                        },
+                        {
+                            type: 'text',
+                            name: 'url',
+                            message: 'Enter link URL:'
+                        },
+                        {
+                            type: 'text',
+                            name: 'condition',
                             message: 'Enter condition (PASS, FAIL, or PASS_OR_FAIL):',
-                            default: 'PASS_OR_FAIL'
-                        })
-                    });
+                            initial: 'PASS_OR_FAIL'
+                        }
+                    ]);
 
-                    const addAnother = await confirm({
+                    links.push({ text, url, condition });
+
+                    const { addAnother } = await prompts({
+                        type: 'toggle',
+                        name: 'addAnother',
                         message: 'Add another link?',
-                        default: false
+                        initial: false,
+                        active: 'Yes',
+                        inactive: 'No'
                     });
                     if (!addAnother) break;
                 }
@@ -229,28 +294,56 @@ class GenerateConfigCommand {
 
             case 'mentions':
                 const users = [];
-                const addUser = await confirm({
+                const { addUser } = await prompts({
+                    type: 'toggle',
+                    name: 'addUser',
                     message: 'Do you want to add user mentions?',
-                    default: true
+                    initial: true,
+                    active: 'Yes',
+                    inactive: 'No'
                 });
 
                 while (addUser) {
                     const user = {};
-                    user.name = await input({ message: 'Enter user name:' });
+                    const { name } = await prompts({
+                        type: 'text',
+                        name: 'name',
+                        message: 'Enter user name:'
+                    });
+                    user.name = name;
                     
                     if (target === 'teams') {
-                        user.teams_upn = await input({ message: 'Enter Teams UPN (user principal name):' });
+                        const { teams_upn } = await prompts({
+                            type: 'text',
+                            name: 'teams_upn',
+                            message: 'Enter Teams UPN (user principal name):'
+                        });
+                        user.teams_upn = teams_upn;
                     } else if (target === 'slack') {
-                        user.slack_uid = await input({ message: 'Enter Slack user ID:' });
+                        const { slack_uid } = await prompts({
+                            type: 'text',
+                            name: 'slack_uid',
+                            message: 'Enter Slack user ID:'
+                        });
+                        user.slack_uid = slack_uid;
                     } else if (target === 'chat') {
-                        user.chat_uid = await input({ message: 'Enter Google Chat user ID:' });
+                        const { chat_uid } = await prompts({
+                            type: 'text',
+                            name: 'chat_uid',
+                            message: 'Enter Google Chat user ID:'
+                        });
+                        user.chat_uid = chat_uid;
                     }
 
                     users.push(user);
 
-                    const addAnother = await confirm({
+                    const { addAnother } = await prompts({
+                        type: 'toggle',
+                        name: 'addAnother',
                         message: 'Add another user?',
-                        default: false
+                        initial: false,
+                        active: 'Yes',
+                        inactive: 'No'
                     });
                     if (!addAnother) break;
                 }
@@ -259,24 +352,44 @@ class GenerateConfigCommand {
 
             case 'metadata':
                 const data = [];
-                const addMetadata = await confirm({
+                const { addMetadata } = await prompts({
+                    type: 'toggle',
+                    name: 'addMetadata',
                     message: 'Do you want to add metadata?',
-                    default: true
+                    initial: true,
+                    active: 'Yes',
+                    inactive: 'No'
                 });
 
                 while (addMetadata) {
-                    data.push({
-                        key: await input({ message: 'Enter metadata key:' }),
-                        value: await input({ message: 'Enter metadata value:' }),
-                        condition: await input({
+                    const { key, value, condition } = await prompts([
+                        {
+                            type: 'text',
+                            name: 'key',
+                            message: 'Enter metadata key:'
+                        },
+                        {
+                            type: 'text',
+                            name: 'value',
+                            message: 'Enter metadata value:'
+                        },
+                        {
+                            type: 'text',
+                            name: 'condition',
                             message: 'Enter condition (PASS, FAIL, or PASS_OR_FAIL):',
-                            default: 'PASS_OR_FAIL'
-                        })
-                    });
+                            initial: 'PASS_OR_FAIL'
+                        }
+                    ]);
 
-                    const addAnother = await confirm({
+                    data.push({ key, value, condition });
+
+                    const { addAnother } = await prompts({
+                        type: 'toggle',
+                        name: 'addAnother',
                         message: 'Add another metadata item?',
-                        default: false
+                        initial: false,
+                        active: 'Yes',
+                        inactive: 'No'
                     });
                     if (!addAnother) break;
                 }
