@@ -8,17 +8,16 @@ class GenerateConfigCommand {
     /**
      * TODO: [BETA / Experimental Mode]
      * Generates initial TestBests configuration file
-     *  
      */
     constructor(opts) {
-        this.opts = opts
-        this.answers = {};
+        this.opts = opts;
+        this.configPath = '.testbeats.json';
         this.config = {};
     }
 
     async execute() {
         logger.setLevel(this.opts.logLevel);
-        this.#printBanner()
+        this.#printBanner();
         logger.info(`🚧 Config generation is still in BETA mode, please report any issues at ${pkg.bugs.url}\n`);
 
         await this.#buildConfigFilePath();
@@ -40,7 +39,7 @@ class GenerateConfigCommand {
         
                              v${pkg.version}  
                         Config Generation [BETA]
-        `
+        `;
         console.log(banner);
     }
 
@@ -51,7 +50,7 @@ class GenerateConfigCommand {
             message: 'Enter path for configuration file :',
             initial: '.testbeats.json'
         });
-        this.answers['configPath'] = configPath;
+        this.configPath = configPath;
     }
 
     async #buildTestResultsConfig() {
@@ -83,7 +82,6 @@ class GenerateConfigCommand {
             choices: runnerChoices,
             min: 1
         });
-        this.answers['testResults'] = testResults;
 
         // Handle result paths
         this.config.results = []
@@ -97,7 +95,7 @@ class GenerateConfigCommand {
             this.config.results.push({
                 files: path,
                 type: resultType
-            })
+            });
         }
     }
 
@@ -106,7 +104,7 @@ class GenerateConfigCommand {
             { title: 'Slack', value: 'slack' },
             { title: 'Microsoft Teams', value: 'teams' },
             { title: 'Google Chat', value: 'chat' }
-        ]
+        ];
 
         const { includeTargets } = await prompts({
             type: 'toggle',
@@ -160,7 +158,7 @@ class GenerateConfigCommand {
                     url: `{${webhookEnvVar}}`,
                     publish: 'test-summary'
                 }
-            }
+            };
 
             if (useExtensions) {
                 targetConfig.extensions = [];
@@ -400,11 +398,7 @@ class GenerateConfigCommand {
                 message: 'Enter project name (optional):'
             });
 
-            // testBeatsConfig.push({
-            //     api_key: apiKey,
-            //     project
-            // });
-            this.config.api_key = this.answers.apiKey;
+            this.config.api_key = apiKey;
             // Add optional fields only if they have values
             if (project?.trim()) {
                 this.config.project = project.trim();
@@ -424,8 +418,8 @@ class GenerateConfigCommand {
     async #saveConfigFile() {
         // Write config to file
         try {
-            await fs.writeFile(this.answers.configPath, JSON.stringify(this.config, null, 2));
-            logger.info(`✅ Configuration file successfully generated: ${this.answers.configPath}`);
+            await fs.writeFile(this.configPath, JSON.stringify(this.config, null, 2));
+            logger.info(`✅ Configuration file successfully generated: ${this.configPath}`);
         } catch (error) {
             throw new Error(`Error: ${error.message}`)
         }
