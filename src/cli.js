@@ -9,22 +9,12 @@ const { GenerateConfigCommand } = require('./commands/generate-config.command');
 const logger = require('./utils/logger');
 const pkg = require('../package.json');
 
-const banner = `
- _____             _    ___                  _         
-(_   _)           ( )_ (  _'\\               ( )_       
-  | |   __    ___ | ,_)| (_) )   __     _ _ | ,_)  ___ 
-  | | /'__'\\/',__)| |  |  _ <' /'__'\\ /'_' )| |  /',__)
-  | |(  ___/\\__, \\| |_ | (_) )(  ___/( (_| || |_ \\__, \\
-  (_)'\\____)(____/'\\__)(____/''\\____)'\\__,_)'\\__)(____/
-  
-                     v${pkg.version}  
-                Config Generation [BETA]
-`
-
 prog
   .version(pkg.version)
   .option('-l, --logLevel', 'Log Level', "INFO")
 
+
+// Command to publish test results
 prog.command('publish')
   .option('-c, --config', 'path to config file')
   .option('--api-key', 'api key')
@@ -54,21 +44,18 @@ prog.command('publish')
     }
   });
 
+// Command to initialize and generate TestBeats Configuration file
 prog.command('init')
   .describe('Generate a TestBeats configuration file')
   .example('init')
   .action(async (opts) => {
-    console.log(banner)
     try {
-      logger.setLevel(opts.logLevel);
-      logger.info(`🚧 Config generation is still in BETA mode, please report any issues at ${pkg.bugs.url}\n`);
-      const generate_command = new GenerateConfigCommand();
+      const generate_command = new GenerateConfigCommand(opts);
       await generate_command.execute();
     } catch (error) {
       if (error.name === 'ExitPromptError') {
         logger.info('😿 Configuration generation was canceled by the user.');
       } else {
-        logger.debug(error.stack)
         throw new Error(`❌ Error in generating configuration file: ${error.message}`)
       }
       process.exit(1);
