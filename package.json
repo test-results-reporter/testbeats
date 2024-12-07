@@ -53,6 +53,7 @@
     "performance-results-parser": "latest",
     "phin-retry": "^1.0.3",
     "pretty-ms": "^7.0.1",
+    "prompts": "^2.4.2",
     "rosters": "0.0.1",
     "sade": "^1.8.1",
     "test-results-parser": "0.2.5"
