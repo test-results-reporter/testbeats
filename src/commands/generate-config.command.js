@@ -64,24 +64,23 @@ class GenerateConfigCommand {
             { title: 'MSTest', value: 'mstest' }
         ]
         // Get test results details
-        const { includeResults } = await prompts({
+        const { testResults } = await prompts([{
             type: 'toggle',
             name: 'includeResults',
             message: 'Do you want to configure test results?',
             initial: true,
             active: 'Yes',
             inactive: 'No'
-        });
-
-        if (!includeResults) { return };
-
-        const { testResults } = await prompts({
-            type: 'multiselect',
+        },
+        {
+            type: (prev) => (prev ? "multiselect" : null),
             name: 'testResults',
             message: 'Select test result types to include:',
             choices: runnerChoices,
             min: 1
-        });
+        }]);
+
+        if (!testResults) { return };
 
         // Handle result paths
         this.config.results = []
@@ -106,50 +105,55 @@ class GenerateConfigCommand {
             { title: 'Google Chat', value: 'chat' }
         ];
 
-        const { includeTargets } = await prompts({
+        const { titleInput, targets } = await prompts([{
             type: 'toggle',
             name: 'includeTargets',
             message: 'Do you want to configure notification targets (slack, teams, chat etc)?',
             initial: true,
             active: 'Yes',
             inactive: 'No'
-        });
-
-        if (!includeTargets) { return }
-
-        this.config.targets = []
-        const { targets } = await prompts({
-            type: 'multiselect',
+        },
+        {
+            type: (prev) => (prev ? "text" : null),
+            name: 'titleInput',
+            message: 'Enter notification title (optional):',
+            initial: 'TestBeats Report'
+        },
+        {
+            type: (prev, values) => (values.includeTargets ? "multiselect" : null),
             name: 'targets',
             message: 'Select notification targets:',
             choices: targetChoices,
             min: 1
-        });
+        }]);
 
-        const { titleInput } = await prompts({
-            type: 'text',
-            name: 'titleInput',
-            message: 'Enter notification title (optional):',
-            initial: 'TestBeats Report'
-        });
+        if (!targets) { return }
+
+        this.config.targets = []
 
         // For each target, ask about target-specific extensions
         for (const target of targets) {
-            const { webhookEnvVar } = await prompts({
+            const { webhookEnvVar, selectedExtensions } = await prompts([{
                 type: 'text',
                 name: 'webhookEnvVar',
                 message: `Enter environment variable name for ${target} webhook URL:`,
                 initial: `${target.toUpperCase()}_WEBHOOK_URL`
-            });
-
-            const { useExtensions } = await prompts({
+            },
+            {
                 type: 'toggle',
                 name: 'useExtensions',
                 message: `Do you want to configure extensions for ${target}?`,
                 initial: true,
                 active: 'Yes',
                 inactive: 'No'
-            });
+            },
+            {
+                type: (prev, values) => (values.useExtensions ? 'multiselect' : null),
+                name: 'selectedExtensions',
+                message: `Select extensions for ${target}:`,
+                choices: this.#getExtensionsList(),
+                min: 1
+            }]);
 
             const targetConfig = {
                 name: target,
@@ -160,16 +164,8 @@ class GenerateConfigCommand {
                 }
             };
 
-            if (useExtensions) {
+            if (selectedExtensions) {
                 targetConfig.extensions = [];
-                const { selectedExtensions } = await prompts({
-                    type: 'multiselect',
-                    name: 'selectedExtensions',
-                    message: `Select extensions for ${target}:`,
-                    choices: this.#getExtensionsList(),
-                    min: 1
-                });
-
                 // Configure extension-specific inputs
                 for (const ext of selectedExtensions) {
                     const extConfig = await this.#buildExtensionConfig(ext, target);
@@ -181,24 +177,24 @@ class GenerateConfigCommand {
     }
 
     async #buildGobalExtensionConfig() {
-        const { includeGlobalExtensions } = await prompts({
+        const { globalExtensionsSelected } = await prompts([{
             type: 'toggle',
             name: 'includeGlobalExtensions',
             message: 'Do you want to configure global extensions?',
             initial: false,
             active: 'Yes',
             inactive: 'No'
-        });
-
-        if (!includeGlobalExtensions) { return };
-
-        this.config.extensions = [];
-        const { globalExtensionsSelected } = await prompts({
-            type: 'multiselect',
+        },
+        {
+            type: (prev) => (prev ? 'multiselect' : null),
             name: 'globalExtensionsSelected',
             message: 'Select global extensions to enable:',
             choices: this.#getExtensionsList()
-        });
+        }]);
+
+        if (!globalExtensionsSelected) { return };
+
+        this.config.extensions = [];
 
         // Configure extension-specific inputs
         for (const ext of globalExtensionsSelected) {
@@ -375,29 +371,27 @@ class GenerateConfigCommand {
 
     async #buildTestBeatsPortalConfig() {
         // TestBeats configuration
-        const { includeTestBeats } = await prompts({
+        const { apiKey, project } = await prompts([{
             type: 'toggle',
             name: 'includeTestBeats',
             message: 'Do you want to configure TestBeats API key (optional)?',
             initial: false,
             active: 'Yes',
             inactive: 'No'
-        });
+        },
+        {
+            type: (prev) => (prev ? 'text' : null),
+            name: 'apiKey',
+            message: 'Enter environment variable name for API key (optional):',
+            initial: '{TEST_RESULTS_API_KEY}'
+        },
+        {
+            type: (prev, values) => (values.includeTestBeats ? 'text' : null),
+            name: 'project',
+            message: 'Enter project name (optional):'
+        }]);
 
-        if (includeTestBeats) {
-            const { apiKey } = await prompts({
-                type: 'text',
-                name: 'apiKey',
-                message: 'Enter environment variable name for API key (optional):',
-                initial: '{TEST_RESULTS_API_KEY}'
-            });
-
-            const { project } = await prompts({
-                type: 'text',
-                name: 'project',
-                message: 'Enter project name (optional):'
-            });
-
+        if (apiKey) {
             this.config.api_key = apiKey;
             // Add optional fields only if they have values
             if (project?.trim()) {
