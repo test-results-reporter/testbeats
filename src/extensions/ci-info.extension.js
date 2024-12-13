@@ -56,19 +56,18 @@ class CIInfoExtension extends BaseExtension {
       this.#setRepositoryElement();
     }
     if (this.extension.inputs.show_repository_branch) {
-      if (this.ci.repository_ref.includes('refs/pull')) {
+      if (this.ci.pull_request_name) {
         this.#setPullRequestElement();
       } else {
         this.#setRepositoryBranchElement();
       }
     }
     if (!this.extension.inputs.show_repository && !this.extension.inputs.show_repository_branch && this.extension.inputs.show_repository_non_common) {
-      if (this.ci.repository_ref.includes('refs/pull')) {
+      if (this.ci.pull_request_name) {
         this.#setRepositoryElement();
         this.#setPullRequestElement();
       } else {
-        const branch_name = this.ci.repository_ref.replace('refs/heads/', '');
-        if (!COMMON_BRANCH_NAMES.includes(branch_name.toLowerCase())) {
+        if (!COMMON_BRANCH_NAMES.includes(this.ci.branch_name.toLowerCase())) {
           this.#setRepositoryElement();
           this.#setRepositoryBranchElement();
         }
@@ -81,15 +80,11 @@ class CIInfoExtension extends BaseExtension {
   }
 
   #setPullRequestElement() {
-    const pr_url = this.ci.repository_url + this.ci.repository_ref.replace('refs/pull/', '/pull/');
-    const pr_name = this.ci.repository_ref.replace('refs/pull/', '').replace('/merge', '');
-    this.repository_elements.push({ label: 'Pull Request', key: pr_name, value: pr_url, type: 'hyperlink' });
+    this.repository_elements.push({ label: 'Pull Request', key: this.ci.pull_request_name, value: this.ci.pull_request_url, type: 'hyperlink' });
   }
 
   #setRepositoryBranchElement() {
-    const branch_url = this.ci.repository_url + this.ci.repository_ref.replace('refs/heads/', '/tree/');
-    const branch_name = this.ci.repository_ref.replace('refs/heads/', '');
-    this.repository_elements.push({ label: 'Branch', key: branch_name, value: branch_url, type: 'hyperlink' });
+    this.repository_elements.push({ label: 'Branch', key: this.ci.branch_name, value: this.ci.branch_url, type: 'hyperlink' });
   }
 
   #setBuildElements() {
