@@ -14,6 +14,17 @@ describe('extensions - ci-info', () => {
     process.env.GITHUB_RUN_NUMBER = '';
     process.env.GITHUB_WORKFLOW = '';
 
+    process.env.GITLAB_CI=''
+    process.env.CI_PROJECT_URL = ''
+    process.env.CI_PROJECT_NAME = ''
+    process.env.CI_COMMIT_REF_NAME  = ''
+    process.env.CI_COMMIT_SHA = ''
+    process.env.CI_JOB_URL = ''
+    process.env.CI_JOB_ID = ''
+    process.env.CI_JOB_NAME = ''
+    process.env.CI_PIPELINE_SOURCE = ''
+    process.env.GITLAB_USER_LOGIN = '';
+
     process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI = '';
     process.env.BUILD_REPOSITORY_URI = '';
     process.env.BUILD_REPOSITORY_NAME = '';
@@ -142,6 +153,89 @@ describe('extensions - ci-info', () => {
     process.env.BUILD_BUILDNUMBER = 'number-123';
     process.env.BUILD_DEFINITIONNAME = 'Build';
     const id = mock.addInteraction('post test-summary with ci-info to slack');
+    await publish({
+      config: {
+        targets: [
+          {
+            name: 'slack',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            },
+            extensions: [
+              {
+                name: 'ci-info'
+              }
+            ]
+          }
+        ],
+        results: [
+          {
+            type: 'testng',
+            files: [
+              'test/data/testng/single-suite.xml'
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with gitlab ci information to slack', async () => {
+    process.env.GITLAB_CI=true
+    process.env.CI_PROJECT_URL = 'https://gitlab.com/testbeats/demo'
+    process.env.CI_PROJECT_NAME = 'demo'
+    process.env.CI_COMMIT_REF_NAME  = 'branch'
+    process.env.CI_COMMIT_SHA = 'sha'
+    process.env.CI_JOB_URL = 'https://gitlab.com/testbeats/demo/-/jobs/id-123'
+    process.env.CI_JOB_ID = 'id-123'
+    process.env.CI_JOB_NAME = 'Test'
+    process.env.CI_PIPELINE_SOURCE = 'push'
+    process.env.GITLAB_USER_LOGIN = 'dummy-user';
+
+    const id = mock.addInteraction('post test-summary with gitlab ci-info to slack');
+    await publish({
+      config: {
+        targets: [
+          {
+            name: 'slack',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            },
+            extensions: [
+              {
+                name: 'ci-info'
+              }
+            ]
+          }
+        ],
+        results: [
+          {
+            type: 'testng',
+            files: [
+              'test/data/testng/single-suite.xml'
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with gitlab ci information to slack - with PR', async () => {
+    process.env.GITLAB_CI=true
+    process.env.CI_OPEN_MERGE_REQUESTS='testbeats/demo!1'
+    process.env.CI_PROJECT_URL = 'https://gitlab.com/testbeats/demo'
+    process.env.CI_PROJECT_NAME = 'demo'
+    process.env.CI_COMMIT_REF_NAME  = 'branch'
+    process.env.CI_COMMIT_SHA = 'sha'
+    process.env.CI_JOB_URL = 'https://gitlab.com/testbeats/demo/-/jobs/id-123'
+    process.env.CI_JOB_ID = 'id-123'
+    process.env.CI_JOB_NAME = 'Test'
+    process.env.CI_PIPELINE_SOURCE = 'push'
+    process.env.GITLAB_USER_LOGIN = 'dummy-user';
+
+    const id = mock.addInteraction('post test-summary with gitlab ci-info with PR to slack');
     await publish({
       config: {
         targets: [

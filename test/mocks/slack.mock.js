@@ -729,6 +729,70 @@ addInteractionHandler('post test-summary with ci-info to slack', () => {
   }
 });
 
+addInteractionHandler('post test-summary with gitlab ci-info to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Repository:* <https://gitlab.com/testbeats/demo|demo> ｜ *Branch:* <https://gitlab.com/testbeats/demo/-/tree/branch|branch>\n*Build:* <https://gitlab.com/testbeats/demo/-/jobs/id-123|Test #id-123>"
+                }
+              }
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary with gitlab ci-info with PR to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Repository:* <https://gitlab.com/testbeats/demo|demo> ｜ *Pull Request:* <https://gitlab.com/testbeats/demo/-/merge_requests/1|#1>\n*Build:* <https://gitlab.com/testbeats/demo/-/jobs/id-123|Test #id-123>"
+                }
+              }
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post test-summary with multiple suites and ci-info to to slack', () => {
   return {
     request: {
