@@ -7,14 +7,10 @@ export type ICIInfo = {
   repository_commit_sha: string
   branch_url: string
   branch_name: string
-  pull_request: IPRInfo | boolean
+  pull_request_url: string
+  pull_request_name: string
   build_url: string
   build_number: string
   build_name: string
   user: string
-}
-
-export type IPRInfo = {
-  name: string
-  url: string
 }

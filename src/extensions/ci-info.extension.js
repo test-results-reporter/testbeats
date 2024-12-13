@@ -56,14 +56,14 @@ class CIInfoExtension extends BaseExtension {
       this.#setRepositoryElement();
     }
     if (this.extension.inputs.show_repository_branch) {
-      if (this.ci.pull_request) {
+      if (this.ci.pull_request_name) {
         this.#setPullRequestElement();
       } else {
         this.#setRepositoryBranchElement();
       }
     }
     if (!this.extension.inputs.show_repository && !this.extension.inputs.show_repository_branch && this.extension.inputs.show_repository_non_common) {
-      if (this.ci.pull_request) {
+      if (this.ci.pull_request_name) {
         this.#setRepositoryElement();
         this.#setPullRequestElement();
       } else {
@@ -80,7 +80,7 @@ class CIInfoExtension extends BaseExtension {
   }
 
   #setPullRequestElement() {
-    this.repository_elements.push({ label: 'Pull Request', key: this.ci.pull_request.name, value: this.ci.pull_request.url, type: 'hyperlink' });
+    this.repository_elements.push({ label: 'Pull Request', key: this.ci.pull_request_name, value: this.ci.pull_request_url, type: 'hyperlink' });
   }
 
   #setRepositoryBranchElement() {

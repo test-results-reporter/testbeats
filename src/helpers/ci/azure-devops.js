@@ -13,7 +13,8 @@ function info() {
     repository_commit_sha: ENV.BUILD_SOURCEVERSION,
     branch_url: '',
     branch_name: '',
-    pull_request: false,
+    pull_request_url:'',
+    pull_request_name: '',
     build_url: ENV.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI + ENV.SYSTEM_TEAMPROJECT + '/_build/results?buildId=' + ENV.BUILD_BUILDID,
     build_number: ENV.BUILD_BUILDNUMBER,
     build_name: ENV.BUILD_DEFINITIONNAME,
@@ -25,10 +26,8 @@ function info() {
   azure_devops.branch_name = azure_devops.repository_ref.replace('refs/heads/', '');
 
   if (azure_devops.repository_ref.includes('refs/pull')) {
-    azure_devops.pull_request = {
-      url: azure_devops.repository_url + azure_devops.repository_ref.replace('refs/pull/', '/pull/'),
-      name: azure_devops.repository_ref.replace('refs/pull/', '').replace('/merge', '')
-    }
+    azure_devops.pull_request_url = azure_devops.repository_url + azure_devops.repository_ref.replace('refs/pull/', '/pull/');
+    azure_devops.pull_request_name = azure_devops.repository_ref.replace('refs/pull/', '').replace('/merge', '');
   }
   return azure_devops;
 }

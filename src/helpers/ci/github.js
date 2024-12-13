@@ -13,7 +13,8 @@ function info() {
     repository_commit_sha: ENV.GITHUB_SHA,
     branch_url: '',
     branch_name: '',
-    pull_request: false,
+    pull_request_url:'',
+    pull_request_name: '',
     build_url: ENV.GITHUB_SERVER_URL + '/' + ENV.GITHUB_REPOSITORY + '/actions/runs/' + ENV.GITHUB_RUN_ID,
     build_number: ENV.GITHUB_RUN_NUMBER,
     build_name: ENV.GITHUB_WORKFLOW,
@@ -25,10 +26,8 @@ function info() {
   github.branch_name = github.repository_ref.replace('refs/heads/', '');
 
   if (github.repository_ref.includes('refs/pull')) {
-    github.pull_request = {
-      url: github.repository_url + github.repository_ref.replace('refs/pull/', '/pull/'),
-      name: github.repository_ref.replace('refs/pull/', '').replace('/merge', '')
-    }
+    github.pull_request_url = github.repository_url + github.repository_ref.replace('refs/pull/', '/pull/');
+    github.pull_request_name = github.repository_ref.replace('refs/pull/', '').replace('/merge', '');
   }
 
   return github

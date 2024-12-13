@@ -13,7 +13,8 @@ function info() {
     repository_commit_sha: ENV.GIT_COMMIT || ENV.GIT_COMMIT_SHA || ENV.GITHUB_SHA || ENV.BITBUCKET_COMMIT,
     branch_url: '',
     branch_name: '',
-    pull_request: false,
+    pull_request_url:'',
+    pull_request_name: '',
     build_url: ENV.BUILD_URL,
     build_number: ENV.BUILD_NUMBER,
     build_name: ENV.JOB_NAME,
@@ -25,10 +26,8 @@ function info() {
   jenkins.branch_name = jenkins.repository_ref.replace('refs/heads/', '');
 
   if (jenkins.repository_ref.includes('refs/pull')) {
-    jenkins.pull_request = {
-      url: jenkins.repository_url + jenkins.repository_ref.replace('refs/pull/', '/pull/'),
-      name: jenkins.repository_ref.replace('refs/pull/', '').replace('/merge', '')
-    }
+    jenkins.pull_request_url = jenkins.repository_url + jenkins.repository_ref.replace('refs/pull/', '/pull/');
+    jenkins.pull_request_name = jenkins.repository_ref.replace('refs/pull/', '').replace('/merge', '');
   }
 
   return jenkins_info;
