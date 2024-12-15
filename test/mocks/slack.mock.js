@@ -793,6 +793,38 @@ addInteractionHandler('post test-summary with gitlab ci-info with PR to slack', 
   }
 });
 
+addInteractionHandler('post test-summary with circle-ci ci-info to slack', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Build:* <https://apphttps://app.circleci.com/jobs/circleci/uuid-1/uuid-2|Test_Build #1>"
+                }
+              }
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post test-summary with multiple suites and ci-info to to slack', () => {
   return {
     request: {
