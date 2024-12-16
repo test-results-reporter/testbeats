@@ -1,6 +1,6 @@
 {
   "name": "testbeats",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Publish test results to Microsoft Teams, Google Chat, Slack and InfluxDB",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
