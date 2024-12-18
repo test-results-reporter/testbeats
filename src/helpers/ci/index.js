@@ -3,6 +3,7 @@ const github = require('./github');
 const gitlab = require('./gitlab');
 const jenkins = require('./jenkins');
 const azure_devops = require('./azure-devops');
+const circle_ci = require('./circle-ci');
 const system = require('./system');
 
 const ENV = process.env;
@@ -31,6 +32,9 @@ function getBaseCIInfo() {
   }
   if (ENV.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
     return azure_devops.info();
+  }
+  if (ENV.CIRCLECI) {
+    return circle_ci.info();
   }
   return getDefaultInformation();
 }

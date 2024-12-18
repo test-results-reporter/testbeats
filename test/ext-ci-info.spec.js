@@ -14,16 +14,26 @@ describe('extensions - ci-info', () => {
     process.env.GITHUB_RUN_NUMBER = '';
     process.env.GITHUB_WORKFLOW = '';
 
-    process.env.GITLAB_CI=''
-    process.env.CI_PROJECT_URL = ''
-    process.env.CI_PROJECT_NAME = ''
-    process.env.CI_COMMIT_REF_NAME  = ''
-    process.env.CI_COMMIT_SHA = ''
-    process.env.CI_JOB_URL = ''
-    process.env.CI_JOB_ID = ''
-    process.env.CI_JOB_NAME = ''
-    process.env.CI_PIPELINE_SOURCE = ''
+    process.env.GITLAB_CI = '';
+    process.env.CI_PROJECT_URL = '';
+    process.env.CI_PROJECT_NAME = '';
+    process.env.CI_COMMIT_REF_NAME = '';
+    process.env.CI_COMMIT_SHA = '';
+    process.env.CI_JOB_URL = '';
+    process.env.CI_JOB_ID = '';
+    process.env.CI_JOB_NAME = '';
+    process.env.CI_PIPELINE_SOURCE = '';
     process.env.GITLAB_USER_LOGIN = '';
+
+    process.env.CIRCLECI = '';
+    process.env.CIRCLE_REPOSITORY_URL = '';
+    process.env.CIRCLE_PROJECT_REPONAME = ''; // Need to find a better match
+    process.env.CIRCLE_SHA1 = '';
+    process.env.CIRCLE_BRANCH = '';
+    process.env.CIRCLE_BUILD_URL = '';
+    process.env.CIRCLE_BUILD_NUM = '';
+    process.env.CIRCLE_JOB = '';
+    process.env.CIRCLE_USERNAME = '';
 
     process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI = '';
     process.env.BUILD_REPOSITORY_URI = '';
@@ -182,15 +192,15 @@ describe('extensions - ci-info', () => {
   });
 
   it('should send test-summary with gitlab ci information to slack', async () => {
-    process.env.GITLAB_CI=true
-    process.env.CI_PROJECT_URL = 'https://gitlab.com/testbeats/demo'
-    process.env.CI_PROJECT_NAME = 'demo'
-    process.env.CI_COMMIT_REF_NAME  = 'branch'
-    process.env.CI_COMMIT_SHA = 'sha'
-    process.env.CI_JOB_URL = 'https://gitlab.com/testbeats/demo/-/jobs/id-123'
-    process.env.CI_JOB_ID = 'id-123'
-    process.env.CI_JOB_NAME = 'Test'
-    process.env.CI_PIPELINE_SOURCE = 'push'
+    process.env.GITLAB_CI = true;
+    process.env.CI_PROJECT_URL = 'https://gitlab.com/testbeats/demo';
+    process.env.CI_PROJECT_NAME = 'demo';
+    process.env.CI_COMMIT_REF_NAME = 'branch';
+    process.env.CI_COMMIT_SHA = 'sha';
+    process.env.CI_JOB_URL = 'https://gitlab.com/testbeats/demo/-/jobs/id-123';
+    process.env.CI_JOB_ID = 'id-123';
+    process.env.CI_JOB_NAME = 'Test';
+    process.env.CI_PIPELINE_SOURCE = 'push';
     process.env.GITLAB_USER_LOGIN = 'dummy-user';
 
     const id = mock.addInteraction('post test-summary with gitlab ci-info to slack');
@@ -223,19 +233,59 @@ describe('extensions - ci-info', () => {
   });
 
   it('should send test-summary with gitlab ci information to slack - with PR', async () => {
-    process.env.GITLAB_CI=true
-    process.env.CI_OPEN_MERGE_REQUESTS='testbeats/demo!1'
-    process.env.CI_PROJECT_URL = 'https://gitlab.com/testbeats/demo'
-    process.env.CI_PROJECT_NAME = 'demo'
-    process.env.CI_COMMIT_REF_NAME  = 'branch'
-    process.env.CI_COMMIT_SHA = 'sha'
-    process.env.CI_JOB_URL = 'https://gitlab.com/testbeats/demo/-/jobs/id-123'
-    process.env.CI_JOB_ID = 'id-123'
-    process.env.CI_JOB_NAME = 'Test'
-    process.env.CI_PIPELINE_SOURCE = 'push'
+    process.env.GITLAB_CI = true;
+    process.env.CI_OPEN_MERGE_REQUESTS = 'testbeats/demo!1';
+    process.env.CI_PROJECT_URL = 'https://gitlab.com/testbeats/demo';
+    process.env.CI_PROJECT_NAME = 'demo';
+    process.env.CI_COMMIT_REF_NAME = 'branch';
+    process.env.CI_COMMIT_SHA = 'sha';
+    process.env.CI_JOB_URL = 'https://gitlab.com/testbeats/demo/-/jobs/id-123';
+    process.env.CI_JOB_ID = 'id-123';
+    process.env.CI_JOB_NAME = 'Test';
+    process.env.CI_PIPELINE_SOURCE = 'push';
     process.env.GITLAB_USER_LOGIN = 'dummy-user';
 
     const id = mock.addInteraction('post test-summary with gitlab ci-info with PR to slack');
+    await publish({
+      config: {
+        targets: [
+          {
+            name: 'slack',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            },
+            extensions: [
+              {
+                name: 'ci-info'
+              }
+            ]
+          }
+        ],
+        results: [
+          {
+            type: 'testng',
+            files: [
+              'test/data/testng/single-suite.xml'
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+  it('should send test-summary with circle-ci\'s ci information to slack', async () => {
+    process.env.CIRCLECI = true;
+    process.env.CIRCLE_REPOSITORY_URL = '';
+    process.env.CIRCLE_PROJECT_REPONAME = 'demo';
+    process.env.CIRCLE_BRANCH = 'branch';
+    process.env.CIRCLE_SHA1 = 'sja';
+    process.env.CIRCLE_BUILD_URL = 'https://apphttps://app.circleci.com/jobs/circleci/uuid-1/uuid-2';
+    process.env.CIRCLE_BUILD_NUM = 1;
+    process.env.CIRCLE_JOB = 'Test_Build';
+    process.env.CIRCLE_USERNAME = 'dummy-user@example.com';
+
+    const id = mock.addInteraction('post test-summary with circle-ci ci-info to slack');
     await publish({
       config: {
         targets: [
