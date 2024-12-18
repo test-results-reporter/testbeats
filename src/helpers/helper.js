@@ -14,18 +14,11 @@ function getPercentage(x, y) {
 function processText(raw) {
   const dataRefMatches = raw.match(DATA_REF_PATTERN);
   if (dataRefMatches) {
-    const values = [];
     for (let i = 0; i < dataRefMatches.length; i++) {
       const dataRefMatch = dataRefMatches[i];
       const content = dataRefMatch.slice(1, -1);
-      if (process.env[content]) {
-        values.push(process.env[content]);
-      } else {
-        values.push(content);
-      }
-    }
-    for (let i = 0; i < dataRefMatches.length; i++) {
-      raw = raw.replace(dataRefMatches[i], values[i]);
+      const envValue = process.env[content] || content;
+      raw = raw.replace(dataRefMatches[i], envValue);
     }
   }
   return raw;
