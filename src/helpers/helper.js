@@ -18,7 +18,7 @@ function processText(raw) {
       const dataRefMatch = dataRefMatches[i];
       const content = dataRefMatch.slice(1, -1);
       const envValue = process.env[content] || content;
-      raw = raw.replace(dataRefMatches[i], envValue);
+      raw = raw.replace(dataRefMatch, envValue);
     }
   }
   return raw;
