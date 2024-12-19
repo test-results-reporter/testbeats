@@ -1,7 +1,36 @@
 const assert = require('assert');
+const { mock } = require('pactum');
 const { publish } = require("../src");
 
 describe('Config', () => {
+
+  it('should allow valid config with ENV vars - successful', async () => {
+    const id = mock.addInteraction('post test-summary to teams');
+    process.env.TEST_URL='http://localhost:9393/message'
+    await publish({
+      config: {
+        "targets": [
+          {
+            "name": "teams",
+            "condition": "result.status === 'PASS'",
+            "inputs": {
+              "url": "{TEST_URL}"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
+            ]
+          }
+        ]
+      }
+    });
+    process.env.TEST_URL=''
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
 
   it('should not allow missing options', async () => {
     let e;
