@@ -1,38 +1,36 @@
+const { BaseCI } = require('./base.ci');
+
 const ENV = process.env;
 
-/**
- * @returns {import('../../extensions/extensions').ICIInfo}
- */
-function info() {
-  const jenkins = {
-    ci: 'JENKINS',
-    git: '',
-    repository_url: ENV.GIT_URL || ENV.GITHUB_URL || ENV.BITBUCKET_URL,
-    repository_name: ENV.JOB_NAME,
-    repository_ref: ENV.BRANCH || ENV.BRANCH_NAME,
-    repository_commit_sha: ENV.GIT_COMMIT || ENV.GIT_COMMIT_SHA || ENV.GITHUB_SHA || ENV.BITBUCKET_COMMIT,
-    branch_url: '',
-    branch_name: '',
-    pull_request_url:'',
-    pull_request_name: '',
-    build_url: ENV.BUILD_URL,
-    build_number: ENV.BUILD_NUMBER,
-    build_name: ENV.JOB_NAME,
-    build_reason: ENV.BUILD_CAUSE,
-    user: ENV.USER || ENV.USERNAME
+class JenkinsCI extends BaseCI {
+  constructor() {
+    super();
+    this.init();
   }
 
-  jenkins.branch_url = jenkins.repository_url + jenkins.repository_ref.replace('refs/heads/', '/tree/');
-  jenkins.branch_name = jenkins.repository_ref.replace('refs/heads/', '');
+  init() {
+    this.setInfo(this.targets.ci, 'JENKINS');
+    this.setInfo(this.targets.git, '');
+    this.setInfo(this.targets.repository_url, ENV.GIT_URL || ENV.GITHUB_URL || ENV.BITBUCKET_URL);
+    this.setInfo(this.targets.repository_name, ENV.JOB_NAME);
+    this.setInfo(this.targets.repository_ref, ENV.BRANCH || ENV.BRANCH_NAME);
+    this.setInfo(this.targets.repository_commit_sha, ENV.GIT_COMMIT || ENV.GIT_COMMIT_SHA || ENV.GITHUB_SHA || ENV.BITBUCKET_COMMIT);
+    this.setInfo(this.targets.branch_url, this.repository_url + this.repository_ref.replace('refs/heads/', '/tree/'));
+    this.setInfo(this.targets.branch_name, this.repository_ref.replace('refs/heads/', ''));
 
-  if (jenkins.repository_ref.includes('refs/pull')) {
-    jenkins.pull_request_url = jenkins.repository_url + jenkins.repository_ref.replace('refs/pull/', '/pull/');
-    jenkins.pull_request_name = jenkins.repository_ref.replace('refs/pull/', '').replace('/merge', '');
+    if (this.repository_ref.includes('refs/pull')) {
+      this.setInfo(this.targets.pull_request_url, this.repository_url + this.repository_ref.replace('refs/pull/', '/pull/'));
+      this.setInfo(this.targets.pull_request_name, this.repository_ref.replace('refs/pull/', '').replace('/merge', ''));
+    }
+
+    this.setInfo(this.targets.build_url, ENV.BUILD_URL);
+    this.setInfo(this.targets.build_number, ENV.BUILD_NUMBER);
+    this.setInfo(this.targets.build_name, ENV.JOB_NAME);
+    this.setInfo(this.targets.build_reason, ENV.BUILD_CAUSE);
+    this.setInfo(this.targets.user, ENV.USER || ENV.USERNAME, true);
   }
-
-  return jenkins_info;
 }
 
 module.exports = {
-  info
+  JenkinsCI
 }
