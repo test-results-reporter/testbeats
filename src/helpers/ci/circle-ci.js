@@ -1,29 +1,32 @@
+const { BaseCI } = require('./base.ci');
+
 const ENV = process.env;
 
-/**
- * @returns {import('../../extensions/extensions').ICIInfo}
- */
-function info() {
-  const circle = {
-    ci: 'CIRCLE_CI',
-    git: '',
-    repository_url: ENV.CIRCLE_REPOSITORY_URL,
-    repository_name: ENV.CIRCLE_PROJECT_REPONAME, // Need to find a better match
-    repository_ref: ENV.CIRCLE_BRANCH,
-    repository_commit_sha: ENV.CIRCLE_SHA1,
-    branch_url: '',
-    branch_name: ENV.CIRCLE_BRANCH,
-    pull_request_url:'',
-    pull_request_name: '',
-    build_url: ENV.CIRCLE_BUILD_URL,
-    build_number: ENV.CIRCLE_BUILD_NUM,
-    build_name: ENV.CIRCLE_JOB,
-    build_reason: 'Push',
-    user: ENV.CIRCLE_USERNAME,
+class CircleCI extends BaseCI {
+  constructor() {
+    super();
+    this.init();
   }
-  return circle
+
+  init() {
+    this.setInfo(this.targets.ci, 'CIRCLE_CI');
+    this.setInfo(this.targets.git, '');
+    this.setInfo(this.targets.repository_url, ENV.CIRCLE_REPOSITORY_URL);
+    this.setInfo(this.targets.repository_name, ENV.CIRCLE_PROJECT_REPONAME);
+    this.setInfo(this.targets.repository_ref, ENV.CIRCLE_BRANCH);
+    this.setInfo(this.targets.repository_commit_sha, ENV.CIRCLE_SHA1);
+    this.setInfo(this.targets.branch_url, '');
+    this.setInfo(this.targets.branch_name, ENV.CIRCLE_BRANCH);
+    this.setInfo(this.targets.pull_request_url,'');
+    this.setInfo(this.targets.pull_request_name, '');
+    this.setInfo(this.targets.build_url, ENV.CIRCLE_BUILD_URL);
+    this.setInfo(this.targets.build_number, ENV.CIRCLE_BUILD_NUM);
+    this.setInfo(this.targets.build_name, ENV.CIRCLE_JOB);
+    this.setInfo(this.targets.build_reason, 'Push');
+    this.setInfo(this.targets.user, ENV.CIRCLE_USERNAME, true);
+  }
 }
 
 module.exports = {
-  info
+  CircleCI
 }

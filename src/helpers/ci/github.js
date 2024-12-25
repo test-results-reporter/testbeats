@@ -1,38 +1,36 @@
+const { BaseCI } = require('./base.ci');
+
 const ENV = process.env;
 
-/**
- * @returns {import('../../extensions/extensions').ICIInfo}
- */
-function info() {
-  const github = {
-    ci: 'GITHUB_ACTIONS',
-    git: 'GITHUB',
-    repository_url: ENV.GITHUB_SERVER_URL + '/' + ENV.GITHUB_REPOSITORY,
-    repository_name: ENV.GITHUB_REPOSITORY,
-    repository_ref: ENV.GITHUB_REF,
-    repository_commit_sha: ENV.GITHUB_SHA,
-    branch_url: '',
-    branch_name: '',
-    pull_request_url:'',
-    pull_request_name: '',
-    build_url: ENV.GITHUB_SERVER_URL + '/' + ENV.GITHUB_REPOSITORY + '/actions/runs/' + ENV.GITHUB_RUN_ID,
-    build_number: ENV.GITHUB_RUN_NUMBER,
-    build_name: ENV.GITHUB_WORKFLOW,
-    build_reason: ENV.GITHUB_EVENT_NAME,
-    user: ENV.GITHUB_ACTOR,
+class GitHubCI extends BaseCI {
+  constructor() {
+    super();
+    this.init();
   }
 
-  github.branch_url = github.repository_url + github.repository_ref.replace('refs/heads/', '/tree/');
-  github.branch_name = github.repository_ref.replace('refs/heads/', '');
+  init() {
+    this.setInfo(this.targets.ci, 'GITHUB_ACTIONS');
+    this.setInfo(this.targets.git, 'GITHUB');
+    this.setInfo(this.targets.repository_url, ENV.GITHUB_SERVER_URL + '/' + ENV.GITHUB_REPOSITORY);
+    this.setInfo(this.targets.repository_name, ENV.GITHUB_REPOSITORY);
+    this.setInfo(this.targets.repository_ref, ENV.GITHUB_REF);
+    this.setInfo(this.targets.repository_commit_sha, ENV.GITHUB_SHA);
+    this.setInfo(this.targets.build_url, ENV.GITHUB_SERVER_URL + '/' + ENV.GITHUB_REPOSITORY + '/actions/runs/' + ENV.GITHUB_RUN_ID);
+    this.setInfo(this.targets.build_number, ENV.GITHUB_RUN_NUMBER);
+    this.setInfo(this.targets.build_name, ENV.GITHUB_WORKFLOW);
+    this.setInfo(this.targets.build_reason, ENV.GITHUB_EVENT_NAME);
+    this.setInfo(this.targets.user, ENV.GITHUB_ACTOR, true);
 
-  if (github.repository_ref.includes('refs/pull')) {
-    github.pull_request_url = github.repository_url + github.repository_ref.replace('refs/pull/', '/pull/');
-    github.pull_request_name = github.repository_ref.replace('refs/pull/', '').replace('/merge', '');
+    this.setInfo(this.targets.branch_url, this.repository_url + this.repository_ref.replace('refs/heads/', '/tree/'));
+    this.setInfo(this.targets.branch_name, this.repository_ref.replace('refs/heads/', ''));
+
+    if (this.repository_ref.includes('refs/pull')) {
+      this.setInfo(this.targets.pull_request_url, this.repository_url + this.repository_ref.replace('refs/pull/', '/pull/'));
+      this.setInfo(this.targets.pull_request_name, this.repository_ref.replace('refs/pull/', '').replace('/merge', ''));
+    }
   }
-
-  return github
 }
 
 module.exports = {
-  info
+  GitHubCI
 }
