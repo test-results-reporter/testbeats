@@ -1,8 +1,8 @@
-const github = require('./github');
-const gitlab = require('./gitlab');
-const jenkins = require('./jenkins');
-const azure_devops = require('./azure-devops');
-const circle_ci = require('./circle-ci');
+const { GitHubCI } = require('./github');
+const { GitLabCI } = require('./gitlab');
+const { JenkinsCI } = require('./jenkins');
+const { AzureDevOpsCI } = require('./azure-devops');
+const { CircleCI } = require('./circle-ci');
 const { BaseCI } = require('./base.ci');
 
 const ENV = process.env;
@@ -12,27 +12,27 @@ const ENV = process.env;
  */
 function getCIInformation() {
   if (ENV.GITHUB_ACTIONS) {
-    const ci = new github.GitHubCI();
+    const ci = new GitHubCI();
     return ci.info();
   }
 
   if (ENV.GITLAB_CI) {
-    const ci = new gitlab.GitLabCI();
+    const ci = new GitLabCI();
     return ci.info();
   }
 
   if (ENV.JENKINS_URL) {
-    const ci = new jenkins.JenkinsCI();
+    const ci = new JenkinsCI();
     return ci.info();
   }
 
   if (ENV.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
-    const ci = new azure_devops.AzureDevOpsCI();
+    const ci = new AzureDevOpsCI();
     return ci.info();
   }
 
   if (ENV.CIRCLECI) {
-    const ci = new circle_ci.CircleCI();
+    const ci = new CircleCI();
     return ci.info();
   }
 
