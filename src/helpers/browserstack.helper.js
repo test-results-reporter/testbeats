@@ -7,7 +7,7 @@ const { URLS } = require('./constants');
  * @param {import('../index').BrowserstackInputs} inputs
  */
 function getBaseUrl(inputs) {
-	return inputs.url || URLS.BROWSERSTACK;
+  return inputs.url || URLS.BROWSERSTACK;
 }
 
 /**
@@ -15,12 +15,12 @@ function getBaseUrl(inputs) {
  * @param {import('../index').BrowserstackInputs} inputs
  */
 async function getAutomationBuilds(inputs) {
-	return request.get({
+  return request.get({
     url: `${getBaseUrl(inputs)}/automate/builds.json?limit=100`,
-		auth: {
-			username: inputs.username,
-			password: inputs.password
-		},
+    auth: {
+      username: inputs.username,
+      password: inputs.password
+    },
   });
 }
 
@@ -30,16 +30,16 @@ async function getAutomationBuilds(inputs) {
  * @param {string} build_id
  */
 async function getAutomationBuildSessions(inputs, build_id) {
-	return request.get({
+  return request.get({
     url: `${getBaseUrl(inputs)}/automate/builds/${build_id}/sessions.json`,
-		auth: {
-			username: inputs.username,
-			password: inputs.password
-		},
+    auth: {
+      username: inputs.username,
+      password: inputs.password
+    },
   });
 }
 
 module.exports = {
-	getAutomationBuilds,
-	getAutomationBuildSessions
+  getAutomationBuilds,
+  getAutomationBuildSessions
 }
