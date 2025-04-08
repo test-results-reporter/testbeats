@@ -1,3 +1,4 @@
+const TestResult = require('test-results-parser/src/models/TestResult');
 const logger = require('../utils/logger');
 const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
 
@@ -7,13 +8,15 @@ class BaseExtension {
    *
    * @param {import('..').ITarget} target
    * @param {import('..').IExtension} extension
-   * @param {import('..').TestResult} result
+   * @param {TestResult} result
    * @param {any} payload
    * @param {any} root_payload
    */
   constructor(target, extension, result, payload, root_payload) {
     this.target = target;
     this.extension = extension;
+
+    /** @type {TestResult} */
     this.result = result;
     this.payload = payload;
     this.root_payload = root_payload;

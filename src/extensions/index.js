@@ -14,6 +14,7 @@ const { checkCondition } = require('../helpers/helper');
 const logger = require('../utils/logger');
 const { ErrorClustersExtension } = require('./error-clusters.extension');
 const { FailureAnalysisExtension } = require('./failure-analysis.extension');
+const { BrowserstackExtension } = require('./browserstack.extension');
 
 async function run(options) {
   const { target, result, hook } = options;
@@ -72,6 +73,8 @@ function getExtensionRunner(extension, options) {
       return new SmartAnalysisExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.ERROR_CLUSTERS:
       return new ErrorClustersExtension(options.target, extension, options.result, options.payload, options.root_payload);
+    case EXTENSION.BROWSERSTACK:
+      return new BrowserstackExtension(options.target, extension, options.result, options.payload, options.root_payload);
     default:
       return require(extension.name);
   }

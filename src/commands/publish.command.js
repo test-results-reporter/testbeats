@@ -8,6 +8,7 @@ const { ConfigBuilder } = require('../utils/config.builder');
 const target_manager = require('../targets');
 const logger = require('../utils/logger');
 const { processData } = require('../helpers/helper');
+const { ExtensionsSetup } = require('../setups/extensions.setup');
 const pkg = require('../../package.json');
 const { MIN_NODE_VERSION } = require('../helpers/constants');
 
@@ -32,6 +33,7 @@ class PublishCommand {
     this.#processConfig();
     this.#validateConfig();
     this.#processResults();
+    await this.#setupExtensions();
     await this.#publishResults();
     await this.#publishErrors();
   }
@@ -206,6 +208,19 @@ class PublishCommand {
           }
         }
       }
+    }
+  }
+
+  async #setupExtensions() {
+    logger.info('⚙️  Setting up extensions...');
+    try {
+      for (const config of this.configs) {
+        const extensions = config.extensions || [];
+        const setup = new ExtensionsSetup(extensions, this.results ? this.results[0] : null);
+        await setup.run();
+      }
+    } catch (error) {
+      logger.error(`❌ Error setting up extensions: ${error.message}`);
     }
   }
 

@@ -2,7 +2,7 @@ import { PerformanceParseOptions } from 'performance-results-parser';
 import PerformanceTestResult from 'performance-results-parser/src/models/PerformanceTestResult';
 import { Schedule, User } from 'rosters';
 import { ParseOptions } from 'test-results-parser';
-import TestResult from 'test-results-parser/src/models/TestResult';
+export import TestResult from 'test-results-parser/src/models/TestResult';
 
 export interface ITarget {
   name: TargetName;
@@ -17,7 +17,7 @@ export interface IExtension {
   enable?: string | boolean;
   condition?: Condition;
   hook?: Hook;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs | AIFailureSummaryInputs;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs | AIFailureSummaryInputs | BrowserstackInputs;
 }
 
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom' | 'ai-failure-summary';
@@ -83,7 +83,51 @@ export interface AIFailureSummaryInputs extends ExtensionInputs {
   failure_summary: string;
 }
 
+export interface BrowserStackAutomationBuild {
+  name: string;
+  hashed_id: string;
+  duration: number;
+  status: string;
+  build_tag: string;
+  public_url: string;
+}
 
+export interface BrowserStackAutomationSession {
+  name: string;
+  duration: number;
+  os: string;
+  os_version: string;
+  browser_version: string;
+  browser: string;
+  device: string;
+  status: string;
+  hashed_id: string;
+  reason: string;
+  build_name: string;
+  project_name: string;
+  build_hashed_id: string;
+  test_priority: string;
+  logs: string;
+  browserstack_status: string;
+  created_at: string;
+  browser_url: string;
+  public_url: string;
+  video_url: string;
+  browser_console_logs_url: string;
+  har_logs_url: string;
+  selenium_logs_url: string;
+  session_terminal_logs_url: string;
+  build_terminal_logs_url: string;
+}
+
+export interface BrowserstackInputs extends ExtensionInputs {
+  url?: string;
+  username?: string;
+  access_key?: string;
+  automation_build_name?: string;
+  automation_build?: BrowserStackAutomationBuild;
+  automation_sessions?: BrowserStackAutomationSession[];
+}
 
 export interface PercyAnalysisInputs extends ExtensionInputs {
   url?: string;

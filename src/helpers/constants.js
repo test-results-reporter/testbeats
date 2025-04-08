@@ -24,6 +24,7 @@ const EXTENSION = Object.freeze({
   FAILURE_ANALYSIS: 'failure-analysis',
   SMART_ANALYSIS: 'smart-analysis',
   ERROR_CLUSTERS: 'error-clusters',
+  BROWSERSTACK: 'browserstack',
   HYPERLINKS: 'hyperlinks',
   MENTIONS: 'mentions',
   REPORT_PORTAL_ANALYSIS: 'report-portal-analysis',
@@ -37,7 +38,8 @@ const EXTENSION = Object.freeze({
 
 const URLS = Object.freeze({
   PERCY: 'https://percy.io',
-  QUICK_CHART: 'https://quickchart.io'
+  QUICK_CHART: 'https://quickchart.io',
+  BROWSERSTACK: 'https://api.browserstack.com'
 });
 
 const PROCESS_STATUS = Object.freeze({
