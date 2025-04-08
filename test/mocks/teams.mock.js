@@ -1974,3 +1974,42 @@ addInteractionHandler('post errors to teams', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary with browserstack to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
+                },
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "**Browserstack:** [build-name](https://automate.browserstack.com/dashboard/v2/public-build/build-public-url)",
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

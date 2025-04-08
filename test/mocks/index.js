@@ -1,4 +1,5 @@
 require('./beats.mock');
+require('./browserstack.mock');
 require('./custom.mock');
 require('./rp.mock');
 require('./slack.mock');
