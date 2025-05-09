@@ -7,21 +7,21 @@ addDataTemplate({
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": "*Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 2s"
+      "text": ":white_check_mark: *Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 2s"
     }
   },
   'SLACK_ROOT_SINGLE_SUITE_FAILURE': {
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": "*Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 2s"
+      "text": ":warning: *Default suite*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 2s"
     }
   },
   'SLACK_ROOT_MULTIPLE_SUITES': {
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": "*Regression Tests*\n\n*Results*: 8 / 20 Passed (40%)\n*Duration*: 23m 23s"
+      "text": ":warning: *Regression Tests*\n\n*Results*: 8 / 20 Passed (40%)\n*Duration*: 23m 23s"
     }
   },
   'SLACK_SUITE_CHROME': {
@@ -54,7 +54,7 @@ addInteractionHandler('post test-summary to slack', () => {
                 "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
               }
             ],
-            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+            "fallback": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -85,7 +85,7 @@ addInteractionHandler('post test-summary to slack with multiple suites', () => {
                 "@DATA:TEMPLATE@": "SLACK_SUITE_IOS"
               }
             ],
-            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
+            "fallback": ":warning: Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -110,7 +110,7 @@ addInteractionHandler('post test-summary-slim to slack with multiple suites', ()
                 "@DATA:TEMPLATE@": "SLACK_ROOT_MULTIPLE_SUITES"
               }
             ],
-            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
+            "fallback": ":warning: Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -155,7 +155,7 @@ addInteractionHandler('post failure-details to slack with multiple suites', () =
                 }
               }
             ],
-            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
+            "fallback": ":warning: Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -187,7 +187,7 @@ addInteractionHandler('post failure-details to slack with single suite', () => {
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -221,7 +221,7 @@ addInteractionHandler('post test-summary with hyperlinks to slack - pass status'
                 ]
               }
             ],
-            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+            "fallback": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -255,7 +255,7 @@ addInteractionHandler('post test-summary with hyperlinks to slack - fail status'
                 ]
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -287,7 +287,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis', 
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -319,7 +319,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis wi
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -354,7 +354,7 @@ addInteractionHandler('post test-summary to slack with report portal analysis wi
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -386,7 +386,7 @@ addInteractionHandler('post test-summary with mentions to slack', () => {
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -418,7 +418,7 @@ addInteractionHandler('post test-summary with mentions group name to slack', () 
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -450,7 +450,7 @@ addInteractionHandler('post test-summary with mentions special group name to sla
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -482,7 +482,7 @@ addInteractionHandler('post test-summary to slack with qc-test-summary', (ctx) =
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -514,7 +514,7 @@ addInteractionHandler('post test-summary to slack with report portal history', (
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -546,7 +546,7 @@ addInteractionHandler('post test-summary to slack with percy analysis', () => {
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 3 / 4 Passed (75%)"
+            "fallback": ":warning: Default suite\nResults: 3 / 4 Passed (75%)"
           }
         ]
       }
@@ -571,11 +571,11 @@ addInteractionHandler('post test-summary to slack with title_link', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*<some-url|Default suite>*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 2s"
+                  "text": ":white_check_mark: *<some-url|Default suite>*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 2s"
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+            "fallback": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -600,7 +600,7 @@ addInteractionHandler('post test-summary to slack for JMeter', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*TOTAL*\n\n*Results*: 2 / 2 Passed (100%)\n*Samples*: 39 0.55535/s\n*Duration*: avg=4.6s ｜ p95=11.4s"
+                  "text": ":white_check_mark: *TOTAL*\n\n*Results*: 2 / 2 Passed (100%)\n*Samples*: 39 0.55535/s\n*Duration*: avg=4.6s ｜ p95=11.4s"
                 }
               },
               {
@@ -618,7 +618,7 @@ addInteractionHandler('post test-summary to slack for JMeter', () => {
                 }
               }
             ],
-            "fallback": "TOTAL\nResults: 2 / 2 Passed (100%)"
+            "fallback": ":white_check_mark: TOTAL\nResults: 2 / 2 Passed (100%)"
           }
         ]
       }
@@ -643,7 +643,7 @@ addInteractionHandler('post test-summary with failures to slack for failed JMete
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*TOTAL 1.2.3*\n\n*Results*: 1 / 2 Passed (50%)\n*Samples*: 39 0.55535/s\n*Duration*: 🔺 avg=4.6s (+1.1s) ｜ p95=11.4s"
+                  "text": ":warning: *TOTAL 1.2.3*\n\n*Results*: 1 / 2 Passed (50%)\n*Samples*: 39 0.55535/s\n*Duration*: 🔺 avg=4.6s (+1.1s) ｜ p95=11.4s"
                 }
               },
               {
@@ -654,7 +654,7 @@ addInteractionHandler('post test-summary with failures to slack for failed JMete
                 }
               }
             ],
-            "fallback": "TOTAL 1.2.3\nResults: 1 / 2 Passed (50%)"
+            "fallback": ":warning: TOTAL 1.2.3\nResults: 1 / 2 Passed (50%)"
           }
         ]
       }
@@ -686,7 +686,7 @@ addInteractionHandler('post test-summary with metadata to slack', () => {
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+            "fallback": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -718,7 +718,7 @@ addInteractionHandler('post test-summary with ci-info to slack', () => {
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+            "fallback": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -750,7 +750,7 @@ addInteractionHandler('post test-summary with gitlab ci-info to slack', () => {
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+            "fallback": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -782,7 +782,7 @@ addInteractionHandler('post test-summary with gitlab ci-info with PR to slack', 
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+            "fallback": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -814,7 +814,7 @@ addInteractionHandler('post test-summary with circle-ci ci-info to slack', () =>
                 }
               }
             ],
-            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+            "fallback": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
@@ -852,7 +852,7 @@ addInteractionHandler('post test-summary with multiple suites and ci-info to to 
                 "@DATA:TEMPLATE@": "SLACK_SUITE_IOS"
               }
             ],
-            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
+            "fallback": ":warning: Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -880,7 +880,7 @@ addInteractionHandler('post test-summary to slack with max suites as 1', () => {
                 "@DATA:TEMPLATE@": "SLACK_SUITE_CHROME"
               }
             ],
-            "fallback": "Regression Tests\nResults: 8 / 20 Passed (40%)"
+            "fallback": ":warning: Regression Tests\nResults: 8 / 20 Passed (40%)"
           }
         ]
       }
@@ -906,7 +906,7 @@ addInteractionHandler('post errors to slack', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "Error: Reporting Test Results"
+                  "text": ":x: Error: Reporting Test Results"
                 }
               },
               {
@@ -917,7 +917,7 @@ addInteractionHandler('post errors to slack', () => {
                 }
               }
             ],
-            "fallback": "Error: Reporting Test Results"
+            "fallback": ":x: Error: Reporting Test Results"
           }
         ]
       }
@@ -942,7 +942,7 @@ addInteractionHandler('post test-summary to slack with suite metadata', () => {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*Cucumber Test Result*\n\n*Results*: 2 / 2 Passed (100%)\n*Duration*: 3ms"
+                  "text": ":white_check_mark: *Cucumber Test Result*\n\n*Results*: 2 / 2 Passed (100%)\n*Duration*: 3ms"
                 }
               },
               {
@@ -960,9 +960,47 @@ addInteractionHandler('post test-summary to slack with suite metadata', () => {
                 }
               }
             ],
-            "fallback": "Cucumber Test Result\nResults: 2 / 2 Passed (100%)"
+            "fallback": ":white_check_mark: Cucumber Test Result\nResults: 2 / 2 Passed (100%)"
           }
         ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to slack in the new format', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "text": ":white_check_mark: *Cucumber Test Result*\n\n*Results*: 2 / 2 Passed (100%)\n*Duration*: 3ms",
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": ":white_check_mark: *Cucumber Test Result*\n\n*Results*: 2 / 2 Passed (100%)\n*Duration*: 3ms"
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*✅ Addition*\n\n*Results*: 1 / 1 Passed (100%)\n*Duration*: 1ms\n\nDesktop • Windows 11 • firefox 129.0"
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*✅ Addition*\n\n*Results*: 1 / 1 Passed (100%)\n*Duration*: 1ms\n\nDesktop • Windows 11 • chrome 129.0"
+            }
+          }
+        ],
       }
     },
     response: {

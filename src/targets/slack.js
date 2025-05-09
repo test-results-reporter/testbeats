@@ -9,7 +9,11 @@ const { getValidMetrics, getMetricValuesText } = require('../helpers/performance
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { getPlatform } = require('../platforms');
 
-
+const STATUSES = {
+  GOOD: ':white_check_mark:',
+  WARNING: ':warning:',
+  DANGER: ':x:'
+}
 
 const COLORS = {
   GOOD: '#36A64F',
@@ -147,6 +151,7 @@ function getFailureDetails(suite) {
  */
 function getRootPayload({ result, target, payload }) {
   let color = COLORS.GOOD;
+  let status = STATUSES.GOOD;
   if (result.status !== 'PASS') {
     let somePassed = true;
     if (result instanceof PerformanceTestResult) {
@@ -156,19 +161,32 @@ function getRootPayload({ result, target, payload }) {
     }
     if (somePassed) {
       color = COLORS.WARNING;
+      status = STATUSES.WARNING;
     } else {
       color = COLORS.DANGER;
+      status = STATUSES.DANGER;
     }
   }
-  return {
+
+  const title = `${status} ${getTitleText(result, target, {allowTitleLink: false})}\nResults: ${getResultText(result)}`;
+  let finalPayload = {
     "attachments": [
       {
         "color": color,
         "blocks": payload.blocks,
-        "fallback": `${getTitleText(result, target, {allowTitleLink: false})}\nResults: ${getResultText(result)}`,
+        "fallback": title,
       }
     ]
   };
+
+  if (target.inputs.use_new_report_format) {
+    finalPayload = {
+      "text": title, // fallback text
+      "blocks": payload.blocks
+    }
+  }
+
+  return finalPayload;
 }
 
 async function setPerformancePayload({ result, target, payload }) {
@@ -262,6 +280,7 @@ const default_inputs = {
 async function handleErrors({ target, errors }) {
   let title = 'Error: Reporting Test Results';
   title = target.inputs.title ? title + ' - ' + target.inputs.title : title;
+  title = `${STATUSES.DANGER} ${title}`;
 
   const blocks = [];
 
@@ -280,7 +299,7 @@ async function handleErrors({ target, errors }) {
     }
   });
 
-  const payload = {
+  let payload = {
     "attachments": [
       {
         "color": COLORS.DANGER,
@@ -289,6 +308,13 @@ async function handleErrors({ target, errors }) {
       }
     ]
   };
+
+  if (target.inputs.use_new_report_format) {
+    payload = {
+      "text": title, // fallback text
+      blocks
+    }
+  }
 
   return request.post({
     url: target.inputs.url,
