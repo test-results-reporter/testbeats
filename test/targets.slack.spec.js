@@ -211,6 +211,32 @@ describe('targets - slack - functional', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('should send test-summary in the blocks format', async () => {
+    const id = mock.addInteraction('post test-summary to slack in the blocks format');
+    await publish({
+      config: {
+        "targets": [
+          {
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "message_format": "blocks"
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
   afterEach(() => {
     mock.clearInteractions();
   });

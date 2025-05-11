@@ -970,3 +970,27 @@ addInteractionHandler('post test-summary to slack with suite metadata', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary to slack in the blocks format', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "text": ":white_check_mark: Default suite\nResults: 4 / 4 Passed (100%)",
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*:white_check_mark: Default suite*\n\n*Results*: 4 / 4 Passed (100%)\n*Duration*: 2s"
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

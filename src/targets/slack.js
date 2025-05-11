@@ -9,7 +9,11 @@ const { getValidMetrics, getMetricValuesText } = require('../helpers/performance
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { getPlatform } = require('../platforms');
 
-
+const STATUSES = {
+  GOOD: ':white_check_mark:',
+  WARNING: ':warning:',
+  DANGER: ':x:'
+}
 
 const COLORS = {
   GOOD: '#36A64F',
@@ -78,7 +82,15 @@ function getTitleText(result, target, {allowTitleLink = true} = {}) {
   if (allowTitleLink && target.inputs.title_link) {
     text = `<${target.inputs.title_link}|${text}>`;
   }
-  return text;
+  if (target.inputs.message_format === 'blocks') {
+    if (result.status !== 'PASS') {
+      return `${STATUSES.DANGER} ${text}`;
+    } else {
+      return `${STATUSES.GOOD} ${text}`;
+    }
+  } else {
+    return text;
+  }
 }
 
 function getResultText(result) {
@@ -160,15 +172,25 @@ function getRootPayload({ result, target, payload }) {
       color = COLORS.DANGER;
     }
   }
-  return {
-    "attachments": [
-      {
-        "color": color,
-        "blocks": payload.blocks,
-        "fallback": `${getTitleText(result, target, {allowTitleLink: false})}\nResults: ${getResultText(result)}`,
-      }
-    ]
-  };
+
+  const fallback_text = `${getTitleText(result, target, {allowTitleLink: false})}\nResults: ${getResultText(result)}`;
+
+  if (target.inputs.message_format === 'blocks') {
+    return {
+      "text": fallback_text,
+      "blocks": payload.blocks
+    }
+  } else {
+    return {
+      "attachments": [
+        {
+          "color": color,
+          "blocks": payload.blocks,
+          "fallback": fallback_text,
+        }
+      ]
+    }
+  }
 }
 
 async function setPerformancePayload({ result, target, payload }) {
@@ -280,7 +302,7 @@ async function handleErrors({ target, errors }) {
     }
   });
 
-  const payload = {
+  let payload = {
     "attachments": [
       {
         "color": COLORS.DANGER,
@@ -289,6 +311,13 @@ async function handleErrors({ target, errors }) {
       }
     ]
   };
+
+  if (target.inputs.message_format === 'blocks') {
+    payload = {
+      "text": title, // fallback text
+      blocks
+    }
+  }
 
   return request.post({
     url: target.inputs.url,

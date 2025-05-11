@@ -229,7 +229,9 @@ export interface TargetInputs {
   metrics?: MetricConfig[];
 }
 
-export interface SlackInputs extends TargetInputs { }
+export interface SlackInputs extends TargetInputs {
+  message_format?: 'blocks' | 'attachments';
+}
 
 export interface TeamsInputs extends TargetInputs {
   width?: string;
