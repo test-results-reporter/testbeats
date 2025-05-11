@@ -99,7 +99,7 @@ class BeatsAttachments {
         }
         form.append('file_images', JSON.stringify(file_images));
         await this.api.uploadAttachments(form.getHeaders(), form.getBuffer());
-        logger.info(`🏞️  Uploaded ${count} attachments`);
+        logger.info(`🏞️ Uploaded ${count} attachments`);
       }
     } catch (error) {
       logger.error(`❌ Unable to upload attachments: ${error.message}`, error);

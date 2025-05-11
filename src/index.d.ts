@@ -2,7 +2,9 @@ import { PerformanceParseOptions } from 'performance-results-parser';
 import PerformanceTestResult from 'performance-results-parser/src/models/PerformanceTestResult';
 import { Schedule, User } from 'rosters';
 import { ParseOptions } from 'test-results-parser';
-export import TestResult from 'test-results-parser/src/models/TestResult';
+import TestResult from 'test-results-parser/src/models/TestResult';
+
+export { TestResult };
 
 export interface ITarget {
   name: TargetName;

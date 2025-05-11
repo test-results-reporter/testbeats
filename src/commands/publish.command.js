@@ -212,7 +212,7 @@ class PublishCommand {
   }
 
   async #setupExtensions() {
-    logger.info('⚙️  Setting up extensions...');
+    logger.info('⚙️ Setting up extensions...');
     try {
       for (const config of this.configs) {
         const extensions = config.extensions || [];

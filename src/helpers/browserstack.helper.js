@@ -19,7 +19,7 @@ async function getAutomationBuilds(inputs) {
     url: `${getBaseUrl(inputs)}/automate/builds.json?limit=100`,
     auth: {
       username: inputs.username,
-      password: inputs.password
+      password: inputs.access_key
     },
   });
 }
@@ -34,7 +34,7 @@ async function getAutomationBuildSessions(inputs, build_id) {
     url: `${getBaseUrl(inputs)}/automate/builds/${build_id}/sessions.json`,
     auth: {
       username: inputs.username,
-      password: inputs.password
+      password: inputs.access_key
     },
   });
 }
