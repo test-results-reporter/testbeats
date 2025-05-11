@@ -82,7 +82,15 @@ function getTitleText(result, target, {allowTitleLink = true} = {}) {
   if (allowTitleLink && target.inputs.title_link) {
     text = `<${target.inputs.title_link}|${text}>`;
   }
-  return text;
+  if (target.inputs.message_format === 'blocks') {
+    if (result.status !== 'PASS') {
+      return `${STATUSES.DANGER} ${text}`;
+    } else {
+      return `${STATUSES.GOOD} ${text}`;
+    }
+  } else {
+    return text;
+  }
 }
 
 function getResultText(result) {
@@ -151,7 +159,6 @@ function getFailureDetails(suite) {
  */
 function getRootPayload({ result, target, payload }) {
   let color = COLORS.GOOD;
-  let status = STATUSES.GOOD;
   if (result.status !== 'PASS') {
     let somePassed = true;
     if (result instanceof PerformanceTestResult) {
@@ -161,32 +168,29 @@ function getRootPayload({ result, target, payload }) {
     }
     if (somePassed) {
       color = COLORS.WARNING;
-      status = STATUSES.WARNING;
     } else {
       color = COLORS.DANGER;
-      status = STATUSES.DANGER;
     }
   }
 
-  const title = `${status} ${getTitleText(result, target, {allowTitleLink: false})}\nResults: ${getResultText(result)}`;
-  let finalPayload = {
-    "attachments": [
-      {
-        "color": color,
-        "blocks": payload.blocks,
-        "fallback": title,
-      }
-    ]
-  };
+  const fallback_text = `${getTitleText(result, target, {allowTitleLink: false})}\nResults: ${getResultText(result)}`;
 
-  if (target.inputs.use_new_report_format) {
-    finalPayload = {
-      "text": title, // fallback text
+  if (target.inputs.message_format === 'blocks') {
+    return {
+      "text": fallback_text,
       "blocks": payload.blocks
     }
+  } else {
+    return {
+      "attachments": [
+        {
+          "color": color,
+          "blocks": payload.blocks,
+          "fallback": fallback_text,
+        }
+      ]
+    }
   }
-
-  return finalPayload;
 }
 
 async function setPerformancePayload({ result, target, payload }) {
@@ -280,7 +284,6 @@ const default_inputs = {
 async function handleErrors({ target, errors }) {
   let title = 'Error: Reporting Test Results';
   title = target.inputs.title ? title + ' - ' + target.inputs.title : title;
-  title = `${STATUSES.DANGER} ${title}`;
 
   const blocks = [];
 
@@ -309,7 +312,7 @@ async function handleErrors({ target, errors }) {
     ]
   };
 
-  if (target.inputs.use_new_report_format) {
+  if (target.inputs.message_format === 'blocks') {
     payload = {
       "text": title, // fallback text
       blocks
