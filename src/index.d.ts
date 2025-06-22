@@ -19,6 +19,7 @@ export interface IExtension {
   enable?: string | boolean;
   condition?: Condition;
   hook?: Hook;
+  order?: number;
   inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs | AIFailureSummaryInputs | BrowserstackInputs;
 }
 

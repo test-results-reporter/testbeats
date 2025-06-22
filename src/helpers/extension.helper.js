@@ -100,8 +100,28 @@ function addChatExtension({ payload, extension, text }) {
   });
 }
 
+/**
+ * Sort extensions by their order property.
+ * Extensions without order will appear last, maintaining their original relative order.
+ *
+ * @param {import("..").IExtension[]} extensions - the extensions array to sort
+ * @return {import("..").IExtension[]} sorted extensions array
+ */
+function sortExtensionsByOrder(extensions) {
+  if (!extensions || !Array.isArray(extensions)) {
+    return extensions;
+  }
+
+  return extensions.slice().sort((a, b) => {
+    const orderA = typeof a.order === 'number' ? a.order : 1000;
+    const orderB = typeof b.order === 'number' ? b.order : 1000;
+    return orderA - orderB;
+  });
+}
+
 module.exports = {
   addSlackExtension,
   addTeamsExtension,
-  addChatExtension
+  addChatExtension,
+  sortExtensionsByOrder
 }

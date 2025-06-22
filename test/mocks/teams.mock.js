@@ -2013,3 +2013,55 @@ addInteractionHandler('post test-summary with browserstack to teams', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary with ordered extensions to teams', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_TITLE_SINGLE_SUITE"
+                },
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE",
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "[global-hyperlink](global-url)",
+                  "wrap": true,
+                  "separator": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "**Browser:** Chrome",
+                  "wrap": true,
+                  "separator": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "[local-hyperlink](local-url)",
+                  "wrap": true,
+                  "separator": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

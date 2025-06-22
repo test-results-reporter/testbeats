@@ -128,6 +128,7 @@ class Beats {
       this.config.extensions.push({
         name: 'ai-failure-summary',
         hook: HOOK.AFTER_SUMMARY,
+        order: 100,
         inputs: {
           data: this.test_run
         }
@@ -151,6 +152,7 @@ class Beats {
       this.config.extensions.push({
         name: 'failure-analysis',
         hook: HOOK.AFTER_SUMMARY,
+        order: 200,
         inputs: {
           data: metrics
         }
@@ -170,6 +172,7 @@ class Beats {
       this.config.extensions.push({
         name: 'smart-analysis',
         hook: HOOK.AFTER_SUMMARY,
+        order: 300,
         inputs: {
           data: this.test_run
         }
@@ -225,6 +228,7 @@ class Beats {
       this.config.extensions.push({
         name: 'error-clusters',
         hook: HOOK.AFTER_SUMMARY,
+        order: 400,
         inputs: {
           data: res.values
         }

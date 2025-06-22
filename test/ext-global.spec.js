@@ -126,4 +126,69 @@ describe('global extensions', () => {
     assert.equal(mock.getInteraction(id).exercised, true);
   });
 
+  it('with extensions ordered by order property', async () => {
+    const id = mock.addInteraction('post test-summary with ordered extensions to teams');
+    await publish({
+      config: {
+        "targets": [
+          {
+            "name": "teams",
+            "inputs": {
+              "url": "http://localhost:9393/message"
+            },
+            "extensions": [
+              {
+                "name": "hyperlinks",
+                "order": 1000,
+                "inputs": {
+                  "links": [
+                    {
+                      "text": "local-hyperlink",
+                      "url": "local-url"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "metadata",
+                "order": 500,
+                "inputs": {
+                  "data": [
+                    {
+                      "key": "Browser",
+                      "value": "Chrome"
+                    }
+                  ]
+                }
+              }
+            ],
+          }
+        ],
+        "extensions": [
+          {
+            "name": "hyperlinks",
+            "order": 100,
+            "inputs": {
+              "links": [
+                {
+                  "text": "global-hyperlink",
+                  "url": "global-url"
+                }
+              ]
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
 });
