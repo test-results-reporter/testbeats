@@ -1,5 +1,3 @@
-> This npm package has been renamed from [test-results-reporter](https://www.npmjs.com/package/test-results-reporter) to [testbeats](https://www.npmjs.com/package/testbeats). test-results-reporter will soon be phased out, and users are encouraged to transition to testbeats.
-
 <span align="center">
 
 ![logo](https://github.com/test-results-reporter/testbeats/raw/main/assets/logo.png)
@@ -37,9 +35,11 @@ Read more about the project at [https://testbeats.com](https://testbeats.com)
 
 #### Results in Portal
 
-![testbeats-failure-summary](./assets/testbeats-failure-summary.png)
+![testbeats-test-run-case-details](./assets/testbeats-test-run-case-details.png)
 
 <br />
+
+> Read more about the project at [https://testbeats.com](https://testbeats.com)
 
 ## Need Help
 
@@ -52,3 +52,8 @@ Like this project! Star it on [Github](https://github.com/test-results-reporter/
 <br />
 
 > Read more about the project at [https://testbeats.com](https://testbeats.com)
+
+
+## Notes
+
+This npm package has been renamed from [test-results-reporter](https://www.npmjs.com/package/test-results-reporter) to [testbeats](https://www.npmjs.com/package/testbeats). test-results-reporter will soon be phased out, and users are encouraged to transition to testbeats.
