@@ -11,6 +11,7 @@ const { processData } = require('../helpers/helper');
 const { ExtensionsSetup } = require('../setups/extensions.setup');
 const pkg = require('../../package.json');
 const { MIN_NODE_VERSION } = require('../helpers/constants');
+const { sortExtensionsByOrder } = require('../helpers/extension.helper');
 
 class PublishCommand {
 
@@ -242,6 +243,7 @@ class PublishCommand {
             }
             target.extensions = target.extensions || [];
             target.extensions = config.extensions.concat(target.extensions);
+            target.extensions = sortExtensionsByOrder(target.extensions);
             await target_manager.run(target, result);
           }
         } else {
