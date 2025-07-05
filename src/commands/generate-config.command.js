@@ -30,14 +30,14 @@ class GenerateConfigCommand {
 
     #printBanner() {
         const banner = `
-         _____             _    ___                  _         
-        (_   _)           ( )_ (  _'\\               ( )_       
-          | |   __    ___ | ,_)| (_) )   __     _ _ | ,_)  ___ 
+         _____             _    ___                  _
+        (_   _)           ( )_ (  _'\\               ( )_
+          | |   __    ___ | ,_)| (_) )   __     _ _ | ,_)  ___
           | | /'__'\\/',__)| |  |  _ <' /'__'\\ /'_' )| |  /',__)
           | |(  ___/\\__, \\| |_ | (_) )(  ___/( (_| || |_ \\__, \\
           (_)'\\____)(____/'\\__)(____/''\\____)'\\__,_)'\\__)(____/
-        
-                             v${pkg.version}  
+
+                             v${pkg.version}
                         Config Generation [BETA]
         `;
         console.log(banner);
@@ -102,7 +102,7 @@ class GenerateConfigCommand {
         const targetChoices = [
             { title: 'Slack', value: 'slack' },
             { title: 'Microsoft Teams', value: 'teams' },
-            { title: 'Google Chat', value: 'chat' }
+            { title: 'Google Chat', value: 'chat' },
         ];
 
         const { titleInput, targets } = await prompts([{
@@ -437,4 +437,4 @@ class GenerateConfigCommand {
     }
 }
 
-module.exports = { GenerateConfigCommand }; 
+module.exports = { GenerateConfigCommand };
