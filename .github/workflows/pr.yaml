@@ -27,5 +27,6 @@ jobs:
         env:
           CI: true
       - run: node src/cli.js publish --github '{GITHUB_TOKEN}' --junit 'results/junit.xml'
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
