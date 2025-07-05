@@ -91,11 +91,18 @@ class ConfigBuilder {
     if (this.opts.chat) {
       this.#addTarget('chat', this.opts.chat);
     }
+    if (this.opts.github) {
+      this.#addTarget('github', this.opts.github);
+    }
   }
 
   #addTarget(name, url) {
     this.config.targets = this.config.targets || [];
-    this.config.targets.push({ name, inputs: { url, title: this.opts.title || '', only_failures: true } })
+    if (name === 'github') {
+      this.config.targets.push({ name, inputs: { token: this.opts.github, title: this.opts.title || '', only_failures: true } })
+    } else {
+      this.config.targets.push({ name, inputs: { url, title: this.opts.title || '', only_failures: true } })
+    }
   }
 
   #buildExtensions() {

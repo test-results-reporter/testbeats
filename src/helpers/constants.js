@@ -14,6 +14,7 @@ const TARGET = Object.freeze({
   SLACK: 'slack',
   TEAMS: 'teams',
   CHAT: 'chat',
+  GITHUB: 'github',
   CUSTOM: 'custom',
   DELAY: 'delay',
   INFLUX: 'influx',

@@ -2,6 +2,7 @@ const { TARGET } = require("../helpers/constants");
 const { SlackPlatform } = require('./slack.platform');
 const { TeamsPlatform } = require('./teams.platform');
 const { ChatPlatform } = require('./chat.platform');
+const { GitHubPlatform } = require('./github.platform');
 
 /**
  *
@@ -15,6 +16,8 @@ function getPlatform(name) {
       return new TeamsPlatform();
     case TARGET.CHAT:
       return new ChatPlatform();
+    case TARGET.GITHUB:
+      return new GitHubPlatform();
     default:
       throw new Error('Invalid Platform');
   }
