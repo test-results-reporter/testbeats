@@ -282,7 +282,7 @@ describe('TestBeats', () => {
               url: 'http://localhost:9393',
               owner: 'org',
               repo: 'repo',
-              pull_number: '12',
+              pull_number: '123',
               token: 'test-token'
             }
           }
