@@ -69,6 +69,9 @@ function getTitleText(result, target) {
   if (target.inputs.title_suffix) {
     text = `${text} ${target.inputs.title_suffix}`;
   }
+  if (target.inputs.title_link) {
+    text = `[${text}](${target.inputs.title_link})`;
+  }
 
   const status = result.status !== 'PASS' ? STATUSES.DANGER : STATUSES.GOOD;
   return `${status} ${text}`;
@@ -129,10 +132,10 @@ function getMarkdownMessage({ result, target, payload }) {
 }
 
 async function publishToGitHub({ target, message }) {
-  const { repo, owner, pull_number } = extractGitHubInfo(target);
-  const github_token = target.inputs.github_token || process.env.GITHUB_TOKEN;
+  const { url, repo, owner, pull_number } = extractGitHubInfo(target);
+  const token = target.inputs.token || process.env.GITHUB_TOKEN;
 
-  if (!github_token) {
+  if (!token) {
     throw new Error('GitHub token is required. Set GITHUB_TOKEN environment variable or provide github_token in target inputs.');
   }
 
@@ -140,25 +143,22 @@ async function publishToGitHub({ target, message }) {
     throw new Error('Pull request number not found. This target only works in GitHub Actions triggered by pull requests.');
   }
 
-  const url = `https://api.github.com/repos/${owner}/${repo}/issues/${pull_number}/comments`;
-
   const comment_body = target.inputs.comment_title ?
     `${target.inputs.comment_title}\n\n${message}` :
     message;
 
   const headers = {
-    'Authorization': `token ${github_token}`,
+    'Authorization': `token ${token}`,
     'Accept': 'application/vnd.github.v3+json',
     'User-Agent': 'testbeats'
   };
 
   if (target.inputs.update_comment) {
     // Try to find existing comment and update it
-    const existingComment = await findExistingComment({ owner, repo, pull_number, github_token, comment_title: target.inputs.comment_title });
+    const existingComment = await findExistingComment({ owner, repo, pull_number, github_token: token, comment_title: target.inputs.comment_title });
     if (existingComment) {
-      const updateUrl = `https://api.github.com/repos/${owner}/${repo}/issues/comments/${existingComment.id}`;
       return request.patch({
-        url: updateUrl,
+        url: `${url}/repos/${owner}/${repo}/issues/comments/${existingComment.id}`,
         headers,
         body: { body: comment_body }
       });
@@ -167,7 +167,7 @@ async function publishToGitHub({ target, message }) {
 
   // Create new comment
   return request.post({
-    url,
+    url: `${url}/repos/${owner}/${repo}/issues/${pull_number}/comments`,
     headers,
     body: { body: comment_body }
   });
@@ -195,26 +195,29 @@ async function findExistingComment({ owner, repo, pull_number, github_token, com
 }
 
 function extractGitHubInfo(target) {
-  // Extract from environment variables (GitHub Actions)
-  const repository = process.env.GITHUB_REPOSITORY; // format: owner/repo
-  const ref = process.env.GITHUB_REF; // format: refs/pull/123/merge
+  let url = target.inputs.url;
+  let owner = target.inputs.owner;
+  let repo = target.inputs.repo;
+  let pull_number = target.inputs.pull_number;
 
-  if (!repository) {
-    throw new Error('GITHUB_REPOSITORY environment variable not found. This target only works in GitHub Actions.');
+  if (!owner || !repo) {
+    const repository = process.env.GITHUB_REPOSITORY;
+    const ref = process.env.GITHUB_REF;
+    [owner, repo] = repository.split('/');
+    if (ref && ref.includes('refs/pull/')) {
+      pull_number = ref.replace('refs/pull/', '').replace('/merge', '');
+    }
   }
 
-  const [owner, repo] = repository.split('/');
-  let pull_number = null;
-
-  if (ref && ref.includes('refs/pull/')) {
-    pull_number = ref.replace('refs/pull/', '').replace('/merge', '');
+  if (!url) {
+    url = `https://api.github.com`;
   }
 
-  // Allow override from target inputs
   return {
-    owner: target.inputs.owner || owner,
-    repo: target.inputs.repo || repo,
-    pull_number: target.inputs.pull_number || pull_number
+    url,
+    owner,
+    repo,
+    pull_number
   };
 }
 
@@ -285,6 +288,7 @@ const default_inputs = {
   pull_number: undefined,
   title: undefined,
   title_suffix: undefined,
+  title_link: undefined,
   include_suites: true,
   include_failure_details: false,
   only_failures: false,

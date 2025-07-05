@@ -266,4 +266,40 @@ describe('TestBeats', () => {
     assert.equal(mock.getInteraction(id5).exercised, true);
   });
 
+  it('should send results to beats with github target', async () => {
+    const id1 = mock.addInteraction('post test results to beats');
+    const id2 = mock.addInteraction('get test results from beats');
+    const id3 = mock.addInteraction('post test-summary to github with beats');
+    await publish({
+      config: {
+        api_key: 'api-key',
+        project: 'project-name',
+        run: 'build-name',
+        targets: [
+          {
+            name: 'github',
+            inputs: {
+              url: 'http://localhost:9393',
+              owner: 'org',
+              repo: 'repo',
+              pull_number: '12',
+              token: 'test-token'
+            }
+          }
+        ],
+        results: [
+          {
+            type: 'testng',
+            files: [
+              'test/data/testng/single-suite.xml'
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
+  });
+
 });
