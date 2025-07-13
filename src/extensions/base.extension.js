@@ -1,6 +1,7 @@
 const TestResult = require('test-results-parser/src/models/TestResult');
 const logger = require('../utils/logger');
-const { addChatExtension, addSlackExtension, addTeamsExtension } = require('../helpers/extension.helper');
+const { addChatExtension, addSlackExtension, addTeamsExtension, addGithubExtension } = require('../helpers/extension.helper');
+const { getPlatform } = require('../platforms');
 
 class BaseExtension {
 
@@ -32,6 +33,11 @@ class BaseExtension {
      * @type {import('..').IExtensionDefaultOptions}
      */
     this.default_options = {};
+
+    /**
+     * @type {import('../platforms').BasePlatform}
+     */
+    this.platform = getPlatform(this.target.name);
   }
 
   updateExtensionInputs() {
@@ -44,6 +50,9 @@ class BaseExtension {
         this.extension.inputs = Object.assign({}, { separator: false }, this.extension.inputs);
         break;
       case 'chat':
+        this.extension.inputs = Object.assign({}, { separator: true }, this.extension.inputs);
+        break;
+      case 'github':
         this.extension.inputs = Object.assign({}, { separator: true }, this.extension.inputs);
         break;
       default:
@@ -67,6 +76,9 @@ class BaseExtension {
       case 'chat':
         addChatExtension({ payload: this.payload, extension: this.extension, text: this.text });
         break;
+      case 'github':
+        addGithubExtension({ payload: this.payload, extension: this.extension, text: this.text });
+        break;
       default:
         break;
     }
@@ -84,6 +96,8 @@ class BaseExtension {
         return _texts.join('\n');
       case 'chat':
         return _texts.join('<br>');
+      case 'github':
+        return _texts.join('\n');
       default:
         break;
     }
@@ -100,6 +114,8 @@ class BaseExtension {
         return `*${text}*`;
       case 'chat':
         return `<b>${text}</b>`;
+      case 'github':
+        return `**${text}**`;
       default:
         break;
     }

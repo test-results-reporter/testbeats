@@ -136,7 +136,7 @@ async function publishToGitHub({ target, message }) {
   const token = target.inputs.token || process.env.GITHUB_TOKEN;
 
   if (!token) {
-    throw new Error('GitHub token is required. Set GITHUB_TOKEN environment variable or provide github_token in target inputs.');
+    throw new Error('GitHub token is required. Set GITHUB_TOKEN environment variable or provide token in target inputs.');
   }
 
   if (!pull_number) {
@@ -155,7 +155,7 @@ async function publishToGitHub({ target, message }) {
 
   if (target.inputs.update_comment) {
     // Try to find existing comment and update it
-    const existingComment = await findExistingComment({ owner, repo, pull_number, github_token: token, comment_title: target.inputs.comment_title });
+    const existingComment = await findExistingComment({ owner, repo, pull_number, token, comment_title: target.inputs.comment_title });
     if (existingComment) {
       return request.patch({
         url: `${url}/repos/${owner}/${repo}/issues/comments/${existingComment.id}`,
@@ -173,13 +173,13 @@ async function publishToGitHub({ target, message }) {
   });
 }
 
-async function findExistingComment({ owner, repo, pull_number, github_token, comment_title }) {
+async function findExistingComment({ owner, repo, pull_number, token, comment_title }) {
   if (!comment_title) return null;
 
   try {
     const url = `https://api.github.com/repos/${owner}/${repo}/issues/${pull_number}/comments`;
     const headers = {
-      'Authorization': `token ${github_token}`,
+      'Authorization': `token ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'User-Agent': 'testbeats'
     };
@@ -280,7 +280,7 @@ async function handleErrors({ target, errors }) {
 }
 
 const default_inputs = {
-  github_token: undefined,
+  token: undefined,
   comment_title: undefined,
   update_comment: false,
   owner: undefined,

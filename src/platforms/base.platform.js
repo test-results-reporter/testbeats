@@ -6,11 +6,29 @@ class BasePlatform {
    * @param {string|number} text
    */
   bold(text) {
-    throw new Error('Not Implemented');
+    return `**${text}**`;
   }
 
   break() {
-    throw new Error('Not Implemented');
+    return '\n';
+  }
+
+  /**
+   * @param {string[]} values
+   */
+  merge(values) {
+    return this.getValidTexts(values).join(this.break());
+  }
+
+  /**
+   * @param {string[]} items - Array of strings to convert to bullet points
+   * @returns {string} - Formatted bullet points as a string
+   */
+  bullets(items) {
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return '';
+    }
+    return this.merge(items.map(item => `- ${item}`));
   }
 
   /**
@@ -122,6 +140,14 @@ class BasePlatform {
     }
 
     return texts.join(' • ');
+  }
+
+  /**
+   * @param {string[]} texts
+   * @returns {string[]}
+   */
+  getValidTexts(texts) {
+    return texts.filter(text => !!text);
   }
 }
 

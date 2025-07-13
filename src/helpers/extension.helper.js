@@ -100,6 +100,15 @@ function addChatExtension({ payload, extension, text }) {
   });
 }
 
+function addGithubExtension({ payload, extension, text }) {
+  if (extension.inputs.title) {
+    const title = extension.inputs.title_link ? `[${extension.inputs.title}](${extension.inputs.title_link})` : extension.inputs.title;
+    payload.content.push(`**${title}**\n${text}\n\n`);
+  } else {
+    payload.content.push(`${text}\n\n`);
+  }
+}
+
 /**
  * Sort extensions by their order property.
  * Extensions without order will appear last, maintaining their original relative order.
@@ -123,5 +132,6 @@ module.exports = {
   addSlackExtension,
   addTeamsExtension,
   addChatExtension,
+  addGithubExtension,
   sortExtensionsByOrder
 }
