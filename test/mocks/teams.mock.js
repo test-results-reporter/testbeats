@@ -1759,7 +1759,7 @@ addInteractionHandler('post test-summary with beats to teams with error clusters
                 },
                 {
                   "type": "TextBlock",
-                  "text": "failure two - **(x2)**\n\nfailure one - **(x1)**",
+                  "text": "- failure two - **(x2)**\n\n- failure one - **(x1)**",
                   "wrap": true
                 }
               ],

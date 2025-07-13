@@ -201,6 +201,9 @@ describe('TestBeats', () => {
     const id2 = mock.addInteraction('get test results from beats');
     const id3 = mock.addInteraction('get error clusters from beats');
     const id4 = mock.addInteraction('post test-summary with beats to teams with error clusters');
+    const id5 = mock.addInteraction('post test-summary with beats to slack with error clusters');
+    const id6 = mock.addInteraction('post test-summary with beats to chat with error clusters');
+    const id7 = mock.addInteraction('post test-summary with beats to github with error clusters');
     await publish({
       config: {
         api_key: 'api-key',
@@ -211,6 +214,28 @@ describe('TestBeats', () => {
             name: 'teams',
             inputs: {
               url: 'http://localhost:9393/message'
+            }
+          },
+          {
+            name: 'slack',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            }
+          },
+          {
+            name: 'chat',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            }
+          },
+          {
+            name: 'github',
+            inputs: {
+              url: 'http://localhost:9393',
+              owner: 'org',
+              repo: 'repo',
+              pull_number: '123',
+              token: 'test-token'
             }
           }
         ],
@@ -228,6 +253,9 @@ describe('TestBeats', () => {
     assert.equal(mock.getInteraction(id2).exercised, true);
     assert.equal(mock.getInteraction(id3).exercised, true);
     assert.equal(mock.getInteraction(id4).exercised, true);
+    assert.equal(mock.getInteraction(id5).exercised, true);
+    assert.equal(mock.getInteraction(id6).exercised, true);
+    assert.equal(mock.getInteraction(id7).exercised, true);
   });
 
   it('should send results with failure analysis to beats', async () => {

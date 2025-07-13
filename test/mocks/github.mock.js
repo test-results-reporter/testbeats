@@ -1,24 +1,5 @@
 const { addInteractionHandler } = require('pactum').handler;
-const { addDataTemplate } = require('pactum').stash;
 const { includes } = require('pactum-matchers');
-
-// addDataTemplate({
-//   'GITHUB_SINGLE_SUITE_SUCCESS': {
-//     body: includes('✅ Default suite')
-//   },
-//   'GITHUB_SINGLE_SUITE_FAILURE': {
-//     body: includes('❌ Default suite')
-//   },
-//   'GITHUB_MULTIPLE_SUITES': {
-//     body: includes('❌ Regression Tests')
-//   },
-//   'GITHUB_COMMENT_WITH_TITLE': {
-//     body: includes('Test Results Summary')
-//   },
-//   'GITHUB_FAILURE_DETAILS': {
-//     body: includes('<details>')
-//   }
-// });
 
 addInteractionHandler('post test-summary to github', () => {
   return {
@@ -257,3 +238,22 @@ addInteractionHandler('post test-summary to github with beats', () => {
     }
   };
 });
+
+addInteractionHandler('post test-summary with beats to github with error clusters', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/repos/org/repo/issues/123/comments',
+      body: {
+        body: '## ❌ [build-name](http://localhost:9393/reports/test-run-id)\n\n**Results**: 3 / 4 Passed (75%)\n**Duration**: 2s\n\n**AI Failure Summary ✨**\ntest failure summary\n\n**Top Errors**\n- failure two - **(x2)**\n- failure one - **(x1)**\n\n'
+      }
+    },
+    response: {
+      status: 201,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  };
+});
+

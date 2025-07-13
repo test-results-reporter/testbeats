@@ -38,7 +38,7 @@ class ErrorClustersExtension extends BaseExtension {
     for (const cluster of clusters) {
       texts.push(`${truncate(cluster.failure, 150)} - ${this.bold(`(x${cluster.count})`)}`);
     }
-    this.text = this.mergeTexts(texts);
+    this.text = this.platform.bullets(texts);
   }
 }
 

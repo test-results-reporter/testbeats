@@ -650,3 +650,50 @@ addInteractionHandler('post errors to chat', () => {
     }
   }
 });
+
+addInteractionHandler('post test-summary with beats to chat with error clusters', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b><a href=\"http://localhost:9393/reports/test-run-id\">❌ build-name</a></b><br><br><b>Results</b>: 3 / 4 Passed (75%)<br><b>Duration</b>: 2s"
+                    }
+                  }
+                ]
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>AI Failure Summary ✨</b><br><br>test failure summary"
+                    }
+                  }
+                ]
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>Top Errors</b><br><br>• failure two - <b>(x2)</b><br>• failure one - <b>(x1)</b>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
