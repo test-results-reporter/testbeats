@@ -234,6 +234,8 @@ export interface TargetInputs {
 
 export interface SlackInputs extends TargetInputs {
   message_format?: 'blocks' | 'attachments';
+  token?: string;
+  channels?: string[];
 }
 
 export interface TeamsInputs extends TargetInputs {

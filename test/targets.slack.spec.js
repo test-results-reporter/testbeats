@@ -313,3 +313,123 @@ describe('targets - slack - performance', () => {
   });
 
 });
+
+describe('targets - slack - token', () => {
+  it('should throw error if channels are not defined', async () => {
+    let error;
+    try {
+      await publish({
+        config: {
+          "targets": [
+            {
+              "name": "slack",
+              "inputs": {
+                "token": "<token>"
+              }
+            }
+          ],
+          "results": [
+            {
+              "type": "testng",
+              "files": [
+                "test/data/testng/single-suite.xml"
+              ]
+            }
+          ]
+        }
+      });
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error.message, 'channels in slack target inputs must be an array');
+  });
+
+  it('should throw error if channels is not an array', async () => {
+    let error;
+    try {
+      await publish({
+        config: {
+          "targets": [
+            {
+              "name": "slack",
+              "inputs": {
+                "token": "<token>",
+                "channels": "some-channel"
+              }
+            }
+          ],
+          "results": [
+            {
+              "type": "testng",
+              "files": [
+                "test/data/testng/single-suite.xml"
+              ]
+            }
+          ]
+        }
+      });
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error.message, 'channels in slack target inputs must be an array');
+  });
+
+  it('should throw error if channels is an empty array', async () => {
+    let error;
+    try {
+      await publish({
+        config: {
+          "targets": [
+            {
+              "name": "slack",
+              "inputs": {
+                "token": "<token>",
+                "channels": []
+              }
+            }
+          ],
+          "results": [
+            {
+              "type": "testng",
+              "files": [
+                "test/data/testng/single-suite.xml"
+              ]
+            }
+          ]
+        }
+      });
+    } catch (e) {
+      error = e;
+    }
+    assert.equal(error.message, 'at least one channel must be defined in slack target inputs');
+  });
+
+  it('should send test-summary to multiple channels', async () => {
+    const id = mock.addInteraction('post test-summary to slack with channel');
+    await publish({
+      config: {
+        "targets": [
+          {
+            "name": "slack",
+            "inputs": {
+              "url": "http://localhost:9393/message",
+              "token": "<token>",
+              "channels": ["#tests"]
+            }
+          }
+        ],
+        "results": [
+          {
+            "type": "testng",
+            "files": [
+              "test/data/testng/single-suite.xml"
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id).exercised, true);
+  });
+
+
+});

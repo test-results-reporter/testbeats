@@ -35,7 +35,7 @@ class BaseExtension {
     this.default_options = {};
 
     /**
-     * @type {import('../platforms').BasePlatform}
+     * @type {import('../platforms/base.platform').BasePlatform}
      */
     this.platform = getPlatform(this.target.name);
   }

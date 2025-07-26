@@ -1019,7 +1019,7 @@ addInteractionHandler('post test-summary with beats to slack with error clusters
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*AI Failure Summary ✨*\n\ntest failure summary"
+                  "text": "*AI Failure Summary ✨*\n\n```test failure summary```"
                 }
               },
               {
@@ -1034,6 +1034,32 @@ addInteractionHandler('post test-summary with beats to slack with error clusters
               }
             ],
             "fallback": "build-name\nResults: 3 / 4 Passed (75%)"
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
+addInteractionHandler('post test-summary to slack with channel', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "channel": "#tests",
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
+              }
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
           }
         ]
       }
