@@ -3,6 +3,7 @@ const { SlackPlatform } = require('./slack.platform');
 const { TeamsPlatform } = require('./teams.platform');
 const { ChatPlatform } = require('./chat.platform');
 const { GitHubPlatform } = require('./github.platform');
+const { BasePlatform } = require('./base.platform');
 
 /**
  *
@@ -19,7 +20,7 @@ function getPlatform(name) {
     case TARGET.GITHUB:
       return new GitHubPlatform();
     default:
-      throw new Error('Invalid Platform');
+      return new BasePlatform();
   }
 }
 

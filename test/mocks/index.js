@@ -9,3 +9,4 @@ require('./chat.mock');
 require('./percy.mock');
 require('./influx.mock');
 require('./influx2.mock');
+require('./http.mock');
