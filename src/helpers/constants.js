@@ -18,6 +18,7 @@ const TARGET = Object.freeze({
   CUSTOM: 'custom',
   DELAY: 'delay',
   INFLUX: 'influx',
+  HTTP: 'http',
 });
 
 const EXTENSION = Object.freeze({

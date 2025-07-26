@@ -10,7 +10,7 @@ export interface ITarget {
   name: TargetName;
   enable?: string | boolean;
   condition?: Condition;
-  inputs?: SlackInputs | TeamsInputs | ChatInputs | GitHubInputs | CustomTargetInputs | InfluxDBTargetInputs;
+  inputs?: SlackInputs | TeamsInputs | ChatInputs | GitHubInputs | ICustomTargetInputs | InfluxDBTargetInputs;
   extensions?: IExtension[];
 }
 
@@ -275,11 +275,19 @@ export interface CustomTargetFunctionContext {
 
 export type CustomTargetFunction = (ctx: CustomTargetFunctionContext) => void | Promise<void>;
 
-export interface CustomTargetInputs {
+export interface ICustomTargetInputs {
   load: string | CustomTargetFunction;
 }
 
+export interface IDelayTargetInputs {
+  seconds: number;
+}
 
+export interface IHttpTargetInputs {
+  url: string;
+  method: string;
+  headers: object;
+}
 
 export interface CustomResultOptions {
   type: string;
@@ -334,6 +342,10 @@ export interface CommandLineOptions {
 
 export type IExtensionDefaultOptions = {
   hook: Hook
+  condition: Condition
+}
+
+export type ITargetDefaultOptions = {
   condition: Condition
 }
 

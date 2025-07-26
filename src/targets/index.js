@@ -2,8 +2,9 @@ const teams = require('./teams');
 const slack = require('./slack');
 const chat = require('./chat');
 const github = require('./github');
-const custom = require('./custom');
-const delay = require('./delay');
+const { CustomTarget } = require('./custom.target');
+const { DelayTarget } = require('./delay.target');
+const { HttpTarget } = require('./http.target');
 const influx = require('./influx');
 const { TARGET } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
@@ -19,11 +20,13 @@ function getTargetRunner(target) {
     case TARGET.GITHUB:
       return github;
     case TARGET.CUSTOM:
-      return custom;
+      return new CustomTarget({ target });
     case TARGET.DELAY:
-      return delay;
+      return new DelayTarget({ target });
     case TARGET.INFLUX:
       return influx;
+    case TARGET.HTTP:
+      return new HttpTarget({ target });
     default:
       return require(target.name);
   }
@@ -31,8 +34,9 @@ function getTargetRunner(target) {
 
 async function run(target, result) {
   const target_runner = getTargetRunner(target);
-  const target_options = Object.assign({}, target_runner.default_options, target);
-  if (await checkCondition({ condition: target_options.condition, result, target })) {
+  // const target_options = Object.assign({}, target_runner.default_options, target);
+  const condition = target.condition ||  target_runner.default_options?.condition || target_runner.condition;
+  if (await checkCondition({ condition, result, target })) {
     await target_runner.run({result, target});
   }
 }
