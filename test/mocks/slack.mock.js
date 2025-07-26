@@ -1043,3 +1043,29 @@ addInteractionHandler('post test-summary with beats to slack with error clusters
     }
   }
 });
+
+addInteractionHandler('post test-summary to slack with channel', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "channel": "#tests",
+        "attachments": [
+          {
+            "color": "#36A64F",
+            "blocks": [
+              {
+                "@DATA:TEMPLATE@": "SLACK_ROOT_SINGLE_SUITE"
+              }
+            ],
+            "fallback": "Default suite\nResults: 4 / 4 Passed (100%)"
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

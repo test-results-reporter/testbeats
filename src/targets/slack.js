@@ -9,6 +9,8 @@ const { getValidMetrics, getMetricValuesText } = require('../helpers/performance
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { getPlatform } = require('../platforms');
 
+const SLACK_BASE_URL = 'https://slack.com';
+
 const STATUSES = {
   GOOD: ':white_check_mark:',
   WARNING: ':warning:',
@@ -31,10 +33,7 @@ async function run({ result, target }) {
   }
   const message = getRootPayload({ result, target, payload });
   logger.info(`🔔 Publishing results to Slack...`);
-  return request.post({
-    url: target.inputs.url,
-    body: message
-  });
+  return publish({ inputs: target.inputs, message });
 }
 
 async function setFunctionalPayload({ result, target, payload }) {
@@ -323,6 +322,28 @@ async function handleErrors({ target, errors }) {
     url: target.inputs.url,
     body: payload
   });
+}
+
+async function publish({ inputs, message}) {
+  const { url, token, channels } = inputs;
+  if (token) {
+    for (let i = 0; i < channels.length; i++) {
+      message.channel = channels[i];
+      return request.post({
+        url: url ? url : `${SLACK_BASE_URL}/api/chat.postMessage`,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: message
+      });
+    }
+
+  } else {
+    return request.post({
+      url,
+      body: message
+    });
+  }
 }
 
 module.exports = {

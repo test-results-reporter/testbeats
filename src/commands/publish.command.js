@@ -173,21 +173,40 @@ class PublishCommand {
         }
       }
       if (target.inputs) {
-        const inputs = target.inputs;
-        if (target.name === 'slack' || target.name === 'teams' || target.name === 'chat') {
-          if (!inputs.url) {
-            throw new Error(`missing url in ${target.name} target inputs`);
-          }
-          if (typeof inputs.url !== 'string') {
-            throw new Error(`url in ${target.name} target inputs must be a string`);
-          }
-          if (!inputs.url.startsWith('http')) {
-            throw new Error(`url in ${target.name} target inputs must start with 'http' or 'https'`);
-          }
-        }
+        this.#validateURL(target);
       }
     }
     logger.debug("Validating targets - Successful!")
+  }
+
+  #validateURL(target) {
+    const inputs = target.inputs;
+    if (target.name === 'slack' || target.name === 'teams' || target.name === 'chat') {
+      if (inputs.token) {
+        if (!Array.isArray(inputs.channels)) {
+          throw new Error(`channels in ${target.name} target inputs must be an array`);
+        }
+        if (!inputs.channels.length) {
+          throw new Error(`at least one channel must be defined in ${target.name} target inputs`);
+        }
+        for (const channel of inputs.channels) {
+          if (typeof channel !== 'string') {
+            throw new Error(`channel in ${target.name} target inputs must be a string`);
+          }
+        }
+        return;
+      }
+
+      if (!inputs.url) {
+        throw new Error(`missing url in ${target.name} target inputs`);
+      }
+      if (typeof inputs.url !== 'string') {
+        throw new Error(`url in ${target.name} target inputs must be a string`);
+      }
+      if (!inputs.url.startsWith('http')) {
+        throw new Error(`url in ${target.name} target inputs must start with 'http' or 'https'`);
+      }
+    }
   }
 
   #processResults() {
