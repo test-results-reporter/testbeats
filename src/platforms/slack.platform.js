@@ -19,6 +19,10 @@ class SlackPlatform extends BasePlatform {
     }
     return this.merge(items.map(item => `• ${item}`));
   }
+
+  code(text) {
+    return `\`\`\`${text}\`\`\``;
+  }
 }
 
 module.exports = { SlackPlatform }

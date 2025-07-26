@@ -36,7 +36,7 @@ class AIFailureSummaryExtension extends BaseExtension {
      * @type {import('../beats/beats.types').IBeatExecutionMetric}
      */
     const execution_metrics = data.execution_metrics[0];
-    this.text = execution_metrics.failure_summary;
+    this.text = this.platform.code(execution_metrics.failure_summary);
   }
 }
 

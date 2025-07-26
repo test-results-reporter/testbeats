@@ -1019,7 +1019,7 @@ addInteractionHandler('post test-summary with beats to slack with error clusters
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "*AI Failure Summary ✨*\n\ntest failure summary"
+                  "text": "*AI Failure Summary ✨*\n\n```test failure summary```"
                 }
               },
               {

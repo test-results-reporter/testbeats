@@ -32,6 +32,16 @@ class BasePlatform {
   }
 
   /**
+   * @param {string} text
+   * @returns {string}
+   */
+  code(text) {
+    return text;
+  }
+
+
+
+  /**
    *
    * @param {import('..').ITarget} target
    * @param {import('test-results-parser').ITestSuite} suite
