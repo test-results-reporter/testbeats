@@ -21,7 +21,10 @@ class SlackPlatform extends BasePlatform {
   }
 
   code(text) {
-    return `\`\`\`${text}\`\`\``;
+    if (text) {
+      return `\`\`\`${text}\`\`\``;
+    }
+    return text;
   }
 }
 
