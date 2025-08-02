@@ -186,14 +186,14 @@ class Beats {
     if (process.env.TEST_BEATS_DELAY) {
       return parseInt(process.env.TEST_BEATS_DELAY);
     }
-    return 3000;
+    return 5000;
   }
 
   async #setTestRun(text, wait_for = 'smart_analysis_status') {
     if (this.test_run && this.test_run[wait_for] === PROCESS_STATUS.COMPLETED) {
       return;
     }
-    let retry = 3;
+    let retry = 5;
     while (retry >= 0) {
       retry = retry - 1;
       await new Promise(resolve => setTimeout(resolve, this.#getDelay()));
