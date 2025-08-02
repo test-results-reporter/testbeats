@@ -1,11 +1,11 @@
 const request = require('phin-retry');
 const { getTitleText, getResultText, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
-const { HOOK, STATUS, TARGET } = require('../helpers/constants');
+const { HOOK, STATUS } = require('../helpers/constants');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const logger = require('../utils/logger');
-const { getPlatform } = require('../platforms');
+const { BaseTarget } = require('./base.target');
 
 async function run({ result, target }) {
   setTargetInputs(target);
@@ -101,8 +101,9 @@ function setSuiteBlock({ result, target, payload }) {
 }
 
 function getSuiteSummary({ target, suite }) {
-  const platform = getPlatform(TARGET.CHAT);
-  const text = platform.getSuiteSummaryText(target, suite);
+  const tg = new ChatTarget({ target });
+  // const platform = getPlatform(TARGET.CHAT);
+  const text = tg.getSuiteSummaryText(target, suite);
   return text;
 }
 
@@ -258,6 +259,12 @@ async function handleErrors({ target, errors }) {
     url: target.inputs.url,
     body: root_payload
   });
+}
+
+class ChatTarget extends BaseTarget {
+  constructor({ target }) {
+    super({ target });
+  }
 }
 
 module.exports = {

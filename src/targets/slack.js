@@ -1,13 +1,15 @@
 const request = require('phin-retry');
 const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
-const { HOOK, STATUS, TARGET } = require('../helpers/constants');
+const { HOOK, STATUS } = require('../helpers/constants');
 const logger = require('../utils/logger');
+const ctx = require('../utils/context.utils');
 
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const TestResult = require('test-results-parser/src/models/TestResult');
-const { getPlatform } = require('../platforms');
+const { BaseTarget } = require('./base.target');
+
 
 const SLACK_BASE_URL = 'https://slack.com';
 
@@ -33,7 +35,7 @@ async function run({ result, target }) {
   }
   const message = getRootPayload({ result, target, payload });
   logger.info(`🔔 Publishing results to Slack...`);
-  return publish({ inputs: target.inputs, message });
+  return publish({ target, message });
 }
 
 async function setFunctionalPayload({ result, target, payload }) {
@@ -73,7 +75,7 @@ function setMainBlock({ result, target, payload }) {
   });
 }
 
-function getTitleText(result, target, {allowTitleLink = true} = {}) {
+function getTitleText(result, target, { allowTitleLink = true } = {}) {
   let text = target.inputs.title ? target.inputs.title : result.name;
   if (target.inputs.title_suffix) {
     text = `${text} ${target.inputs.title_suffix}`;
@@ -121,8 +123,8 @@ function setSuiteBlock({ result, target, payload }) {
 }
 
 function getSuiteSummary({ target, suite }) {
-  const platform = getPlatform(TARGET.SLACK);
-  const text = platform.getSuiteSummaryText(target, suite);
+  const tg = new SlackTarget({ target });
+  const text = tg.getSuiteSummaryText(target, suite);
   return {
     "type": "section",
     "text": {
@@ -172,7 +174,7 @@ function getRootPayload({ result, target, payload }) {
     }
   }
 
-  const fallback_text = `${getTitleText(result, target, {allowTitleLink: false})}\nResults: ${getResultText(result)}`;
+  const fallback_text = `${getTitleText(result, target, { allowTitleLink: false })}\nResults: ${getResultText(result)}`;
 
   if (target.inputs.message_format === 'blocks') {
     return {
@@ -324,18 +326,29 @@ async function handleErrors({ target, errors }) {
   });
 }
 
-async function publish({ inputs, message}) {
-  const { url, token, channels } = inputs;
+async function publish({ target, message }) {
+  const { url, token, channels } = target.inputs;
   if (token) {
-    for (let i = 0; i < channels.length; i++) {
-      message.channel = channels[i];
-      return request.post({
+    for (const channel of channels) {
+      message.channel = channel;
+      const response = await request.post({
         url: url ? url : `${SLACK_BASE_URL}/api/chat.postMessage`,
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: message
       });
+      ctx.stores.push({
+        target,
+        response,
+      });
+      if (response && response.ok) {
+        logger.info(`✔ Published to Slack channel - ${channel}`);
+      } else {
+        logger.error(`✖ Failed to publish to Slack channel - ${channel}`);
+        logger.error(response);
+      }
     }
 
   } else {
@@ -343,6 +356,13 @@ async function publish({ inputs, message}) {
       url,
       body: message
     });
+  }
+}
+
+
+class SlackTarget extends BaseTarget {
+  constructor({ target }) {
+    super({ target });
   }
 }
 

@@ -6,7 +6,10 @@ class ChatPlatform extends BasePlatform {
    * @param {string|number} text
    */
   bold(text) {
-    return `<b>${text}</b>`;
+    if (text) {
+      return `<b>${text}</b>`;
+    }
+    return text;
   }
 
   break() {
