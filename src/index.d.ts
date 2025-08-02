@@ -10,7 +10,7 @@ export interface ITarget {
   name: TargetName;
   enable?: string | boolean;
   condition?: Condition;
-  inputs?: SlackInputs | TeamsInputs | ChatInputs | GitHubInputs | ICustomTargetInputs | InfluxDBTargetInputs;
+  inputs?: SlackInputs | TeamsInputs | ChatInputs | IGitHubInputs | ICustomTargetInputs | InfluxDBTargetInputs;
   extensions?: IExtension[];
 }
 
@@ -244,7 +244,7 @@ export interface TeamsInputs extends TargetInputs {
 
 export interface ChatInputs extends TargetInputs { }
 
-export interface GitHubInputs extends TargetInputs {
+export interface IGitHubInputs extends TargetInputs {
   token?: string;
   owner?: string;
   repo?: string;

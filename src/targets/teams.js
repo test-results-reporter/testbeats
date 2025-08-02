@@ -2,12 +2,12 @@ const request = require('phin-retry');
 const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const extension_manager = require('../extensions');
-const { HOOK, STATUS, TARGET } = require('../helpers/constants');
+const { HOOK, STATUS } = require('../helpers/constants');
 const logger = require('../utils/logger');
 
 const TestResult = require('test-results-parser/src/models/TestResult');
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
-const { getPlatform } = require('../platforms');
+const { BaseTarget } = require('./base.target');
 
 /**
  * @param {object} param0
@@ -145,11 +145,11 @@ function setSuiteBlock({ result, target, payload }) {
 }
 
 function getSuiteSummary({ suite, target }) {
-
-  const platform = getPlatform(TARGET.TEAMS);
-  const suite_title = platform.getSuiteTitle(suite);
-  const suite_results = platform.getSuiteResults(suite);
-  const duration = platform.getSuiteDuration(target, suite);
+  const tg = new TeamsTarget({ target });
+  // const platform = getPlatform(TARGET.TEAMS);
+  const suite_title = tg.getSuiteTitle(suite);
+  const suite_results = tg.getSuiteResults(suite);
+  const duration = tg.getSuiteDuration(target, suite);
 
   const blocks = [
     {
@@ -174,7 +174,7 @@ function getSuiteSummary({ suite, target }) {
     }
   ];
 
-  const suite_metadata_text = platform.getSuiteMetaDataText(suite);
+  const suite_metadata_text = tg.getSuiteMetaDataText(suite);
   if (suite_metadata_text) {
     blocks.push({
       "type": "TextBlock",
@@ -346,6 +346,12 @@ async function handleErrors({ target, errors }) {
     url: target.inputs.url,
     body: root_payload
   });
+}
+
+class TeamsTarget extends BaseTarget {
+  constructor({ target }) {
+    super({ target });
+  }
 }
 
 module.exports = {

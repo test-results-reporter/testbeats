@@ -6,7 +6,10 @@ class SlackPlatform extends BasePlatform {
    * @param {string|number} text
    */
   bold(text) {
-    return `*${text}*`;
+    if (text) {
+      return `*${text}*`;
+    }
+    return text;
   }
 
   /**
@@ -23,6 +26,16 @@ class SlackPlatform extends BasePlatform {
   code(text) {
     if (text) {
       return `\`\`\`${text}\`\`\``;
+    }
+    return text;
+  }
+
+  link(text, url) {
+    if (url) {
+      if (!text) {
+        text = url;
+      }
+      return `<${url}|${text}>`;
     }
     return text;
   }

@@ -1,7 +1,7 @@
 const teams = require('./teams');
 const slack = require('./slack');
 const chat = require('./chat');
-const github = require('./github');
+const { GitHubTarget} = require('./github.target');
 const { CustomTarget } = require('./custom.target');
 const { DelayTarget } = require('./delay.target');
 const { HttpTarget } = require('./http.target');
@@ -18,7 +18,7 @@ function getTargetRunner(target) {
     case TARGET.CHAT:
       return chat;
     case TARGET.GITHUB:
-      return github;
+      return new GitHubTarget({ target });
     case TARGET.CUSTOM:
       return new CustomTarget({ target });
     case TARGET.DELAY:

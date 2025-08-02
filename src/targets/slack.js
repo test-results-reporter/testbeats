@@ -1,13 +1,13 @@
 const request = require('phin-retry');
 const { getPercentage, truncate, getPrettyDuration } = require('../helpers/helper');
 const extension_manager = require('../extensions');
-const { HOOK, STATUS, TARGET } = require('../helpers/constants');
+const { HOOK, STATUS } = require('../helpers/constants');
 const logger = require('../utils/logger');
 
 const PerformanceTestResult = require('performance-results-parser/src/models/PerformanceTestResult');
 const { getValidMetrics, getMetricValuesText } = require('../helpers/performance');
 const TestResult = require('test-results-parser/src/models/TestResult');
-const { getPlatform } = require('../platforms');
+const { BaseTarget } = require('./base.target');
 
 const SLACK_BASE_URL = 'https://slack.com';
 
@@ -121,8 +121,8 @@ function setSuiteBlock({ result, target, payload }) {
 }
 
 function getSuiteSummary({ target, suite }) {
-  const platform = getPlatform(TARGET.SLACK);
-  const text = platform.getSuiteSummaryText(target, suite);
+  const tg = new SlackTarget({ target });
+  const text = tg.getSuiteSummaryText(target, suite);
   return {
     "type": "section",
     "text": {
@@ -327,15 +327,22 @@ async function handleErrors({ target, errors }) {
 async function publish({ inputs, message}) {
   const { url, token, channels } = inputs;
   if (token) {
-    for (let i = 0; i < channels.length; i++) {
-      message.channel = channels[i];
-      return request.post({
+    for (const channel of channels) {
+      message.channel = channel;
+      const response = await request.post({
         url: url ? url : `${SLACK_BASE_URL}/api/chat.postMessage`,
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: message
       });
+      if (response && response.ok) {
+        logger.info(`✔ Published to Slack channel - ${channel}`);
+      } else {
+        logger.error(`✖ Failed to publish to Slack channel - ${channel}`);
+        logger.error(response);
+      }
     }
 
   } else {
@@ -343,6 +350,13 @@ async function publish({ inputs, message}) {
       url,
       body: message
     });
+  }
+}
+
+
+class SlackTarget extends BaseTarget {
+  constructor({ target }) {
+    super({ target });
   }
 }
 
