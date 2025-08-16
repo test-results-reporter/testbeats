@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const hash = require('object-hash');
 const { GherkinParser } = require('./parsers/gherkin');
 
 class ManualSyncHelper {
@@ -8,9 +9,57 @@ class ManualSyncHelper {
   }
 
   /**
+   * Generate hash for an object
+   * @param {Object} obj - Object to hash
+   * @returns {string} Hash string
+   */
+  generateHash(obj) {
+    return hash(obj, { algorithm: 'md5' });
+  }
+
+  /**
+   * Add hash to test case
+   * @param {Object} testCase - Test case object
+   * @returns {Object} Test case with hash
+   */
+  addTestCaseHash(testCase) {
+    return {
+      ...testCase,
+      hash: this.generateHash(testCase)
+    };
+  }
+
+  /**
+   * Add hash to test suite
+   * @param {Object} testSuite - Test suite object
+   * @returns {Object} Test suite with hash
+   */
+  addTestSuiteHash(testSuite) {
+    return {
+      ...testSuite,
+      hash: this.generateHash(testSuite),
+      test_cases: testSuite.test_cases.map(testCase => this.addTestCaseHash(testCase))
+    };
+  }
+
+  /**
+   * Add hash to folder
+   * @param {Object} folder - Folder object
+   * @returns {Object} Folder with hash
+   */
+  addFolderHash(folder) {
+    return {
+      ...folder,
+      hash: this.generateHash(folder),
+      test_suites: folder.test_suites.map(testSuite => this.addTestSuiteHash(testSuite)),
+      folders: folder.folders.map(subFolder => this.addFolderHash(subFolder))
+    };
+  }
+
+  /**
    * Scan directory recursively and build folder structure
    * @param {string} directoryPath - Path to scan
-   * @returns {Object} Folder structure with test suites
+   * @returns {Object} Folder structure with test suites and hashes
    */
   async scanDirectory(directoryPath) {
     const absolutePath = path.resolve(directoryPath);
@@ -23,7 +72,8 @@ class ManualSyncHelper {
       throw new Error(`Path is not a directory: ${directoryPath}`);
     }
 
-    return this.buildFolderStructure(absolutePath, directoryPath);
+    const structure = this.buildFolderStructure(absolutePath, directoryPath);
+    return this.addFolderHash(structure);
   }
 
   /**

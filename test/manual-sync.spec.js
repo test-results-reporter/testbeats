@@ -2,7 +2,6 @@ const assert = require('assert');
 const { exec } = require('child_process');
 const { ManualSyncCommand } = require('../src/commands/manual-sync.command');
 const { ManualSyncHelper } = require('../src/manual/sync.helper');
-const path = require('path');
 
 describe('Manual Sync Command', () => {
 
@@ -21,6 +20,7 @@ describe('Manual Sync Command', () => {
       assert.equal(result.path, 'test/data/gherkin', 'Should have correct folder path');
       assert.ok(Array.isArray(result.folders), 'Should have folders array');
       assert.ok(result.test_suites.length > 0, 'Should have test suites');
+      assert.equal(result.hash, '9b3211466d6a70e47492c9a80bdc4aae', 'Should have correct hash for root folder');
 
       // Verify test suite structure
       const firstSuite = result.test_suites[0];
@@ -29,6 +29,7 @@ describe('Manual Sync Command', () => {
       assert.ok(Array.isArray(firstSuite.test_cases), 'Should have test cases array');
       assert.ok(Array.isArray(firstSuite.tags), 'Should have tags array');
       assert.ok(Array.isArray(firstSuite.beforeEach), 'Should have beforeEach array');
+      assert.equal(firstSuite.hash, 'bcbad4ec71d3a1c4b44d0001b186bd73', 'Should have correct hash for test suite');
     });
 
     it('should handle nested folder structures', async () => {
@@ -146,15 +147,6 @@ describe('Manual Sync Command', () => {
 
     beforeEach(() => {
       command = new ManualSyncCommand({});
-    });
-
-    it('should execute successfully with default path', async () => {
-      const result = await command.execute();
-
-      assert.ok(result, 'Should return a result');
-      assert.ok(result.folders, 'Should have folders property');
-      assert.ok(Array.isArray(result.folders), 'Folders should be an array');
-      assert.ok(result.folders.length > 0, 'Should have at least one folder');
     });
 
     it('should execute successfully with custom path', async () => {

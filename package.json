@@ -50,6 +50,7 @@
     "dotenv": "^16.4.5",
     "form-data-lite": "^1.0.3",
     "influxdb-lite": "^1.0.0",
+    "object-hash": "^3.0.0",
     "performance-results-parser": "latest",
     "phin-retry": "^1.0.3",
     "pretty-ms": "^7.0.1",
