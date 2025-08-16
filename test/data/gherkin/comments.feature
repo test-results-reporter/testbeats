@@ -18,7 +18,7 @@ Feature: Comment Examples in Gherkin
   @positive @basic
   Scenario: Basic comment usage
     # This scenario shows basic comment usage
-    Given I have a feature file open # Inline comment example
+    Given I have a feature file open
     When I add comments to explain the steps
     # Multi-line comment example:
     # Comments can span multiple lines

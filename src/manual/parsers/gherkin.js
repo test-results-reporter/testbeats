@@ -2,7 +2,7 @@ const fs = require('fs');
 
 /**
  * Simple and extendable Gherkin parser for Cucumber feature files
- * Parses .feature files and returns structured JSON objects
+ * Parses .feature files and returns structured test suite objects
  */
 class GherkinParser {
   constructor() {
@@ -12,7 +12,7 @@ class GherkinParser {
 
   /**
    * @param {string} file_path
-   * @returns {Object} Parsed Gherkin document as JSON
+   * @returns {Object} Parsed test suite structure
    */
   parse(file_path) {
     try {
@@ -26,20 +26,22 @@ class GherkinParser {
   }
 
     /**
-   * Parse lines and build the Gherkin document structure
+   * Parse lines and build the test suite structure
    * @param {string[]} lines
    * @returns {Object}
    */
   parseLines(lines) {
-    const document = {
-      type: 'GherkinDocument',
-      feature: null
+    const testSuite = {
+      name: '',
+      type: 'feature',
+      tags: [],
+      beforeEach: [],
+      cases: []
     };
 
     let currentFeature = null;
     let currentBackground = null;
     let currentScenario = null;
-    let currentStepKeyword = null;
     let pendingFeatureTags = [];
     let pendingScenarioTags = [];
 
@@ -60,30 +62,26 @@ class GherkinParser {
         }
       } else if (line.startsWith('Feature:')) {
         // Parse Feature
-        currentFeature = this.parseFeature(line, i + 1 < lines.length ? lines[i + 1] : '');
-        currentFeature.tags = pendingFeatureTags;
-        document.feature = currentFeature;
+        const description = this.parseMultiLineDescription(lines, i + 1);
+        currentFeature = this.parseFeature(line, description);
+        testSuite.name = currentFeature.name;
+        testSuite.tags = pendingFeatureTags.map(tag => tag.name);
         pendingFeatureTags = [];
-        i++; // Skip description line
+        i += description.split('\n').length; // Skip all description lines
       } else if (line.startsWith('Background:')) {
         // Parse Background
         currentBackground = this.parseBackground();
-        if (currentFeature && currentFeature.children) {
-          currentFeature.children.push(currentBackground);
-        }
-        currentStepKeyword = null;
+        testSuite.beforeEach.push(currentBackground);
       } else if (line.startsWith('Scenario:')) {
         // Parse Scenario
         currentScenario = this.parseScenario(line);
-        currentScenario.tags = pendingScenarioTags;
-        if (currentFeature && currentFeature.children) {
-          currentFeature.children.push(currentScenario);
-        }
+        currentScenario.tags = pendingScenarioTags.map(tag => tag.name);
+        testSuite.cases.push(currentScenario);
         pendingScenarioTags = [];
-        currentStepKeyword = null;
+        currentBackground = null; // Reset Background context when Scenario starts
       } else if (this.isStep(line)) {
         // Parse Step
-        const step = this.parseStep(line, currentStepKeyword);
+        const step = this.parseStep(line);
 
         // Determine where to add the step based on current context
         if (currentBackground && currentBackground.steps) {
@@ -93,15 +91,10 @@ class GherkinParser {
           // Add step to Scenario
           currentScenario.steps.push(step);
         }
-
-        // Update current step keyword for 'And' steps
-        if (step.keyword !== 'And' && step.keyword !== 'But') {
-          currentStepKeyword = step.keyword;
-        }
       }
     }
 
-    return document;
+    return testSuite;
   }
 
   /**
@@ -112,6 +105,35 @@ class GherkinParser {
   parseTags(line) {
     const tagMatches = line.match(/@\w+/g);
     return tagMatches ? tagMatches.map(tag => ({ name: tag })) : [];
+  }
+
+  /**
+   * Parse multi-line description starting from a given line index
+   * @param {string[]} lines
+   * @param {number} startIndex
+   * @returns {string}
+   */
+  parseMultiLineDescription(lines, startIndex) {
+    const descriptionLines = [];
+
+    for (let i = startIndex; i < lines.length; i++) {
+      const line = lines[i];
+
+      // Stop if we hit a keyword or step
+      if (line.startsWith('Background:') ||
+          line.startsWith('Scenario:') ||
+          line.startsWith('@') ||
+          this.isStep(line)) {
+        break;
+      }
+
+      // Add non-empty lines to description
+      if (line.trim().length > 0) {
+        descriptionLines.push(line.trim());
+      }
+    }
+
+    return descriptionLines.join('\n');
   }
 
   /**
@@ -138,8 +160,8 @@ class GherkinParser {
    */
   parseBackground() {
     return {
-      type: 'Background',
-      keyword: 'Background',
+      name: '',
+      type: 'background',
       steps: []
     };
   }
@@ -152,9 +174,9 @@ class GherkinParser {
   parseScenario(line) {
     const name = line.replace('Scenario:', '').trim();
     return {
-      type: 'Scenario',
-      tags: [],
       name: name,
+      type: 'scenario',
+      tags: [],
       steps: []
     };
   }
@@ -172,44 +194,21 @@ class GherkinParser {
     );
   }
 
-    /**
+  /**
    * Parse a step line
    * @param {string} line
-   * @param {string} previousKeyword
    * @returns {Object}
    */
-  parseStep(line, previousKeyword) {
-    let keyword = 'Given'; // Default
-    let text = line;
-
-    // Handle 'And' and 'But' steps
-    if (line.startsWith('And ')) {
-      keyword = previousKeyword || 'Given';
-      text = line.replace('And ', '');
-    } else if (line.startsWith('But ')) {
-      keyword = previousKeyword || 'Given';
-      text = line.replace('But ', '');
-    } else {
-      // Extract keyword from step
-      for (const stepKeyword of this.stepKeywords) {
-        if (line.startsWith(stepKeyword + ' ')) {
-          keyword = stepKeyword;
-          text = line.replace(stepKeyword + ' ', '');
-          break;
-        }
-      }
-    }
-
+  parseStep(line) {
     return {
-      keyword: keyword,
-      text: text.trim()
+      name: line.trim()
     };
   }
 
   /**
    * Parse from string content instead of file
    * @param {string} content
-   * @returns {Object}
+   * @returns {Object} Parsed test suite structure
    */
   parseString(content) {
     try {
@@ -227,11 +226,11 @@ class GherkinParser {
    */
   validate(document) {
     return document &&
-           document.type === 'GherkinDocument' &&
-           document.feature &&
-           document.feature.type === 'Feature' &&
-           document.feature.name &&
-           Array.isArray(document.feature.children);
+           document.name &&
+           document.type === 'feature' &&
+           Array.isArray(document.tags) &&
+           Array.isArray(document.beforeEach) &&
+           Array.isArray(document.cases);
   }
 }
 
