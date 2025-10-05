@@ -15,6 +15,7 @@ const TARGET = Object.freeze({
   TEAMS: 'teams',
   CHAT: 'chat',
   GITHUB: 'github',
+  GITHUB_OUTPUT: 'github-output',
   CUSTOM: 'custom',
   DELAY: 'delay',
   INFLUX: 'influx',

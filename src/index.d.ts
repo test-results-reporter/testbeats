@@ -10,7 +10,7 @@ export interface ITarget {
   name: TargetName;
   enable?: string | boolean;
   condition?: Condition;
-  inputs?: SlackInputs | TeamsInputs | ChatInputs | IGitHubInputs | ICustomTargetInputs | InfluxDBTargetInputs;
+  inputs?: SlackInputs | TeamsInputs | ChatInputs | IGitHubInputs | IGitHubOutputInputs | ICustomTargetInputs | InfluxDBTargetInputs;
   extensions?: IExtension[];
 }
 
@@ -25,7 +25,7 @@ export interface IExtension {
 
 export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom' | 'ai-failure-summary';
 export type Hook = 'start' | 'end' | 'after-summary';
-export type TargetName = 'slack' | 'teams' | 'chat' | 'github' | 'custom' | 'delay';
+export type TargetName = 'slack' | 'teams' | 'chat' | 'github' | 'github-output' | 'custom' | 'delay';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
 
 export interface ConditionFunctionContext {
@@ -249,6 +249,11 @@ export interface IGitHubInputs extends TargetInputs {
   owner?: string;
   repo?: string;
   pull_number?: string;
+}
+
+export interface IGitHubOutputInputs {
+  output_file?: string;
+  key?: string;
 }
 
 export interface InfluxDBTargetInputs {
