@@ -6,6 +6,7 @@ const sade = require('sade');
 const prog = sade('testbeats');
 const { PublishCommand } = require('./commands/publish.command');
 const { GenerateConfigCommand } = require('./commands/generate-config.command');
+const { ManualSyncCommand } = require('./commands/manual-sync.command');
 const logger = require('./utils/logger');
 const pkg = require('../package.json');
 
@@ -59,6 +60,23 @@ prog.command('init')
       } else {
         throw new Error(`❌ Error in generating configuration file: ${error.message}`)
       }
+      process.exit(1);
+    }
+  });
+
+// Command to sync manual test cases from gherkin files
+prog.command('manual sync')
+  .describe('Sync manual test cases from gherkin files in a directory')
+  .option('-p, --path', 'Path to directory to sync (default: current directory)')
+  .example('manual sync')
+  .example('manual sync --path ./tests/features')
+  .action(async (opts) => {
+    try {
+      logger.setLevel(opts.logLevel);
+      const manual_sync_command = new ManualSyncCommand(opts);
+      await manual_sync_command.execute();
+    } catch (error) {
+      logger.error(`Manual sync failed: ${error.message}`);
       process.exit(1);
     }
   });
