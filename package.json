@@ -1,6 +1,6 @@
 {
   "name": "testbeats",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "Publish test results to Microsoft Teams, Google Chat, Slack and InfluxDB",
   "main": "src/index.js",
   "types": "./src/index.d.ts",
@@ -57,7 +57,7 @@
     "prompts": "^2.4.2",
     "rosters": "0.0.1",
     "sade": "^1.8.1",
-    "test-results-parser": "0.2.8"
+    "test-results-parser": "0.2.9"
   },
   "devDependencies": {
     "c8": "^10.1.2",
