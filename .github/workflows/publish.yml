@@ -6,6 +6,7 @@ on:
       - main
 
 permissions:
+  id-token: write  # Required for OIDC
   contents: write
   pull-requests: write
 
@@ -35,5 +36,3 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
