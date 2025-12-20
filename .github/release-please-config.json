@@ -1,0 +1,9 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "pull-request-title-pattern": "chore: release ${version}",
+      "bump-minor-pre-major": true
+    }
+  }
+}
