@@ -7,22 +7,22 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
         with:
-          node-version: '18.x'
+          node-version: '24.x'
       - run: npm install
       - run: npm run build
-      - uses: vimtor/action-zip@v1
+      - uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
         with:
           files: dist/testbeats-linux
           dest: dist/testbeats-linux.zip
-      - uses: vimtor/action-zip@v1
+      - uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
         with:
           files: dist/testbeats-macos
           dest: dist/testbeats-macos.zip
-      - uses: vimtor/action-zip@v1
+      - uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
         with:
           files: dist/testbeats-win.exe
           dest: dist/testbeats-win.exe.zip
