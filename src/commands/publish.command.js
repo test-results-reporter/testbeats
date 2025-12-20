@@ -1,33 +1,29 @@
 const path = require('path');
 const trp = require('test-results-parser');
 const prp = require('performance-results-parser');
-const os = require('os');
 
 const beats = require('../beats');
-const { ConfigBuilder } = require('../utils/config.builder');
 const target_manager = require('../targets');
 const logger = require('../utils/logger');
 const { processData } = require('../helpers/helper');
 const { ExtensionsSetup } = require('../setups/extensions.setup');
-const pkg = require('../../package.json');
-const { MIN_NODE_VERSION } = require('../helpers/constants');
 const { sortExtensionsByOrder } = require('../helpers/extension.helper');
+const { BaseCommand } = require('./base.command');
 
-class PublishCommand {
+class PublishCommand extends BaseCommand {
 
   /**
    * @param {import('../index').CommandLineOptions} opts
    */
   constructor(opts) {
-    this.opts = opts;
+    super(opts);
     this.errors = [];
   }
 
   async publish() {
-    logger.info(`🥁 TestBeats v${pkg.version}`);
-
-    this.#validateEnvDetails();
-    this.#buildConfig();
+    this.printBanner();
+    this.validateEnvDetails();
+    this.buildConfig();
     this.#validateOptions();
     this.#setConfigFromFile();
     this.#mergeConfigOptions();
@@ -37,25 +33,6 @@ class PublishCommand {
     await this.#setupExtensions();
     await this.#publishResults();
     await this.#publishErrors();
-  }
-
-  #validateEnvDetails() {
-    try {
-      const current_major_version = parseInt(process.version.split('.')[0].replace('v', ''));
-      if (current_major_version >= MIN_NODE_VERSION) {
-        logger.info(`💻 NodeJS: ${process.version}, OS: ${os.platform()}, Version: ${os.release()}, Arch: ${os.machine()}`);
-        return;
-      }
-    } catch (error) {
-      logger.warn(`⚠️ Unable to verify NodeJS version: ${error.message}`);
-      return;
-    }
-    throw new Error(`❌ Supported NodeJS version is >= v${MIN_NODE_VERSION}. Current version is ${process.version}`)
-  }
-
-  #buildConfig() {
-    const config_builder = new ConfigBuilder(this.opts);
-    config_builder.build();
   }
 
   #validateOptions() {

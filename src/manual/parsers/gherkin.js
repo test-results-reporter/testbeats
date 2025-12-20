@@ -1,11 +1,13 @@
 const fs = require('fs');
+const { BaseParser } = require('./base');
 
 /**
  * Simple and extendable Gherkin parser for Cucumber feature files
  * Parses .feature files and returns structured test suite objects
  */
-class GherkinParser {
+class GherkinParser extends BaseParser {
   constructor() {
+    super();
     /** @type {string[]} Supported step keywords */
     this.stepKeywords = ['Given', 'When', 'Then', 'And', 'But'];
   }
@@ -31,12 +33,15 @@ class GherkinParser {
    * @returns {Object}
    */
   parseLines(lines) {
+    /**
+     * @type {import('../../types').IManualTestSuite}
+     */
     const testSuite = {
       name: '',
       type: 'feature',
       tags: [],
-      beforeEach: [],
-      cases: []
+      before_each: [],
+      test_cases: []
     };
 
     let currentFeature = null;
@@ -71,12 +76,12 @@ class GherkinParser {
       } else if (line.startsWith('Background:')) {
         // Parse Background
         currentBackground = this.parseBackground();
-        testSuite.beforeEach.push(currentBackground);
+        testSuite.before_each.push(currentBackground);
       } else if (line.startsWith('Scenario:')) {
         // Parse Scenario
         currentScenario = this.parseScenario(line);
         currentScenario.tags = pendingScenarioTags.map(tag => tag.name);
-        testSuite.cases.push(currentScenario);
+        testSuite.test_cases.push(currentScenario);
         pendingScenarioTags = [];
         currentBackground = null; // Reset Background context when Scenario starts
       } else if (this.isStep(line)) {
@@ -93,6 +98,11 @@ class GherkinParser {
         }
       }
     }
+
+    for (const testCase of testSuite.test_cases) {
+      testCase.hash = this.hashTestCase(testCase);
+    }
+    testSuite.hash = this.hashTestSuite(testSuite);
 
     return testSuite;
   }
@@ -169,7 +179,7 @@ class GherkinParser {
   /**
    * Parse Scenario line
    * @param {string} line
-   * @returns {Object}
+   * @returns {import('../../types').IManualTestCase}
    */
   parseScenario(line) {
     const name = line.replace('Scenario:', '').trim();
@@ -229,8 +239,8 @@ class GherkinParser {
            document.name &&
            document.type === 'feature' &&
            Array.isArray(document.tags) &&
-           Array.isArray(document.beforeEach) &&
-           Array.isArray(document.cases);
+           Array.isArray(document.before_each) &&
+           Array.isArray(document.test_cases);
   }
 }
 

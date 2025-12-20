@@ -26,11 +26,11 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(result.tags[1], '@regression');
 
     // Check scenarios
-    assert.ok(Array.isArray(result.cases), 'Feature should have cases');
-    assert.strictEqual(result.cases.length, 2, 'Should have 2 scenarios');
+    assert.ok(Array.isArray(result.test_cases), 'Feature should have test cases');
+    assert.strictEqual(result.test_cases.length, 2, 'Should have 2 scenarios');
 
     // Check first scenario
-    const firstScenario = result.cases[0];
+    const firstScenario = result.test_cases[0];
     assert.strictEqual(firstScenario.type, 'scenario');
     assert.strictEqual(firstScenario.name, 'Addition of two numbers');
     assert.ok(Array.isArray(firstScenario.tags), 'Scenario tags should be an array');
@@ -77,17 +77,17 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(result.tags[1], '@api');
 
     // Check scenarios
-    assert.ok(Array.isArray(result.cases), 'Feature should have cases');
-    assert.strictEqual(result.cases.length, 4, 'Should have 4 scenarios');
+    assert.ok(Array.isArray(result.test_cases), 'Feature should have test cases');
+    assert.strictEqual(result.test_cases.length, 4, 'Should have 4 scenarios');
 
     // Check background
-    const background = result.beforeEach[0];
+    const background = result.before_each[0];
     assert.strictEqual(background.type, 'background');
     assert.ok(Array.isArray(background.steps), 'Background should have steps');
     assert.strictEqual(background.steps.length, 2, 'Background should have 2 steps');
 
     // Check first scenario (Create)
-    const createScenario = result.cases[0];
+    const createScenario = result.test_cases[0];
     assert.strictEqual(createScenario.type, 'scenario');
     assert.strictEqual(createScenario.name, 'Create a new user');
     assert.ok(Array.isArray(createScenario.tags), 'Scenario tags should be an array');
@@ -100,7 +100,7 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(createScenario.steps.length, 5, 'Should have 5 steps');
 
     // Check 'But' step in read scenario
-    const readScenario = result.cases[1];
+    const readScenario = result.test_cases[1];
     assert.strictEqual(readScenario.name, 'Retrieve user information');
     assert.ok(Array.isArray(readScenario.steps), 'Read scenario should have steps');
 
@@ -110,12 +110,12 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(butStep.name, 'But I should not see the user\'s password');
 
     // Check update scenario
-    const updateScenario = result.cases[2];
+    const updateScenario = result.test_cases[2];
     assert.strictEqual(updateScenario.name, 'Update user information');
     assert.ok(Array.isArray(updateScenario.steps), 'Update scenario should have steps');
 
     // Check delete scenario
-    const deleteScenario = result.cases[3];
+    const deleteScenario = result.test_cases[3];
     assert.strictEqual(deleteScenario.name, 'Delete non-existent user');
     assert.ok(Array.isArray(deleteScenario.tags), 'Delete scenario should have tags');
     assert.strictEqual(deleteScenario.tags.length, 2);
@@ -139,11 +139,11 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(result.tags.length, 0, 'Feature should have no tags');
 
     // Check scenarios
-    assert.ok(Array.isArray(result.cases), 'Feature should have cases');
-    assert.strictEqual(result.cases.length, 1, 'Should have 1 scenario');
+    assert.ok(Array.isArray(result.test_cases), 'Feature should have test cases');
+    assert.strictEqual(result.test_cases.length, 1, 'Should have 1 scenario');
 
     // Check scenario
-    const scenario = result.cases[0];
+    const scenario = result.test_cases[0];
     assert.strictEqual(scenario.type, 'scenario');
     assert.strictEqual(scenario.name, 'No Tags Scenario');
 
@@ -185,11 +185,11 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(result.tags[0], '@simple');
 
     // Check scenarios
-    assert.ok(Array.isArray(result.cases), 'Feature should have cases');
-    assert.strictEqual(result.cases.length, 10, 'Should have 10 scenarios');
+    assert.ok(Array.isArray(result.test_cases), 'Feature should have test cases');
+    assert.strictEqual(result.test_cases.length, 10, 'Should have 10 scenarios');
 
     // Check first scenario
-    const firstScenario = result.cases[0];
+    const firstScenario = result.test_cases[0];
     assert.strictEqual(firstScenario.type, 'scenario');
     assert.strictEqual(firstScenario.name, 'No Steps Scenario One');
 
@@ -202,7 +202,7 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(firstScenario.steps.length, 0, 'Scenario should have no steps');
 
     // Check last scenario
-    const lastScenario = result.cases[9];
+    const lastScenario = result.test_cases[9];
     assert.strictEqual(lastScenario.type, 'scenario');
     assert.strictEqual(lastScenario.name, 'No Steps Scenario Ten');
 
@@ -211,7 +211,7 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(lastScenario.steps.length, 0, 'Last scenario should have no steps');
 
     // Verify all scenarios have no steps
-    result.cases.forEach((scenario, index) => {
+    result.test_cases.forEach((scenario, index) => {
       assert.strictEqual(scenario.type, 'scenario', `Scenario ${index + 1} should be of type scenario`);
       assert.ok(Array.isArray(scenario.steps), `Scenario ${index + 1} should have steps array`);
       assert.strictEqual(scenario.steps.length, 0, `Scenario ${index + 1} should have no steps`);
@@ -237,11 +237,11 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(result.tags[2], '@documentation');
 
     // Check scenarios
-    assert.ok(Array.isArray(result.cases), 'Feature should have cases');
-    assert.strictEqual(result.cases.length, 2, 'Should have 2 scenarios');
+    assert.ok(Array.isArray(result.test_cases), 'Feature should have test cases');
+    assert.strictEqual(result.test_cases.length, 2, 'Should have 2 scenarios');
 
     // Check Background
-    const background = result.beforeEach[0];
+    const background = result.before_each[0];
     assert.strictEqual(background.type, 'background');
     assert.ok(Array.isArray(background.steps), 'Background should have steps');
     assert.strictEqual(background.steps.length, 2, 'Background should have 2 steps');
@@ -254,7 +254,7 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(backgroundStep2.name, 'And I am ready to run tests');
 
     // Check first scenario (Basic comment usage)
-    const firstScenario = result.cases[0];
+    const firstScenario = result.test_cases[0];
     assert.strictEqual(firstScenario.type, 'scenario');
     assert.strictEqual(firstScenario.name, 'Basic comment usage');
     assert.ok(Array.isArray(firstScenario.tags), 'Scenario tags should be an array');
@@ -280,7 +280,7 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(fourthStep.name, 'And the code should be more maintainable');
 
     // Check second scenario (Advanced comment patterns)
-    const secondScenario = result.cases[1];
+    const secondScenario = result.test_cases[1];
     assert.strictEqual(secondScenario.type, 'scenario');
     assert.strictEqual(secondScenario.name, 'Advanced comment patterns');
     assert.ok(Array.isArray(secondScenario.tags), 'Scenario tags should be an array');
@@ -322,11 +322,11 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(result.tags[2], '@setup');
 
     // Check scenarios
-    assert.ok(Array.isArray(result.cases), 'Feature should have cases');
-    assert.strictEqual(result.cases.length, 2, 'Should have 2 scenarios');
+    assert.ok(Array.isArray(result.test_cases), 'Feature should have test cases');
+    assert.strictEqual(result.test_cases.length, 2, 'Should have 2 scenarios');
 
     // Check Background
-    const background = result.beforeEach[0];
+    const background = result.before_each[0];
     assert.strictEqual(background.type, 'background');
     assert.ok(Array.isArray(background.steps), 'Background should have steps');
     assert.strictEqual(background.steps.length, 4, 'Background should have 4 steps');
@@ -345,7 +345,7 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(backgroundStep4.name, 'And I have the necessary permissions');
 
     // Check first scenario (Successful user login)
-    const firstScenario = result.cases[0];
+    const firstScenario = result.test_cases[0];
     assert.strictEqual(firstScenario.type, 'scenario');
     assert.strictEqual(firstScenario.name, 'Successful user login');
     assert.ok(Array.isArray(firstScenario.tags), 'Scenario tags should be an array');
@@ -374,7 +374,7 @@ describe('Gherkin Parser', () => {
     assert.strictEqual(fifthStep.name, 'And I should see my user profile information');
 
     // Check second scenario (Update user profile)
-    const secondScenario = result.cases[1];
+    const secondScenario = result.test_cases[1];
     assert.strictEqual(secondScenario.type, 'scenario');
     assert.strictEqual(secondScenario.name, 'Update user profile');
     assert.ok(Array.isArray(secondScenario.tags), 'Scenario tags should be an array');

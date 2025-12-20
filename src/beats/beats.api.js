@@ -9,6 +9,15 @@ class BeatsApi {
     this.config = config;
   }
 
+  searchProjects(search_text) {
+    return request.get({
+      url: `${this.getBaseUrl()}/api/core/v1/projects?search_text=${search_text}`,
+      headers: {
+        'x-api-key': this.config.api_key
+      }
+    });
+  }
+
   postTestRun(payload) {
     return request.post({
       url: `${this.getBaseUrl()}/api/core/v1/test-runs`,
@@ -73,6 +82,40 @@ class BeatsApi {
       headers: {
         'x-api-key': this.config.api_key
       }
+    });
+  }
+
+  /**
+   * @param {import('../types').IManualSyncComparePayload} payload
+   * @returns {Promise<import('../types').IManualSyncCompareResponse>}
+   */
+  compareManualTests(payload) {
+    return request.post({
+      url: `${this.getBaseUrl()}/api/core/v1/manual/sync/compare`,
+      headers: {
+        'x-api-key': this.config.api_key
+      },
+      body: payload
+    });
+  }
+
+  syncManualFolders(payload) {
+    return request.post({
+      url: `${this.getBaseUrl()}/api/core/v1/manual/sync/folders`,
+      headers: {
+        'x-api-key': this.config.api_key
+      },
+      body: payload
+    });
+  }
+
+  syncManualTestSuites(payload) {
+    return request.post({
+      url: `${this.getBaseUrl()}/api/core/v1/manual/sync/suites`,
+      headers: {
+        'x-api-key': this.config.api_key
+      },
+      body: payload
     });
   }
 }

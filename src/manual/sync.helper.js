@@ -57,6 +57,35 @@ class ManualSyncHelper {
   }
 
   /**
+   * Hash a folder
+   * @param {import('../types').IManualTestFolder} folder
+   * @returns {string} Hash string
+   */
+  hashFolder(folder) {
+    return this.generateHash({
+      name: folder.name,
+      path: folder.path,
+      test_suites: folder.test_suites.map(testSuite => testSuite.hash),
+      folders: folder.folders.map(subFolder => subFolder.hash)
+    });
+  }
+
+  /**
+   * Hash a test suite
+   * @param {import('../types').IManualTestSuite} testSuite
+   * @returns {string} Hash string
+   */
+  hashTestSuite(testSuite) {
+    return this.generateHash({
+      name: testSuite.name,
+      tags: testSuite.tags,
+      before_each: testSuite.before_each,
+      test_cases: testSuite.test_cases.map(testCase => testCase.hash)
+    });
+  }
+
+
+  /**
    * Scan directory recursively and build folder structure
    * @param {string} directoryPath - Path to scan
    * @returns {Object} Folder structure with test suites and hashes
@@ -72,20 +101,22 @@ class ManualSyncHelper {
       throw new Error(`Path is not a directory: ${directoryPath}`);
     }
 
-    const structure = this.buildFolderStructure(absolutePath, directoryPath);
-    return this.addFolderHash(structure);
+    return this.buildFolderStructure(absolutePath, directoryPath);
   }
 
   /**
    * Build folder structure recursively
    * @param {string} absolutePath - Absolute path for file operations
    * @param {string} relativePath - Relative path for output
-   * @returns {Object} Folder structure
+   * @returns {import('../types').IManualTestFolder} Folder structure
    */
   buildFolderStructure(absolutePath, relativePath) {
     const folderName = path.basename(absolutePath);
     const items = fs.readdirSync(absolutePath);
 
+    /**
+     * @type {import('../types').IManualTestFolder}
+     */
     const structure = {
       name: folderName,
       path: relativePath,
@@ -106,11 +137,25 @@ class ManualSyncHelper {
         // Parse gherkin files
         try {
           const testSuite = this.parseGherkinFile(itemPath, itemRelativePath);
+          testSuite.hash = this.hashTestSuite(testSuite);
           structure.test_suites.push(testSuite);
         } catch (error) {
           console.warn(`Warning: Failed to parse ${itemPath}: ${error.message}`);
         }
       }
+    }
+    structure.hash = this.hashFolder(structure);
+    if (structure.test_suites.length > 0) {
+      const defaultFolder = {
+        name: 'default',
+        path: 'default',
+        hash: '',
+        test_suites: structure.test_suites,
+        folders: []
+      };
+      defaultFolder.hash = this.hashFolder(defaultFolder);
+      structure.folders.push(defaultFolder);
+      structure.test_suites = [];
     }
 
     return structure;
@@ -129,7 +174,7 @@ class ManualSyncHelper {
    * Parse a gherkin file and format output
    * @param {string} filePath - Path to gherkin file
    * @param {string} relativePath - Relative path for output
-   * @returns {Object} Formatted test suite
+   * @returns {import('../types').IManualTestSuite} Formatted test suite
    */
   parseGherkinFile(filePath, relativePath) {
     const parsed = this.parser.parse(filePath);
@@ -138,9 +183,9 @@ class ManualSyncHelper {
       name: parsed.name,
       type: parsed.type,
       tags: parsed.tags,
-      beforeEach: parsed.beforeEach,
+      before_each: parsed.before_each,
       path: relativePath,
-      test_cases: parsed.cases || [] // Map 'cases' to 'test_cases' for consistency
+      test_cases: parsed.test_cases || [] // Map 'cases' to 'test_cases' for consistency
     };
   }
 }

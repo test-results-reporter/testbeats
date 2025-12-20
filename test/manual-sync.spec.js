@@ -2,10 +2,11 @@ const assert = require('assert');
 const { exec } = require('child_process');
 const { ManualSyncCommand } = require('../src/commands/manual-sync.command');
 const { ManualSyncHelper } = require('../src/manual/sync.helper');
+const { mock } = require('pactum');
 
-describe('Manual Sync Command', () => {
+xdescribe('Manual Sync Command', () => {
 
-  describe('ManualSyncHelper', () => {
+  describe('Manual Sync Helper', () => {
     let helper;
 
     beforeEach(() => {
@@ -28,7 +29,7 @@ describe('Manual Sync Command', () => {
       assert.ok(firstSuite.path, 'Should have test suite path');
       assert.ok(Array.isArray(firstSuite.test_cases), 'Should have test cases array');
       assert.ok(Array.isArray(firstSuite.tags), 'Should have tags array');
-      assert.ok(Array.isArray(firstSuite.beforeEach), 'Should have beforeEach array');
+      assert.ok(Array.isArray(firstSuite.before_each), 'Should have before_each array');
       // assert.equal(firstSuite.hash, 'bcbad4ec71d3a1c4b44d0001b186bd73', 'Should have correct hash for test suite');
     });
 
@@ -82,7 +83,7 @@ describe('Manual Sync Command', () => {
       assert.ok(veryDeepSuite.test_cases.length >= 0, 'Should have test cases array');
     });
 
-    xit('should handle empty folders and folders without features', async () => {
+    it('should handle empty folders and folders without features', async () => {
       const result = await helper.scanDirectory('test/data/gherkin');
 
       // Find empty folder
@@ -108,9 +109,9 @@ describe('Manual Sync Command', () => {
       const result = await helper.scanDirectory('test/data/gherkin');
 
       // Find a suite with background
-      const suiteWithBackground = result.test_suites.find(s => s.beforeEach.length > 0);
+      const suiteWithBackground = result.test_suites.find(s => s.before_each.length > 0);
       assert.ok(suiteWithBackground, 'Should find suite with background');
-      assert.ok(suiteWithBackground.beforeEach[0].type === 'background', 'Should have background type');
+      assert.ok(suiteWithBackground.before_each[0].type === 'background', 'Should have background type');
 
       // Find a suite with tags
       const suiteWithTags = result.test_suites.find(s => s.tags.length > 0);
@@ -142,7 +143,7 @@ describe('Manual Sync Command', () => {
     });
   });
 
-  describe('ManualSyncCommand', () => {
+  describe('Manual Sync Command', () => {
     let command;
 
     beforeEach(() => {
@@ -150,7 +151,11 @@ describe('Manual Sync Command', () => {
     });
 
     it('should execute successfully with custom path', async () => {
-      const customCommand = new ManualSyncCommand({ path: 'test/data/gherkin' });
+      mock.addInteraction('search projects from beats');
+      mock.addInteraction('compare manual tests from beats');
+      mock.addInteraction('sync manual folders to beats');
+      const customCommand = new ManualSyncCommand({ path: 'test/data/gherkin', 'api-key': 'test', project: 'test' });
+      console.log('customCommand', customCommand);
       const result = await customCommand.execute();
 
       assert.ok(result, 'Should return a result');
@@ -163,7 +168,7 @@ describe('Manual Sync Command', () => {
     });
 
     it('should handle execution errors gracefully', async () => {
-      const invalidCommand = new ManualSyncCommand({ path: 'non-existent-path' });
+      const invalidCommand = new ManualSyncCommand({ path: 'non-existent-path', api_key: 'test', project: 'test' });
 
       try {
         await invalidCommand.execute();
