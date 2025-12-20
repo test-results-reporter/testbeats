@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.1](https://github.com/test-results-reporter/testbeats/compare/testbeats-v2.3.0...testbeats-v2.3.1) (2025-12-20)
+
+
+### Miscellaneous
+
+* bump node version ([f5e4a01](https://github.com/test-results-reporter/testbeats/commit/f5e4a01da72ee16e7d0815d54b9162ef5a5b2660))
+* update release-please configuration to include additional changelog sections ([#292](https://github.com/test-results-reporter/testbeats/issues/292)) ([293489c](https://github.com/test-results-reporter/testbeats/commit/293489c70c3bb5019648e5044752f94986e97b58))
+* use latest versions in actions ([#291](https://github.com/test-results-reporter/testbeats/issues/291)) ([3aa7dcb](https://github.com/test-results-reporter/testbeats/commit/3aa7dcba82c2ead34f02fd80fe020b7dd69dded3))
+
 ## [2.3.0](https://github.com/test-results-reporter/testbeats/compare/testbeats-v2.2.9...testbeats-v2.3.0) (2025-12-20)
 
 
