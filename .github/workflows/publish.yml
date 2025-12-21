@@ -36,3 +36,33 @@ jobs:
       - run: npm install
       - run: npm test
       - run: npm publish
+
+  upload-assets:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{ needs.release-please.outputs.release-created }}
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
+        with:
+          node-version: '24.x'
+      - run: npm install
+      - run: npm run build
+      - uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
+        with:
+          files: dist/testbeats-linux
+          dest: dist/testbeats-linux.zip
+      - uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
+        with:
+          files: dist/testbeats-macos
+          dest: dist/testbeats-macos.zip
+      - uses: vimtor/action-zip@1379ea20d4c5705669ba81fd626dd01b1c738f26 # v1.2
+        with:
+          files: dist/testbeats-win.exe
+          dest: dist/testbeats-win.exe.zip
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["./dist/*zip"]'
