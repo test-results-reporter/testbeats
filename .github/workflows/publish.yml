@@ -61,8 +61,10 @@ jobs:
           files: dist/testbeats-win.exe
           dest: dist/testbeats-win.exe.zip
       - name: Upload release binaries
-        uses: alexellis/upload-assets@0.2.2
         env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          asset_paths: '["./dist/*zip"]'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ needs.release-please.outputs.tag-name }} \
+            dist/testbeats-linux.zip \
+            dist/testbeats-macos.zip \
+            dist/testbeats-win.exe.zip
