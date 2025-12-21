@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/test-results-reporter/testbeats/compare/v2.4.0...v2.4.1) (2025-12-21)
+
+
+### Miscellaneous
+
+* move upload assets to publish ([#297](https://github.com/test-results-reporter/testbeats/issues/297)) ([3832543](https://github.com/test-results-reporter/testbeats/commit/38325436b38804969fb6a334c2d2f08849ba2fb7))
+
 ## [2.4.0](https://github.com/test-results-reporter/testbeats/compare/v2.3.1...v2.4.0) (2025-12-21)
 
 
