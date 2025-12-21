@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/test-results-reporter/testbeats/compare/v2.4.1...v2.4.2) (2025-12-21)
+
+
+### Miscellaneous
+
+* downgrade node version to 18.x in publish workflow ([#299](https://github.com/test-results-reporter/testbeats/issues/299)) ([f744fba](https://github.com/test-results-reporter/testbeats/commit/f744fba82dbd2465cb3099fa846b41f14a094607))
+
 ## [2.4.1](https://github.com/test-results-reporter/testbeats/compare/v2.4.0...v2.4.1) (2025-12-21)
 
 
