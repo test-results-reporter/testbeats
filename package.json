@@ -52,7 +52,7 @@
     "influxdb-lite": "^1.0.0",
     "object-hash": "^3.0.0",
     "performance-results-parser": "latest",
-    "phin-retry": "^1.0.3",
+    "phin-retry": "2.0.0",
     "pretty-ms": "^7.0.1",
     "prompts": "^2.4.2",
     "rosters": "0.0.1",
