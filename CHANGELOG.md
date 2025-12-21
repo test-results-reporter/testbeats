@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.3](https://github.com/test-results-reporter/testbeats/compare/v2.4.2...v2.4.3) (2025-12-21)
+
+
+### Miscellaneous
+
+* use gh release in publish workflow ([#301](https://github.com/test-results-reporter/testbeats/issues/301)) ([be46107](https://github.com/test-results-reporter/testbeats/commit/be4610726775fc02f3be24329860c6ca8e69970a))
+
 ## [2.4.2](https://github.com/test-results-reporter/testbeats/compare/v2.4.1...v2.4.2) (2025-12-21)
 
 
