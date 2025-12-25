@@ -206,7 +206,9 @@ class PublishCommand extends BaseCommand {
     for (const config of this.configs) {
       for (let i = 0; i < this.results.length; i++) {
         const result = this.results[i];
-        result.name = config.run || result.name || 'demo-run';
+        if (config.api_key) {
+          result.name = config.run || result.name || 'demo-run';
+        }
         config.extensions = config.extensions || [];
         await beats.run(config, result);
         if (config.targets) {

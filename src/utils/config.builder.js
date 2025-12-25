@@ -34,7 +34,6 @@ class ConfigBuilder {
         this.#buildFromCommandLineOptions();
         break;
     }
-    console.log(`🛠️ Generated Config: \n${JSON.stringify(this.config, null, 2)}`);
   }
 
   #buildFromConfigFile() {

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const hash = require('object-hash');
 const { GherkinParser } = require('./parsers/gherkin');
+const logger = require('../utils/logger');
 
 class ManualSyncHelper {
   constructor() {
@@ -140,7 +141,7 @@ class ManualSyncHelper {
           testSuite.hash = this.hashTestSuite(testSuite);
           structure.test_suites.push(testSuite);
         } catch (error) {
-          console.warn(`Warning: Failed to parse ${itemPath}: ${error.message}`);
+          logger.warn(`Warning: Failed to parse ${itemPath}: ${error.message}`);
         }
       }
     }

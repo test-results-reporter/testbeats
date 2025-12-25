@@ -258,7 +258,7 @@ class ManualSyncResources {
         logger.info(`✅ Folder '${result.name}' synced successfully`);
         const folder = folders.find(f => f.name === result.name);
         if (!folder) {
-          console.log(`❌ Folder ${result.name} not found in local structure`);
+          logger.error(`❌ Folder ${result.name} not found in local structure`);
           continue;
         }
         folder.id = folder.id || result.id;
