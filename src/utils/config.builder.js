@@ -151,7 +151,7 @@ class ConfigBuilder {
     this.config.results = [
       {
         type,
-        files: [path.join(file)]
+        files: [file]
       }
     ]
   }
