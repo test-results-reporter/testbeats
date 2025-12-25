@@ -1,4 +1,3 @@
-const path = require('path');
 const trp = require('test-results-parser');
 const prp = require('performance-results-parser');
 
@@ -25,8 +24,6 @@ class PublishCommand extends BaseCommand {
     this.validateEnvDetails();
     this.buildConfig();
     this.#validateOptions();
-    this.#setConfigFromFile();
-    this.#mergeConfigOptions();
     this.#processConfig();
     this.#validateConfig();
     this.#processResults();
@@ -41,27 +38,6 @@ class PublishCommand extends BaseCommand {
     }
     if (!this.opts.config) {
       throw new Error('Missing publish config');
-    }
-  }
-
-  #setConfigFromFile() {
-    if (typeof this.opts.config === 'string') {
-      const cwd = process.cwd();
-      const file_path = path.join(cwd, this.opts.config);
-      try {
-        const config_json = require(path.join(cwd, this.opts.config));
-        this.opts.config = config_json;
-      } catch (error) {
-        throw new Error(`Failed to read config file: '${file_path}' with error: '${error.message}'`);
-      }
-    }
-  }
-
-  #mergeConfigOptions() {
-    if (this.opts.config && typeof this.opts.config === 'object') {
-      this.opts.config.project = this.opts.project || this.opts.config.project;
-      this.opts.config.run = this.opts.run || this.opts.config.run;
-      this.opts.config.api_key = this.opts['api-key'] || this.opts.config.api_key;
     }
   }
 
@@ -230,6 +206,9 @@ class PublishCommand extends BaseCommand {
     for (const config of this.configs) {
       for (let i = 0; i < this.results.length; i++) {
         const result = this.results[i];
+        if (config.api_key) {
+          result.name = config.run || result.name || 'demo-run';
+        }
         config.extensions = config.extensions || [];
         await beats.run(config, result);
         if (config.targets) {

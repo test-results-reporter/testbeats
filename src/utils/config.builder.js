@@ -1,47 +1,122 @@
 const path = require('path');
 const logger = require('./logger');
 
+const DEFAULT_PROJECT = 'demo-project';
+
 class ConfigBuilder {
 
   /**
    * @param {import('../index').CommandLineOptions} opts
+   * @param {import('../helpers/ci').ICIInfo} ci
+   * @param {Record<string, string | undefined>} env
    */
-  constructor(opts) {
+  constructor(opts, ci, env = process.env) {
     this.opts = opts;
+    this.ci = ci;
+    this.env = env;
+    /** @type {import('../index').PublishConfig}  */
+    this.config = {};
   }
 
   build() {
     if (!this.opts) {
       return;
     }
-    if (typeof this.opts.config === 'object') {
-      return
-    }
-    if (this.opts.config && typeof this.opts.config === 'string') {
-      return;
-    }
-
     logger.info('🏗 Building config...')
-    this.#buildConfig();
+    switch (typeof this.opts.config) {
+      case 'object':
+        this.#buildFromConfigFile();
+        break;
+      case 'string':
+        this.#buildFromConfigFilePath();
+        break;
+      default:
+        this.#buildFromCommandLineOptions();
+        break;
+    }
+  }
+
+  #buildFromConfigFile() {
+    this.config = this.opts.config;
+    this.#buildBeats();
+  }
+
+  #buildFromConfigFilePath() {
+    const cwd = process.cwd();
+    const file_path = path.join(cwd, this.opts.config);
+    try {
+      const config_json = require(file_path);
+      this.opts.config = config_json;
+      this.#buildFromConfigFile();
+    } catch (error) {
+      throw new Error(`Failed to read config file: '${file_path}' with error: '${error.message}'`);
+    }
+  }
+
+
+
+  #buildFromCommandLineOptions() {
+    this.opts.config = {};
+    this.config = this.opts.config;
     this.#buildBeats();
     this.#buildResults();
     this.#buildTargets();
     this.#buildExtensions();
-
-    logger.debug(`🛠️ Generated Config: \n${JSON.stringify(this.config, null, 2)}`);
-
-    this.opts.config = this.config;
-  }
-
-  #buildConfig() {
-    /** @type {import('../index').PublishConfig}  */
-    this.config = {};
   }
 
   #buildBeats() {
-    this.config.project = this.opts.project || this.config.project;
-    this.config.run = this.opts.run || this.config.run;
-    this.config.api_key = this.opts['api-key'] || this.config.api_key;
+    this.#setProject();
+    this.#setRun();
+    this.#setApiKey();
+  }
+
+  #setProject() {
+    if (this.opts.project) {
+      this.config.project = this.opts.project;
+      return;
+    }
+    if (this.env.TEST_BEATS_PROJECT || this.env.TESTBEATS_PROJECT) {
+      this.config.project = this.env.TEST_BEATS_PROJECT || this.env.TESTBEATS_PROJECT;
+      return;
+    }
+    if (this.config.project) {
+      return;
+    }
+    if (this.ci && this.ci.repository_name) {
+      this.config.project = this.ci.repository_name;
+      return;
+    }
+
+    this.config.project = DEFAULT_PROJECT;
+  }
+
+  #setRun() {
+    if (this.opts.run) {
+      this.config.run = this.opts.run;
+      return;
+    }
+    if (this.env.TEST_BEATS_RUN || this.env.TESTBEATS_RUN) {
+      this.config.run = this.env.TEST_BEATS_RUN || this.env.TESTBEATS_RUN;
+      return;
+    }
+    if (this.config.run) {
+      return;
+    }
+    if (this.ci && this.ci.build_name) {
+      this.config.run = this.ci.build_name;
+      return;
+    }
+  }
+
+  #setApiKey() {
+    if (this.opts['api-key']) {
+      this.config.api_key = this.opts['api-key'];
+      return;
+    }
+    if (this.env.TEST_BEATS_API_KEY || this.env.TESTBEATS_API_KEY) {
+      this.config.api_key = this.env.TEST_BEATS_API_KEY || this.env.TESTBEATS_API_KEY;
+      return;
+    }
   }
 
   #buildResults() {
@@ -76,7 +151,7 @@ class ConfigBuilder {
     this.config.results = [
       {
         type,
-        files: [path.join(file)]
+        files: [file]
       }
     ]
   }

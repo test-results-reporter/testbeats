@@ -155,7 +155,6 @@ xdescribe('Manual Sync Command', () => {
       mock.addInteraction('compare manual tests from beats');
       mock.addInteraction('sync manual folders to beats');
       const customCommand = new ManualSyncCommand({ path: 'test/data/gherkin', 'api-key': 'test', project: 'test' });
-      console.log('customCommand', customCommand);
       const result = await customCommand.execute();
 
       assert.ok(result, 'Should return a result');

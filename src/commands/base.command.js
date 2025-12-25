@@ -3,6 +3,7 @@ const { MIN_NODE_VERSION } = require('../helpers/constants');
 const { ConfigBuilder } = require('../utils/config.builder');
 const logger = require('../utils/logger');
 const os = require('os');
+const { getCIInformation } = require('../helpers/ci');
 
 class BaseCommand {
   constructor(opts) {
@@ -38,7 +39,7 @@ class BaseCommand {
   }
 
   buildConfig() {
-    const config_builder = new ConfigBuilder(this.opts);
+    const config_builder = new ConfigBuilder(this.opts, getCIInformation(), process.env);
     config_builder.build();
   }
 
