@@ -20,14 +20,11 @@ class Beats {
   }
 
   async publish() {
-    this.#setApiKey();
     if (!this.config.api_key) {
       logger.warn('😿 No API key provided, skipping publishing results to TestBeats Portal...');
       return;
     }
     this.#setCIInfo();
-    this.#setProjectName();
-    this.#setRunName();
     await this.#publishTestResults();
     await this.#uploadAttachments();
     this.#updateTitleLink();
@@ -36,19 +33,6 @@ class Beats {
 
   #setCIInfo() {
     this.ci = getCIInformation();
-  }
-
-  #setProjectName() {
-    this.config.project = this.config.project || process.env.TEST_BEATS_PROJECT || (this.ci && this.ci.repository_name) || 'demo-project';
-  }
-
-  #setApiKey() {
-    this.config.api_key = this.config.api_key || process.env.TEST_BEATS_API_KEY;
-  }
-
-  #setRunName() {
-    this.config.run = this.config.run || process.env.TEST_BEATS_RUN || (this.ci && this.ci.build_name) || 'demo-run';
-    this.result.name = this.config.run;
   }
 
   async #publishTestResults() {
