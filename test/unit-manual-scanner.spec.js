@@ -36,12 +36,21 @@ function createMockFs(fileStructure) {
 }
 
 function createMockParser(parseResults) {
+  const normalizePath = (p) => {
+    // Remove drive letter on Windows (e.g., 'C:\' -> '\')
+    let normalized = p.replace(/^[A-Za-z]:/, '');
+    // Convert all backslashes to forward slashes
+    normalized = normalized.split(path.sep).join('/');
+    return normalized;
+  };
+
   return {
     parse: (filePath) => {
       if (typeof parseResults === 'function') {
         return parseResults(filePath);
       }
-      return parseResults[filePath] || parseResults;
+      const normalizedPath = normalizePath(filePath);
+      return parseResults[normalizedPath] || parseResults;
     }
   };
 }
