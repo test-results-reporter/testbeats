@@ -6,7 +6,7 @@ const logger = require('../utils/logger');
 
 class ManualSyncHelper {
   constructor() {
-    this.parser = new GherkinParser();
+    this.parser = new GherkinParser(fs);
   }
 
   /**

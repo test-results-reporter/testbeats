@@ -1,11 +1,12 @@
 const { GherkinParser } = require('../src/manual/parsers/gherkin.js');
 const assert = require('assert');
+const fs = require('fs');
 
 describe('Gherkin Parser', () => {
   let parser;
 
   beforeEach(() => {
-    parser = new GherkinParser();
+    parser = new GherkinParser(fs);
   });
 
   it('should parse a basic feature file correctly', () => {
