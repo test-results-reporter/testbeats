@@ -3,12 +3,14 @@ const assert = require('assert');
 const path = require('path');
 
 function createMockFs(fileStructure) {
+  const normalizePath = (p) => p.split(path.sep).join('/');
+
   return {
     existsSync: (filePath) => {
-      return fileStructure[filePath] !== undefined;
+      return fileStructure[normalizePath(filePath)] !== undefined;
     },
     statSync: (filePath) => {
-      const item = fileStructure[filePath];
+      const item = fileStructure[normalizePath(filePath)];
       if (!item) {
         throw new Error(`ENOENT: no such file or directory, stat '${filePath}'`);
       }
@@ -18,7 +20,7 @@ function createMockFs(fileStructure) {
       };
     },
     readdirSync: (dirPath) => {
-      const item = fileStructure[dirPath];
+      const item = fileStructure[normalizePath(dirPath)];
       if (!item || item.type !== 'directory') {
         throw new Error(`ENOTDIR: not a directory, scandir '${dirPath}'`);
       }
