@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { BaseParser } = require('./base');
 
 /**
@@ -6,8 +5,8 @@ const { BaseParser } = require('./base');
  * Parses .feature files and returns structured test suite objects
  */
 class GherkinParser extends BaseParser {
-  constructor() {
-    super();
+  constructor(fs) {
+    super(fs);
     /** @type {string[]} Supported step keywords */
     this.stepKeywords = ['Given', 'When', 'Then', 'And', 'But'];
   }
@@ -18,7 +17,7 @@ class GherkinParser extends BaseParser {
    */
   parse(file_path) {
     try {
-      const content = fs.readFileSync(file_path, 'utf8');
+      const content = this.fs.readFileSync(file_path, 'utf8');
       const lines = content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
 
       return this.parseLines(lines);
@@ -54,25 +53,37 @@ class GherkinParser extends BaseParser {
       const line = lines[i];
 
       if (line.startsWith('@')) {
-        // Handle tags
+        // Handle tags - accumulate from consecutive @ lines
         const tags = this.parseTags(line);
 
         // Look ahead to see if tags belong to Feature or Scenario
         if (i + 1 < lines.length && lines[i + 1].startsWith('Feature:')) {
-          // Tags belong to Feature
-          pendingFeatureTags = tags;
+          // Tags belong to Feature - accumulate instead of replace
+          pendingFeatureTags.push(...tags);
         } else if (i + 1 < lines.length && lines[i + 1].startsWith('Scenario:')) {
-          // Tags belong to Scenario
-          pendingScenarioTags = tags;
+          // Tags belong to Scenario - accumulate instead of replace
+          pendingScenarioTags.push(...tags);
+        } else if (i + 1 < lines.length && lines[i + 1].startsWith('@')) {
+          // Next line is also a tag line - determine which pending array to use
+          // Look further ahead to find Feature or Scenario
+          let j = i + 1;
+          while (j < lines.length && lines[j].startsWith('@')) {
+            j++;
+          }
+          if (j < lines.length && lines[j].startsWith('Feature:')) {
+            pendingFeatureTags.push(...tags);
+          } else if (j < lines.length && lines[j].startsWith('Scenario:')) {
+            pendingScenarioTags.push(...tags);
+          }
         }
       } else if (line.startsWith('Feature:')) {
         // Parse Feature
-        const description = this.parseMultiLineDescription(lines, i + 1);
-        currentFeature = this.parseFeature(line, description);
+        const descriptionResult = this.parseMultiLineDescription(lines, i + 1);
+        currentFeature = this.parseFeature(line, descriptionResult.description);
         testSuite.name = currentFeature.name;
         testSuite.tags = pendingFeatureTags.map(tag => tag.name);
         pendingFeatureTags = [];
-        i += description.split('\n').length; // Skip all description lines
+        i += descriptionResult.linesConsumed; // Skip only actual description lines
       } else if (line.startsWith('Background:')) {
         // Parse Background
         currentBackground = this.parseBackground();
@@ -121,10 +132,11 @@ class GherkinParser extends BaseParser {
    * Parse multi-line description starting from a given line index
    * @param {string[]} lines
    * @param {number} startIndex
-   * @returns {string}
+   * @returns {{description: string, linesConsumed: number}}
    */
   parseMultiLineDescription(lines, startIndex) {
     const descriptionLines = [];
+    let linesConsumed = 0;
 
     for (let i = startIndex; i < lines.length; i++) {
       const line = lines[i];
@@ -137,13 +149,18 @@ class GherkinParser extends BaseParser {
         break;
       }
 
+      linesConsumed++;
+
       // Add non-empty lines to description
       if (line.trim().length > 0) {
         descriptionLines.push(line.trim());
       }
     }
 
-    return descriptionLines.join('\n');
+    return {
+      description: descriptionLines.join('\n'),
+      linesConsumed: linesConsumed
+    };
   }
 
   /**

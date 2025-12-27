@@ -1,6 +1,17 @@
 const hash = require('object-hash');
 
 class BaseParser {
+
+  /**
+   * @param {import('fs')} fs
+   */
+  constructor(fs) {
+    /**
+     * @type {import('fs')}
+     */
+    this.fs = fs;
+  }
+
   hash(obj) {
     return hash(obj, { algorithm: 'md5' });
   }
