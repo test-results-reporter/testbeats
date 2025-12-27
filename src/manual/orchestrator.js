@@ -41,20 +41,16 @@ class ManualSyncOrchestrator {
     };
 
     try {
-      // Step 1: Resolve project
       logger.info(`📋 Resolving project: ${projectName}`);
       result.projectId = await this.projectResolver.resolveProject(projectName);
       logger.info(`✅ Project resolved: ${result.projectId}`);
 
-      // Step 2: Scan directory
       logger.info(`📁 Scanning directory: ${directoryPath}`);
       const scannedStructure = await this.scanner.scanDirectory(directoryPath);
 
-      // Step 2.5: Add hashes to scanned structure
       logger.debug('🔐 Adding hashes to structure...');
       this.hasher.hashStructure(scannedStructure);
 
-      // Calculate statistics from scanned structure
       const stats = this.#calculateStatistics(scannedStructure);
       result.statistics.totalTestCases = stats.totalTestCases;
       result.statistics.totalTestSuites = stats.totalTestSuites;
@@ -62,12 +58,10 @@ class ManualSyncOrchestrator {
 
       logger.info(`📊 Found ${stats.totalTestCases} test cases, ${stats.totalTestSuites} test suites, and ${stats.totalFolders} folders`);
 
-      // Step 3: Compare with server
       logger.info('🔍 Comparing with server...');
       const comparisonResult = await this.comparator.compare(scannedStructure, result.projectId);
       logger.info('✅ Comparison completed');
 
-      // Step 4: Synchronize
       logger.info('🔄 Synchronizing resources...');
       const syncResult = await this.synchronizer.sync(scannedStructure, comparisonResult, result.projectId);
 
@@ -107,20 +101,17 @@ class ManualSyncOrchestrator {
     };
 
     const processFolder = (folder) => {
-      // Count test cases in this folder
       for (const suite of folder.test_suites) {
         stats.totalTestCases += suite.test_cases.length;
         stats.totalTestSuites++;
       }
 
-      // Count subfolders and process recursively
       stats.totalFolders += folder.folders.length;
       for (const subFolder of folder.folders) {
         processFolder(subFolder);
       }
     };
 
-    // Process all folders in the structure
     for (const folder of structure.folders) {
       processFolder(folder);
     }

@@ -32,10 +32,7 @@ class ManualTestSynchronizer {
     let foldersProcessed = 0;
     let testSuitesProcessed = 0;
 
-    // Create enriched structure without mutating original
     const enrichedStructure = this.#mergeStructure(structure, compareResult);
-
-    // Sync all folders
     const syncResult = await this.#syncFolders(enrichedStructure.folders, projectId, errors);
     foldersProcessed = syncResult.foldersProcessed;
     testSuitesProcessed = syncResult.testSuitesProcessed;
@@ -57,7 +54,6 @@ class ManualTestSynchronizer {
   #mergeStructure(structure, compareResult) {
     const enrichedFolders = [];
 
-    // Process local folders and enrich with server metadata
     for (const localFolder of structure.folders) {
       const serverFolder = compareResult.folders.find(f => f.name === localFolder.name);
       if (serverFolder) {
@@ -67,7 +63,6 @@ class ManualTestSynchronizer {
       }
     }
 
-    // Add server-only folders (for deletion tracking)
     for (const serverFolder of compareResult.folders) {
       const localFolder = structure.folders.find(f => f.name === serverFolder.name);
       if (!localFolder) {
@@ -90,12 +85,9 @@ class ManualTestSynchronizer {
   #mergeFolder(localFolder, serverFolder) {
     const enrichedTestSuites = [];
     const enrichedSubFolders = [];
-
-    // Ensure server folder has test suites and folders
     const serverTestSuites = serverFolder.test_suites || [];
     const serverFolders = serverFolder.folders || [];
 
-    // Process local test suites
     for (const localSuite of localFolder.test_suites) {
       const serverSuite = serverTestSuites.find(s => s.name === localSuite.name);
       if (serverSuite) {
@@ -105,7 +97,6 @@ class ManualTestSynchronizer {
       }
     }
 
-    // Add server-only test suites
     for (const serverSuite of serverTestSuites) {
       const localSuite = localFolder.test_suites.find(s => s.name === serverSuite.name);
       if (!localSuite) {
@@ -113,7 +104,6 @@ class ManualTestSynchronizer {
       }
     }
 
-    // Process subfolders recursively
     for (const localSubFolder of localFolder.folders) {
       const serverSubFolder = serverFolders.find(f => f.name === localSubFolder.name);
       if (serverSubFolder) {
@@ -123,7 +113,6 @@ class ManualTestSynchronizer {
       }
     }
 
-    // Add server-only subfolders
     for (const serverSubFolder of serverFolders) {
       const localSubFolder = localFolder.folders.find(f => f.name === serverSubFolder.name);
       if (!localSubFolder) {
@@ -226,12 +215,9 @@ class ManualTestSynchronizer {
           logger.info(`✅ Folder '${result.name}' synced successfully`);
           foldersProcessed++;
 
-          // Update folder ID if it was created
           folder.id = folder.id || result.id;
 
-          // Sync test suites for this folder
           if (folder.test_suites && folder.test_suites.length > 0) {
-            // Set folder_id on all test suites
             const testSuitesWithFolderId = folder.test_suites.map(ts => ({
               ...ts,
               folder_id: folder.id
@@ -241,9 +227,7 @@ class ManualTestSynchronizer {
             testSuitesProcessed += suiteResult.testSuitesProcessed;
           }
 
-          // Sync subfolders recursively
           if (folder.folders && folder.folders.length > 0) {
-            // Set parent_folder_id on all subfolders
             const subfoldersWithParent = folder.folders.map(sf => ({
               ...sf,
               parent_folder_id: folder.id

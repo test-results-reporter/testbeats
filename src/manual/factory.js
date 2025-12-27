@@ -19,20 +19,14 @@ class ManualSyncServiceFactory {
    * @returns {ManualSyncOrchestrator} Configured orchestrator
    */
   static create(config) {
-    // Create shared BeatsApi instance
     const beatsApi = new BeatsApi(config);
-
-    // Create hasher (can be mocked for testing)
     const hasher = new ManualTestHasher();
-
-    // Create individual services with dependency injection
     const parser = new GherkinParser(fs);
     const scanner = new ManualTestScanner(fs, parser);
     const comparator = new ManualTestComparator(beatsApi);
     const synchronizer = new ManualTestSynchronizer(beatsApi);
     const projectResolver = new ProjectResolver(beatsApi);
 
-    // Wire everything together in the orchestrator
     return new ManualSyncOrchestrator(
       scanner,
       comparator,

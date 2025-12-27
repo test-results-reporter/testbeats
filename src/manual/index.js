@@ -1,4 +1,3 @@
-// New architecture exports
 const { ManualTestScanner } = require('./scanner');
 const { ManualTestComparator } = require('./comparator');
 const { ManualTestSynchronizer } = require('./synchronizer');
@@ -8,7 +7,6 @@ const { ProjectResolver } = require('./project-resolver');
 const { ManualTestHasher } = require('./hasher');
 
 module.exports = {
-  // Core services
   ManualTestScanner,
   ManualTestComparator,
   ManualTestSynchronizer,

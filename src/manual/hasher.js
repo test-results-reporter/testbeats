@@ -72,22 +72,17 @@ class ManualTestHasher {
    * @returns {import('../types').IManualTestFolder} Same structure with hashes added (mutates in place)
    */
   hashStructure(structure) {
-    // Hash all test suites in this folder
     for (const testSuite of structure.test_suites) {
-      // First hash all test cases
       for (const testCase of testSuite.test_cases) {
         testCase.hash = this.hashTestCase(testCase);
       }
-      // Then hash the test suite (which includes test case hashes)
       testSuite.hash = this.hashTestSuite(testSuite);
     }
 
-    // Recursively hash all subfolders
     for (const subFolder of structure.folders) {
       this.hashStructure(subFolder);
     }
 
-    // Finally hash this folder (which includes suite and subfolder hashes)
     structure.hash = this.hashFolder(structure);
 
     return structure;

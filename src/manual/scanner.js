@@ -66,11 +66,9 @@ class ManualTestScanner {
       const stats = this.fs.statSync(itemPath);
 
       if (stats.isDirectory()) {
-        // Recursively process subdirectories
         const subFolder = this.buildFolderStructure(itemPath, itemRelativePath);
         structure.folders.push(subFolder);
       } else if (this.isGherkinFile(item)) {
-        // Parse gherkin files
         try {
           const testSuite = this.parseGherkinFile(itemPath, itemRelativePath);
           structure.test_suites.push(testSuite);
