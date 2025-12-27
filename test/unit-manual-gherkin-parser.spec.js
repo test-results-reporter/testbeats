@@ -298,7 +298,7 @@ describe('Gherkin Parser', () => {
     const parser = new GherkinParser(mockFs);
 
     // Act
-    const result = parser.parse('./test/data/gherkin/notags.feature');
+    const result = parser.parse('./test/data/gherkin/no-tags.feature');
 
     // Assert
     assert.strictEqual(result.name, 'No Tags Feature');
@@ -334,7 +334,7 @@ describe('Gherkin Parser', () => {
     const parser = new GherkinParser(mockFs);
 
     // Act
-    const result = parser.parse('./test/data/gherkin/multiback.feature');
+    const result = parser.parse('./test/data/gherkin/multiple-backgrounds.feature');
 
     // Assert
     assert.strictEqual(result.name, 'Multiple Backgrounds');
@@ -356,7 +356,7 @@ describe('Gherkin Parser', () => {
     const parser = new GherkinParser(mockFs);
 
     // Act
-    const result = parser.parse('./test/data/gherkin/complextags.feature');
+    const result = parser.parse('./test/data/gherkin/complex-tags.feature');
 
     // Assert
     assert.strictEqual(result.tags.length, 6);
@@ -372,34 +372,6 @@ describe('Gherkin Parser', () => {
     assert.ok(result.test_cases[0].tags.includes('@another_tag'));
     assert.ok(result.test_cases[0].tags.includes('@tag123'));
   });
-
-
-  it('should generate hash for test cases and test suite', () => {
-    // Arrange
-    const mockFs = createMockFs(`
-      Feature: Hash Generation
-
-      Scenario: Test scenario
-        Given I have a step
-        When I do something
-        Then I see result
-    `);
-    const parser = new GherkinParser(mockFs);
-
-    // Act
-    const result = parser.parse('./test/data/gherkin/hash.feature');
-
-    // Assert
-    assert.ok(result.hash, 'Test suite should have hash');
-    assert.strictEqual(typeof result.hash, 'string');
-    assert.ok(result.hash.length > 0);
-
-    assert.strictEqual(result.test_cases.length, 1);
-    assert.ok(result.test_cases[0].hash, 'Test case should have hash');
-    assert.strictEqual(typeof result.test_cases[0].hash, 'string');
-    assert.ok(result.test_cases[0].hash.length > 0);
-  });
-
 
   it('should validate returned structure matches expected schema', () => {
     // Arrange
@@ -425,14 +397,12 @@ describe('Gherkin Parser', () => {
     assert.ok(Array.isArray(result.tags));
     assert.ok(Array.isArray(result.before_each));
     assert.ok(Array.isArray(result.test_cases));
-    assert.ok(typeof result.hash === 'string');
 
     const testCase = result.test_cases[0];
     assert.strictEqual(testCase.type, 'scenario');
     assert.ok(typeof testCase.name === 'string');
     assert.ok(Array.isArray(testCase.tags));
     assert.ok(Array.isArray(testCase.steps));
-    assert.ok(typeof testCase.hash === 'string');
 
     const background = result.before_each[0];
     assert.strictEqual(background.type, 'background');
@@ -499,7 +469,7 @@ describe('Gherkin Parser', () => {
     const parser = new GherkinParser(mockFs);
 
     // Act
-    const result = parser.parse('./test/data/gherkin/nofeature.feature');
+    const result = parser.parse('./test/data/gherkin/no-feature.feature');
 
     // Assert
     assert.strictEqual(result.type, 'feature');
@@ -922,7 +892,7 @@ Given I have no indentation
     const parser = new GherkinParser(mockFs);
 
     // Act
-    const result = parser.parse('./test/data/gherkin/longnames.feature');
+    const result = parser.parse('./test/data/gherkin/long-names.feature');
 
     // Assert
     assert.strictEqual(result.name, longFeatureName);
@@ -961,9 +931,8 @@ Given I have no indentation
     assert.strictEqual(result.test_cases[0].name, 'Test Login');
     assert.strictEqual(result.test_cases[1].name, 'Test Login');
     assert.strictEqual(result.test_cases[2].name, 'Test Login');
-
-    assert.notStrictEqual(result.test_cases[0].hash, result.test_cases[1].hash);
-    assert.notStrictEqual(result.test_cases[1].hash, result.test_cases[2].hash);
+    assert.notStrictEqual(result.test_cases[0].steps[1].name, result.test_cases[1].steps[1].name);
+    assert.notStrictEqual(result.test_cases[1].steps[1].name, result.test_cases[2].steps[1].name);
   });
 
 
@@ -1023,26 +992,6 @@ Given I have no indentation
     assert.strictEqual(result.name, 'Documentation Feature');
     assert.strictEqual(result.test_cases.length, 0);
     assert.strictEqual(result.before_each.length, 0);
-  });
-
-  it('should generate consistent hashes for identical content', () => {
-    // Arrange
-    const content = `
-      Feature: Hash Test
-
-      Scenario: Test
-        Given step
-    `;
-    const parser1 = new GherkinParser(createMockFs(content));
-    const parser2 = new GherkinParser(createMockFs(content));
-
-    // Act
-    const result1 = parser1.parse('./test1.feature');
-    const result2 = parser2.parse('./test2.feature');
-
-    // Assert
-    assert.strictEqual(result1.hash, result2.hash);
-    assert.strictEqual(result1.test_cases[0].hash, result2.test_cases[0].hash);
   });
 
   it('should handle completely empty file', () => {

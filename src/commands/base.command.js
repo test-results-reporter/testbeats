@@ -7,6 +7,9 @@ const { getCIInformation } = require('../helpers/ci');
 
 class BaseCommand {
   constructor(opts) {
+    /**
+     * @type {import('../index').CommandLineOptions}
+     */
     this.opts = opts;
   }
 

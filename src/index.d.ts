@@ -345,6 +345,8 @@ export interface CommandLineOptions {
   nunit?: string;
   xunit?: string;
   mstest?: string;
+  // Manual sync command options
+  path?: string;
 }
 
 export type IExtensionDefaultOptions = {
