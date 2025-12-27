@@ -1,20 +1,20 @@
 const assert = require('assert');
 const { exec } = require('child_process');
 const { ManualSyncCommand } = require('../src/commands/manual-sync.command');
-const { ManualSyncHelper } = require('../src/manual/sync.helper');
+const { ManualTestScanner } = require('../src/manual/scanner');
 const { mock } = require('pactum');
 
 xdescribe('Manual Sync Command', () => {
 
-  describe('Manual Sync Helper', () => {
-    let helper;
+  describe('Manual Test Scanner', () => {
+    let scanner;
 
     beforeEach(() => {
-      helper = new ManualSyncHelper();
+      scanner = new ManualTestScanner();
     });
 
     it('should scan directory and build folder structure correctly', async () => {
-      const result = await helper.scanDirectory('test/data/gherkin');
+      const result = await scanner.scanDirectory('test/data/gherkin');
 
       assert.ok(result, 'Should return a result');
       assert.equal(result.name, 'gherkin', 'Should have correct folder name');
@@ -34,7 +34,7 @@ xdescribe('Manual Sync Command', () => {
     });
 
     it('should handle nested folder structures', async () => {
-      const result = await helper.scanDirectory('test/data/gherkin');
+      const result = await scanner.scanDirectory('test/data/gherkin');
 
       assert.equal(result.name, 'gherkin', 'Should have correct root folder name');
       assert.ok(result.test_suites.length > 0, 'Should have test suites in root');
@@ -59,7 +59,7 @@ xdescribe('Manual Sync Command', () => {
     });
 
     it('should handle deep nested folder structures', async () => {
-      const result = await helper.scanDirectory('test/data/gherkin');
+      const result = await scanner.scanDirectory('test/data/gherkin');
 
       // Find the deep nested folder
       const nestedFolder = result.folders.find(f => f.name === 'nested-folder');
@@ -84,7 +84,7 @@ xdescribe('Manual Sync Command', () => {
     });
 
     it('should handle empty folders and folders without features', async () => {
-      const result = await helper.scanDirectory('test/data/gherkin');
+      const result = await scanner.scanDirectory('test/data/gherkin');
 
       // Find empty folder
       const emptyFolder = result.folders.find(f => f.name === 'empty-folder');
@@ -106,7 +106,7 @@ xdescribe('Manual Sync Command', () => {
     });
 
     it('should handle gherkin files with different structures', async () => {
-      const result = await helper.scanDirectory('test/data/gherkin');
+      const result = await scanner.scanDirectory('test/data/gherkin');
 
       // Find a suite with background
       const suiteWithBackground = result.test_suites.find(s => s.before_each.length > 0);
@@ -126,7 +126,7 @@ xdescribe('Manual Sync Command', () => {
 
     it('should handle invalid directory gracefully', async () => {
       try {
-        await helper.scanDirectory('non-existent-directory');
+        await scanner.scanDirectory('non-existent-directory');
         assert.fail('Should have thrown an error');
       } catch (error) {
         assert.ok(error.message.includes('Directory does not exist'), 'Should have correct error message');
@@ -135,7 +135,7 @@ xdescribe('Manual Sync Command', () => {
 
     it('should handle file path instead of directory gracefully', async () => {
       try {
-        await helper.scanDirectory('test/data/gherkin/basic.feature');
+        await scanner.scanDirectory('test/data/gherkin/basic.feature');
         assert.fail('Should have thrown an error');
       } catch (error) {
         assert.ok(error.message.includes('Path is not a directory'), 'Should have correct error message');
@@ -230,8 +230,8 @@ xdescribe('Manual Sync Command', () => {
 
   describe('Output Structure Validation', () => {
     it('should produce valid JSON output structure', async () => {
-      const helper = new ManualSyncHelper();
-      const result = await helper.scanDirectory('test/data/gherkin');
+      const scanner = new ManualTestScanner();
+      const result = await scanner.scanDirectory('test/data/gherkin');
 
       const output = {
         folders: [result]

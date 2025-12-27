@@ -110,11 +110,6 @@ class GherkinParser extends BaseParser {
       }
     }
 
-    for (const testCase of testSuite.test_cases) {
-      testCase.hash = this.hashTestCase(testCase);
-    }
-    testSuite.hash = this.hashTestSuite(testSuite);
-
     return testSuite;
   }
 
