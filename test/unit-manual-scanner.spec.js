@@ -3,7 +3,13 @@ const assert = require('assert');
 const path = require('path');
 
 function createMockFs(fileStructure) {
-  const normalizePath = (p) => p.split(path.sep).join('/');
+  const normalizePath = (p) => {
+    // Remove drive letter on Windows (e.g., 'C:\' -> '\')
+    let normalized = p.replace(/^[A-Za-z]:/, '');
+    // Convert all backslashes to forward slashes
+    normalized = normalized.split(path.sep).join('/');
+    return normalized;
+  };
 
   return {
     existsSync: (filePath) => {
