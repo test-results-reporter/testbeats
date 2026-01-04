@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.5.0](https://github.com/test-results-reporter/testbeats/compare/v2.4.3...v2.5.0) (2026-01-04)
+
+
+### Features
+
+* implement manual sync orchestrator ([#306](https://github.com/test-results-reporter/testbeats/issues/306)) ([61a1b96](https://github.com/test-results-reporter/testbeats/commit/61a1b96424dfe4db0eaf4c5f6c88e1c881087a98))
+
+
+### Bug Fixes
+
+* update file paths in config results to use path.join for consistency ([#307](https://github.com/test-results-reporter/testbeats/issues/307)) ([1a42883](https://github.com/test-results-reporter/testbeats/commit/1a428834f22c9055b38d86e890484bca9a2fe081))
+
+
+### Miscellaneous
+
+* gherkin support multi line tags ([#305](https://github.com/test-results-reporter/testbeats/issues/305)) ([6a670bd](https://github.com/test-results-reporter/testbeats/commit/6a670bd03120569ea1c5189e3a5fc2b228b3839d))
+
+
+### Refactoring
+
+* simplify config handling in Beats and PublishCommand ([#303](https://github.com/test-results-reporter/testbeats/issues/303)) ([5cd87d5](https://github.com/test-results-reporter/testbeats/commit/5cd87d54ebb8fe63e4c54beff6628c836d256e86))
+
 ## [2.4.3](https://github.com/test-results-reporter/testbeats/compare/v2.4.2...v2.4.3) (2025-12-21)
 
 
