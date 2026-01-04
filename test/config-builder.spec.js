@@ -1,5 +1,14 @@
 const assert = require('assert');
+const path = require('path');
 const { ConfigBuilder } = require('../src/utils/config.builder');
+
+function normalizePath(p) {
+  // Remove drive letter on Windows (e.g., 'C:\' -> '\')
+  let normalized = p.replace(/^[A-Za-z]:/, '');
+  // Convert all backslashes to forward slashes
+  normalized = normalized.split(path.sep).join('/');
+  return normalized;
+}
 
 describe('ConfigBuilder', () => {
 
@@ -285,7 +294,7 @@ describe('ConfigBuilder', () => {
     assert.ok(builder.config.results);
     assert.equal(builder.config.results.length, 1);
     assert.equal(builder.config.results[0].type, 'junit');
-    assert.deepEqual(builder.config.results[0].files, ['results/junit.xml']);
+    assert.deepEqual(builder.config.results[0].files.map(normalizePath), ['results/junit.xml']);
   });
 
   it('should add testng results', () => {
@@ -296,7 +305,7 @@ describe('ConfigBuilder', () => {
     assert.ok(builder.config.results);
     assert.equal(builder.config.results.length, 1);
     assert.equal(builder.config.results[0].type, 'testng');
-    assert.deepEqual(builder.config.results[0].files, ['results/testng.xml']);
+    assert.deepEqual(builder.config.results[0].files.map(normalizePath), ['results/testng.xml']);
   });
 
   it('should add cucumber results', () => {
@@ -307,7 +316,7 @@ describe('ConfigBuilder', () => {
     assert.ok(builder.config.results);
     assert.equal(builder.config.results.length, 1);
     assert.equal(builder.config.results[0].type, 'cucumber');
-    assert.deepEqual(builder.config.results[0].files, ['results/cucumber.json']);
+    assert.deepEqual(builder.config.results[0].files.map(normalizePath), ['results/cucumber.json']);
   });
 
   it('should add mocha results', () => {
@@ -318,7 +327,7 @@ describe('ConfigBuilder', () => {
     assert.ok(builder.config.results);
     assert.equal(builder.config.results.length, 1);
     assert.equal(builder.config.results[0].type, 'mocha');
-    assert.deepEqual(builder.config.results[0].files, ['results/mocha.json']);
+    assert.deepEqual(builder.config.results[0].files.map(normalizePath), ['results/mocha.json']);
   });
 
   it('should add nunit results', () => {
@@ -329,7 +338,7 @@ describe('ConfigBuilder', () => {
     assert.ok(builder.config.results);
     assert.equal(builder.config.results.length, 1);
     assert.equal(builder.config.results[0].type, 'nunit');
-    assert.deepEqual(builder.config.results[0].files, ['results/nunit.xml']);
+    assert.deepEqual(builder.config.results[0].files.map(normalizePath), ['results/nunit.xml']);
   });
 
   it('should add xunit results', () => {
@@ -340,7 +349,7 @@ describe('ConfigBuilder', () => {
     assert.ok(builder.config.results);
     assert.equal(builder.config.results.length, 1);
     assert.equal(builder.config.results[0].type, 'xunit');
-    assert.deepEqual(builder.config.results[0].files, ['results/xunit.xml']);
+    assert.deepEqual(builder.config.results[0].files.map(normalizePath), ['results/xunit.xml']);
   });
 
   it('should add mstest results', () => {
@@ -351,7 +360,7 @@ describe('ConfigBuilder', () => {
     assert.ok(builder.config.results);
     assert.equal(builder.config.results.length, 1);
     assert.equal(builder.config.results[0].type, 'mstest');
-    assert.deepEqual(builder.config.results[0].files, ['results/mstest.trx']);
+    assert.deepEqual(builder.config.results[0].files.map(normalizePath), ['results/mstest.trx']);
   });
 
   it('should override results when multiple result types provided (last wins)', () => {
