@@ -372,4 +372,27 @@ addInteractionHandler('sync manual folders to beats', () => {
       }
     }
   }
-})
+});
+
+addInteractionHandler('post test results to beats with metadata', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'POST',
+      path: '/api/core/v1/test-runs',
+      body: {
+        metadata: {
+          environment: 'production',
+          browser: 'chrome',
+          region: 'us-east-1'
+        }
+      }
+    },
+    response: {
+      status: 200,
+      body: {
+        id: 'test-run-id'
+      }
+    }
+  }
+});

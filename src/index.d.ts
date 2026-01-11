@@ -305,6 +305,7 @@ export interface PublishReport {
   api_key?: string;
   project?: string;
   run?: string;
+  metadata?: Record<string, string>;
   show_failure_summary?: boolean;
   show_failure_analysis?: boolean;
   show_smart_analysis?: boolean;
@@ -318,6 +319,7 @@ export interface PublishConfig {
   api_key?: string;
   project?: string;
   run?: string;
+  metadata?: Record<string, string>;
   targets?: ITarget[];
   extensions?: IExtension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];

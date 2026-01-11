@@ -55,6 +55,9 @@ class Beats {
     if (this.ci) {
       payload.ci_details = [this.ci];
     }
+    if (this.config.metadata) {
+      payload.metadata = Object.assign(this.result.metadata || {}, this.config.metadata);
+    }
     return payload;
   }
 
