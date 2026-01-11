@@ -330,4 +330,41 @@ describe('TestBeats', () => {
     assert.equal(mock.getInteraction(id3).exercised, true);
   });
 
+  it('should send results to beats with metadata', async () => {
+    const id1 = mock.addInteraction('post test results to beats with metadata');
+    const id2 = mock.addInteraction('get test results from beats');
+    const id3 = mock.addInteraction('post test-summary with beats to teams');
+    await publish({
+      config: {
+        api_key: 'api-key',
+        project: 'project-name',
+        run: 'build-name',
+        targets: [
+          {
+            name: 'teams',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            }
+          }
+        ],
+        results: [
+          {
+            type: 'testng',
+            files: [
+              'test/data/testng/single-suite.xml'
+            ]
+          }
+        ],
+        metadata: {
+          environment: 'production',
+          browser: 'chrome',
+          region: 'us-east-1'
+        }
+      }
+    });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
+  });
+
 });
