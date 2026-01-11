@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/test-results-reporter/testbeats/compare/v2.5.0...v2.6.0) (2026-01-11)
+
+
+### Features
+
+* add metadata support ([#308](https://github.com/test-results-reporter/testbeats/issues/308)) ([5e13dfc](https://github.com/test-results-reporter/testbeats/commit/5e13dfcdd317b148acec26e9642e9ed7388ee811))
+
 ## [2.5.0](https://github.com/test-results-reporter/testbeats/compare/v2.4.3...v2.5.0) (2026-01-04)
 
 
