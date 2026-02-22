@@ -1044,6 +1044,55 @@ addInteractionHandler('post test-summary with beats to slack with error clusters
   }
 });
 
+addInteractionHandler('post test-summary with beats to slack with failure signatures', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "attachments": [
+          {
+            "color": "#DC143C",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*<http://localhost:9393/reports/test-run-id|build-name>*\n\n*Results*: 3 / 4 Passed (75%)\n*Duration*: 2s"
+                }
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*AI Failure Summary ✨*\n\n```test failure summary```"
+                }
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Top Failures*\n\n• AssertionError: Expected value to be 5 but got 3 - *(x3)*\n• TimeoutError: Element not found within 5 seconds - *(x2)*"
+                }
+              }
+            ],
+            "fallback": "build-name\nResults: 3 / 4 Passed (75%)"
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post test-summary to slack with channel', () => {
   return {
     request: {

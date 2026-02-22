@@ -13,6 +13,7 @@ const { EXTENSION } = require('../helpers/constants');
 const { checkCondition } = require('../helpers/helper');
 const logger = require('../utils/logger');
 const { ErrorClustersExtension } = require('./error-clusters.extension');
+const { FailureSignaturesExtension } = require('./failure-signatures.extension');
 const { FailureAnalysisExtension } = require('./failure-analysis.extension');
 const { BrowserstackExtension } = require('./browserstack.extension');
 
@@ -75,6 +76,8 @@ function getExtensionRunner(extension, options) {
       return new ErrorClustersExtension(options.target, extension, options.result, options.payload, options.root_payload);
     case EXTENSION.BROWSERSTACK:
       return new BrowserstackExtension(options.target, extension, options.result, options.payload, options.root_payload);
+    case EXTENSION.FAILURE_SIGNATURES:
+      return new FailureSignaturesExtension(options.target, extension, options.result, options.payload, options.root_payload);
     default:
       return require(extension.name);
   }

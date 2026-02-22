@@ -38,3 +38,11 @@ export type IFailureAnalysisMetric = {
   name: string
   count: number
 }
+
+
+export type IFailureSignature = {
+  id: string
+  signature: string
+  failure_type: string
+  count: number
+}
