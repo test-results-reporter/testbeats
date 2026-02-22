@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/test-results-reporter/testbeats/compare/v2.6.0...v2.7.0) (2026-02-22)
+
+
+### Features
+
+* add failure signatures and replace error clusters ([#310](https://github.com/test-results-reporter/testbeats/issues/310)) ([86282c2](https://github.com/test-results-reporter/testbeats/commit/86282c2d39d249b1f12c0177f537e8e88d2fb462))
+
 ## [2.6.0](https://github.com/test-results-reporter/testbeats/compare/v2.5.0...v2.6.0) (2026-01-11)
 
 
