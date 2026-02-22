@@ -257,3 +257,21 @@ addInteractionHandler('post test-summary with beats to github with error cluster
   };
 });
 
+addInteractionHandler('post test-summary with beats to github with failure signatures', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/repos/org/repo/issues/123/comments',
+      body: {
+        body: '## ❌ [build-name](http://localhost:9393/reports/test-run-id)\n\n**Results**: 3 / 4 Passed (75%)\n**Duration**: 2s\n\n**AI Failure Summary ✨**\ntest failure summary\n\n**Top Failures**\n- AssertionError: Expected value to be 5 but got 3 - **(x3)**\n- TimeoutError: Element not found within 5 seconds - **(x2)**\n\n'
+      }
+    },
+    response: {
+      status: 201,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  };
+});
+

@@ -1,7 +1,7 @@
 const { getCIInformation } = require('../helpers/ci');
 const logger = require('../utils/logger');
 const { BeatsApi } = require('./beats.api');
-const { HOOK, PROCESS_STATUS } = require('../helpers/constants');
+const { HOOK, PROCESS_STATUS, EXTENSION } = require('../helpers/constants');
 const TestResult = require('test-results-parser/src/models/TestResult');
 const { BeatsAttachments } = require('./beats.attachments');
 
@@ -99,6 +99,7 @@ class Beats {
     await this.#attachFailureSummary();
     await this.#attachFailureAnalysis();
     await this.#attachSmartAnalysis();
+    await this.#attachFailureSignatures();
     await this.#attachErrorClusters();
   }
 
@@ -169,6 +170,30 @@ class Beats {
     }
   }
 
+  async #attachFailureSignatures() {
+    if (this.result.status !== 'FAIL') {
+      return;
+    }
+    if (this.config.show_failure_signatures === false) {
+      return;
+    }
+    try {
+      logger.info('🔍 Fetching Failure Signatures...');
+      const signatures = await this.api.getFailureSignatures(this.test_run_id);
+      this.config.extensions.push({
+        name: EXTENSION.FAILURE_SIGNATURES,
+        hook: HOOK.AFTER_SUMMARY,
+        order: 400,
+        inputs: {
+          data: signatures
+        }
+      });
+    }
+    catch (error) {
+      logger.error(`❌ Unable to attach failure signatures: ${error.message}`, error);
+    }
+  }
+
   #getDelay() {
     if (process.env.TEST_BEATS_DELAY) {
       return parseInt(process.env.TEST_BEATS_DELAY);
@@ -203,10 +228,11 @@ class Beats {
   }
 
   async #attachErrorClusters() {
-    if (this.result.status !== 'FAIL') {
+    // Legacy feature: only attach if explicitly enabled
+    if (this.config.show_error_clusters !== true) {
       return;
     }
-    if (this.config.show_error_clusters === false) {
+    if (this.result.status !== 'FAIL') {
       return;
     }
     try {
@@ -215,7 +241,7 @@ class Beats {
       this.config.extensions.push({
         name: 'error-clusters',
         hook: HOOK.AFTER_SUMMARY,
-        order: 400,
+        order: 401,
         inputs: {
           data: res.values
         }

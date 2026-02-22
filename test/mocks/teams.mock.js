@@ -1775,6 +1775,70 @@ addInteractionHandler('post test-summary with beats to teams with error clusters
   }
 });
 
+addInteractionHandler('post test-summary with beats to teams with failure signatures', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "type": "message",
+        "attachments": [
+          {
+            "contentType": "application/vnd.microsoft.card.adaptive",
+            "content": {
+              "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "[❌ build-name](http://localhost:9393/reports/test-run-id)",
+                  "size": "medium",
+                  "weight": "bolder",
+                  "wrap": true
+                },
+                {
+                  "@DATA:TEMPLATE@": "TEAMS_ROOT_RESULTS_SINGLE_SUITE_FAILURES",
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "AI Failure Summary ✨",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "separator": true,
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "test failure summary",
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Top Failures",
+                  "isSubtle": true,
+                  "weight": "bolder",
+                  "separator": true,
+                  "wrap": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "- AssertionError: Expected value to be 5 but got 3 - **(x3)**\n\n- TimeoutError: Element not found within 5 seconds - **(x2)**",
+                  "wrap": true
+                }
+              ],
+              "actions": []
+            }
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});
+
 addInteractionHandler('post test-summary to teams with strict as false', () => {
   return {
     strict: false,

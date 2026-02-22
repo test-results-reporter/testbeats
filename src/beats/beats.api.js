@@ -71,6 +71,20 @@ class BeatsApi {
     });
   }
 
+
+  /**
+   * @param {string} run_id
+   * @returns {import('./beats.types').IFailureSignature[]}
+   */
+  getFailureSignatures(run_id) {
+    return request.get({
+      url: `${this.getBaseUrl()}/api/core/v1/automation/test-run-executions/${run_id}/failure-signatures`,
+      headers: {
+        'x-api-key': this.config.api_key
+      }
+    });
+  }
+
   /**
    *
    * @param {string} run_id

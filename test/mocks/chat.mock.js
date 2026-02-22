@@ -697,3 +697,50 @@ addInteractionHandler('post test-summary with beats to chat with error clusters'
     }
   }
 });
+
+addInteractionHandler('post test-summary with beats to chat with failure signatures', () => {
+  return {
+    request: {
+      method: 'POST',
+      path: '/message',
+      body: {
+        "cards": [
+          {
+            "sections": [
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b><a href=\"http://localhost:9393/reports/test-run-id\">❌ build-name</a></b><br><br><b>Results</b>: 3 / 4 Passed (75%)<br><b>Duration</b>: 2s"
+                    }
+                  }
+                ]
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>AI Failure Summary ✨</b><br><br>test failure summary"
+                    }
+                  }
+                ]
+              },
+              {
+                "widgets": [
+                  {
+                    "textParagraph": {
+                      "text": "<b>Top Failures</b><br><br>• AssertionError: Expected value to be 5 but got 3 - <b>(x3)</b><br>• TimeoutError: Element not found within 5 seconds - <b>(x2)</b>"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    response: {
+      status: 200
+    }
+  }
+});

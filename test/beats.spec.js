@@ -47,7 +47,7 @@ describe('TestBeats', () => {
   it('should send results with failures to beats', async () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('get test results from beats');
-    const id3 = mock.addInteraction('get empty error clusters from beats');
+    const id3 = mock.addInteraction('get empty failure signatures from beats');
     const id4 = mock.addInteraction('post test-summary with beats to teams with ai failure summary');
     await publish({
       config: {
@@ -82,7 +82,7 @@ describe('TestBeats', () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('get test results from beats');
     const id3 = mock.addInteraction('upload attachments');
-    const id4 = mock.addInteraction('get empty error clusters from beats');
+    const id4 = mock.addInteraction('get empty failure signatures from beats');
     const id5 = mock.addInteraction('post test-summary to teams with strict as false');
     await publish({
       config: {
@@ -118,7 +118,7 @@ describe('TestBeats', () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('get test results from beats');
     const id3 = mock.addInteraction('upload attachments');
-    const id4 = mock.addInteraction('get empty error clusters from beats');
+    const id4 = mock.addInteraction('get empty failure signatures from beats');
     await publish({
       config: {
         api_key: 'api-key',
@@ -165,7 +165,7 @@ describe('TestBeats', () => {
   it('should send results with smart analysis to beats', async () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('get test results with smart analysis from beats');
-    const id3 = mock.addInteraction('get empty error clusters from beats');
+    const id3 = mock.addInteraction('get empty failure signatures from beats');
     const id4 = mock.addInteraction('post test-summary with beats to teams with ai failure summary and smart analysis');
     await publish({
       config: {
@@ -196,14 +196,79 @@ describe('TestBeats', () => {
     assert.equal(mock.getInteraction(id4).exercised, true);
   });
 
-  it('should send results with error clusters to beats', async () => {
+  it('should send results with error clusters to beats (legacy opt-in)', async () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('get test results from beats');
     const id3 = mock.addInteraction('get error clusters from beats');
-    const id4 = mock.addInteraction('post test-summary with beats to teams with error clusters');
-    const id5 = mock.addInteraction('post test-summary with beats to slack with error clusters');
-    const id6 = mock.addInteraction('post test-summary with beats to chat with error clusters');
-    const id7 = mock.addInteraction('post test-summary with beats to github with error clusters');
+    const id4 = mock.addInteraction('get empty failure signatures from beats');
+    const id5 = mock.addInteraction('post test-summary with beats to teams with error clusters');
+    const id6 = mock.addInteraction('post test-summary with beats to slack with error clusters');
+    const id7 = mock.addInteraction('post test-summary with beats to chat with error clusters');
+    const id8 = mock.addInteraction('post test-summary with beats to github with error clusters');
+    await publish({
+      config: {
+        api_key: 'api-key',
+        project: 'project-name',
+        run: 'build-name',
+        show_error_clusters: true,
+        targets: [
+          {
+            name: 'teams',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            }
+          },
+          {
+            name: 'slack',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            }
+          },
+          {
+            name: 'chat',
+            inputs: {
+              url: 'http://localhost:9393/message'
+            }
+          },
+          {
+            name: 'github',
+            inputs: {
+              url: 'http://localhost:9393',
+              owner: 'org',
+              repo: 'repo',
+              pull_number: '123',
+              token: 'test-token'
+            }
+          }
+        ],
+        results: [
+          {
+            type: 'testng',
+            files: [
+              'test/data/testng/single-suite-failures.xml'
+            ]
+          }
+        ]
+      }
+    });
+    assert.equal(mock.getInteraction(id1).exercised, true);
+    assert.equal(mock.getInteraction(id2).exercised, true);
+    assert.equal(mock.getInteraction(id3).exercised, true);
+    assert.equal(mock.getInteraction(id4).exercised, true);
+    assert.equal(mock.getInteraction(id5).exercised, true);
+    assert.equal(mock.getInteraction(id6).exercised, true);
+    assert.equal(mock.getInteraction(id7).exercised, true);
+    assert.equal(mock.getInteraction(id8).exercised, true);
+  });
+
+  it('should send results with failure signatures to beats', async () => {
+    const id1 = mock.addInteraction('post test results to beats');
+    const id2 = mock.addInteraction('get test results from beats');
+    const id3 = mock.addInteraction('get failure signatures from beats');
+    const id4 = mock.addInteraction('post test-summary with beats to teams with failure signatures');
+    const id5 = mock.addInteraction('post test-summary with beats to slack with failure signatures');
+    const id6 = mock.addInteraction('post test-summary with beats to chat with failure signatures');
+    const id7 = mock.addInteraction('post test-summary with beats to github with failure signatures');
     await publish({
       config: {
         api_key: 'api-key',
@@ -261,7 +326,7 @@ describe('TestBeats', () => {
   it('should send results with failure analysis to beats', async () => {
     const id1 = mock.addInteraction('post test results to beats');
     const id2 = mock.addInteraction('get test results with failure analysis from beats');
-    const id3 = mock.addInteraction('get empty error clusters from beats');
+    const id3 = mock.addInteraction('get empty failure signatures from beats');
     const id4 = mock.addInteraction('get failure analysis from beats');
     const id5 = mock.addInteraction('post test-summary with beats to teams with ai failure summary and smart analysis and failure analysis');
     await publish({

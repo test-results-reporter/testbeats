@@ -27,6 +27,7 @@ const EXTENSION = Object.freeze({
   FAILURE_ANALYSIS: 'failure-analysis',
   SMART_ANALYSIS: 'smart-analysis',
   ERROR_CLUSTERS: 'error-clusters',
+  FAILURE_SIGNATURES: 'failure-signatures',
   BROWSERSTACK: 'browserstack',
   HYPERLINKS: 'hyperlinks',
   MENTIONS: 'mentions',

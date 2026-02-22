@@ -432,7 +432,8 @@ class GenerateConfigCommand {
             { title: 'Metadata', value: 'metadata' },
             { title: 'AI Failure Summary', value: 'ai-failure-summary' },
             { title: 'Smart Analysis', value: 'smart-analysis' },
-            { title: 'Error Clusters', value: 'error-clusters' }
+            { title: 'Failure Signatures', value: 'failure-signatures' },
+            { title: 'Error Clusters (Legacy)', value: 'error-clusters' }
         ];
     }
 }

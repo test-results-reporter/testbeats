@@ -20,10 +20,10 @@ export interface IExtension {
   condition?: Condition;
   hook?: Hook;
   order?: number;
-  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs | AIFailureSummaryInputs | BrowserstackInputs;
+  inputs?: ReportPortalAnalysisInputs | ReportPortalHistoryInputs | HyperlinkInputs | MentionInputs | QuickChartTestSummaryInputs | PercyAnalysisInputs | CustomExtensionInputs | MetadataInputs | CIInfoInputs | AIFailureSummaryInputs | BrowserstackInputs | FailureSignaturesInputs | ErrorClustersInputs;
 }
 
-export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom' | 'ai-failure-summary';
+export type ExtensionName = 'report-portal-analysis' | 'hyperlinks' | 'mentions' | 'report-portal-history' | 'quick-chart-test-summary' | 'metadata' | 'ci-info' | 'custom' | 'ai-failure-summary' | 'failure-signatures' | 'error-clusters';
 export type Hook = 'start' | 'end' | 'after-summary';
 export type TargetName = 'slack' | 'teams' | 'chat' | 'github' | 'github-output' | 'custom' | 'delay';
 export type PublishReportType = 'test-summary' | 'test-summary-slim' | 'failure-details';
@@ -84,6 +84,23 @@ export interface CIInfoInputs extends ExtensionInputs {
 
 export interface AIFailureSummaryInputs extends ExtensionInputs {
   failure_summary: string;
+}
+
+export interface FailureSignaturesInputs extends ExtensionInputs {
+  data?: Array<{
+    id: string;
+    signature: string;
+    failure_type: string;
+    count: number;
+  }>;
+}
+
+export interface ErrorClustersInputs extends ExtensionInputs {
+  data?: Array<{
+    test_failure_id: string;
+    failure: string;
+    count: number;
+  }>;
 }
 
 export interface BrowserStackAutomationBuild {
@@ -309,7 +326,9 @@ export interface PublishReport {
   show_failure_summary?: boolean;
   show_failure_analysis?: boolean;
   show_smart_analysis?: boolean;
+  /** @deprecated Use show_failure_signatures instead. Legacy feature - only enabled when explicitly set to true. */
   show_error_clusters?: boolean;
+  show_failure_signatures?: boolean;
   targets?: ITarget[];
   extensions?: IExtension[];
   results?: ParseOptions[] | PerformanceParseOptions[] | CustomResultOptions[];

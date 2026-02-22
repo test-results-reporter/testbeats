@@ -154,6 +154,47 @@ addInteractionHandler('get empty error clusters from beats', () => {
   }
 });
 
+addInteractionHandler('get failure signatures from beats', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'GET',
+      path: '/api/core/v1/automation/test-run-executions/test-run-id/failure-signatures'
+    },
+    response: {
+      status: 200,
+      body: [
+        {
+          id: 'signature-id-1',
+          signature: 'AssertionError: Expected value to be 5 but got 3',
+          failure_type: 'AssertionError',
+          count: 3
+        },
+        {
+          id: 'signature-id-2',
+          signature: 'TimeoutError: Element not found within 5 seconds',
+          failure_type: 'TimeoutError',
+          count: 2
+        }
+      ]
+    }
+  }
+});
+
+addInteractionHandler('get empty failure signatures from beats', () => {
+  return {
+    strict: false,
+    request: {
+      method: 'GET',
+      path: '/api/core/v1/automation/test-run-executions/test-run-id/failure-signatures'
+    },
+    response: {
+      status: 200,
+      body: []
+    }
+  }
+});
+
 addInteractionHandler('get failure analysis from beats', () => {
   return {
     strict: false,
