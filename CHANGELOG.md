@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/test-results-reporter/testbeats/compare/v2.7.0...v2.7.1) (2026-03-01)
+
+
+### Miscellaneous
+
+* use deepwiki badge ([3fbdb4e](https://github.com/test-results-reporter/testbeats/commit/3fbdb4e5a9fe7c4152639b6983fc32afd1f555a1))
+
 ## [2.7.0](https://github.com/test-results-reporter/testbeats/compare/v2.6.0...v2.7.0) (2026-02-22)
 
 
