@@ -9,7 +9,7 @@
 
 [![Build](https://github.com/test-results-reporter/testbeats/actions/workflows/build.yml/badge.svg)](https://github.com/test-results-reporter/testbeats/actions/workflows/build.yml)
 [![Downloads](https://img.shields.io/npm/dt/test-results-parser?logo=npm&label=downloads)](https://www.npmjs.com/package/test-results-parser)
-[![Size](https://img.shields.io/bundlephobia/minzip/testbeats)](https://bundlephobia.com/result?p=testbeats)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/test-results-reporter/testbeats)
 
 
 [![Stars](https://img.shields.io/github/stars/test-results-reporter/testbeats?style=social)](https://github.com/test-results-reporter/testbeats/stargazers)
