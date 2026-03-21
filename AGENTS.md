@@ -1,28 +1,30 @@
-# AGENTS.md
+# AGENTS.md - TestBeats
 
 ## Project Overview
-**TestBeats** is a tool designed to streamline the process of publishing test results from various automation testing frameworks to communication platforms like **Slack**, **Microsoft Teams**, and **Google Chat**. It unifies your test reporting to build quality insights and make faster decisions.
+TestBeats is a Node.js tool designed to publish test results from various automation testing frameworks to communication platforms like Slack, Microsoft Teams, and Google Chat.
 
-- **Primary Source Code**: Located in `src/`.
-- **Main Entry Point**: `src/index.js` (API) and `src/cli.js` (CLI).
-- **Configuration**: Uses `package.json` for dependencies and scripts.
+## Tech Stack
+- **Runtime**: Node.js (>=14.0.0)
+- **CLI**: `sade`
+- **Testing**: `mocha` with `pactum` (API testing)
+- **Coverage**: `c8`
+- **Build**: `pkg` (generates executables in `dist/`)
 
-## Setup commands
-- **Install dependencies**: `npm install`
-- **Build the project**: `npm run build` (uses `pkg` to create executables in `dist/`)
+## Architecture & Key Locations
+- `src/index.js`: Main API entry point.
+- `src/cli.js`: CLI entry point.
+- `src/commands/`: Core command implementations (e.g., `publish`, `manual-sync`).
+- `src/platforms/`: Logic for communication platforms (Slack, Teams, etc.).
+- `src/targets/`: Destination logic for reporting.
+- `src/helpers/`: Utility functions and CI environment helpers.
+- `test/`: Comprehensive test suite.
 
-## Testing instructions
-- **Run all tests**: `npm test`
-- **Test environment**: Mocha is used as the test runner.
-- **Coverage**: `c8` is used for code coverage tracking.
-- **Test files**: Located in the `test/` directory.
+## Development Commands
+- `npm install`: Install all dependencies.
+- `npm test`: Run the full test suite with coverage reporting.
+- `npm run build`: Package the application into executables.
 
-## Code style
-- Follow standard JavaScript practices for Node.js.
-- Maintain existing coding patterns seen in `src/`.
-- Ensure new features include appropriate tests in the `test/` directory.
-
-## PR Instructions
-- **PR Titles**: Must follow semantic commit messages (e.g., `feat: ...`, `fix: ...`, `chore: ...`). There is a "Lint PR Title" workflow to enforce this.
-- **Tests**: Ensure all tests pass (`npm test`) before submitting a PR.
-- **Documentation**: Update `README.md` if your changes introduce new features or change existing behavior.
+## Implementation Guidelines
+- **Consistency**: Follow existing JavaScript patterns found in `src/`.
+- **Testing**: All new features or bug fixes must include corresponding tests in `test/`.
+- **Dependencies**: Prefer using existing helpers in `src/helpers/` over adding new dependencies.

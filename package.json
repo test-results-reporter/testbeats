@@ -51,13 +51,13 @@
     "form-data-lite": "^1.0.3",
     "influxdb-lite": "1.1.0",
     "object-hash": "^3.0.0",
-    "performance-results-parser": "latest",
+    "performance-results-parser": "^0.0.10",
     "phin-retry": "2.0.0",
     "pretty-ms": "^7.0.1",
     "prompts": "^2.4.2",
     "rosters": "0.0.1",
     "sade": "^1.8.1",
-    "test-results-parser": "0.4.0"
+    "test-results-parser": "^0.4.3"
   },
   "devDependencies": {
     "c8": "^10.1.2",
