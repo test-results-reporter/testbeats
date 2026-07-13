@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.7.1](https://github.com/test-results-reporter/testbeats/compare/v2.7.0...v2.7.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* increase maximum attachment size to 10MB ([#315](https://github.com/test-results-reporter/testbeats/issues/315)) ([4048cfc](https://github.com/test-results-reporter/testbeats/commit/4048cfca1a072cfc3ec18a4b4b6fa75d8276a85e))
+
+
+### Miscellaneous
+
+* Add AGENTS.md and PR title linting workflow ([#313](https://github.com/test-results-reporter/testbeats/issues/313)) ([2519689](https://github.com/test-results-reporter/testbeats/commit/2519689f58c71a14dccba0ac76d4146132358413))
+* update dependencies and rewrite AGENTS.md ([#314](https://github.com/test-results-reporter/testbeats/issues/314)) ([2d47cf3](https://github.com/test-results-reporter/testbeats/commit/2d47cf31df64e1681ad359d3bdf0685419134ecd))
+* use deepwiki badge ([3fbdb4e](https://github.com/test-results-reporter/testbeats/commit/3fbdb4e5a9fe7c4152639b6983fc32afd1f555a1))
+
 ## [2.7.0](https://github.com/test-results-reporter/testbeats/compare/v2.6.0...v2.7.0) (2026-02-22)
 
 
