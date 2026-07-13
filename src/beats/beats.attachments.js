@@ -11,7 +11,7 @@ const TestAttachment = require('test-results-parser/src/models/TestAttachment');
 
 const MAX_ATTACHMENTS_PER_REQUEST = 5;
 const MAX_ATTACHMENTS_PER_RUN = 50;
-const MAX_ATTACHMENT_SIZE = 2 * 1024 * 1024;
+const MAX_ATTACHMENT_SIZE = 10 * 1024 * 1024;
 
 class BeatsAttachments {
 
