@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/test-results-reporter/testbeats/compare/v2.7.1...v2.7.2) (2026-07-26)
+
+
+### Miscellaneous
+
+* update test-results-parser and add new dependencies ([d4b0e76](https://github.com/test-results-reporter/testbeats/commit/d4b0e76b573a2371cef443a0c8bece8e88ab624d))
+
 ## [2.7.1](https://github.com/test-results-reporter/testbeats/compare/v2.7.0...v2.7.1) (2026-07-13)
 
 
